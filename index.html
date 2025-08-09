@@ -5,15 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Organisateur de Tiroirs avec Supabase</title>
     <!-- Inclut Tailwind CSS depuis un CDN pour un style rapide -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Configuration des importations de modules pour React -->
+    <!-- Inclut Babel Standalone pour la transpilation de JSX directement dans le navigateur -->
+    <!-- ATTENTION: Non recommandé pour la production en raison des performances. Idéal pour les démos simples. -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Configuration des importations de modules pour React et Supabase -->
     <script type="importmap">
     {
       "imports": {
-        "react/": "https://esm.sh/react@^18.0.0/",
-        "react": "https://esm.sh/react@^18.0.0",
-        "react-dom/client": "https://esm.sh/react-dom@^18.0.0/client"
+        "react": "https://esm.sh/react@18.2.0",
+        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+        // Assurez-vous que supabase-js est correctement mappé ici !
+        "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.44.0"
       }
     }
     </script>
@@ -107,7 +111,7 @@
     <!-- Point de montage de l'application React -->
     <div id="root"></div>
 
-    <!-- Script principal de l'application React -->
+    <!-- Script principal de l'application React, traité par Babel -->
     <script type="text/babel" src="/src/index.js"></script>
 </body>
 </html>
