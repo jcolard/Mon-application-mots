@@ -26,13 +26,15 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        const { createClient } = supabase;
+
         const SUPABASE_URL = 'https://aiddstzhjchcygpinifg.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpZGRzdHpoamNoY3lncGluaWZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3NDA2OTQsImV4cCI6MjA3MDMxNjY5NH0.GIferB9cBMGehj3GkVVLbAHy0AHe-L9NY54pl7TGkPM';
 
-        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+        const client = createClient(SUPABASE_URL, SUPABASE_KEY);
 
         async function fetchNuages() {
-            const { data, error } = await supabase
+            const { data, error } = await client
                 .from('Nuage de mot')
                 .select('*');
 
