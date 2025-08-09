@@ -3,14 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Organisateur de Tiroirs avec Supabase (Compilé)</title>
+    <title>Organisateur de Tiroirs avec Supabase (Corrigé)</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    
-    <script src="https://unpkg.com/@supabase/supabase-js@2.44.0/dist/umd/supabase-js.min.js"></script>
-
     <style>
         /* Les styles CSS restent identiques */
         body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; }
@@ -26,7 +20,12 @@
     </style>
 </head>
 <body class="bg-slate-50">
+    
     <div id="root"></div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2.44.0/dist/umd/supabase-js.min.js"></script>
 
     <script>
         // Initialisation du client Supabase
@@ -55,7 +54,7 @@
             }, word.Nom, React.createElement("span", {
                 className: "delete-btn",
                 onClick: () => onDelete(word.id)
-            }, "×")); // &times; devient le caractère "×"
+            }, "×"));
         }
 
         // Composant Drawer (compilé en JS)
@@ -147,8 +146,7 @@
                     setWords(originalWords);
                 }
             };
-
-            // Rendu de l'application avec React.createElement
+            
             return React.createElement("div", { className: "flex flex-col items-center p-4" },
                 React.createElement("h1", { className: "text-3xl font-bold text-gray-800 mb-8 mt-4" }, "Glissez les mots dans les tiroirs !"),
                 React.createElement("div", { className: "bg-white p-4 rounded-lg shadow-md mb-8 flex gap-2 w-full max-w-md" },
