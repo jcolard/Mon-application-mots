@@ -28,9 +28,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-
             // Initialisation du client Supabase
-            const { createClient } = supabase;
+            // Nous utilisons "window.supabase" pour nous assurer que la bibliothèque est chargée
+            const { createClient } = window.supabase;
             const supabaseUrl = 'https://aiddstzhjchcygpinifg.supabase.co';
             const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpZGRzdHpoamNoY3lncGluaWZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3NDA2OTQsImV4cCI6MjA3MDMxNjY5NH0.GIferB9cBMGehj3GkVVLbAHy0AHe-L9NY54pl7TGkPM';
             const client = createClient(supabaseUrl, supabaseKey);
