@@ -28,12 +28,13 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
             // Initialisation du client Supabase
-            // Nous utilisons "window.supabase" pour nous assurer que la bibliothèque est chargée
-            const { createClient } = window.supabase;
+            // Nous créons une variable client directement, sans déstructurer.
             const supabaseUrl = 'https://aiddstzhjchcygpinifg.supabase.co';
             const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpZGRzdHpoamNoY3lncGluaWZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3NDA2OTQsImV4cCI6MjA3MDMxNjY5NH0.GIferB9cBMGehj3GkVVLbAHy0AHe-L9NY54pl7TGkPM';
-            const client = createClient(supabaseUrl, supabaseKey);
+            const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
 
             // Composant WordItem (compilé en JS)
             function WordItem({ word, onDelete, onDragStart }) {
@@ -77,7 +78,7 @@
 
                 const fetchWords = async () => {
                     try {
-                        const { data, error } = await client.from('Nuage de mot').select('*');
+                        const { data, error } = await supabase.from('Nuage de mot').select('*');
                         if (error) throw error;
                         setWords(data || []);
                     } catch (error) {
@@ -95,7 +96,7 @@
                     setNewWordText('');
 
                     try {
-                        const { data, error } = await client.from('Nuage de mot').insert([{ nom: newWord.nom, statut: newWord.statut }]).select();
+                        const { data, error } = await supabase.from('Nuage de mot').insert([{ nom: newWord.nom, statut: newWord.statut }]).select();
                         if (error) throw error;
                         setWords(prevWords => prevWords.map(word => word.id === tempId ? data[0] : word));
                     } catch (error) {
@@ -108,7 +109,7 @@
                     const numericWordId = isNaN(parseInt(wordId, 10)) ? wordId : parseInt(wordId, 10);
                     setWords(prevWords => prevWords.map(word => word.id === numericWordId ? { ...word, statut: newStatus } : word));
                     try {
-                        const { error } = await client.from('Nuage de mot').update({ statut: newStatus }).eq('id', numericWordId);
+                        const { error } = await supabase.from('Nuage de mot').update({ statut: newStatus }).eq('id', numericWordId);
                         if (error) throw error;
                     } catch (error) {
                         console.error('Erreur Supabase (drop):', error.message);
@@ -122,7 +123,7 @@
                     const originalWords = [...words];
                     setWords(prevWords => prevWords.filter(word => word.id !== numericWordId));
                     try {
-                        const { error } = await client.from('Nuage de mot').delete().eq('id', numericWordId);
+                        const { error } = await supabase.from('Nuage de mot').delete().eq('id', numericWordId);
                         if (error) throw error;
                     } catch (error) {
                         console.error('Erreur Supabase (delete):', error.message);
