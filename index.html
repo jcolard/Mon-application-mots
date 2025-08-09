@@ -19,143 +19,137 @@
     </style>
 </head>
 <body class="bg-slate-50">
-    
+
     <div id="root"></div>
 
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2.44.0/dist/umd/supabase-js.min.js"></script>
-
     <script>
-        // On attend que le document HTML soit entièrement chargé avant d'exécuter le code.
-        document.addEventListener('DOMContentLoaded', () => {
+        // Initialisation du client Supabase
+        const { createClient } = supabase;
+        const supabaseUrl = 'https://aiddstzhjchcygpinifg.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpZGRzdHpoamNoY3lncGluaWZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3NDA2OTQsImV4cCI6MjA3MDMxNjY5NH0.GIferB9cBMGehj3GkVVLbAHy0AHe-L9NY54pl7TGkPM';
+        const supabase = createClient(supabaseUrl, supabaseKey);
 
-            // Initialisation du client Supabase
-            const { createClient } = window.supabase;
-            const supabaseUrl = 'https://aiddstzhjchcygpinifg.supabase.co';
-            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpZGRzdHpoamNoY3lncGluaWZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3NDA2OTQsImV4cCI6MjA3MDMxNjY5NH0.GIferB9cBMGehj3GkVVLbAHy0AHe-L9NY54pl7TGkPM';
-            const supabase = createClient(supabaseUrl, supabaseKey);
+        // Composant WordItem (compilé en JS)
+        function WordItem({ word, onDelete, onDragStart }) {
+            const handleDragStart = (e) => {
+                e.dataTransfer.setData('text/plain', word.id);
+                e.currentTarget.classList.add('opacity-50');
+                onDragStart(word.id);
+            };
+            const handleDragEnd = (e) => {
+                e.currentTarget.classList.remove('opacity-50');
+            };
+            return React.createElement("div", { id: `word-${word.id}`, className: "word-item", draggable: "true", onDragStart: handleDragStart, onDragEnd: handleDragEnd },
+                word.Nom,
+                React.createElement("span", { className: "delete-btn", onClick: () => onDelete(word.id) }, "×")
+            );
+        }
 
-            // Composant WordItem (compilé en JS)
-            function WordItem({ word, onDelete, onDragStart }) {
-                const handleDragStart = (e) => {
-                    e.dataTransfer.setData('text/plain', word.id);
-                    e.currentTarget.classList.add('opacity-50');
-                    onDragStart(word.id);
-                };
-                const handleDragEnd = (e) => {
-                    e.currentTarget.classList.remove('opacity-50');
-                };
-                return React.createElement("div", { id: `word-${word.id}`, className: "word-item", draggable: "true", onDragStart: handleDragStart, onDragEnd: handleDragEnd },
-                    word.Nom,
-                    React.createElement("span", { className: "delete-btn", onClick: () => onDelete(word.id) }, "×")
-                );
-            }
+        // Composant Drawer (compilé en JS)
+        function Drawer({ title, children, onDropWord }) {
+            const [isDragOver, setIsDragOver] = React.useState(false);
+            const handleDragOver = (e) => { e.preventDefault(); setIsDragOver(true); };
+            const handleDragLeave = () => { setIsDragOver(false); };
+            const handleDrop = (e) => {
+                e.preventDefault();
+                setIsDragOver(false);
+                const wordId = e.dataTransfer.getData('text/plain');
+                onDropWord(wordId, title);
+            };
+            return React.createElement("div", { className: `drop-zone ${isDragOver ? 'drag-over' : ''}`, onDragOver: handleDragOver, onDragLeave: handleDragLeave, onDrop: handleDrop },
+                React.createElement("h2", { className: "text-xl font-semibold text-gray-700 mb-2" }, title),
+                React.createElement("div", { className: "word-container" }, children)
+            );
+        }
 
-            // Composant Drawer (compilé en JS)
-            function Drawer({ title, children, onDropWord }) {
-                const [isDragOver, setIsDragOver] = React.useState(false);
-                const handleDragOver = (e) => { e.preventDefault(); setIsDragOver(true); };
-                const handleDragLeave = () => { setIsDragOver(false); };
-                const handleDrop = (e) => {
-                    e.preventDefault();
-                    setIsDragOver(false);
-                    const wordId = e.dataTransfer.getData('text/plain');
-                    onDropWord(wordId, title);
-                };
-                return React.createElement("div", { className: `drop-zone ${isDragOver ? 'drag-over' : ''}`, onDragOver: handleDragOver, onDragLeave: handleDragLeave, onDrop: handleDrop },
-                    React.createElement("h2", { className: "text-xl font-semibold text-gray-700 mb-2" }, title),
-                    React.createElement("div", { className: "word-container" }, children)
-                );
-            }
+        // Composant App principal (compilé en JS)
+        function App() {
+            const [words, setWords] = React.useState([]);
+            const [newWordText, setNewWordText] = React.useState('');
+            const drawerStatuses = ["Tiroir 1", "Tiroir 2", "Tiroir 3", "Tiroir 4"];
+            const centerStatus = "Centre";
 
-            // Composant App principal (compilé en JS)
-            function App() {
-                const [words, setWords] = React.useState([]);
-                const [newWordText, setNewWordText] = React.useState('');
-                const drawerStatuses = ["Tiroir 1", "Tiroir 2", "Tiroir 3", "Tiroir 4"];
-                const centerStatus = "Centre";
+            const fetchWords = async () => {
+                try {
+                    const { data, error } = await supabase.from('Nuage de mot').select('*');
+                    if (error) throw error;
+                    setWords(data.map(word => ({ ...word, id: word.ID })) || []);
+                } catch (error) {
+                    console.error('Erreur Supabase (fetch):', error.message);
+                }
+            };
 
-                const fetchWords = async () => {
-                    try {
-                        const { data, error } = await supabase.from('Nuage de mot').select('*');
-                        if (error) throw error;
-                        setWords(data.map(word => ({ ...word, id: word.ID })) || []);
-                    } catch (error) {
-                        console.error('Erreur Supabase (fetch):', error.message);
-                    }
-                };
+            React.useEffect(() => { fetchWords(); }, []);
 
-                React.useEffect(() => { fetchWords(); }, []);
+            const handleAddWord = async () => {
+                if (!newWordText.trim()) return;
+                const tempId = `temp-${Date.now()}`;
+                const newWord = { id: tempId, Nom: newWordText.trim(), Statut: centerStatus };
+                setWords(prevWords => [...prevWords, newWord]);
+                setNewWordText('');
 
-                const handleAddWord = async () => {
-                    if (!newWordText.trim()) return;
-                    const tempId = `temp-${Date.now()}`;
-                    const newWord = { id: tempId, Nom: newWordText.trim(), Statut: centerStatus };
-                    setWords(prevWords => [...prevWords, newWord]);
-                    setNewWordText('');
+                try {
+                    const { data, error } = await supabase.from('Nuage de mot').insert([{ Nom: newWord.Nom, Statut: newWord.Statut }]).select();
+                    if (error) throw error;
+                    setWords(prevWords => prevWords.map(word => word.id === tempId ? { ...data[0], id: data[0].ID } : word));
+                } catch (error) {
+                    console.error('Erreur Supabase (add):', error.message);
+                    setWords(prevWords => prevWords.filter(word => word.id !== tempId));
+                }
+            };
 
-                    try {
-                        const { data, error } = await supabase.from('Nuage de mot').insert([{ Nom: newWord.Nom, Statut: newWord.Statut }]).select();
-                        if (error) throw error;
-                        setWords(prevWords => prevWords.map(word => word.id === tempId ? { ...data[0], id: data[0].ID } : word));
-                    } catch (error) {
-                        console.error('Erreur Supabase (add):', error.message);
-                        setWords(prevWords => prevWords.filter(word => word.id !== tempId));
-                    }
-                };
+            const handleDropWord = async (wordId, newStatus) => {
+                const numericWordId = isNaN(parseInt(wordId, 10)) ? wordId : parseInt(wordId, 10);
+                setWords(prevWords => prevWords.map(word => word.id === numericWordId ? { ...word, Statut: newStatus } : word));
+                try {
+                    const { error } = await supabase.from('Nuage de mot').update({ Statut: newStatus }).eq('ID', numericWordId);
+                    if (error) throw error;
+                } catch (error) {
+                    console.error('Erreur Supabase (drop):', error.message);
+                    fetchWords();
+                }
+            };
 
-                const handleDropWord = async (wordId, newStatus) => {
-                    const numericWordId = isNaN(parseInt(wordId, 10)) ? wordId : parseInt(wordId, 10);
-                    setWords(prevWords => prevWords.map(word => word.id === numericWordId ? { ...word, Statut: newStatus } : word));
-                    try {
-                        const { error } = await supabase.from('Nuage de mot').update({ Statut: newStatus }).eq('ID', numericWordId);
-                        if (error) throw error;
-                    } catch (error) {
-                        console.error('Erreur Supabase (drop):', error.message);
-                        fetchWords();
-                    }
-                };
+            const handleDeleteWord = async (wordId) => {
+                if (!window.confirm("Voulez-vous vraiment supprimer ce mot ?")) return;
+                const numericWordId = isNaN(parseInt(wordId, 10)) ? wordId : parseInt(wordId, 10);
+                const originalWords = [...words];
+                setWords(prevWords => prevWords.filter(word => word.id !== numericWordId));
+                try {
+                    const { error } = await supabase.from('Nuage de mot').delete().eq('ID', numericWordId);
+                    if (error) throw error;
+                } catch (error) {
+                    console.error('Erreur Supabase (delete):', error.message);
+                    setWords(originalWords);
+                }
+            };
 
-                const handleDeleteWord = async (wordId) => {
-                    if (!window.confirm("Voulez-vous vraiment supprimer ce mot ?")) return;
-                    const numericWordId = isNaN(parseInt(wordId, 10)) ? wordId : parseInt(wordId, 10);
-                    const originalWords = [...words];
-                    setWords(prevWords => prevWords.filter(word => word.id !== numericWordId));
-                    try {
-                        const { error } = await supabase.from('Nuage de mot').delete().eq('ID', numericWordId);
-                        if (error) throw error;
-                    } catch (error) {
-                        console.error('Erreur Supabase (delete):', error.message);
-                        setWords(originalWords);
-                    }
-                };
-                
-                return React.createElement("div", { className: "flex flex-col items-center p-4" },
-                    React.createElement("h1", { className: "text-3xl font-bold text-gray-800 mb-8 mt-4" }, "Glissez les mots dans les tiroirs !"),
-                    React.createElement("div", { className: "bg-white p-4 rounded-lg shadow-md mb-8 flex gap-2 w-full max-w-md" },
-                        React.createElement("input", { type: "text", className: "flex-grow p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500", placeholder: "Ajouter un nouveau mot...", value: newWordText, onChange: (e) => setNewWordText(e.target.value), onKeyPress: (e) => e.key === 'Enter' && handleAddWord() }),
-                        React.createElement("button", { className: "px-4 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition-colors", onClick: handleAddWord }, "Ajouter")
-                    ),
-                    React.createElement("h2", { className: "text-2xl font-semibold text-gray-800 mb-4" }, "Mots non rangés"),
-                    React.createElement("div", { id: "wordCloud", className: "word-cloud-container" },
-                        words.filter(word => word.Statut === centerStatus).map(word => React.createElement(WordItem, { key: word.id, word: word, onDelete: handleDeleteWord, onDragStart: () => {} }))
-                    ),
-                    React.createElement("h2", { className: "text-2xl font-semibold text-gray-800 mb-4 mt-8" }, "Tiroirs"),
-                    React.createElement("div", { id: "dropZones", className: "drop-zones-container" },
-                        drawerStatuses.map(status => React.createElement(Drawer, { key: status, title: status, onDropWord: handleDropWord },
-                            words.filter(word => word.Statut === status).map(word => React.createElement(WordItem, { key: word.id, word: word, onDelete: handleDeleteWord, onDragStart: () => {} }))
-                        ))
-                    )
-                );
-            }
+            return React.createElement("div", { className: "flex flex-col items-center p-4" },
+                React.createElement("h1", { className: "text-3xl font-bold text-gray-800 mb-8 mt-4" }, "Glissez les mots dans les tiroirs !"),
+                React.createElement("div", { className: "bg-white p-4 rounded-lg shadow-md mb-8 flex gap-2 w-full max-w-md" },
+                    React.createElement("input", { type: "text", className: "flex-grow p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500", placeholder: "Ajouter un nouveau mot...", value: newWordText, onChange: (e) => setNewWordText(e.target.value), onKeyPress: (e) => e.key === 'Enter' && handleAddWord() }),
+                    React.createElement("button", { className: "px-4 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition-colors", onClick: handleAddWord }, "Ajouter")
+                ),
+                React.createElement("h2", { className: "text-2xl font-semibold text-gray-800 mb-4" }, "Mots non rangés"),
+                React.createElement("div", { id: "wordCloud", className: "word-cloud-container" },
+                    words.filter(word => word.Statut === centerStatus).map(word => React.createElement(WordItem, { key: word.id, word: word, onDelete: handleDeleteWord, onDragStart: () => {} }))
+                ),
+                React.createElement("h2", { className: "text-2xl font-semibold text-gray-800 mb-4 mt-8" }, "Tiroirs"),
+                React.createElement("div", { id: "dropZones", className: "drop-zones-container" },
+                    drawerStatuses.map(status => React.createElement(Drawer, { key: status, title: status, onDropWord: handleDropWord },
+                        words.filter(word => word.Statut === status).map(word => React.createElement(WordItem, { key: word.id, word: word, onDelete: handleDeleteWord, onDragStart: () => {} }))
+                    ))
+                )
+            );
+        }
 
-            // Rendu de l'application React
-            const container = document.getElementById('root');
-            const root = ReactDOM.createRoot(container);
-            root.render(React.createElement(React.StrictMode, null, React.createElement(App, null)));
-        
-        }); // Fin de l'écouteur DOMContentLoaded
+        // Rendu de l'application React
+        const container = document.getElementById('root');
+        const root = ReactDOM.createRoot(container);
+        root.render(React.createElement(React.StrictMode, null, React.createElement(App, null)));
     </script>
 </body>
 </html>
