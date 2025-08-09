@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuage de mots à glisser-déposer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Styles personnalisés pour cette application */
+        body {
+            font-family: 'Inter', sans-serif; /* Utilise la police Inter */
+            background-color: #f0f4f8; /* Arrière-plan léger */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .word-cloud-container, .drop-zones-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem; /* Espace entre les éléments */
+            justify-content: center;
+            padding: 1.5rem;
+            background-color: #ffffff; /* Fond blanc pour les conteneurs */
+            border-radius: 1rem; /* Coins arrondis */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
+            margin-bottom: 2rem;
+            max-width: 90%;
+            width: 100%;
+        }
+
+        /* Style des mots individuels */
+        .word-item {
+            cursor: grab; /* Curseur pour indiquer que c'est déplaçable */
+            padding: 0.75rem 1.25rem;
+            background-color: #60a5fa; /* Couleur bleue */
+            color: white;
+            border-radius: 0.75rem; /* Coins arrondis plus petits */
+            font-weight: 600; /* Texte semi-gras */
+            text-align: center;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .word-item:hover {
+            transform: translateY(-3px); /* Effet léger au survol */
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Style des zones de dépôt (tiroirs) */
+        .drop-zone {
+            flex: 1; /* Permet aux tiroirs de prendre l'espace disponible */
+            min-width: 200px; /* Largeur minimale pour les petits écrans */
+            min-height: 150px; /* Hauteur minimale */
+            border: 2px dashed #9ca3af; /* Bordure pointillée grise */
+            border-radius: 1rem; /* Coins arrondis */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            background-color: #e2e8f0; /* Fond gris clair */
+            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+            text-align: center;
+        }
+
+        /* Style lorsque l'on survole une zone de dépôt avec un élément traîné */
+        .drop-zone.drag-over {
+            background-color: #d1fae5; /* Vert clair */
+            border-color: #34d399; /* Vert plus prononcé */
+        }
+    </style>
+</head>
+<body class="bg-blue-50">
+    <h1 class="text-3xl font-bold text-gray-800 mb-8 mt-4">Glissez les mots dans les tiroirs !</h1>
+
+    <!-- Conteneur pour les mots à glisser -->
+    <div id="wordCloud" class="word-cloud-container">
+        <!-- Les mots seront insérés ici par JavaScript -->
+    </div>
+
+    <!-- Conteneur pour les zones de dépôt (tiroirs) -->
+    <div id="dropZones" class="drop-zones-container">
+        <div id="drawer1" class="drop-zone">
+            <h2 class="text-xl font-semibold text-gray-700 mb-2">Tiroir 1</h2>
+        </div>
+        <div id="drawer2" class="drop-zone">
+            <h2 class="text-xl font-semibold text-gray-700 mb-2">Tiroir 2</h2>
+        </div>
+        <div id="drawer3" class="drop-zone">
+            <h2 class="text-xl font-semibold text-gray-700 mb-2">Tiroir 3</h2>
+        </div>
+        <div id="drawer4" class="drop-zone">
+            <h2 class="text-xl font-semibold text-gray-700 mb-2">Tiroir 4</h2>
+        </div>
+    </div>
+
+    <script>
+        // Tableau des mots à afficher
+        const words = [
+            "Casquette", "Pantalon", "Lunettes", "Chaussettes",
+            "Chaussures", "Pull", "T-shirt", "Boucles d'oreilles",
+            "Manteau", "Slip"
+        ];
+
+        // Récupérer le conteneur du nuage de mots
+        const wordCloud = document.getElementById('wordCloud');
+
+        // Créer et ajouter chaque mot au nuage
+        words.forEach(wordText => {
+            const wordItem = document.createElement('div');
+            wordItem.classList.add('word-item');
+            wordItem.textContent = wordText;
+            wordItem.setAttribute('draggable', 'true'); // Rend l'élément déplaçable
+            wordItem.id = `word-${wordText.toLowerCase().replace(/\s/g, '-')}`; // Assigne un ID unique
+            wordCloud.appendChild(wordItem);
+        });
+
+        // Gestion des événements de glisser-déposer
+
+        let draggedItem = null; // Variable pour stocker l'élément en cours de glissement
+
+        // Événement quand le glisser commence
+        document.addEventListener('dragstart', (e) => {
+            if (e.target.classList.contains('word-item')) {
+                draggedItem = e.target;
+                // Définir les données à transférer (l'ID de l'élément)
+                e.dataTransfer.setData('text/plain', draggedItem.id);
+                // Optionnel: ajouter une classe pour le style pendant le glisser
+                setTimeout(() => {
+                    draggedItem.classList.add('opacity-50');
+                }, 0);
+            }
+        });
+
+        // Événement quand on traîne l'élément (permet de le déplacer n'importe où)
+        document.addEventListener('dragend', (e) => {
+            if (draggedItem) {
+                // Supprimer la classe de style après le glisser
+                draggedItem.classList.remove('opacity-50');
+                draggedItem = null;
+            }
+        });
+
+        // Récupérer toutes les zones de dépôt
+        const dropZones = document.querySelectorAll('.drop-zone');
+
+        dropZones.forEach(zone => {
+            // Événement quand un élément est au-dessus de la zone de dépôt
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault(); // Permet le dépôt (par défaut, le dépôt est interdit)
+                zone.classList.add('drag-over'); // Ajoute une classe de style visuel
+            });
+
+            // Événement quand un élément quitte la zone de dépôt
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('drag-over'); // Supprime la classe de style
+            });
+
+            // Événement quand un élément est déposé dans la zone
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault(); // Empêche le comportement par défaut du navigateur
+                zone.classList.remove('drag-over'); // Supprime la classe de style
+
+                // Récupérer l'ID de l'élément déposé
+                const data = e.dataTransfer.getData('text/plain');
+                const droppedElement = document.getElementById(data);
+
+                if (droppedElement) {
+                    // Ajouter l'élément déposé à la zone de dépôt
+                    zone.appendChild(droppedElement);
+                    // Optionnel: ajuster le style du mot une fois déposé si nécessaire
+                    droppedElement.classList.remove('bg-blue-400'); // Supprime l'ancienne couleur
+                    droppedElement.classList.add('bg-green-500', 'mt-2'); // Ajoute une nouvelle couleur et un peu de marge
+                }
+            });
+        });
+    </script>
+</body>
+</html>
