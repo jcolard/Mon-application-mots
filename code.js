@@ -2,7 +2,7 @@ console.log("📌 Début exécution code.js");
 
 // --- CONFIGURATION ---
 const SUPABASE_URL = "https://aiddstzhjchcygpinifg.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpZGRzdHpIamNoY3lncGluaWZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjMyNzU1NzgsImV4cCI6MjAzODg1MTU3OH0.5VVlp9AvwAs3cY01lCAnVgHV21Cta2rrYVtG2D2oXnE"; // ⚠️ Clé publique
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpZGRzdHpoamNoY3lncGluaWZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3NDA2OTQsImV4cCI6MjA3MDMxNjY5NH0.GIferB9cBMGehj3GkVVLbAHy0AHe-L9NY54pl7TGkPM"; // ⚠️ Clé publique
 
 // Vérification que Supabase est chargé
 if (!window.supabase || typeof window.supabase.createClient !== "function") {
