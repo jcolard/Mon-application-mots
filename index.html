@@ -3,16 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>App Supabase v1</title>
+  <title>Gestion des cartes - Supabase</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h1>Ma petite app Supabase</h1>
-  <div id="output">Chargement...</div>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-white shadow p-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold">Cartes interactives</h1>
+    <button id="addBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">+ Ajouter</button>
+  </header>
 
-  <!-- Charger Supabase v1 en UMD -->
+  <!-- Section Centre -->
+  <section class="p-4">
+    <h2 class="text-lg font-semibold mb-2">Centre</h2>
+    <div id="centre" class="flex flex-wrap gap-4 min-h-[100px] bg-white p-4 rounded shadow"></div>
+  </section>
+
+  <!-- Tiroirs -->
+  <section class="p-4 grid grid-cols-1 md:grid-cols-4 gap-4">
+    <div class="bg-white p-4 rounded shadow min-h-[200px]" data-tiroir="Tiroir 1">
+      <h3 class="font-semibold mb-2">Tiroir 1</h3>
+      <div class="dropzone min-h-[150px] flex flex-col gap-2"></div>
+    </div>
+    <div class="bg-white p-4 rounded shadow min-h-[200px]" data-tiroir="Tiroir 2">
+      <h3 class="font-semibold mb-2">Tiroir 2</h3>
+      <div class="dropzone min-h-[150px] flex flex-col gap-2"></div>
+    </div>
+    <div class="bg-white p-4 rounded shadow min-h-[200px]" data-tiroir="Tiroir 3">
+      <h3 class="font-semibold mb-2">Tiroir 3</h3>
+      <div class="dropzone min-h-[150px] flex flex-col gap-2"></div>
+    </div>
+    <div class="bg-white p-4 rounded shadow min-h-[200px]" data-tiroir="Tiroir 4">
+      <h3 class="font-semibold mb-2">Tiroir 4</h3>
+      <div class="dropzone min-h-[150px] flex flex-col gap-2"></div>
+    </div>
+  </section>
+
+  <!-- Modal Ajout -->
+  <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white p-6 rounded shadow w-80">
+      <h2 class="text-lg font-semibold mb-4">Nouvelle carte</h2>
+      <input id="newNom" type="text" placeholder="Nom" class="border p-2 w-full mb-4 rounded">
+      <div class="flex justify-end gap-2">
+        <button id="cancelBtn" class="px-4 py-2 border rounded">Annuler</button>
+        <button id="saveBtn" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Ajouter</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.7/dist/umd/supabase.js"></script>
-
-  <!-- Charger ton script principal -->
   <script src="code.js"></script>
 </body>
 </html>
