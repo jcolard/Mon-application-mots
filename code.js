@@ -1,26 +1,35 @@
-console.log("✅ Script démarré");
+console.log("📌 Début exécution code.js");
 
-// Récupère la fonction createClient depuis Supabase v1
-const { createClient } = window.supabase;
+// --- CONFIGURATION ---
+const SUPABASE_URL = "https://<TON-PROJET>.supabase.co";
+const SUPABASE_KEY = "<TA-CLÉ-ANON-PUBLIQUE>"; // ⚠️ Clé publique uniquement
 
-// Clés publiques (anon) → OK pour un site public
-const supabaseUrl = 'https://aiddstzhjchcygpinifg.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpZGRzdHpIamNoY3lncGluaWZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjMyNzU1NzgsImV4cCI6MjAzODg1MTU3OH0.5VVlp9AvwAs3cY01lCAnVgHV21Cta2rrYVtG2D2oXnE';
+// Vérification que Supabase est chargé
+if (!window.supabase || typeof window.supabase.createClient !== "function") {
+    console.error("❌ Supabase n'est pas disponible !");
+} else {
+    console.log("✅ Supabase est disponible");
 
-// Création du client
-const supabase = createClient(supabaseUrl, supabaseKey);
+    // Création du client
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    console.log("📦 Client Supabase créé :", supabaseClient);
 
-async function fetchData() {
-  const { data, error } = await supabase.from('nuage_de_mot').select('*');
+    // Exemple : lecture de la table "nuage_de_mot"
+    (async () => {
+        try {
+            const { data, error } = await supabaseClient
+                .from("nuage_de_mot")
+                .select("*");
 
-  if (error) {
-    console.error("❌ Erreur lors de la récupération :", error);
-    document.getElementById('output').textContent = "Erreur : " + error.message;
-    return;
-  }
+            if (error) {
+                throw error;
+            }
 
-  console.log("✅ Données reçues :", data);
-  document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+            console.log("📄 Données reçues :", data);
+            document.getElementById("output").innerText = JSON.stringify(data, null, 2);
+        } catch (err) {
+            console.error("⚠️ Erreur Supabase :", err);
+            document.getElementById("output").innerText = "Erreur : " + err.message;
+        }
+    })();
 }
-
-fetchData();
