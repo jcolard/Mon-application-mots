@@ -6,13 +6,23 @@
   <title>Test Supabase v1</title>
 </head>
 <body>
-  <h1>Lecture depuis Supabase v1</h1>
-  <pre id="output">Chargement...</pre>
+  <h1>Test de connexion à Supabase v1</h1>
 
-  <!-- Supabase v1 -->
+  <!-- Charger Supabase v1 -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.7/dist/supabase.min.js"></script>
 
-  <!-- Ton script -->
-  <script src="code.js" defer></script>
+  <!-- Script de test -->
+  <script>
+    console.log("📌 Début du test...");
+
+    console.log("🔍 window.supabase =", window.supabase);
+    console.log("🔍 typeof window.supabase =", typeof window.supabase);
+
+    if (window.supabase && typeof window.supabase.createClient === 'function') {
+      console.log("✅ createClient est disponible !");
+    } else {
+      console.error("❌ createClient n'est PAS disponible !");
+    }
+  </script>
 </body>
 </html>
