@@ -1,12 +1,9 @@
 window.addEventListener("DOMContentLoaded", function () {
-    if (!window.supabase) {
-        console.error("❌ Supabase n'est pas chargé.");
+    if (typeof createClient !== "function") {
+        console.error("❌ Supabase createClient n'est pas disponible");
         return;
     }
 
-    const { createClient } = window.supabase;
-
-    // Config Supabase
     const supabaseUrl = 'https://aiddstzhjchcygpinifg.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpZGRzdHpIamNoY3lncGluaWZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjMyNzU1NzgsImV4cCI6MjAzODg1MTU3OH0.5VVlp9AvwAs3cY01lCAnVgHV21Cta2rrYVtG2D2oXnE';
     const supabase = createClient(supabaseUrl, supabaseKey);
