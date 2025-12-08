@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - Consultant Low-Code</title>
+    <style>
+        /* --- RESET & BASE --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f0f0; /* Gris clair pour l'écran, sera blanc à l'impression */
+            color: #333;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        /* --- PAGE A4 FORMAT --- */
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            margin: 20px auto;
+            display: flex;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* --- LAYOUT --- */
+        .sidebar {
+            width: 32%;
+            background-color: #2c3e50; /* Bleu Nuit / Ardoise */
+            color: white;
+            padding: 30px 20px;
+        }
+
+        .main-content {
+            width: 68%;
+            padding: 40px 30px;
+        }
+
+        /* --- TYPOGRAPHY & ELEMENTS --- */
+        h1 {
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 16px;
+            font-weight: 400;
+            color: #bdc3c7; /* Gris clair */
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        h3 {
+            font-size: 16px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            margin-top: 25px;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+
+        /* Sidebar Headings */
+        .sidebar h3 {
+            color: white;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            margin-top: 30px;
+        }
+        .sidebar h3:first-child { margin-top: 0; }
+
+        p { margin-bottom: 10px; }
+        
+        a { color: inherit; text-decoration: none; }
+        
+        ul { list-style: none; }
+
+        /* --- SIDEBAR CONTENT --- */
+        .contact-info div {
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+        
+        .contact-info i {
+            margin-right: 10px;
+            width: 15px;
+            text-align: center;
+        }
+
+        .skills-list li {
+            background: rgba(255,255,255,0.1);
+            padding: 5px 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .education-item {
+            margin-bottom: 15px;
+        }
+        .education-item .degree {
+            font-weight: bold;
+            font-size: 14px;
+            color: #ecf0f1;
+        }
+        .education-item .school {
+            font-size: 13px;
+            color: #bdc3c7;
+            font-style: italic;
+        }
+        .education-item .date {
+            font-size: 12px;
+            color: #95a5a6;
+        }
+
+        /* --- MAIN CONTENT --- */
+        .profile-summary {
+            font-style: italic;
+            color: #555;
+            background: #f9f9f9;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        .job-item {
+            margin-bottom: 25px;
+        }
+        
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 5px;
+        }
+        
+        .job-title {
+            font-weight: bold;
+            font-size: 16px;
+            color: #2c3e50;
+        }
+        
+        .job-company {
+            font-weight: bold;
+            color: #3498db; /* Bleu vif pour l'entreprise */
+        }
+
+        .job-date {
+            font-size: 12px;
+            color: #7f8c8d;
+            text-align: right;
+            min-width: 100px;
+        }
+
+        .job-details {
+            font-size: 13px;
+            color: #444;
+        }
+
+        .project-highlight {
+            margin-top: 8px;
+            background: #f4f6f7;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .project-highlight strong {
+            color: #2980b9;
+        }
+
+        /* --- PRINT SETTINGS --- */
+        @media print {
+            body { background: none; }
+            .page {
+                margin: 0;
+                box-shadow: none;
+                width: 100%;
+                height: 100%;
+            }
+            @page {
+                margin: 0;
+                size: A4;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="page">
+        <aside class="sidebar">
+            <div style="margin-bottom: 30px;">
+                <h1 style="font-size: 24px;">[PRÉNOM NOM]</h1>
+                <p style="color:#bdc3c7; font-size:14px;">Consultant Low-Code</p>
+            </div>
+
+            <h3>Contact</h3>
+            <div class="contact-info">
+                <div><i class="fas fa-map-marker-alt"></i> Toulouse / Blagnac</div>
+                <div><i class="fas fa-envelope"></i> [VOTRE EMAIL]</div>
+                <div><i class="fas fa-phone"></i> [VOTRE TÉLÉPHONE]</div>
+                <div><i class="fas fa-globe"></i> www.je-co.fr</div>
+            </div>
+
+            <h3>Compétences</h3>
+            <ul class="skills-list">
+                <li><strong>No-Code / Low-Code :</strong> AppSheet, ServiceNow</li>
+                <li><strong>Système :</strong> Admin Windows, AD, GLPI</li>
+                <li><strong>Réseau :</strong> TCP/IP, VPN, DNS</li>
+                <li><strong>Web :</strong> HTML, CSS, Conception Web</li>
+                <li><strong>Transverse :</strong> Gestion de Projet, Pédagogie, Analyse de processus</li>
+            </ul>
+
+            <h3>Formation</h3>
+            
+            <div class="education-item">
+                <div class="degree">Bachelor Admin. Systèmes & Réseaux</div>
+                <div class="school">CESI (2023 - 2024)</div>
+            </div>
+
+            <div class="education-item">
+                <div class="degree">Admin. Système DevOps</div>
+                <div class="school">IFORM (2021)</div>
+            </div>
+
+            <div class="education-item">
+                <div class="degree">Master 2 MEEF (Enseignement)</div>
+                <div class="school">Univ. Toulouse Jean Jaurès (2019-2021)</div>
+                <div class="date">Pédagogie & Transmission</div>
+            </div>
+
+            <div class="education-item">
+                <div class="degree">Licence Économie de Gestion</div>
+                <div class="school">Univ. Jean Monnet (2016-2019)</div>
+                <div class="date">Comptabilité, Gestion d'entreprise</div>
+            </div>
+
+            <h3>Langues</h3>
+            <ul class="skills-list">
+                <li>Français (Natif)</li>
+                <li>Anglais (Technique)</li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <h1>[PRÉNOM NOM]</h1>
+            <h2>Consultant en Organisation & Développeur Low-Code</h2>
+
+            <div class="profile-summary">
+                <p><strong>Mon métier, c'est l'organisation.</strong></p>
+                <p>Je transforme vos tableurs devenus ingérables (Excel, GSheet) en applications mobiles et web simples et fonctionnelles. Avec une double expertise technique (IT/Réseau) et fonctionnelle (Gestion/Pédagogie), j'identifie ce qui vous fait perdre du temps et je construis l'outil sur-mesure (AppSheet) pour faciliter la vie de vos équipes.</p>
+            </div>
+
+            <h3>Expérience Professionnelle</h3>
+
+            <div class="job-item">
+                <div class="job-header">
+                    <div>
+                        <span class="job-title">Technicien Systèmes & Dev. Low-Code</span><br>
+                        <span class="job-company">SPIE ICS (Mission AIRBUS)</span>
+                    </div>
+                    <span class="job-date">Mars 2025 - Présent</span>
+                </div>
+                <div class="job-details">
+                    <p>Au-delà du support technique, j'identifie les processus défaillants pour développer des solutions d'optimisation Low-Code pour les équipes terrain.</p>
+                    <div class="project-highlight">
+                        <strong>Appli "Compagnon" :</strong> Interface mobile connectée à ServiceNow pour les techniciens itinérants. Suppression de la double saisie. Gain : ~30 min/jour/tech.
+                    </div>
+                    <div class="project-highlight">
+                        <strong>Suite Logistique :</strong> Remplacement des Google Sheets par une application centralisée de gestion de flotte et stock matériel.
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-item">
+                <div class="job-header">
+                    <div>
+                        <span class="job-title">Consultant Organisation & Low-Code</span><br>
+                        <span class="job-company">JE-CO (Freelance)</span>
+                    </div>
+                    <span class="job-date">Août 2024 - Présent</span>
+                </div>
+                <div class="job-details">
+                    <p>Conception d'outils de gestion sur-mesure (ERP, CRM, Suivi) pour associations et TPE.</p>
+                    <ul>
+                        <li>• <strong>Vie Associative (AixEnVue) :</strong> Écosystème complet pour 100+ membres (Inscription, Bénévoles, Chatbot).</li>
+                        <li>• <strong>Social & Santé :</strong> Apps de suivi familles et logistique pour équipes encadrantes.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="job-item">
+                <div class="job-header">
+                    <div>
+                        <span class="job-title">Responsable Projet IT & SysAdmin</span><br>
+                        <span class="job-company">ISPRA Campus Audiovisuel</span>
+                    </div>
+                    <span class="job-date">Nov. 2023 - Nov. 2024</span>
+                </div>
+                <div class="job-details">
+                    <p>Gestion autonome du parc informatique et développement de solutions internes pour réduire les coûts logiciels.</p>
+                    <div class="project-highlight">
+                        <strong>Réalisation "ISPRA CONNECT" (AppSheet) :</strong> ERP sur-mesure remplaçant plusieurs outils dispersés.
+                        <br><em>Fonctions : Vie scolaire (notes/bulletins), Planning salles/intervenants, Gestion des droits.</em>
+                    </div>
+                </div>
+            </div>
+
+            <div class="job-item">
+                <div class="job-header">
+                    <div>
+                        <span class="job-title">IT Support Technician</span><br>
+                        <span class="job-company">Pro Direct Services</span>
+                    </div>
+                    <span class="job-date">Janv. 2022 - Juil. 2023</span>
+                </div>
+                <div class="job-details">
+                    <p>Support N1/N2 et administration système pour un parc grand compte.</p>
+                    <ul>
+                        <li>• Administration Active Directory et GLPI.</li>
+                        <li>• Acquisition de bases solides en Réseau, Sécurité et Rigueur procédurale.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+</body>
+</html>
