@@ -3,246 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV Jérémy Colard - Business Analyst</title>
+    <title>Lettre de Motivation - Aceo Tech</title>
     <style>
-        /* BASE & TYPOGRAPHY */
+        :root {
+            --primary-color: #2daae1; /* Bleu rappelant l'univers Cloud/Tech */
+            --text-color: #333;
+            --secondary-text: #666;
+            --bg-color: #f4f7f6;
+            --container-bg: #ffffff;
+        }
+
         body {
-            font-family: 'Calibri', 'Arial', sans-serif; /* Police standard pour ATS [cite: 323] */
-            color: #333;
-            line-height: 1.5;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
             margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            font-size: 11pt; /* Taille lisible [cite: 324] */
+            padding: 40px 20px;
         }
-        
-        .page {
-            background: white;
-            width: 21cm;
-            min-height: 29.7cm;
-            display: block;
+
+        .container {
+            max-width: 800px;
             margin: 0 auto;
-            padding: 2cm;
-            box-shadow: 0 0 0.5cm rgba(0,0,0,0.1);
-            box-sizing: border-box;
+            background: var(--container-bg);
+            padding: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-radius: 8px;
         }
 
-        /* HEADER */
+        /* Header Section */
         header {
-            border-bottom: 2px solid #2d6a4f; /* Touche couleur professionnelle */
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            margin: 0;
-            color: #1a1a1a;
-            font-size: 24pt;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .contact-info {
-            font-size: 10pt;
-            margin-top: 5px;
-            color: #555;
-        }
-
-        .job-title {
-            font-size: 14pt;
-            color: #2d6a4f;
-            font-weight: bold;
-            margin-top: 10px;
-            text-transform: uppercase;
-        }
-
-        /* SECTIONS */
-        h2 {
-            font-size: 12pt;
-            color: #2d6a4f;
-            text-transform: uppercase;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 3px;
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-
-        .summary {
-            font-style: italic;
-            margin-bottom: 15px;
-        }
-
-        /* EXPERIENCE BLOCKS */
-        .experience-item {
-            margin-bottom: 15px;
-        }
-
-        .job-header {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
             display: flex;
             justify-content: space-between;
-            font-weight: bold;
+            align-items: flex-start;
         }
 
-        .company {
-            font-size: 11pt;
+        .contact-info h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #111;
         }
 
-        .date {
-            font-size: 10pt;
-            color: #666;
+        .contact-info p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            color: var(--secondary-text);
+        }
+
+        .recipient-info {
             text-align: right;
+            font-size: 14px;
+            color: var(--secondary-text);
         }
 
-        .role-title {
-            font-weight: bold;
-            font-style: italic;
-            color: #444;
-            margin-bottom: 5px;
-        }
-
-        ul {
-            margin-top: 5px;
-            padding-left: 20px;
-            margin-bottom: 5px;
-        }
-
-        li {
-            margin-bottom: 3px;
-        }
-
-        /* SKILLS GRID */
-        .skills-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 10px;
-        }
-        
-        .skill-category strong {
+        .recipient-info strong {
+            color: #111;
             display: block;
-            color: #444;
-            margin-bottom: 2px;
+            margin-bottom: 5px;
         }
 
-        /* UTILS */
-        .bold { font-weight: bold; }
-        
-        @media print {
-            body { background: none; }
-            .page { box-shadow: none; margin: 0; padding: 1.5cm; }
+        /* Content Sections */
+        h2 {
+            font-size: 18px;
+            color: var(--primary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .highlight {
+            background-color: #eef9fe;
+            padding: 15px;
+            border-left: 4px solid var(--primary-color);
+            font-style: italic;
+            margin: 20px 0;
+            color: #444;
+        }
+
+        /* Footer / Call to Action */
+        .cta {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: #1d8ab8;
+        }
+
+        .signature {
+            margin-top: 40px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            font-weight: bold;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .container { padding: 20px; }
+            header { flex-direction: column; text-align: left; }
+            .recipient-info { text-align: left; margin-top: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="page">
-        <header>
-            <h1>Jérémy COLARD</h1>
-            <div class="job-title">Business Analyst & Expert Google Workspace</div>
-            <div class="contact-info">
-                Toulouse, France | www.je-co.fr | linkedin.com/in/jeremy-colard<br>
-                </div>
-        </header>
+<div class="container">
 
-        <section class="summary">
-            <p>
-                Business Analyst spécialisé dans l'écosystème <strong>Google Workspace</strong> et le <strong>No-Code (AppSheet)</strong>. Je combine une approche structurée d'analyse des besoins métiers avec une capacité technique à déployer rapidement des solutions digitales sur-mesure. Passionné par l'optimisation des processus, je transforme les tâches manuelles chronophages en outils performants pour faire gagner du temps aux équipes.
-            </p>
-        </section>
+    <header>
+        <div class="contact-info">
+            <h1>Thomas DUPONT</h1>
+            <p>Consultant Cloud & Data</p>
+            <p>thomas.dupont@email.com | 06 12 34 56 78</p>
+            <p><a href="#" style="color:var(--primary-color); text-decoration:none;">linkedin.com/in/thomasdupont</a></p>
+        </div>
+        <div class="recipient-info">
+            <strong>À l'attention de l'équipe Recrutement</strong>
+            Aceo Tech<br>
+            Paris / Toulouse
+        </div>
+    </header>
 
-        <section>
-            <h2>Compétences Clés</h2>
-            <div class="skills-container">
-                <div class="skill-category">
-                    <strong>Écosystème Google & Technique</strong>
-                    Google Workspace (Expert), AppSheet (No-Code), Google Apps Script, Looker Studio, SQL (Notions), Automatisation de workflows.
-                </div>
-                <div class="skill-category">
-                    <strong>Analyse & Gestion de Projet</strong>
-                    Analyse des besoins (Cadrage), Rédaction de spécifications, Méthode Agile/Kanban, Optimisation de processus, Gestion du changement.
-                </div>
-            </div>
-        </section>
+    <p>Bonjour,</p>
 
-        <section>
-            <h2>Expérience Professionnelle</h2>
+    <p>
+        Votre ambition affichée de devenir le partenaire Google Cloud numéro 1 en France n'est pas passée inaperçue. J'observe avec intérêt l'hypercroissance d'Aceo Tech depuis deux ans, et en particulier votre capacité à allier une expertise technique pointue ("Pure Player") à une culture humaine forte basée sur l'entraide. Dans un marché des ESN souvent standardisé, votre volonté de transformer les métiers "sans le blabla" résonne particulièrement avec ma vision du conseil.
+    </p>
 
-            <div class="experience-item">
-                <div class="job-header">
-                    <span class="company">AIRBUS (Consultant via SPIE ICS)</span>
-                    <span class="date">Mars 2025 – Aujourd'hui</span>
-                </div>
-                <div class="role-title">Business Analyst Technique & Développeur Low-Code</div>
-                <ul>
-                    <li><strong>Analyse et Optimisation :</strong> Audit des processus de maintenance terrain. Identification des goulots d'étranglement (double saisie, retours bureau).</li>
-                    <li><strong>Conception de solution :</strong> Développement de l'application "Compagnon" connectée à l'ERP ServiceNow via scripts personnalisés.</li>
-                    <li><strong>Google Workspace :</strong> Remplacement de fichiers Google Sheets ingérables par une suite d'applications AppSheet interconnectées pour la logistique (Flotte & Stock).</li>
-                    <li><strong>Résultat :</strong> Gain de productivité estimé à <strong>30 minutes par technicien/jour</strong> et suppression totale des erreurs de saisie manuelle.</li>
-                </ul>
-            </div>
-
-            <div class="experience-item">
-                <div class="job-header">
-                    <span class="company">JE-CO (Freelance)</span>
-                    <span class="date">Août 2024 – Aujourd'hui</span>
-                </div>
-                <div class="role-title">Consultant en Organisation & Solutions Google Workspace</div>
-                <ul>
-                    <li><strong>Cadrage Client :</strong> Animation d'ateliers pour définir les "pain points" des associations et PME (gestion bénévoles, stocks, adhésions).</li>
-                    <li><strong>Développement sur-mesure :</strong> Création d'ERP complets sous AppSheet (CRM, Module Comptabilité, Chatbot IA Gemini).</li>
-                    <li><strong>Conduite du changement :</strong> Accompagnement des utilisateurs et création de supports de formation pour l'adoption des nouveaux outils.</li>
-                    <li><strong>Automatisation :</strong> Mise en place de génération automatique de newsletters et rapports via IA et Apps Script.</li>
-                </ul>
-            </div>
-
-            <div class="experience-item">
-                <div class="job-header">
-                    <span class="company">ISPRA INSTITUT</span>
-                    <span class="date">Nov. 2023 – Nov. 2024</span>
-                </div>
-                <div class="role-title">Chef de Projet Digital & Analyste</div>
-                <ul>
-                    <li><strong>Analyse des besoins :</strong> Centralisation des outils éparpillés (Vie scolaire, Planning, Notes) en une plateforme unique.</li>
-                    <li><strong>Déploiement :</strong> Conception de l'application "Ispra Connect" (Gestion des droits d'accès, génération bulletins).</li>
-                    <li><strong>Impact :</strong> <strong>Réduction des coûts logiciels de 90%</strong> grâce à la migration vers une solution interne No-Code.</li>
-                </ul>
-            </div>
-        </section>
-
-        <section>
-            <h2>Formation</h2>
-            <div class="experience-item">
-                <div class="job-header">
-                    <span class="company">CESI École d'Ingénieurs</span>
-                    <span class="date">2024</span>
-                </div>
-                <div>Bachelor Administrateur Réseaux et Systèmes (Blocs Gestion de projet & Système)</div>
-            </div>
-            <div class="experience-item">
-                <div class="job-header">
-                    <span class="company">Université Toulouse - Jean Jaurès</span>
-                    <span class="date">2021</span>
-                </div>
-                <div>Master MEEF (Métiers de l'Enseignement, de l'Éducation et de la Formation)</div>
-                <div style="font-size: 10pt; color: #555;"><i>Compétence clé : Pédagogie et transmission de savoir (Atout pour la formation utilisateur).</i></div>
-            </div>
-            <div class="experience-item">
-                <div class="job-header">
-                    <span class="company">Université Jean Monnet Saint-Etienne</span>
-                    <span class="date">2019</span>
-                </div>
-                <div>Licence Économie et Gestion</div>
-            </div>
-        </section>
-
-        <section>
-            <h2>Réalisations</h2>
-            <p>
-                Découvrez les démos interactives des applications mentionnées (Gestion de stock, Chatbot IA, ERP Asso) sur mon portfolio : <strong>www.je-co.fr</strong>
-            </p>
-        </section>
-
+    <div class="highlight">
+        "L'année dernière, face à un client industriel paralysé par des données silotées, j'ai piloté une migration complexe vers BigQuery en moins de 3 mois. Résultat : un temps de traitement réduit de 30% et une prise de décision en temps réel pour leurs équipes logistiques."
     </div>
+
+    <p>
+        Au-delà de la maîtrise technique de la suite GCP (certifié Professional Data Engineer), c'est cette capacité à traduire la technologie en performance business que je souhaite vous apporter. Mon parcours m'a appris qu'une migration réussie ne se limite pas à l'architecture, mais réside dans l'accompagnement des utilisateurs finaux, une philosophie qui semble être au cœur de l'excellence opérationnelle prônée par Aceo.
+    </p>
+
+    <p>
+        Rejoindre Aceo Tech aujourd'hui, ce n'est pas seulement intégrer un cabinet d'experts, c'est devenir un "Acéen" actif dans le partage de connaissances. Je suis enthousiaste à l'idée de contribuer à cette dynamique collective, que ce soit sur vos projets d'IA générative (Gemini) ou en participant à la montée en compétence des équipes juniors.
+    </p>
+
+    <div class="cta">
+        <p>Je serais ravi de vous détailler de vive voix comment mon énergie peut servir votre croissance.</p>
+        <a href="mailto:recrutement@aceo-tech.com" class="cta-button">Discutons-en mardi prochain ?</a>
+    </div>
+
+    <div class="signature">
+        Thomas Dupont
+    </div>
+
+</div>
 
 </body>
 </html>
