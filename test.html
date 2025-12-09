@@ -3,174 +3,317 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lettre de Motivation - Aceo Tech</title>
+    <title>Infographie : L'Économie de l'Iran</title>
     <style>
         :root {
-            --primary-color: #2daae1; /* Bleu rappelant l'univers Cloud/Tech */
+            --iran-green: #239f40;
+            --iran-red: #da0000;
+            --dark-blue: #2c3e50;
+            --light-gray: #f4f7f6;
             --text-color: #333;
-            --secondary-text: #666;
-            --bg-color: #f4f7f6;
-            --container-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
+            background-color: #eef2f3;
             color: var(--text-color);
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 40px 20px;
+            line-height: 1.6;
+            padding: 20px;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            background: var(--container-bg);
-            padding: 50px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border-radius: 8px;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            overflow: hidden;
         }
 
-        /* Header Section */
+        /* HEADER */
         header {
-            border-bottom: 2px solid #eee;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--iran-green) 0%, #1e8e36 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Separator Flag Colors */
+        .flag-line {
+            height: 6px;
+            width: 100%;
+            background: linear-gradient(to right, var(--iran-green) 33%, white 33%, white 66%, var(--iran-red) 66%);
+        }
+
+        /* GRID LAYOUT */
+        .grid-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+
+        /* CARDS KPI */
+        .card {
+            background: var(--light-gray);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border-bottom: 4px solid var(--dark-blue);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .card .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--dark-blue);
+        }
+
+        .card .trend {
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .trend.negative { color: var(--iran-red); }
+        .trend.neutral { color: #f39c12; }
+
+        /* SECTIONS WITH CHARTS */
+        .content-row {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 0 30px 30px 30px;
+            gap: 30px;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        h2 {
+            border-left: 5px solid var(--iran-red);
+            padding-left: 10px;
+            margin-bottom: 20px;
+            color: var(--dark-blue);
+        }
+
+        /* BAR CHART CSS */
+        .bar-chart-item {
+            margin-bottom: 15px;
+        }
+        .bar-label {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        .bar-bg {
+            background: #e0e0e0;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            background: var(--iran-green);
+            border-radius: 6px;
+        }
+        .bar-fill.oil { background: var(--dark-blue); width: 85%; }
+        .bar-fill.inflation { background: var(--iran-red); width: 45%; } 
+        /* Note: Widths are illustrative percentages for CSS visuals */
+
+        /* PIE CHART CSS */
+        .pie-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+        .pie-chart {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            /* CSS Conic Gradient for Pie Chart */
+            background: conic-gradient(
+                var(--dark-blue) 0% 50%, /* Pétrole/Gaz */
+                var(--iran-green) 50% 65%, /* Agriculture */
+                #f39c12 65% 100% /* Services/Autre */
+            );
+            position: relative;
+        }
+        .pie-legend ul {
+            list-style: none;
+        }
+        .pie-legend li {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            display: inline-block;
+            margin-right: 8px;
+            border-radius: 50%;
         }
 
-        .contact-info h1 {
-            margin: 0;
-            font-size: 24px;
-            color: #111;
+        /* CHALLENGES BOX */
+        .challenges {
+            background: #fff0f0;
+            border: 1px solid #ffcccc;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 0 30px 30px 30px;
         }
-
-        .contact-info p {
-            margin: 5px 0 0;
-            font-size: 14px;
-            color: var(--secondary-text);
+        .challenges h3 {
+            color: var(--iran-red);
+            margin-bottom: 10px;
         }
-
-        .recipient-info {
-            text-align: right;
-            font-size: 14px;
-            color: var(--secondary-text);
+        .challenges ul {
+            padding-left: 20px;
         }
-
-        .recipient-info strong {
-            color: #111;
-            display: block;
+        .challenges li {
             margin-bottom: 5px;
         }
 
-        /* Content Sections */
-        h2 {
-            font-size: 18px;
-            color: var(--primary-color);
-            margin-top: 30px;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-        }
-
-        p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-
-        .highlight {
-            background-color: #eef9fe;
-            padding: 15px;
-            border-left: 4px solid var(--primary-color);
-            font-style: italic;
-            margin: 20px 0;
-            color: #444;
-        }
-
-        /* Footer / Call to Action */
-        .cta {
-            margin-top: 40px;
-            text-align: center;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background-color: var(--primary-color);
+        /* FOOTER */
+        footer {
+            background: var(--dark-blue);
             color: white;
-            padding: 12px 30px;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            transition: background 0.3s;
+            text-align: center;
+            padding: 15px;
+            font-size: 0.8rem;
         }
 
-        .cta-button:hover {
-            background-color: #1d8ab8;
-        }
-
-        .signature {
-            margin-top: 40px;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
-            font-weight: bold;
-        }
-
-        /* Responsive adjustments */
+        /* Responsive */
         @media (max-width: 600px) {
-            .container { padding: 20px; }
-            header { flex-direction: column; text-align: left; }
-            .recipient-info { text-align: left; margin-top: 20px; }
+            header h1 { font-size: 1.8rem; }
+            .content-row { flex-direction: column; }
+            .pie-container { flex-direction: column; gap: 20px; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-
     <header>
-        <div class="contact-info">
-            <h1>Thomas DUPONT</h1>
-            <p>Consultant Cloud & Data</p>
-            <p>thomas.dupont@email.com | 06 12 34 56 78</p>
-            <p><a href="#" style="color:var(--primary-color); text-decoration:none;">linkedin.com/in/thomasdupont</a></p>
-        </div>
-        <div class="recipient-info">
-            <strong>À l'attention de l'équipe Recrutement</strong>
-            Aceo Tech<br>
-            Paris / Toulouse
-        </div>
+        <h1>Panorama Économique</h1>
+        <p>République Islamique d'Iran - Situation Actuelle</p>
     </header>
+    <div class="flag-line"></div>
 
-    <p>Bonjour,</p>
-
-    <p>
-        Votre ambition affichée de devenir le partenaire Google Cloud numéro 1 en France n'est pas passée inaperçue. J'observe avec intérêt l'hypercroissance d'Aceo Tech depuis deux ans, et en particulier votre capacité à allier une expertise technique pointue ("Pure Player") à une culture humaine forte basée sur l'entraide. Dans un marché des ESN souvent standardisé, votre volonté de transformer les métiers "sans le blabla" résonne particulièrement avec ma vision du conseil.
-    </p>
-
-    <div class="highlight">
-        "L'année dernière, face à un client industriel paralysé par des données silotées, j'ai piloté une migration complexe vers BigQuery en moins de 3 mois. Résultat : un temps de traitement réduit de 30% et une prise de décision en temps réel pour leurs équipes logistiques."
+    <div class="grid-section">
+        <div class="card">
+            <h3>Inflation (Estimée)</h3>
+            <div class="number">~40%</div>
+            <div class="trend negative">▲ Très Élevée</div>
+            <small>Volatilité annuelle forte</small>
+        </div>
+        <div class="card">
+            <h3>Monnaie (Rial)</h3>
+            <div class="number">↘</div>
+            <div class="trend negative">Forte Dévaluation</div>
+            <small>Face au Dollar USD</small>
+        </div>
+        <div class="card">
+            <h3>Chômage Jeunes</h3>
+            <div class="number">~15%+</div>
+            <div class="trend neutral">Structurel</div>
+            <small>Taux officiel sous-estimé</small>
+        </div>
     </div>
 
-    <p>
-        Au-delà de la maîtrise technique de la suite GCP (certifié Professional Data Engineer), c'est cette capacité à traduire la technologie en performance business que je souhaite vous apporter. Mon parcours m'a appris qu'une migration réussie ne se limite pas à l'architecture, mais réside dans l'accompagnement des utilisateurs finaux, une philosophie qui semble être au cœur de l'excellence opérationnelle prônée par Aceo.
-    </p>
+    <div class="content-row">
+        <div class="column">
+            <h2>Piliers & Défis</h2>
+            
+            <div class="bar-chart-item">
+                <div class="bar-label">
+                    <span>Dépendance aux Hydrocarbures</span>
+                    <span>Élevée</span>
+                </div>
+                <div class="bar-bg">
+                    <div class="bar-fill oil"></div>
+                </div>
+            </div>
 
-    <p>
-        Rejoindre Aceo Tech aujourd'hui, ce n'est pas seulement intégrer un cabinet d'experts, c'est devenir un "Acéen" actif dans le partage de connaissances. Je suis enthousiaste à l'idée de contribuer à cette dynamique collective, que ce soit sur vos projets d'IA générative (Gemini) ou en participant à la montée en compétence des équipes juniors.
-    </p>
+            <div class="bar-chart-item">
+                <div class="bar-label">
+                    <span>Impact des Sanctions</span>
+                    <span>Critique</span>
+                </div>
+                <div class="bar-bg">
+                    <div class="bar-fill inflation" style="width: 90%;"></div>
+                </div>
+            </div>
 
-    <div class="cta">
-        <p>Je serais ravi de vous détailler de vive voix comment mon énergie peut servir votre croissance.</p>
-        <a href="mailto:recrutement@aceo-tech.com" class="cta-button">Discutons-en mardi prochain ?</a>
+            <p style="font-size: 0.9rem; color: #666; margin-top: 15px;">
+                L'économie reste dominée par le secteur pétrolier et gazier, bien que les sanctions limitent l'accès aux marchés internationaux et aux technologies.
+            </p>
+        </div>
+
+        <div class="column">
+            <h2>Répartition Sectorielle</h2>
+            <div class="pie-container">
+                <div class="pie-chart"></div>
+                <div class="pie-legend">
+                    <ul>
+                        <li><span class="dot" style="background:var(--dark-blue)"></span>Hydrocarbures & Ind.</li>
+                        <li><span class="dot" style="background:var(--iran-green)"></span>Agriculture</li>
+                        <li><span class="dot" style="background:#f39c12"></span>Services</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="font-size: 0.8rem; text-align: center; margin-top: 10px; color:#888;">
+                *Estimation approximative de la part dans le PIB
+            </p>
+        </div>
     </div>
 
-    <div class="signature">
-        Thomas Dupont
+    <div class="challenges">
+        <h3>⚠️ Facteurs de Risque Majeurs</h3>
+        <ul>
+            <li><strong>Sanctions Internationales :</strong> Restrictions bancaires (SWIFT) et limitation des exportations.</li>
+            <li><strong>Système Bancaire :</strong> Isolément financier et problèmes de liquidités.</li>
+            <li><strong>Environnement :</strong> Crises de l'eau affectant l'agriculture.</li>
+            <li><strong>Taux de change :</strong> Le marché parallèle (marché noir) dicte souvent les prix réels.</li>
+        </ul>
     </div>
 
+    <footer>
+        Données à titre indicatif - Basées sur les tendances économiques récentes.<br>
+        Généré par IA
+    </footer>
 </div>
 
 </body>
