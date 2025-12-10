@@ -1,461 +1,659 @@
 <!DOCTYPE html>
-<html lang="fr-FR">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parlez-Moi d'Autisme - Style Brut & Résilience</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik+Beastly&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
+    <title>Parlez-Moi d'Autisme - Association de Soutien</title>
     <style>
-        /* --- CHARTE GRAPHIQUE "SESOW" --- */
-        :root {
-            --canvas-black: #0a0a0a; /* Fond noir profond */
-            --raw-red: #ff003c; /* Rouge vif, presque fluo */
-            --neon-yellow: #eaff00; /* Jaune acide */
-            --electric-blue: #0044ff; /* Bleu intense */
-            --dirty-white: #e0e0e0; /* Blanc cassé */
-            
-            --border-paint: 4px solid var(--canvas-black);
-            --shadow-thick: 8px 8px 0px var(--raw-red);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
         body {
-            font-family: 'JetBrains Mono', monospace;
-            background-color: var(--canvas-black);
-            color: var(--dirty-white);
-            line-height: 1.5;
+            font-family: 'Arial Black', 'Impact', sans-serif;
+            background: linear-gradient(135deg, #FF006E, #8338EC, #3A86FF, #FFBE0B);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: #000;
             overflow-x: hidden;
-            /* Texture de fond bruitée et griffée */
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
         }
 
-        h1, h2, h3 {
-            font-family: 'Rubik Beastly', cursive;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--neon-yellow);
-            text-shadow: 3px 3px 0px var(--raw-red);
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        a { text-decoration: none; color: inherit; transition: 0.2s; }
-        ul { list-style: none; }
-
-        /* Effet de bord déchiré / peinture épaisse */
-        .torn-edge {
-            clip-path: polygon(0% 2%, 5% 0%, 10% 3%, 15% 0%, 20% 2%, 25% 0%, 30% 3%, 35% 0%, 40% 2%, 45% 0%, 50% 3%, 55% 0%, 60% 2%, 65% 0%, 70% 3%, 75% 0%, 80% 2%, 85% 0%, 90% 3%, 95% 0%, 100% 2%, 100% 98%, 95% 100%, 90% 97%, 85% 100%, 80% 98%, 75% 100%, 70% 97%, 65% 100%, 60% 98%, 55% 100%, 50% 97%, 45% 100%, 40% 98%, 35% 100%, 30% 97%, 25% 100%, 20% 98%, 15% 100%, 10% 97%, 5% 100%, 0% 98%);
-        }
-
-        /* --- HEADER --- */
+        /* Header avec style chaotique */
         header {
-            background: var(--raw-red);
-            padding: 15px 0;
-            border-bottom: 5px dashed var(--canvas-black);
+            background: linear-gradient(45deg, #FF006E, #FB5607);
+            padding: 20px;
             position: relative;
+            overflow: hidden;
+            border-bottom: 8px solid #000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.1) 10px,
+                rgba(255,255,255,0.1) 20px
+            );
+            animation: headerPattern 20s linear infinite;
         }
 
-        .nav-wrapper {
+        @keyframes headerPattern {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .logo-container {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 20px;
+            position: relative;
+            z-index: 10;
+            animation: float 3s ease-in-out infinite;
         }
 
-        .brand {
-            font-family: 'Rubik Beastly';
-            font-size: 2rem;
-            color: var(--canvas-black);
-            background: var(--neon-yellow);
-            padding: 5px 20px;
-            transform: rotate(-3deg);
-            border: 3px solid black;
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(-2deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
         }
 
-        .main-nav ul { display: flex; gap: 30px; align-items: center; }
-        
-        .nav-link {
-            font-weight: 700;
-            text-transform: uppercase;
-            background: var(--canvas-black);
-            padding: 5px 10px;
-            border: 2px solid var(--neon-yellow);
+        .logo {
+            width: 100px;
+            height: 100px;
+            border: 5px solid #FFBE0B;
+            border-radius: 20px;
+            transform: rotate(-5deg);
+            box-shadow: 5px 5px 0 #000, 10px 10px 0 #FFBE0B;
+            transition: all 0.3s ease;
         }
 
-        .nav-link:hover {
-            background: var(--neon-yellow);
-            color: var(--canvas-black);
-            transform: scale(1.1) rotate(2deg);
+        .logo:hover {
+            transform: rotate(5deg) scale(1.1);
+            box-shadow: -5px 5px 0 #000, -10px 10px 0 #3A86FF;
         }
 
-        .btn-raw {
-            background: var(--electric-blue);
-            color: var(--neon-yellow);
-            border: 3px solid var(--canvas-black);
-            padding: 10px 25px;
-            font-family: 'Rubik Beastly';
-            font-size: 1.2rem;
-            box-shadow: 5px 5px 0px var(--canvas-black);
+        h1 {
+            font-size: 3em;
+            color: #FFFF00;
+            text-shadow: 4px 4px 0 #000, 8px 8px 0 #8338EC;
+            transform: skew(-5deg);
+            animation: titlePulse 2s ease-in-out infinite;
         }
 
-        .btn-raw:hover {
-            background: var(--neon-yellow);
-            color: var(--raw-red);
-            transform: translate(3px, 3px);
-            box-shadow: 2px 2px 0px var(--canvas-black);
+        @keyframes titlePulse {
+            0%, 100% { transform: skew(-5deg) scale(1); }
+            50% { transform: skew(5deg) scale(1.02); }
         }
 
-        /* --- HERO SECTION --- */
-        .hero {
-            padding: 80px 0;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: center;
+        .tagline {
+            font-size: 1.2em;
+            color: #FFF;
+            background: #000;
+            padding: 10px 20px;
+            display: inline-block;
+            transform: rotate(-2deg);
+            border: 3px solid #FFBE0B;
+            margin-top: 10px;
+        }
+
+        /* Navigation chaotique */
+        nav {
+            background: #000;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 5px solid #FF006E;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            list-style: none;
+        }
+
+        nav li {
             position: relative;
         }
 
-        /* Tâches de peinture en fond */
+        nav a {
+            display: block;
+            padding: 20px 30px;
+            color: #FFFF00;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            border-right: 2px solid #8338EC;
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #FF006E, #FFBE0B);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        nav a:hover::before {
+            left: 0;
+        }
+
+        nav a:hover {
+            color: #000;
+            transform: scale(1.1) rotate(-2deg);
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* Section Hero avec portraits */
+        .hero {
+            background: linear-gradient(135deg, #FFBE0B, #FF006E);
+            padding: 60px;
+            border: 8px solid #000;
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 15px 15px 0 #000, 30px 30px 0 rgba(131, 56, 236, 0.5);
+            margin-bottom: 40px;
+        }
+
         .hero::before {
             content: '';
             position: absolute;
-            top: 10%; left: -10%;
-            width: 400px; height: 400px;
-            background: var(--raw-red);
-            filter: blur(80px);
-            opacity: 0.4;
-            z-index: -1;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 50px,
+                rgba(0,0,0,0.1) 50px,
+                rgba(0,0,0,0.1) 52px
+            );
+            pointer-events: none;
         }
-        .hero::after {
+
+        .portraits {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .portrait {
+            position: relative;
+            animation: portraitBounce 3s ease-in-out infinite;
+        }
+
+        .portrait:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes portraitBounce {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .portrait img {
+            width: 250px;
+            height: 250px;
+            border: 8px solid #000;
+            border-radius: 50%;
+            box-shadow: 10px 10px 0 #FFFF00, 20px 20px 0 #3A86FF;
+            transition: all 0.3s ease;
+            filter: contrast(1.2) saturate(1.5);
+        }
+
+        .portrait:hover img {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: -10px 10px 0 #FF006E, -20px 20px 0 #8338EC;
+        }
+
+        .portrait figcaption {
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #FFF;
+            background: #000;
+            padding: 10px;
+            margin-top: 15px;
+            border: 3px solid #FFFF00;
+            transform: rotate(-2deg);
+        }
+
+        /* Sections de contenu expressives */
+        .content-section {
+            background: #FFF;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 8px solid #000;
+            position: relative;
+            box-shadow: 10px 10px 0 #FF006E, 20px 20px 0 rgba(0,0,0,0.3);
+            animation: sectionFloat 4s ease-in-out infinite;
+        }
+
+        .content-section:nth-child(even) {
+            box-shadow: -10px 10px 0 #3A86FF, -20px 20px 0 rgba(0,0,0,0.3);
+            animation-delay: 1s;
+        }
+
+        @keyframes sectionFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-5px) rotate(1deg); }
+        }
+
+        .content-section::before {
             content: '';
             position: absolute;
-            bottom: 10%; right: -10%;
-            width: 300px; height: 300px;
-            background: var(--electric-blue);
-            filter: blur(80px);
-            opacity: 0.4;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: repeating-linear-gradient(
+                45deg,
+                #FFBE0B,
+                #FFBE0B 10px,
+                #FF006E 10px,
+                #FF006E 20px
+            );
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        h2 {
+            font-size: 2.5em;
+            color: #FF006E;
+            text-shadow: 3px 3px 0 #000, 6px 6px 0 #FFBE0B;
+            margin-bottom: 20px;
+            transform: skew(-3deg);
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #FFFF00, #3A86FF);
+            border: 4px solid #000;
+        }
+
+        h3 {
+            font-size: 1.8em;
+            color: #8338EC;
+            margin: 30px 0 15px;
+            text-decoration: underline wavy #FFBE0B;
+            text-underline-offset: 8px;
+        }
+
+        p, li {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #000;
+        }
+
+        strong {
+            color: #FF006E;
+            background: #FFFF00;
+            padding: 2px 8px;
+            border: 2px solid #000;
+        }
+
+        /* Listes stylisées */
+        ul, ol {
+            margin-left: 40px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        ul li::marker {
+            content: '▶';
+            color: #FF006E;
+            font-size: 1.2em;
+        }
+
+        /* Valeurs avec style punk */
+        .values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .value-card {
+            background: linear-gradient(135deg, #8338EC, #3A86FF);
+            padding: 30px;
+            border: 6px solid #000;
+            border-radius: 20px;
+            box-shadow: 8px 8px 0 #FFBE0B;
+            transition: all 0.3s ease;
+            animation: cardPulse 3s ease-in-out infinite;
+        }
+
+        .value-card:nth-child(2) {
+            background: linear-gradient(135deg, #FF006E, #FB5607);
+            animation-delay: 0.5s;
+        }
+
+        .value-card:nth-child(3) {
+            background: linear-gradient(135deg, #FFBE0B, #FF006E);
+            animation-delay: 1s;
+        }
+
+        @keyframes cardPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.02) rotate(1deg); }
+        }
+
+        .value-card:hover {
+            transform: scale(1.05) rotate(-2deg) !important;
+            box-shadow: -8px 8px 0 #FF006E;
+        }
+
+        .value-card h3 {
+            color: #FFFF00;
+            text-shadow: 3px 3px 0 #000;
+            text-decoration: none;
+            margin-bottom: 15px;
+        }
+
+        .value-card p {
+            color: #FFF;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        /* Contact chaotique */
+        .contact-info {
+            background: #000;
+            color: #FFFF00;
+            padding: 40px;
+            border: 8px solid #FF006E;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 1.5em;
+            box-shadow: 0 0 30px rgba(255, 0, 110, 0.5);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 0, 110, 0.5); }
+            50% { box-shadow: 0 0 60px rgba(255, 0, 110, 0.8); }
+        }
+
+        .contact-info a {
+            color: #3A86FF;
+            text-decoration: none;
+            border-bottom: 3px solid #FFBE0B;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: #FFFF00;
+            border-bottom-color: #FF006E;
+        }
+
+        /* Footer énergique */
+        footer {
+            background: #000;
+            color: #FFFF00;
+            padding: 40px;
+            text-align: center;
+            border-top: 8px solid #FF006E;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #3A86FF;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #FFBE0B;
+            text-shadow: 0 0 10px #FFBE0B;
+        }
+
+        /* Animations interactives */
+        .interactive-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
             z-index: -1;
         }
 
-        .hero-title {
-            font-size: 4rem;
-            line-height: 0.9;
-            margin-bottom: 20px;
-            color: var(--dirty-white);
-            text-shadow: 4px 4px 0px var(--electric-blue);
-        }
-
-        .hero-title span {
-            color: var(--raw-red);
-            background: var(--neon-yellow);
-            padding: 0 10px;
-            border: 3px solid black;
-            display: inline-block;
-            transform: skewX(-5deg);
-        }
-
-        .hero-desc {
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            background: var(--canvas-black);
-            border: 2px solid var(--electric-blue);
-            padding: 20px;
-            box-shadow: var(--shadow-thick);
-        }
-
-        /* TRAITEMENT DES IMAGES STYLE SESOW */
-        .collage-wrapper {
-            position: relative;
-            height: 450px;
-        }
-
-        .photo-paint {
+        .shape {
             position: absolute;
-            width: 260px;
-            border: 5px solid var(--canvas-black);
-            padding: 10px;
-            background: var(--neon-yellow);
-            box-shadow: 10px 10px 0px var(--electric-blue);
-            transition: 0.3s;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            animation: floatShapes 20s linear infinite;
         }
 
-        /* Filtres pour un look "peinture saturée/abîmée" */
-        .photo-paint img {
-            width: 100%;
-            filter: contrast(150%) saturate(150%) brightness(0.9) sepia(20%);
-            border: 2px solid var(--canvas-black);
-            mix-blend-mode: hard-light; /* Incrustation dans le fond jaune */
+        .shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 0, 110, 0.3);
+            top: 10%;
+            left: 10%;
+            border-radius: 50%;
         }
 
-        .p1 { 
-            top: 0; left: 20px; 
-            transform: rotate(-5deg); 
-            z-index: 2;
-        }
-        .p1::after { /* Effet de coulure */
-            content: ''; position: absolute; bottom: -20px; left: 20px; width: 50px; height: 60px;
-            background: var(--neon-yellow); clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
-        }
-        
-        .p2 { 
-            top: 150px; right: 20px; 
-            transform: rotate(8deg); 
-            z-index: 1;
-            background: var(--raw-red);
-            box-shadow: -10px 10px 0px var(--canvas-black);
+        .shape:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            background: rgba(131, 56, 236, 0.3);
+            top: 60%;
+            left: 80%;
+            transform: rotate(45deg);
+            animation-delay: 5s;
         }
 
-        .collage-wrapper:hover .p1 { transform: rotate(-8deg) scale(1.05); z-index: 3; }
-        .collage-wrapper:hover .p2 { transform: rotate(5deg) scale(1.05); z-index: 3; }
-
-        /* --- MARQUEE (BANDE DÉFILANTE) --- */
-        .marquee-container {
-            background: var(--neon-yellow);
-            color: var(--canvas-black);
-            padding: 15px 0;
-            overflow: hidden;
-            border-top: 5px solid var(--raw-red);
-            border-bottom: 5px solid var(--raw-red);
-            transform: rotate(2deg) scale(1.05);
-            margin: 60px 0;
-            font-family: 'Rubik Beastly';
+        .shape:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 190, 11, 0.3);
+            top: 30%;
+            left: 60%;
+            border-radius: 30%;
+            animation-delay: 10s;
         }
 
-        .marquee-content {
-            display: flex;
-            gap: 50px;
-            white-space: nowrap;
-            animation: scroll 15s linear infinite;
+        @keyframes floatShapes {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-50px) rotate(180deg); }
+            100% { transform: translateY(0) rotate(360deg); }
         }
 
-        .marquee-item { font-size: 1.8rem; }
-        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
 
-        /* --- MANIFESTO (CARTES) --- */
-        .manifesto { padding: 60px 0; }
-        
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-top: 40px;
-        }
+            .portraits {
+                flex-direction: column;
+                align-items: center;
+            }
 
-        .card-paint {
-            background: var(--electric-blue);
-            padding: 5px; /* Bordure colorée */
-            box-shadow: var(--shadow-thick);
-            transform: rotate(var(--rotation));
-            transition: 0.3s;
-        }
+            .portrait img {
+                width: 200px;
+                height: 200px;
+            }
 
-        .card-inner {
-            background: var(--canvas-black);
-            border: 3px solid var(--neon-yellow);
-            padding: 25px;
-            height: 100%;
-        }
+            nav a {
+                padding: 15px 20px;
+                font-size: 1em;
+            }
 
-        .card-paint:hover {
-            transform: rotate(0deg) scale(1.05);
-            box-shadow: 12px 12px 0px var(--neon-yellow);
-            z-index: 10;
-        }
+            .content-section {
+                padding: 20px;
+            }
 
-        .card-paint h3 { color: var(--neon-yellow); text-shadow: 2px 2px 0px var(--electric-blue); margin-bottom: 15px; }
-
-        /* --- CONFRONTATION (DO/DON'T) --- */
-        .confrontation {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            margin-top: 80px;
-            border: 5px solid var(--canvas-black);
-        }
-
-        .side { padding: 60px 40px; }
-        
-        .side-yes {
-            background: var(--neon-yellow);
-            color: var(--canvas-black);
-            /* Texture hachurée */
-            background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px);
-        }
-
-        .side-no {
-            background: var(--raw-red);
-            color: var(--neon-yellow);
-             /* Texture hachurée inverse */
-            background-image: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(0,0,0,0.2) 10px, rgba(0,0,0,0.2) 20px);
-        }
-
-        .list-check li {
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            padding-left: 35px;
-            position: relative;
-            font-weight: 700;
-        }
-
-        .side-yes .list-check li::before {
-            content: 'OUI';
-            position: absolute; left: 0;
-            font-family: 'Rubik Beastly'; color: var(--electric-blue);
-        }
-
-        .side-no .list-check li::before {
-            content: 'NON';
-            position: absolute; left: 0;
-            font-family: 'Rubik Beastly'; color: var(--canvas-black);
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            padding: 80px 0;
-            text-align: center;
-            background: var(--canvas-black);
-            border-top: 10px solid var(--electric-blue);
-            margin-top: 50px;
-        }
-
-        .cta-box {
-            background: var(--dirty-white);
-            color: var(--canvas-black);
-            padding: 40px;
-            display: inline-block;
-            transform: rotate(-2deg);
-            border: 5px solid var(--raw-red);
-            box-shadow: 10px 10px 0px var(--neon-yellow);
-        }
-
-        .big-contact {
-            font-size: 2.5rem;
-            font-family: 'Rubik Beastly';
-            color: var(--raw-red);
-            display: block;
-            margin: 20px 0;
-        }
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 900px) {
-            .hero { grid-template-columns: 1fr; }
-            .hero-title { font-size: 3rem; }
-            .collage-wrapper { height: 400px; margin-top: 50px; }
-            .p1 { left: 50%; transform: translateX(-60%) rotate(-5deg); }
-            .p2 { right: 50%; transform: translateX(60%) rotate(8deg); }
-            .nav-wrapper { flex-direction: column; gap: 20px; }
-            .main-nav ul { gap: 15px; font-size: 0.8rem; flex-wrap: wrap; justify-content: center; }
-            .confrontation { grid-template-columns: 1fr; }
+            h2 {
+                font-size: 2em;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="interactive-bg">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
 
-    <header class="torn-edge">
-        <div class="container nav-wrapper">
-            <a href="#" class="brand">PMDA.</a>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#" class="nav-link">Manifeste</a></li>
-                    <li><a href="#" class="nav-link">Actions</a></li>
-                    <li><a href="#" class="nav-link">Projets</a></li>
-                    <li><a href="#" class="btn-raw">FAIRE UN DON</a></li>
-                </ul>
-            </nav>
+    <header>
+        <div class="logo-container">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%23FF006E' width='100' height='100'/%3E%3Cpath fill='%23FFFF00' d='M30,50 Q50,20 70,50 Q50,80 30,50'/%3E%3C/svg%3E" alt="Logo PMDA" class="logo">
+            <div>
+                <h1>"PARLEZ-MOI D'AUTISME"</h1>
+                <div class="tagline">Association de soutien aux familles</div>
+            </div>
         </div>
     </header>
 
-    <section class="container hero">
-        <div class="hero-content">
-            <h1 class="hero-title">COMPRENDRE.<br>SOUTENIR.<br><span>VIVRE AVEC.</span></h1>
-            <div class="hero-desc torn-edge">
-                <p>L'autisme n'est pas une tragédie, c'est une différence. <strong>Parlez-Moi d'Autisme</strong> est l'association qui brise les codes, écoute les familles et refuse l'isolement avec une énergie brute.</p>
-            </div>
-            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                <a href="tel:0631909145" class="btn-raw" style="background: var(--neon-yellow); color: var(--canvas-black);">NOUS APPELER</a>
-                <a href="#" class="btn-raw" style="background: var(--raw-red); color: var(--neon-yellow);">NOS ACTIONS</a>
-            </div>
-        </div>
+    <nav>
+        <ul>
+            <li><a href="#accueil">ACCUEIL</a></li>
+            <li><a href="#actions">NOS ACTIONS</a></li>
+            <li><a href="#infos">INFOS UTILES</a></li>
+            <li><a href="#contact">CONTACT</a></li>
+            <li><a href="#don">FAIRE UN DON</a></li>
+        </ul>
+    </nav>
 
-        <div class="collage-wrapper">
-            <div class="photo-paint p1">
-                <img src="https://www.pmda.asso.fr/wp-content/uploads/Maxime-portrait-2025-300x300.jpg" alt="Maxime">
+    <div class="container">
+        <section class="hero" id="accueil">
+            <div class="portraits">
+                <figure class="portrait">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 250 250'%3E%3Ccircle fill='%233A86FF' cx='125' cy='125' r='125'/%3E%3Ccircle fill='%23FF006E' cx='100' cy='100' r='20'/%3E%3Ccircle fill='%23FF006E' cx='150' cy='100' r='20'/%3E%3Cpath stroke='%23000' stroke-width='5' fill='none' d='M70,150 Q125,180 180,150'/%3E%3C/svg%3E" alt="Maxime">
+                    <figcaption>MAXIME</figcaption>
+                </figure>
+                <figure class="portrait">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 250 250'%3E%3Ccircle fill='%23FFBE0B' cx='125' cy='125' r='125'/%3E%3Ccircle fill='%238338EC' cx='100' cy='100' r='20'/%3E%3Ccircle fill='%238338EC' cx='150' cy='100' r='20'/%3E%3Cpath stroke='%23000' stroke-width='5' fill='none' d='M70,150 Q125,180 180,150'/%3E%3C/svg%3E" alt="Julien">
+                    <figcaption>JULIEN</figcaption>
+                </figure>
             </div>
-            <div class="photo-paint p2">
-                <img src="https://www.pmda.asso.fr/wp-content/uploads/Julien-portrait-2025-300x300.jpg" alt="Julien">
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <div class="marquee-container">
-        <div class="marquee-content">
-            <div class="marquee-item">LIBERTÉ // ÉGALITÉ // FRATERNITÉ // AUTONOMIE // ÉQUITÉ // SOLIDARITÉ +++ </div>
-            <div class="marquee-item">LIBERTÉ // ÉGALITÉ // FRATERNITÉ // AUTONOMIE // ÉQUITÉ // SOLIDARITÉ +++ </div>
-        </div>
+        <section class="content-section">
+            <h2>NOS VALEURS</h2>
+            <div class="values">
+                <div class="value-card">
+                    <h3>LIBERTÉ / AUTONOMIE</h3>
+                    <p><strong>La liberté</strong> c'est pouvoir agir sans contraintes et exercer son libre arbitre.</p>
+                    <p><strong>L'autonomie</strong> c'est se gouverner soi-même et interagir en toute indépendance.</p>
+                </div>
+                <div class="value-card">
+                    <h3>ÉGALITÉ / ÉQUITÉ</h3>
+                    <p><strong>L'égalité</strong> c'est procurer les mêmes chances à chacun sans discrimination.</p>
+                    <p><strong>L'équité</strong> c'est s'adapter aux différences et aux besoins individuels.</p>
+                </div>
+                <div class="value-card">
+                    <h3>FRATERNITÉ / SOLIDARITÉ</h3>
+                    <p><strong>La fraternité</strong> c'est l'amour universel qui unit tous les humains.</p>
+                    <p><strong>La solidarité</strong> implique une obligation morale d'entraide.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section" id="actions">
+            <h2>NOTRE MISSION</h2>
+            <p>Notre Association <strong>« Parlez-Moi d'Autisme »</strong> propose aux familles d'enfants ou d'adultes Autistes un soutien moral et des conseils pour mieux vivre avec ce handicap.</p>
+            
+            <h3>CE QUE NOUS PROPOSONS :</h3>
+            <ul>
+                <li><strong>ÉCOUTE & ACCUEIL</strong> - Rendez-vous avec les familles, groupes de parole</li>
+                <li><strong>TÉMOIGNAGE</strong> - Partage d'expérience de parents d'enfants autistes</li>
+                <li><strong>CONSEIL & ORIENTATION</strong> - Adresses utiles, dépistage, spécialistes</li>
+                <li><strong>INFORMATION</strong> - Sensibilisation sur l'autisme auprès de différents publics</li>
+                <li><strong>MISE EN RELATION</strong> - Entre familles et avec les professionnels</li>
+            </ul>
+
+            <h3>CE QUE NOUS NE FAISONS PAS :</h3>
+            <ul>
+                <li>Aider à trouver une structure de prise en charge</li>
+                <li>Choisir une méthode ou proposer des éducateurs</li>
+                <li>Faire un diagnostic (aucun conseil médical)</li>
+                <li>Être une structure d'accueil</li>
+            </ul>
+        </section>
+
+        <section class="content-section contact-info" id="contact">
+            <h2>CONTACTEZ-NOUS !</h2>
+            <p>📞 Tel : <strong>06 31 90 91 45</strong><br>(9h00 - 20h00 / Lun - Sam)</p>
+            <p>✉️ Email : <a href="mailto:autisme.pmda@gmail.com">autisme.pmda@gmail.com</a></p>
+        </section>
     </div>
 
-    <section class="container manifesto">
-        <h2 style="font-size: 3rem; text-align: center; color: var(--neon-yellow);">NOS 3 PILIERS D'ACTION</h2>
-        
-        <div class="grid-3">
-            <div class="card-paint torn-edge" style="--rotation: -3deg;">
-                <div class="card-inner">
-                    <h3>01. ÉCOUTE BRUTE</h3>
-                    <p>Pas de filtre institutionnel. Des bénévoles au bout du fil (06 31 90 91 45) qui savent ce que vous vivez, parce qu'ils le vivent aussi dans leur chair.</p>
-                </div>
-            </div>
-            <div class="card-paint torn-edge" style="background: var(--raw-red); --rotation: 2deg;">
-                 <div class="card-inner" style="border-color: var(--canvas-black);">
-                    <h3>02. PARTAGE VITAL</h3>
-                    <p>Rompre l'isolement. Groupes de parole, rencontres physiques. On partage la réalité du terrain, sans édulcorer.</p>
-                </div>
-            </div>
-            <div class="card-paint torn-edge" style="background: var(--neon-yellow); --rotation: -1deg;">
-                 <div class="card-inner" style="border-color: var(--raw-red); color: var(--canvas-black);">
-                    <h3 style="color: var(--raw-red); text-shadow: none;">03. ORIENTATION</h3>
-                    <p>Dépistage, structures... Nous vous donnons les clés pour naviguer dans le labyrinthe administratif et médical. On ne vous lâche pas.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="confrontation">
-        <div class="side side-yes">
-            <h2 style="color: var(--canvas-black); text-shadow: none;">CE QUE NOUS FAISONS</h2>
-            <ul class="list-check">
-                <li>Partager notre expérience de parents "experts du quotidien".</li>
-                <li>Vous orienter vers les bons spécialistes locaux.</li>
-                <li>Sensibiliser les écoles et les entreprises avec force.</li>
-                <li>Créer du lien solide entre les familles.</li>
-            </ul>
-        </div>
-        <div class="side side-no">
-            <h2 style="color: var(--neon-yellow);">CE QUE NOUS NE SOMMES PAS</h2>
-            <ul class="list-check">
-                <li>Nous ne sommes pas médecins (pas de diagnostic).</li>
-                <li>Nous ne sommes pas une institution d'accueil.</li>
-                <li>Nous ne recrutons pas d'éducateurs pour vous.</li>
-                <li>Nous ne jugeons jamais vos choix éducatifs.</li>
-            </ul>
-        </div>
-    </section>
-
     <footer>
-        <div class="cta-box">
-            <h2 style="color: var(--canvas-black); text-shadow: none; font-size: 1.5rem;">BESOIN D'AIDE ?</h2>
-            <a href="tel:0631909145" class="big-contact">06 31 90 91 45</a>
-            <p style="font-weight: bold;">LUN - SAM / 9H - 20H</p>
-            
-            <div style="margin-top: 30px;">
-                <a href="mailto:autisme.pmda@gmail.com" class="btn-raw" style="font-size: 1rem;">EMAIL</a>
-            </div>
-        </div>
-        <p style="margin-top: 50px; font-size: 0.8rem; color: var(--dirty-white);">© 2025 PMDA. STYLE ART BRUT / RÉSILIENCE.</p>
+        <p>Copyright © 2025 "Parlez-Moi d'Autisme"</p>
+        <p><a href="#mentions">Mentions Légales</a></p>
     </footer>
 
+    <script>
+        // Animation interactive au survol
+        document.querySelectorAll('.value-card, .content-section').forEach(el => {
+            el.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05) rotate(' + (Math.random() * 4 - 2) + 'deg)';
+            });
+            el.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+        });
+
+        // Animation de parallaxe simple
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            document.querySelectorAll('.shape').forEach((shape, index) => {
+                const speed = 0.5 + (index * 0.2);
+                shape.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.1}deg)`;
+            });
+        });
+
+        // Effet de pulsation sur les éléments au clic
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('click', function(e) {
+                this.style.animation = 'none';
+                setTimeout(() => {
+                    this.style.animation = '';
+                }, 10);
+            });
+        });
+    </script>
 </body>
 </html>
