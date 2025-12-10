@@ -1,16 +1,22 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr-FR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infographie : L'Économie de l'Iran</title>
+    <title>Parlez-Moi d'Autisme - Association de soutien</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
     <style>
+        /* --- VARIABLES & RESET --- */
         :root {
-            --iran-green: #239f40;
-            --iran-red: #da0000;
-            --dark-blue: #2c3e50;
-            --light-gray: #f4f7f6;
-            --text-color: #333;
+            --primary-color: #046bd2; /* Bleu institutionnel */
+            --accent-color: #3faceb; /* Bleu ciel vif */
+            --bg-color: #f4f9fc; /* Fond très clair apaisant */
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --shadow: 0 10px 30px -10px rgba(4, 107, 210, 0.15);
+            --radius: 16px;
         }
 
         * {
@@ -20,301 +26,416 @@
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: #eef2f3;
-            color: var(--text-color);
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
             line-height: 1.6;
-            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary-color);
+        }
+
+        a { text-decoration: none; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- HEADER MODERNE --- */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            padding: 0.5rem 0;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border-radius: 12px;
-            overflow: hidden;
+            padding: 0 20px;
         }
 
-        /* HEADER */
-        header {
-            background: linear-gradient(135deg, var(--iran-green) 0%, #1e8e36 100%);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            position: relative;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        /* Separator Flag Colors */
-        .flag-line {
-            height: 6px;
-            width: 100%;
-            background: linear-gradient(to right, var(--iran-green) 33%, white 33%, white 66%, var(--iran-red) 66%);
-        }
-
-        /* GRID LAYOUT */
-        .grid-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 30px;
-        }
-
-        /* CARDS KPI */
-        .card {
-            background: var(--light-gray);
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            border-bottom: 4px solid var(--dark-blue);
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card h3 {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        .card .number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: var(--dark-blue);
-        }
-
-        .card .trend {
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-
-        .trend.negative { color: var(--iran-red); }
-        .trend.neutral { color: #f39c12; }
-
-        /* SECTIONS WITH CHARTS */
-        .content-row {
+        .nav-wrapper {
             display: flex;
-            flex-wrap: wrap;
-            padding: 0 30px 30px 30px;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-img {
+            height: 60px;
+            border-radius: 8px;
+        }
+
+        .logo-text h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--text-dark);
+        }
+
+        .logo-text span {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .main-nav ul {
+            display: flex;
             gap: 30px;
         }
 
-        .column {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        h2 {
-            border-left: 5px solid var(--iran-red);
-            padding-left: 10px;
-            margin-bottom: 20px;
-            color: var(--dark-blue);
-        }
-
-        /* BAR CHART CSS */
-        .bar-chart-item {
-            margin-bottom: 15px;
-        }
-        .bar-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
+        .main-nav a {
+            color: var(--text-dark);
             font-weight: 600;
-        }
-        .bar-bg {
-            background: #e0e0e0;
-            height: 12px;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-        .bar-fill {
-            height: 100%;
-            background: var(--iran-green);
-            border-radius: 6px;
-        }
-        .bar-fill.oil { background: var(--dark-blue); width: 85%; }
-        .bar-fill.inflation { background: var(--iran-red); width: 45%; } 
-        /* Note: Widths are illustrative percentages for CSS visuals */
-
-        /* PIE CHART CSS */
-        .pie-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-        }
-        .pie-chart {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            /* CSS Conic Gradient for Pie Chart */
-            background: conic-gradient(
-                var(--dark-blue) 0% 50%, /* Pétrole/Gaz */
-                var(--iran-green) 50% 65%, /* Agriculture */
-                #f39c12 65% 100% /* Services/Autre */
-            );
+            font-size: 0.95rem;
+            padding: 8px 0;
             position: relative;
         }
-        .pie-legend ul {
-            list-style: none;
+
+        .main-nav a:hover { color: var(--primary-color); }
+
+        .btn-don {
+            background-color: var(--accent-color);
+            color: var(--white) !important;
+            padding: 10px 25px !important;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(63, 172, 235, 0.3);
         }
-        .pie-legend li {
-            margin-bottom: 8px;
-            font-size: 0.9rem;
+        
+        .btn-don:hover {
+            transform: translateY(-2px);
+            background-color: var(--primary-color);
+        }
+
+        /* --- HERO SECTION (Portraits & Motto) --- */
+        .hero {
+            padding: 60px 0;
             display: flex;
             align-items: center;
-        }
-        .dot {
-            width: 12px;
-            height: 12px;
-            display: inline-block;
-            margin-right: 8px;
-            border-radius: 50%;
+            justify-content: space-between;
+            gap: 50px;
         }
 
-        /* CHALLENGES BOX */
-        .challenges {
-            background: #fff0f0;
-            border: 1px solid #ffcccc;
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+        .hero-title span { color: var(--primary-color); }
+
+        .motto-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .motto-card {
+            background: var(--white);
             padding: 20px;
-            border-radius: 8px;
-            margin: 0 30px 30px 30px;
-        }
-        .challenges h3 {
-            color: var(--iran-red);
-            margin-bottom: 10px;
-        }
-        .challenges ul {
-            padding-left: 20px;
-        }
-        .challenges li {
-            margin-bottom: 5px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--accent-color);
         }
 
-        /* FOOTER */
-        footer {
-            background: var(--dark-blue);
-            color: white;
+        .motto-card h3 { font-size: 1.1rem; margin-bottom: 5px; }
+        .motto-card p { font-size: 0.9rem; color: var(--text-light); }
+
+        .hero-images {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        .portrait {
+            width: 200px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .portrait:hover { transform: scale(1.02); }
+        .p-offset { margin-top: 50px; } /* Décale une image pour le style */
+
+        /* --- MISSION SECTION --- */
+        .mission {
+            background: var(--white);
+            padding: 80px 0;
+            margin-top: 40px;
+        }
+
+        .section-header {
             text-align: center;
-            padding: 15px;
-            font-size: 0.8rem;
+            max-width: 700px;
+            margin: 0 auto 50px;
         }
 
-        /* Responsive */
-        @media (max-width: 600px) {
-            header h1 { font-size: 1.8rem; }
-            .content-row { flex-direction: column; }
-            .pie-container { flex-direction: column; gap: 20px; }
+        .section-header h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--bg-color);
+            padding: 30px;
+            border-radius: var(--radius);
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            background: #eef6fc;
+        }
+
+        .icon-box {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .service-card h3 { margin-bottom: 10px; }
+
+        /* --- NOTRE APPROCHE (Ce qu'on fait / ne fait pas) --- */
+        .approach {
+            padding: 80px 0;
+        }
+        
+        .approach-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .approach-col {
+            padding: 40px;
+            border-radius: var(--radius);
+        }
+
+        .do-list {
+            background: #e0f2fe; /* Bleu très doux */
+            color: #0c4a6e;
+        }
+
+        .dont-list {
+            background: #fff1f2; /* Rouge très doux */
+            color: #881337;
+        }
+
+        .approach-col h3 {
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+            padding-bottom: 10px;
+        }
+
+        .check-list li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .do-list .check-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .dont-list .check-list li::before {
+            content: "✕";
+            position: absolute;
+            left: 0;
+            color: #e11d48;
+            font-weight: bold;
+        }
+
+        /* --- CONTACT BANNER --- */
+        .contact-banner {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: var(--white);
+            text-align: center;
+            padding: 60px 20px;
+            border-radius: var(--radius);
+            margin-bottom: 60px;
+        }
+
+        .contact-banner h2 { color: var(--white); }
+        .contact-banner a {
+            color: var(--white);
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--text-dark);
+            color: #94a3b8;
+            padding: 40px 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        footer a { color: var(--white); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .nav-wrapper { flex-direction: column; height: auto; padding: 20px 0; gap: 20px; }
+            .main-nav ul { flex-direction: column; align-items: center; gap: 15px; }
+            .hero { flex-direction: column-reverse; text-align: center; }
+            .hero-images { flex-direction: row; }
+            .approach-container { grid-template-columns: 1fr; }
+            .motto-grid { grid-template-columns: 1fr; text-align: left; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
     <header>
-        <h1>Panorama Économique</h1>
-        <p>République Islamique d'Iran - Situation Actuelle</p>
+        <div class="container nav-wrapper">
+            <div class="logo-area">
+                <img src="https://www.pmda.asso.fr/wp-content/uploads/mains-entete-200x99.png" alt="Logo PMDA" class="logo-img">
+                <div class="logo-text">
+                    <h1>"Parlez-Moi d'Autisme"</h1>
+                    <span>Soutien aux familles</span>
+                </div>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="https://www.pmda.asso.fr/nos-actions/">Nos Actions</a></li>
+                    <li><a href="https://www.pmda.asso.fr/projets/">Projets</a></li>
+                    <li><a href="https://www.pmda.asso.fr/contact/">Contact</a></li>
+                    <li><a href="https://www.pmda.asso.fr/faire-un-don/" class="btn-don">♥ Faire un don</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
-    <div class="flag-line"></div>
 
-    <div class="grid-section">
-        <div class="card">
-            <h3>Inflation (Estimée)</h3>
-            <div class="number">~40%</div>
-            <div class="trend negative">▲ Très Élevée</div>
-            <small>Volatilité annuelle forte</small>
-        </div>
-        <div class="card">
-            <h3>Monnaie (Rial)</h3>
-            <div class="number">↘</div>
-            <div class="trend negative">Forte Dévaluation</div>
-            <small>Face au Dollar USD</small>
-        </div>
-        <div class="card">
-            <h3>Chômage Jeunes</h3>
-            <div class="number">~15%+</div>
-            <div class="trend neutral">Structurel</div>
-            <small>Taux officiel sous-estimé</small>
-        </div>
-    </div>
-
-    <div class="content-row">
-        <div class="column">
-            <h2>Piliers & Défis</h2>
+    <section class="container hero">
+        <div class="hero-text">
+            <h2 class="hero-title">Aide et écoute pour les familles confrontées au <span>handicap</span>.</h2>
+            <p>Notre association accompagne les parents, les aidants et les proches pour mieux vivre avec l'autisme au quotidien.</p>
             
-            <div class="bar-chart-item">
-                <div class="bar-label">
-                    <span>Dépendance aux Hydrocarbures</span>
-                    <span>Élevée</span>
+            <div class="motto-grid">
+                <div class="motto-card">
+                    <h3>Liberté & Autonomie</h3>
+                    <p>Agir sans contrainte, exercer son libre arbitre et interagir en toute indépendance.</p>
                 </div>
-                <div class="bar-bg">
-                    <div class="bar-fill oil"></div>
+                <div class="motto-card">
+                    <h3>Égalité & Équité</h3>
+                    <p>Procurer à chacun les mêmes chances en s'adaptant aux différences individuelles.</p>
                 </div>
-            </div>
-
-            <div class="bar-chart-item">
-                <div class="bar-label">
-                    <span>Impact des Sanctions</span>
-                    <span>Critique</span>
-                </div>
-                <div class="bar-bg">
-                    <div class="bar-fill inflation" style="width: 90%;"></div>
+                <div class="motto-card">
+                    <h3>Fraternité & Solidarité</h3>
+                    <p>Un amour universel doublé d'une obligation morale d'entraide.</p>
                 </div>
             </div>
-
-            <p style="font-size: 0.9rem; color: #666; margin-top: 15px;">
-                L'économie reste dominée par le secteur pétrolier et gazier, bien que les sanctions limitent l'accès aux marchés internationaux et aux technologies.
-            </p>
         </div>
 
-        <div class="column">
-            <h2>Répartition Sectorielle</h2>
-            <div class="pie-container">
-                <div class="pie-chart"></div>
-                <div class="pie-legend">
-                    <ul>
-                        <li><span class="dot" style="background:var(--dark-blue)"></span>Hydrocarbures & Ind.</li>
-                        <li><span class="dot" style="background:var(--iran-green)"></span>Agriculture</li>
-                        <li><span class="dot" style="background:#f39c12"></span>Services</li>
-                    </ul>
+        <div class="hero-images">
+            <img src="https://www.pmda.asso.fr/wp-content/uploads/Maxime-portrait-2025-300x300.jpg" alt="Maxime" class="portrait">
+            <img src="https://www.pmda.asso.fr/wp-content/uploads/Julien-portrait-2025-300x300.jpg" alt="Julien" class="portrait p-offset">
+        </div>
+    </section>
+
+    <section class="mission">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nos Missions</h2>
+                <p>Nous ne sommes pas des médecins, mais des parents et des bénévoles engagés pour partager, écouter et orienter.</p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="icon-box">📞</div>
+                    <h3>Écoute & Accueil</h3>
+                    <p>Une ligne téléphonique tenue par des bénévoles (06 31 90 91 45) et des rendez-vous physiques pour les familles.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon-box">🤝</div>
+                    <h3>Témoignage</h3>
+                    <p>Partage d'expérience de parents d'enfants autistes pour rompre l'isolement.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon-box">📍</div>
+                    <h3>Orientation</h3>
+                    <p>Mise à disposition d'un carnet d'adresses utiles : dépistage, structures, activités adaptées.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon-box">📢</div>
+                    <h3>Sensibilisation</h3>
+                    <p>Interventions auprès du grand public, des écoles et des entreprises pour mieux faire comprendre l'autisme.</p>
                 </div>
             </div>
-            <p style="font-size: 0.8rem; text-align: center; margin-top: 10px; color:#888;">
-                *Estimation approximative de la part dans le PIB
-            </p>
         </div>
-    </div>
+    </section>
 
-    <div class="challenges">
-        <h3>⚠️ Facteurs de Risque Majeurs</h3>
-        <ul>
-            <li><strong>Sanctions Internationales :</strong> Restrictions bancaires (SWIFT) et limitation des exportations.</li>
-            <li><strong>Système Bancaire :</strong> Isolément financier et problèmes de liquidités.</li>
-            <li><strong>Environnement :</strong> Crises de l'eau affectant l'agriculture.</li>
-            <li><strong>Taux de change :</strong> Le marché parallèle (marché noir) dicte souvent les prix réels.</li>
-        </ul>
+    <section class="container approach">
+        <div class="approach-container">
+            <div class="approach-col do-list">
+                <h3>✅ Ce que nous proposons</h3>
+                <ul class="check-list">
+                    <li>Groupes de parole et écoute active.</li>
+                    <li>Partage d'expérience entre parents.</li>
+                    <li>Orientation vers les structures existantes.</li>
+                    <li>Mise en relation familles / professionnels.</li>
+                    <li>Information sur les droits et démarches.</li>
+                </ul>
+            </div>
+            <div class="approach-col dont-list">
+                <h3>❌ Ce que nous ne sommes pas</h3>
+                <ul class="check-list">
+                    <li>Nous ne faisons <strong>pas de diagnostic médical</strong>.</li>
+                    <li>Nous ne choisissons pas de méthode éducative à votre place.</li>
+                    <li>Nous ne recrutons pas d'éducateurs.</li>
+                    <li>Nous ne sommes pas un établissement d'accueil de jour.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="contact-banner">
+            <h2>Besoin de parler ? Une question ?</h2>
+            <p style="font-size: 1.2rem; margin: 20px 0;">Nous sommes là pour vous répondre.</p>
+            <p>Écrivez-nous à : <a href="mailto:autisme.pmda@gmail.com">autisme.pmda@gmail.com</a></p>
+            <p style="margin-top:10px">Ou par téléphone au <strong>06 31 90 91 45</strong> (Lun-Sam 9h-20h)</p>
+        </div>
     </div>
 
     <footer>
-        Données à titre indicatif - Basées sur les tendances économiques récentes.<br>
-        Généré par IA
+        <div class="container">
+            <p>&copy; 2025 Association "Parlez-Moi d'Autisme". Tous droits réservés.</p>
+            <p><a href="https://www.pmda.asso.fr/mentions-legales/">Mentions Légales</a> | Design repensé pour l'accessibilité.</p>
+        </div>
     </footer>
-</div>
 
 </body>
 </html>
