@@ -9,9 +9,9 @@
     <style>
         /* --- VARIABLES & RESET --- */
         :root {
-            --primary-color: #046bd2; /* Bleu institutionnel */
-            --accent-color: #3faceb; /* Bleu ciel vif */
-            --bg-color: #f4f9fc; /* Fond très clair apaisant */
+            --primary-color: #046bd2;
+            --accent-color: #3faceb;
+            --bg-color: #f4f9fc;
             --text-dark: #1e293b;
             --text-light: #64748b;
             --white: #ffffff;
@@ -19,11 +19,8 @@
             --radius: 16px;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Open Sans', sans-serif;
@@ -33,127 +30,159 @@
             overflow-x: hidden;
         }
 
-        h1, h2, h3 {
-            font-family: 'Poppins', sans-serif;
-            color: var(--primary-color);
-        }
-
-        a { text-decoration: none; transition: 0.3s; }
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; color: var(--primary-color); }
+        a { text-decoration: none; transition: all 0.3s ease; }
         ul { list-style: none; }
 
-        /* --- HEADER MODERNE --- */
+        /* --- ANIMATIONS CSS (Keyframes) --- */
+        
+        /* Fade In Up : Pour l'apparition au scroll */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Pulse : Pour le bouton Don */
+        @keyframes pulse-soft {
+            0% { box-shadow: 0 0 0 0 rgba(63, 172, 235, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(63, 172, 235, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(63, 172, 235, 0); }
+        }
+
+        /* Classe utilitaire pour cacher les éléments avant le scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- HEADER --- */
         header {
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-            padding: 0.5rem 0;
+            transition: all 0.4s ease;
+            border-bottom: 1px solid transparent;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        header.scrolled {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 0;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.85);
         }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
         .nav-wrapper {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 80px;
+            height: 90px;
+            transition: height 0.3s;
         }
 
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+        header.scrolled .nav-wrapper { height: 70px; }
 
-        .logo-img {
-            height: 60px;
-            border-radius: 8px;
-        }
+        .logo-area { display: flex; align-items: center; gap: 15px; }
+        .logo-img { height: 60px; border-radius: 8px; transition: transform 0.3s; }
+        .logo-area:hover .logo-img { transform: rotate(-3deg); }
 
-        .logo-text h1 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            line-height: 1.2;
-            color: var(--text-dark);
-        }
+        .logo-text h1 { font-size: 1.2rem; font-weight: 700; color: var(--text-dark); }
+        .logo-text span { font-size: 0.8rem; color: var(--accent-color); font-weight: 600; }
 
-        .logo-text span {
-            font-size: 0.8rem;
-            color: var(--accent-color);
-            font-weight: 600;
-        }
-
-        .main-nav ul {
-            display: flex;
-            gap: 30px;
-        }
-
+        .main-nav ul { display: flex; gap: 30px; align-items: center; }
         .main-nav a {
             color: var(--text-dark);
             font-weight: 600;
             font-size: 0.95rem;
-            padding: 8px 0;
             position: relative;
         }
 
-        .main-nav a:hover { color: var(--primary-color); }
+        /* Soulignement animé du menu */
+        .main-nav a:not(.btn-don)::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s;
+        }
+        .main-nav a:not(.btn-don):hover::after { width: 100%; }
 
+        /* Bouton Don avec animation */
         .btn-don {
             background-color: var(--accent-color);
             color: var(--white) !important;
             padding: 10px 25px !important;
             border-radius: 50px;
-            box-shadow: 0 4px 15px rgba(63, 172, 235, 0.3);
+            animation: pulse-soft 2s infinite;
         }
-        
         .btn-don:hover {
             transform: translateY(-2px);
             background-color: var(--primary-color);
+            animation: none; /* Stop pulse on hover */
         }
 
-        /* --- HERO SECTION (Portraits & Motto) --- */
+        /* Menu Hamburger (Mobile) */
+        .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; }
+        .bar { width: 25px; height: 3px; background-color: var(--text-dark); transition: 0.3s; border-radius: 2px; }
+
+        /* --- HERO SECTION --- */
         .hero {
-            padding: 60px 0;
+            padding: 80px 0;
             display: flex;
             align-items: center;
-            justify-content: space-between;
             gap: 50px;
+            min-height: 80vh;
         }
 
-        .hero-text {
-            flex: 1;
+        .hero-text { flex: 1; }
+        .hero-title { font-size: 3rem; margin-bottom: 20px; line-height: 1.2; }
+        .hero-title span { color: var(--accent-color); position: relative; display: inline-block; }
+        
+        /* Petit soulignement fun sous "handicap" */
+        .hero-title span svg {
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            fill: none;
+            stroke: var(--accent-color);
+            stroke-width: 3;
+            stroke-linecap: round;
         }
-
-        .hero-title {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: var(--text-dark);
-        }
-        .hero-title span { color: var(--primary-color); }
 
         .motto-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 20px;
-            margin-top: 30px;
+            margin-top: 40px;
         }
 
         .motto-card {
             background: var(--white);
-            padding: 20px;
+            padding: 25px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             border-left: 5px solid var(--accent-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: default;
         }
 
-        .motto-card h3 { font-size: 1.1rem; margin-bottom: 5px; }
-        .motto-card p { font-size: 0.9rem; color: var(--text-light); }
+        .motto-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(4, 107, 210, 0.2);
+        }
 
         .hero-images {
             flex: 1;
@@ -164,160 +193,170 @@
         }
 
         .portrait {
-            width: 200px;
-            height: 250px;
+            width: 220px;
+            height: 280px;
             object-fit: cover;
             border-radius: 20px;
             box-shadow: var(--shadow);
-            transition: transform 0.3s;
+            transition: all 0.5s ease;
+            z-index: 1;
         }
 
-        .portrait:hover { transform: scale(1.02); }
-        .p-offset { margin-top: 50px; } /* Décale une image pour le style */
-
-        /* --- MISSION SECTION --- */
-        .mission {
-            background: var(--white);
-            padding: 80px 0;
-            margin-top: 40px;
+        .portrait:hover {
+            transform: scale(1.05) rotate(2deg);
+            z-index: 2;
         }
+        
+        .p-offset { margin-top: 60px; }
 
-        .section-header {
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto 50px;
-        }
-
-        .section-header h2 {
-            font-size: 2rem;
-            margin-bottom: 15px;
-        }
-
+        /* --- SERVICES --- */
+        .mission { background: var(--white); padding: 100px 0; }
+        .section-header { text-align: center; max-width: 700px; margin: 0 auto 60px; }
+        
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
         }
 
         .service-card {
             background: var(--bg-color);
-            padding: 30px;
+            padding: 40px 30px;
             border-radius: var(--radius);
-            transition: 0.3s;
-            position: relative;
-            overflow: hidden;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Effet rebond */
+            text-align: center;
+            border: 1px solid transparent;
         }
 
         .service-card:hover {
-            transform: translateY(-5px);
-            background: #eef6fc;
+            transform: translateY(-10px);
+            background: var(--white);
+            border-color: var(--accent-color);
+            box-shadow: var(--shadow);
         }
 
         .icon-box {
-            font-size: 2rem;
-            margin-bottom: 15px;
-            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: transform 0.4s;
         }
 
-        .service-card h3 { margin-bottom: 10px; }
+        .service-card:hover .icon-box { transform: scale(1.2) rotate(10deg); }
 
-        /* --- NOTRE APPROCHE (Ce qu'on fait / ne fait pas) --- */
-        .approach {
-            padding: 80px 0;
-        }
+        /* --- APPROACH --- */
+        .approach { padding: 100px 0; }
+        .approach-container { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
         
-        .approach-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-
         .approach-col {
             padding: 40px;
             border-radius: var(--radius);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Fond décoratif subtil */
+        .approach-col::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            opacity: 0.1;
         }
 
-        .do-list {
-            background: #e0f2fe; /* Bleu très doux */
-            color: #0c4a6e;
-        }
-
-        .dont-list {
-            background: #fff1f2; /* Rouge très doux */
-            color: #881337;
-        }
-
-        .approach-col h3 {
-            margin-bottom: 20px;
-            border-bottom: 2px solid rgba(0,0,0,0.1);
-            padding-bottom: 10px;
-        }
+        .do-list { background: #e0f2fe; color: #0c4a6e; }
+        .do-list::before { background: var(--primary-color); }
+        
+        .dont-list { background: #fff1f2; color: #881337; }
+        .dont-list::before { background: #e11d48; }
 
         .check-list li {
-            margin-bottom: 12px;
-            padding-left: 25px;
+            margin-bottom: 15px;
+            padding-left: 30px;
             position: relative;
             font-weight: 500;
+            opacity: 0; /* Pour l'animation séquentielle JS */
+            transform: translateX(-10px);
+            transition: all 0.5s ease;
+        }
+        
+        .approach-col.visible .check-list li {
+            opacity: 1;
+            transform: translateX(0);
         }
 
-        .do-list .check-list li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: var(--primary-color);
-            font-weight: bold;
-        }
-
-        .dont-list .check-list li::before {
-            content: "✕";
-            position: absolute;
-            left: 0;
-            color: #e11d48;
-            font-weight: bold;
-        }
+        .do-list .check-list li::before { content: "✓"; position: absolute; left: 0; color: var(--primary-color); font-weight: bold; }
+        .dont-list .check-list li::before { content: "✕"; position: absolute; left: 0; color: #e11d48; font-weight: bold; }
 
         /* --- CONTACT BANNER --- */
         .contact-banner {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background: linear-gradient(120deg, var(--primary-color), var(--accent-color));
             color: var(--white);
             text-align: center;
-            padding: 60px 20px;
+            padding: 80px 20px;
             border-radius: var(--radius);
             margin-bottom: 60px;
-        }
-
-        .contact-banner h2 { color: var(--white); }
-        .contact-banner a {
-            color: var(--white);
-            text-decoration: underline;
-            font-weight: bold;
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            background: var(--text-dark);
-            color: #94a3b8;
-            padding: 40px 0;
-            text-align: center;
-            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
         }
         
-        footer a { color: var(--white); }
+        /* Effet brillance */
+        .contact-banner::after {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            animation: shine 6s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
+        }
+
+        .contact-banner a { color: var(--white); text-decoration: underline; font-weight: bold; }
+
+        /* --- FOOTER --- */
+        footer { background: var(--text-dark); color: #94a3b8; padding: 60px 0; text-align: center; }
+        footer a:hover { color: var(--accent-color); }
 
         /* --- RESPONSIVE --- */
-        @media (max-width: 768px) {
-            .nav-wrapper { flex-direction: column; height: auto; padding: 20px 0; gap: 20px; }
-            .main-nav ul { flex-direction: column; align-items: center; gap: 15px; }
-            .hero { flex-direction: column-reverse; text-align: center; }
-            .hero-images { flex-direction: row; }
+        @media (max-width: 960px) {
+            .hero { flex-direction: column-reverse; text-align: center; padding-top: 40px; }
+            .hero-images { flex-direction: row; margin-bottom: 30px; }
             .approach-container { grid-template-columns: 1fr; }
-            .motto-grid { grid-template-columns: 1fr; text-align: left; }
+            
+            /* Mobile Menu Styles */
+            .hamburger { display: flex; z-index: 1001; }
+            .main-nav {
+                position: fixed;
+                top: 0; right: -100%;
+                width: 80%; height: 100vh;
+                background: white;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+                transition: 0.4s ease;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .main-nav.active { right: 0; }
+            .main-nav ul { flex-direction: column; gap: 30px; }
+            
+            /* Hamburger animation */
+            .hamburger.active .bar:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
+            .hamburger.active .bar:nth-child(2) { opacity: 0; }
+            .hamburger.active .bar:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
         }
     </style>
 </head>
 <body>
 
-    <header>
+    <header id="header">
         <div class="container nav-wrapper">
             <div class="logo-area">
                 <img src="https://www.pmda.asso.fr/wp-content/uploads/mains-entete-200x99.png" alt="Logo PMDA" class="logo-img">
@@ -326,22 +365,35 @@
                     <span>Soutien aux familles</span>
                 </div>
             </div>
-            <nav class="main-nav">
+            
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+
+            <nav class="main-nav" id="main-nav">
                 <ul>
-                    <li><a href="#">Accueil</a></li>
-                    <li><a href="https://www.pmda.asso.fr/nos-actions/">Nos Actions</a></li>
-                    <li><a href="https://www.pmda.asso.fr/projets/">Projets</a></li>
-                    <li><a href="https://www.pmda.asso.fr/contact/">Contact</a></li>
-                    <li><a href="https://www.pmda.asso.fr/faire-un-don/" class="btn-don">♥ Faire un don</a></li>
+                    <li><a href="#" onclick="closeMenu()">Accueil</a></li>
+                    <li><a href="https://www.pmda.asso.fr/nos-actions/" onclick="closeMenu()">Nos Actions</a></li>
+                    <li><a href="https://www.pmda.asso.fr/projets/" onclick="closeMenu()">Projets</a></li>
+                    <li><a href="https://www.pmda.asso.fr/contact/" onclick="closeMenu()">Contact</a></li>
+                    <li><a href="https://www.pmda.asso.fr/faire-un-don/" class="btn-don" onclick="closeMenu()">♥ Faire un don</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
     <section class="container hero">
-        <div class="hero-text">
-            <h2 class="hero-title">Aide et écoute pour les familles confrontées au <span>handicap</span>.</h2>
-            <p>Notre association accompagne les parents, les aidants et les proches pour mieux vivre avec l'autisme au quotidien.</p>
+        <div class="hero-text reveal">
+            <h2 class="hero-title">Aide et écoute pour les familles confrontées au 
+                <span>handicap
+                    <svg viewBox="0 0 100 10" preserveAspectRatio="none">
+                        <path d="M0 5 Q 50 10 100 5" />
+                    </svg>
+                </span>.
+            </h2>
+            <p style="font-size: 1.1rem; margin-bottom: 30px;">Notre association accompagne les parents, les aidants et les proches pour mieux vivre avec l'autisme au quotidien, avec bienveillance et sans jugement.</p>
             
             <div class="motto-grid">
                 <div class="motto-card">
@@ -359,7 +411,7 @@
             </div>
         </div>
 
-        <div class="hero-images">
+        <div class="hero-images reveal">
             <img src="https://www.pmda.asso.fr/wp-content/uploads/Maxime-portrait-2025-300x300.jpg" alt="Maxime" class="portrait">
             <img src="https://www.pmda.asso.fr/wp-content/uploads/Julien-portrait-2025-300x300.jpg" alt="Julien" class="portrait p-offset">
         </div>
@@ -367,28 +419,28 @@
 
     <section class="mission">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <h2>Nos Missions</h2>
                 <p>Nous ne sommes pas des médecins, mais des parents et des bénévoles engagés pour partager, écouter et orienter.</p>
             </div>
 
             <div class="services-grid">
-                <div class="service-card">
+                <div class="service-card reveal">
                     <div class="icon-box">📞</div>
                     <h3>Écoute & Accueil</h3>
                     <p>Une ligne téléphonique tenue par des bénévoles (06 31 90 91 45) et des rendez-vous physiques pour les familles.</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card reveal" style="transition-delay: 100ms;">
                     <div class="icon-box">🤝</div>
                     <h3>Témoignage</h3>
                     <p>Partage d'expérience de parents d'enfants autistes pour rompre l'isolement.</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card reveal" style="transition-delay: 200ms;">
                     <div class="icon-box">📍</div>
                     <h3>Orientation</h3>
                     <p>Mise à disposition d'un carnet d'adresses utiles : dépistage, structures, activités adaptées.</p>
                 </div>
-                <div class="service-card">
+                <div class="service-card reveal" style="transition-delay: 300ms;">
                     <div class="icon-box">📢</div>
                     <h3>Sensibilisation</h3>
                     <p>Interventions auprès du grand public, des écoles et des entreprises pour mieux faire comprendre l'autisme.</p>
@@ -399,7 +451,7 @@
 
     <section class="container approach">
         <div class="approach-container">
-            <div class="approach-col do-list">
+            <div class="approach-col do-list reveal" id="list-do">
                 <h3>✅ Ce que nous proposons</h3>
                 <ul class="check-list">
                     <li>Groupes de parole et écoute active.</li>
@@ -409,7 +461,7 @@
                     <li>Information sur les droits et démarches.</li>
                 </ul>
             </div>
-            <div class="approach-col dont-list">
+            <div class="approach-col dont-list reveal" id="list-dont">
                 <h3>❌ Ce que nous ne sommes pas</h3>
                 <ul class="check-list">
                     <li>Nous ne faisons <strong>pas de diagnostic médical</strong>.</li>
@@ -421,7 +473,7 @@
         </div>
     </section>
 
-    <div class="container">
+    <div class="container reveal">
         <div class="contact-banner">
             <h2>Besoin de parler ? Une question ?</h2>
             <p style="font-size: 1.2rem; margin: 20px 0;">Nous sommes là pour vous répondre.</p>
@@ -433,9 +485,69 @@
     <footer>
         <div class="container">
             <p>&copy; 2025 Association "Parlez-Moi d'Autisme". Tous droits réservés.</p>
-            <p><a href="https://www.pmda.asso.fr/mentions-legales/">Mentions Légales</a> | Design repensé pour l'accessibilité.</p>
+            <p><a href="https://www.pmda.asso.fr/mentions-legales/">Mentions Légales</a> | <a href="#header">Retour en haut ↑</a></p>
         </div>
     </footer>
 
+    <script>
+        // 1. GESTION DU MENU MOBILE
+        const hamburger = document.getElementById('hamburger');
+        const mainNav = document.getElementById('main-nav');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mainNav.classList.toggle('active');
+        });
+
+        // Fermer le menu quand on clique sur un lien
+        function closeMenu() {
+            hamburger.classList.remove('active');
+            mainNav.classList.remove('active');
+        }
+
+        // 2. HEADER QUI CHANGE AU SCROLL
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // 3. ANIMATION AU SCROLL (Intersection Observer)
+        // C'est ce qui fait apparaître les éléments doucement quand on descend
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    
+                    // Si c'est une de nos listes, on anime les puces une par une
+                    if(entry.target.classList.contains('approach-col')) {
+                        entry.target.classList.add('visible');
+                        const items = entry.target.querySelectorAll('li');
+                        items.forEach((item, index) => {
+                            setTimeout(() => {
+                                item.style.opacity = "1";
+                                item.style.transform = "translateX(0)";
+                            }, index * 100); // Délai en cascade
+                        });
+                    }
+
+                    observer.unobserve(entry.target); // On arrête d'observer une fois affiché
+                }
+            });
+        }, {
+            root: null,
+            threshold: 0.15, // Déclenche quand 15% de l'élément est visible
+            rootMargin: "0px 0px -50px 0px"
+        });
+
+        revealElements.forEach(el => {
+            revealObserver.observe(el);
+        });
+    </script>
 </body>
 </html>
