@@ -3,69 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parlez-Moi d'Autisme - Authentique & Singulier</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Inter:wght@400;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+    <title>Parlez-Moi d'Autisme - Style Brut & Résilience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Beastly&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CHARTE GRAPHIQUE RADICALE --- */
+        /* --- CHARTE GRAPHIQUE "SESOW" --- */
         :root {
-            --ink: #121212; /* Noir presque pur pour le contraste */
-            --paper: #F2F0E9; /* Fond crème "papier journal" */
-            --blue-electric: #2B59C3; /* Bleu vibrant */
-            --yellow-marker: #D6FF59; /* Jaune surligneur */
-            --white: #ffffff;
-            --border-thick: 2px solid var(--ink);
-            --shadow-hard: 5px 5px 0px 0px var(--ink); /* Ombre dure, style brutalisme */
-            --radius-raw: 4px; /* Arrondis très légers */
+            --canvas-black: #0a0a0a; /* Fond noir profond */
+            --raw-red: #ff003c; /* Rouge vif, presque fluo */
+            --neon-yellow: #eaff00; /* Jaune acide */
+            --electric-blue: #0044ff; /* Bleu intense */
+            --dirty-white: #e0e0e0; /* Blanc cassé */
+            
+            --border-paint: 4px solid var(--canvas-black);
+            --shadow-thick: 8px 8px 0px var(--raw-red);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--paper);
-            color: var(--ink);
+            font-family: 'JetBrains Mono', monospace;
+            background-color: var(--canvas-black);
+            color: var(--dirty-white);
             line-height: 1.5;
             overflow-x: hidden;
-            background-image: radial-gradient(#dcd9d0 1px, transparent 1px);
-            background-size: 20px 20px; /* Effet papier millimétré subtil */
+            /* Texture de fond bruitée et griffée */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
         }
 
         h1, h2, h3 {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Rubik Beastly', cursive;
             text-transform: uppercase;
-            letter-spacing: -1px;
-            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--neon-yellow);
+            text-shadow: 3px 3px 0px var(--raw-red);
         }
 
-        a { text-decoration: none; color: inherit; }
+        a { text-decoration: none; color: inherit; transition: 0.2s; }
         ul { list-style: none; }
 
-        /* Notes manuscrites */
-        .handwritten {
-            font-family: 'Caveat', cursive;
-            color: var(--blue-electric);
-            font-size: 1.5rem;
-            transform: rotate(-5deg);
-            display: inline-block;
-            position: absolute;
+        /* Effet de bord déchiré / peinture épaisse */
+        .torn-edge {
+            clip-path: polygon(0% 2%, 5% 0%, 10% 3%, 15% 0%, 20% 2%, 25% 0%, 30% 3%, 35% 0%, 40% 2%, 45% 0%, 50% 3%, 55% 0%, 60% 2%, 65% 0%, 70% 3%, 75% 0%, 80% 2%, 85% 0%, 90% 3%, 95% 0%, 100% 2%, 100% 98%, 95% 100%, 90% 97%, 85% 100%, 80% 98%, 75% 100%, 70% 97%, 65% 100%, 60% 98%, 55% 100%, 50% 97%, 45% 100%, 40% 98%, 35% 100%, 30% 97%, 25% 100%, 20% 98%, 15% 100%, 10% 97%, 5% 100%, 0% 98%);
         }
 
         /* --- HEADER --- */
         header {
-            border-bottom: var(--border-thick);
-            background: var(--paper);
-            padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background: var(--raw-red);
+            padding: 15px 0;
+            border-bottom: 5px dashed var(--canvas-black);
+            position: relative;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
-            position: relative;
         }
 
         .nav-wrapper {
@@ -75,300 +68,302 @@
         }
 
         .brand {
-            font-size: 1.5rem;
-            font-weight: 900;
-            font-family: 'Space Grotesk', sans-serif;
-            background: var(--ink);
-            color: var(--white);
-            padding: 5px 15px;
-            transform: rotate(-2deg);
-            box-shadow: 4px 4px 0px var(--blue-electric);
-            transition: 0.3s;
-        }
-        
-        .brand:hover {
-            transform: rotate(0deg) scale(1.05);
-            box-shadow: 2px 2px 0px var(--blue-electric);
+            font-family: 'Rubik Beastly';
+            font-size: 2rem;
+            color: var(--canvas-black);
+            background: var(--neon-yellow);
+            padding: 5px 20px;
+            transform: rotate(-3deg);
+            border: 3px solid black;
         }
 
-        .main-nav ul { display: flex; gap: 40px; align-items: center; }
+        .main-nav ul { display: flex; gap: 30px; align-items: center; }
         
         .nav-link {
             font-weight: 700;
-            font-size: 1rem;
             text-transform: uppercase;
-            position: relative;
+            background: var(--canvas-black);
+            padding: 5px 10px;
+            border: 2px solid var(--neon-yellow);
         }
 
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 10px;
-            background: var(--yellow-marker);
-            bottom: 0;
-            left: 0;
-            z-index: -1;
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s;
+        .nav-link:hover {
+            background: var(--neon-yellow);
+            color: var(--canvas-black);
+            transform: scale(1.1) rotate(2deg);
         }
-
-        .nav-link:hover::before { transform: scaleX(1); }
 
         .btn-raw {
-            background: var(--white);
-            border: var(--border-thick);
+            background: var(--electric-blue);
+            color: var(--neon-yellow);
+            border: 3px solid var(--canvas-black);
             padding: 10px 25px;
-            font-weight: 700;
-            text-transform: uppercase;
-            box-shadow: var(--shadow-hard);
-            transition: 0.2s;
-            display: inline-block;
+            font-family: 'Rubik Beastly';
+            font-size: 1.2rem;
+            box-shadow: 5px 5px 0px var(--canvas-black);
         }
 
         .btn-raw:hover {
-            transform: translate(2px, 2px);
-            box-shadow: 3px 3px 0px 0px var(--ink);
-            background: var(--yellow-marker);
+            background: var(--neon-yellow);
+            color: var(--raw-red);
+            transform: translate(3px, 3px);
+            box-shadow: 2px 2px 0px var(--canvas-black);
         }
 
         /* --- HERO SECTION --- */
         .hero {
-            padding: 100px 0;
+            padding: 80px 0;
             display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 60px;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
             align-items: center;
+            position: relative;
+        }
+
+        /* Tâches de peinture en fond */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 10%; left: -10%;
+            width: 400px; height: 400px;
+            background: var(--raw-red);
+            filter: blur(80px);
+            opacity: 0.4;
+            z-index: -1;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 10%; right: -10%;
+            width: 300px; height: 300px;
+            background: var(--electric-blue);
+            filter: blur(80px);
+            opacity: 0.4;
+            z-index: -1;
         }
 
         .hero-title {
-            font-size: 4.5rem;
-            line-height: 0.95;
-            margin-bottom: 30px;
-            position: relative;
+            font-size: 4rem;
+            line-height: 0.9;
+            margin-bottom: 20px;
+            color: var(--dirty-white);
+            text-shadow: 4px 4px 0px var(--electric-blue);
         }
 
-        .highlight {
-            background: var(--blue-electric);
-            color: var(--white);
+        .hero-title span {
+            color: var(--raw-red);
+            background: var(--neon-yellow);
             padding: 0 10px;
+            border: 3px solid black;
             display: inline-block;
-            transform: skewX(-10deg);
+            transform: skewX(-5deg);
         }
 
         .hero-desc {
-            font-size: 1.2rem;
-            margin-bottom: 40px;
-            max-width: 90%;
-            border-left: 4px solid var(--blue-electric);
-            padding-left: 20px;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            background: var(--canvas-black);
+            border: 2px solid var(--electric-blue);
+            padding: 20px;
+            box-shadow: var(--shadow-thick);
         }
 
-        /* Effet Collage Photo */
+        /* TRAITEMENT DES IMAGES STYLE SESOW */
         .collage-wrapper {
             position: relative;
-            height: 400px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            height: 450px;
         }
 
-        .photo-card {
+        .photo-paint {
             position: absolute;
-            border: var(--border-thick);
-            background: var(--white);
-            padding: 10px 10px 40px 10px; /* Espace en bas pour style Polaroid */
-            box-shadow: var(--shadow-hard);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            width: 250px;
+            width: 260px;
+            border: 5px solid var(--canvas-black);
+            padding: 10px;
+            background: var(--neon-yellow);
+            box-shadow: 10px 10px 0px var(--electric-blue);
+            transition: 0.3s;
         }
 
-        .photo-card img {
+        /* Filtres pour un look "peinture saturée/abîmée" */
+        .photo-paint img {
             width: 100%;
-            height: auto;
-            filter: grayscale(100%); /* Noir et blanc pour style authentique */
-            transition: 0.4s;
-            border: 1px solid #ddd;
+            filter: contrast(150%) saturate(150%) brightness(0.9) sepia(20%);
+            border: 2px solid var(--canvas-black);
+            mix-blend-mode: hard-light; /* Incrustation dans le fond jaune */
         }
 
-        .p1 { transform: rotate(-6deg) translateX(-40px); z-index: 1; }
-        .p2 { transform: rotate(4deg) translateX(40px) translateY(20px); z-index: 2; }
-
-        .collage-wrapper:hover .p1 { transform: rotate(-12deg) translateX(-60px) scale(1.05); z-index: 3; }
-        .collage-wrapper:hover .p2 { transform: rotate(8deg) translateX(60px) scale(1.05); z-index: 3; }
-        .collage-wrapper:hover .photo-card img { filter: grayscale(0%); }
-
-        /* Scotch tape effect */
-        .tape {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 25px;
-            background: rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(0,0,0,0.1);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        .p1 { 
+            top: 0; left: 20px; 
+            transform: rotate(-5deg); 
+            z-index: 2;
+        }
+        .p1::after { /* Effet de coulure */
+            content: ''; position: absolute; bottom: -20px; left: 20px; width: 50px; height: 60px;
+            background: var(--neon-yellow); clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
+        }
+        
+        .p2 { 
+            top: 150px; right: 20px; 
+            transform: rotate(8deg); 
+            z-index: 1;
+            background: var(--raw-red);
+            box-shadow: -10px 10px 0px var(--canvas-black);
         }
 
-        /* --- MARQUEE (BANDE DEFILANTE) --- */
+        .collage-wrapper:hover .p1 { transform: rotate(-8deg) scale(1.05); z-index: 3; }
+        .collage-wrapper:hover .p2 { transform: rotate(5deg) scale(1.05); z-index: 3; }
+
+        /* --- MARQUEE (BANDE DÉFILANTE) --- */
         .marquee-container {
-            background: var(--ink);
-            color: var(--white);
-            padding: 20px 0;
+            background: var(--neon-yellow);
+            color: var(--canvas-black);
+            padding: 15px 0;
             overflow: hidden;
-            border-top: var(--border-thick);
-            border-bottom: var(--border-thick);
-            transform: rotate(-1deg) scale(1.02); /* Légèrement de travers */
-            margin: 50px 0;
+            border-top: 5px solid var(--raw-red);
+            border-bottom: 5px solid var(--raw-red);
+            transform: rotate(2deg) scale(1.05);
+            margin: 60px 0;
+            font-family: 'Rubik Beastly';
         }
 
         .marquee-content {
             display: flex;
             gap: 50px;
             white-space: nowrap;
-            animation: scroll 20s linear infinite;
+            animation: scroll 15s linear infinite;
         }
 
-        .marquee-item {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+        .marquee-item { font-size: 1.8rem; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* --- MANIFESTO (CARTES) --- */
-        .manifesto { padding: 80px 0; }
+        .manifesto { padding: 60px 0; }
         
         .grid-3 {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            gap: 40px;
+            margin-top: 40px;
         }
 
-        .card-raw {
-            border: var(--border-thick);
-            background: var(--white);
-            padding: 30px;
-            position: relative;
+        .card-paint {
+            background: var(--electric-blue);
+            padding: 5px; /* Bordure colorée */
+            box-shadow: var(--shadow-thick);
+            transform: rotate(var(--rotation));
             transition: 0.3s;
         }
 
-        .card-raw:hover {
-            box-shadow: var(--shadow-hard);
-            transform: translate(-5px, -5px);
+        .card-inner {
+            background: var(--canvas-black);
+            border: 3px solid var(--neon-yellow);
+            padding: 25px;
+            height: 100%;
         }
 
-        .card-tag {
-            background: var(--yellow-marker);
-            display: inline-block;
-            padding: 5px 10px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            border: var(--border-thick);
-            margin-bottom: 15px;
+        .card-paint:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 12px 12px 0px var(--neon-yellow);
+            z-index: 10;
         }
 
-        /* --- DO / DON'T --- */
+        .card-paint h3 { color: var(--neon-yellow); text-shadow: 2px 2px 0px var(--electric-blue); margin-bottom: 15px; }
+
+        /* --- CONFRONTATION (DO/DON'T) --- */
         .confrontation {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            border-top: var(--border-thick);
-            border-bottom: var(--border-thick);
+            margin-top: 80px;
+            border: 5px solid var(--canvas-black);
         }
 
-        .side { padding: 80px 40px; }
+        .side { padding: 60px 40px; }
         
         .side-yes {
-            background: var(--white);
-            color: var(--ink);
+            background: var(--neon-yellow);
+            color: var(--canvas-black);
+            /* Texture hachurée */
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px);
         }
 
         .side-no {
-            background: var(--ink);
-            color: var(--white);
-            position: relative;
-            background-image: linear-gradient(#222 1px, transparent 1px), linear-gradient(90deg, #222 1px, transparent 1px);
-            background-size: 20px 20px;
+            background: var(--raw-red);
+            color: var(--neon-yellow);
+             /* Texture hachurée inverse */
+            background-image: repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(0,0,0,0.2) 10px, rgba(0,0,0,0.2) 20px);
         }
 
         .list-check li {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 20px;
-            padding-left: 40px;
+            padding-left: 35px;
             position: relative;
+            font-weight: 700;
         }
 
         .side-yes .list-check li::before {
-            content: '';
-            width: 20px; height: 20px;
-            background: var(--blue-electric);
-            position: absolute; left: 0; top: 5px;
-            border-radius: 50%;
+            content: 'OUI';
+            position: absolute; left: 0;
+            font-family: 'Rubik Beastly'; color: var(--electric-blue);
         }
 
         .side-no .list-check li::before {
-            content: 'X';
-            color: var(--yellow-marker);
-            position: absolute; left: 0; top: 0;
-            font-weight: 900;
-            font-family: 'Space Grotesk';
+            content: 'NON';
+            position: absolute; left: 0;
+            font-family: 'Rubik Beastly'; color: var(--canvas-black);
         }
 
         /* --- FOOTER --- */
         footer {
-            padding: 60px 0;
+            padding: 80px 0;
             text-align: center;
-            border-top: var(--border-thick);
-            background: var(--paper);
+            background: var(--canvas-black);
+            border-top: 10px solid var(--electric-blue);
+            margin-top: 50px;
+        }
+
+        .cta-box {
+            background: var(--dirty-white);
+            color: var(--canvas-black);
+            padding: 40px;
+            display: inline-block;
+            transform: rotate(-2deg);
+            border: 5px solid var(--raw-red);
+            box-shadow: 10px 10px 0px var(--neon-yellow);
         }
 
         .big-contact {
-            font-size: 3vw;
-            font-weight: 900;
-            font-family: 'Space Grotesk';
-            text-transform: uppercase;
-            line-height: 1;
-            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-family: 'Rubik Beastly';
+            color: var(--raw-red);
             display: block;
-            transition: 0.3s;
-        }
-
-        .big-contact:hover {
-            color: var(--blue-electric);
-            text-decoration: underline;
-            text-decoration-thickness: 5px;
+            margin: 20px 0;
         }
 
         /* --- RESPONSIVE --- */
         @media (max-width: 900px) {
-            .hero { grid-template-columns: 1fr; text-align: left; }
+            .hero { grid-template-columns: 1fr; }
             .hero-title { font-size: 3rem; }
-            .collage-wrapper { height: 350px; margin-top: 50px; }
+            .collage-wrapper { height: 400px; margin-top: 50px; }
+            .p1 { left: 50%; transform: translateX(-60%) rotate(-5deg); }
+            .p2 { right: 50%; transform: translateX(60%) rotate(8deg); }
             .nav-wrapper { flex-direction: column; gap: 20px; }
-            .main-nav ul { gap: 20px; font-size: 0.9rem; }
+            .main-nav ul { gap: 15px; font-size: 0.8rem; flex-wrap: wrap; justify-content: center; }
             .confrontation { grid-template-columns: 1fr; }
-            .handwritten { display: none; } /* On cache les notes sur mobile pour la lisibilité */
         }
     </style>
 </head>
 <body>
 
-    <header>
+    <header class="torn-edge">
         <div class="container nav-wrapper">
             <a href="#" class="brand">PMDA.</a>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="#" class="nav-link">Le Manifeste</a></li>
+                    <li><a href="#" class="nav-link">Manifeste</a></li>
                     <li><a href="#" class="nav-link">Actions</a></li>
                     <li><a href="#" class="nav-link">Projets</a></li>
-                    <li><a href="#" class="btn-raw">Faire un don</a></li>
+                    <li><a href="#" class="btn-raw">FAIRE UN DON</a></li>
                 </ul>
             </nav>
         </div>
@@ -376,77 +371,70 @@
 
     <section class="container hero">
         <div class="hero-content">
-            <div class="handwritten" style="top: -40px; left: 0;">Pas des médecins, des parents.</div>
-            
-            <h1 class="hero-title">COMPRENDRE.<br>SOUTENIR.<br><span class="highlight">VIVRE AVEC.</span></h1>
-            <p class="hero-desc">
-                L'autisme n'est pas une tragédie, c'est une différence. <strong>Parlez-Moi d'Autisme</strong> est l'association qui brise les codes, écoute les familles et refuse l'isolement.
-            </p>
-            <div style="display: flex; gap: 20px;">
-                <a href="#" class="btn-raw" style="background: var(--ink); color: var(--white);">Nous appeler</a>
-                <a href="#" class="btn-raw">Nos actions</a>
+            <h1 class="hero-title">COMPRENDRE.<br>SOUTENIR.<br><span>VIVRE AVEC.</span></h1>
+            <div class="hero-desc torn-edge">
+                <p>L'autisme n'est pas une tragédie, c'est une différence. <strong>Parlez-Moi d'Autisme</strong> est l'association qui brise les codes, écoute les familles et refuse l'isolement avec une énergie brute.</p>
+            </div>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                <a href="tel:0631909145" class="btn-raw" style="background: var(--neon-yellow); color: var(--canvas-black);">NOUS APPELER</a>
+                <a href="#" class="btn-raw" style="background: var(--raw-red); color: var(--neon-yellow);">NOS ACTIONS</a>
             </div>
         </div>
 
         <div class="collage-wrapper">
-            <div class="photo-card p1">
-                <div class="tape"></div>
+            <div class="photo-paint p1">
                 <img src="https://www.pmda.asso.fr/wp-content/uploads/Maxime-portrait-2025-300x300.jpg" alt="Maxime">
-                <div class="handwritten" style="bottom: 10px; right: 10px; font-size: 1.2rem; transform: rotate(-5deg);">Maxime</div>
             </div>
-            <div class="photo-card p2">
-                <div class="tape"></div>
+            <div class="photo-paint p2">
                 <img src="https://www.pmda.asso.fr/wp-content/uploads/Julien-portrait-2025-300x300.jpg" alt="Julien">
-                <div class="handwritten" style="bottom: 10px; right: 10px; font-size: 1.2rem; transform: rotate(-5deg);">Julien</div>
             </div>
         </div>
     </section>
 
     <div class="marquee-container">
         <div class="marquee-content">
-            <div class="marquee-item">LIBERTÉ • ÉGALITÉ • FRATERNITÉ • AUTONOMIE • ÉQUITÉ • SOLIDARITÉ • </div>
-            <div class="marquee-item">LIBERTÉ • ÉGALITÉ • FRATERNITÉ • AUTONOMIE • ÉQUITÉ • SOLIDARITÉ • </div>
-            <div class="marquee-item">LIBERTÉ • ÉGALITÉ • FRATERNITÉ • AUTONOMIE • ÉQUITÉ • SOLIDARITÉ • </div>
+            <div class="marquee-item">LIBERTÉ // ÉGALITÉ // FRATERNITÉ // AUTONOMIE // ÉQUITÉ // SOLIDARITÉ +++ </div>
+            <div class="marquee-item">LIBERTÉ // ÉGALITÉ // FRATERNITÉ // AUTONOMIE // ÉQUITÉ // SOLIDARITÉ +++ </div>
         </div>
     </div>
 
     <section class="container manifesto">
-        <div style="margin-bottom: 50px; position: relative;">
-            <div class="handwritten" style="top: -30px; right: 0; color: var(--ink);">C'est notre socle.</div>
-            <h2>Nos 3 piliers d'action</h2>
-        </div>
+        <h2 style="font-size: 3rem; text-align: center; color: var(--neon-yellow);">NOS 3 PILIERS D'ACTION</h2>
         
         <div class="grid-3">
-            <div class="card-raw">
-                <span class="card-tag">01. ÉCOUTE</span>
-                <h3>Ligne ouverte</h3>
-                <p>Pas de blabla institutionnel. Des bénévoles au bout du fil (06 31 90 91 45) qui savent ce que vous vivez, parce qu'ils le vivent aussi.</p>
+            <div class="card-paint torn-edge" style="--rotation: -3deg;">
+                <div class="card-inner">
+                    <h3>01. ÉCOUTE BRUTE</h3>
+                    <p>Pas de filtre institutionnel. Des bénévoles au bout du fil (06 31 90 91 45) qui savent ce que vous vivez, parce qu'ils le vivent aussi dans leur chair.</p>
+                </div>
             </div>
-            <div class="card-raw">
-                <span class="card-tag" style="background:var(--blue-electric); color:white;">02. PARTAGE</span>
-                <h3>Témoignage</h3>
-                <p>Rompre l'isolement en partageant nos expériences. Groupes de parole, rencontres physiques, café-parents.</p>
+            <div class="card-paint torn-edge" style="background: var(--raw-red); --rotation: 2deg;">
+                 <div class="card-inner" style="border-color: var(--canvas-black);">
+                    <h3>02. PARTAGE VITAL</h3>
+                    <p>Rompre l'isolement. Groupes de parole, rencontres physiques. On partage la réalité du terrain, sans édulcorer.</p>
+                </div>
             </div>
-            <div class="card-raw">
-                <span class="card-tag" style="background: #ff9f43;">03. ORIENTATION</span>
-                <h3>Carnet d'adresses</h3>
-                <p>Dépistage, structures, spécialistes... Nous vous donnons les clés pour naviguer dans le labyrinthe administratif et médical.</p>
+            <div class="card-paint torn-edge" style="background: var(--neon-yellow); --rotation: -1deg;">
+                 <div class="card-inner" style="border-color: var(--raw-red); color: var(--canvas-black);">
+                    <h3 style="color: var(--raw-red); text-shadow: none;">03. ORIENTATION</h3>
+                    <p>Dépistage, structures... Nous vous donnons les clés pour naviguer dans le labyrinthe administratif et médical. On ne vous lâche pas.</p>
+                </div>
             </div>
         </div>
     </section>
 
     <section class="confrontation">
         <div class="side side-yes">
-            <h2 style="margin-bottom: 40px;">CE QUE NOUS FAISONS <span style="color:var(--blue-electric)">_</span></h2>
+            <h2 style="color: var(--canvas-black); text-shadow: none;">CE QUE NOUS FAISONS</h2>
             <ul class="list-check">
                 <li>Partager notre expérience de parents "experts du quotidien".</li>
                 <li>Vous orienter vers les bons spécialistes locaux.</li>
-                <li>Sensibiliser les écoles et les entreprises.</li>
-                <li>Créer du lien entre les familles.</li>
+                <li>Sensibiliser les écoles et les entreprises avec force.</li>
+                <li>Créer du lien solide entre les familles.</li>
             </ul>
         </div>
         <div class="side side-no">
-            <h2 style="margin-bottom: 40px;">CE QUE NOUS NE SOMMES PAS <span style="color:var(--yellow-marker)">_</span></h2>
+            <h2 style="color: var(--neon-yellow);">CE QUE NOUS NE SOMMES PAS</h2>
             <ul class="list-check">
                 <li>Nous ne sommes pas médecins (pas de diagnostic).</li>
                 <li>Nous ne sommes pas une institution d'accueil.</li>
@@ -457,34 +445,17 @@
     </section>
 
     <footer>
-        <div class="container">
-            <p style="font-family: 'Space Grotesk'; text-transform: uppercase; margin-bottom: 10px;">Besoin d'aide ? Appelez-nous.</p>
+        <div class="cta-box">
+            <h2 style="color: var(--canvas-black); text-shadow: none; font-size: 1.5rem;">BESOIN D'AIDE ?</h2>
             <a href="tel:0631909145" class="big-contact">06 31 90 91 45</a>
+            <p style="font-weight: bold;">LUN - SAM / 9H - 20H</p>
             
-            <div style="display: flex; justify-content: center; gap: 30px; margin-top: 40px; font-weight: 700;">
-                <a href="mailto:autisme.pmda@gmail.com" class="nav-link">Email</a>
-                <a href="#" class="nav-link">Facebook</a>
-                <a href="#" class="nav-link">Mentions Légales</a>
+            <div style="margin-top: 30px;">
+                <a href="mailto:autisme.pmda@gmail.com" class="btn-raw" style="font-size: 1rem;">EMAIL</a>
             </div>
-            <p style="margin-top: 50px; font-size: 0.8rem; opacity: 0.6;">© 2025 PMDA. Design Radical & Authentique.</p>
         </div>
+        <p style="margin-top: 50px; font-size: 0.8rem; color: var(--dirty-white);">© 2025 PMDA. STYLE ART BRUT / RÉSILIENCE.</p>
     </footer>
-
-    <script>
-        // Micro-interaction : Les éléments bougent légèrement avec la souris
-        document.addEventListener('mousemove', (e) => {
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            
-            const p1 = document.querySelector('.p1');
-            const p2 = document.querySelector('.p2');
-            
-            if(p1 && p2) {
-                p1.style.transform = `rotate(-6deg) translate(${x * -20}px, ${y * -20}px)`;
-                p2.style.transform = `rotate(4deg) translate(${x * 20}px, ${y * 20}px)`;
-            }
-        });
-    </script>
 
 </body>
 </html>
