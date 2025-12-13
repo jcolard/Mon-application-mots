@@ -1,374 +1,169 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aix En Vue - Version Accessible</title>
-    <style>
-        /* --- 1. CONFIGURATION VISUELLE --- */
-        :root {
-            --zoom-level: 2.2;       /* Niveau de grossissement de la loupe */
-            --loupe-size: 350px;     /* Taille de la loupe (plus grande pour le confort) */
-            --bg-color: #111;        /* Fond noir pour reposer les yeux */
-            --card-bg: #222;         /* Fond des cartes */
-            --text-color: #fff;      /* Texte blanc */
-            --accent-color: #ffcc00; /* Jaune très visible (Contraste AAA) */
-            --link-color: #4da6ff;   /* Bleu clair pour les liens */
-        }
-
-        /* IMPORTANT : On cache le curseur natif pour utiliser la loupe */
-        * {
-            cursor: none !important; 
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Verdana', 'Arial', sans-serif; /* Police sans empattement pour lisibilité */
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* --- 2. MISE EN PAGE DU CONTENU --- */
-        #site-wrapper {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-            background: #1a1a1a;
-            min-height: 100vh;
-        }
-
-        header {
-            border-bottom: 4px solid var(--accent-color);
-            padding: 40px 20px;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        h1 {
-            color: var(--accent-color);
-            font-size: 3rem;
-            margin: 0 0 10px 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        h2 {
-            color: var(--accent-color);
-            font-size: 2.2rem;
-            border-left: 8px solid #fff;
-            padding-left: 20px;
-            margin-top: 50px;
-            background: rgba(255,255,255,0.05);
-            padding-top: 10px;
-            padding-bottom: 10px;
-        }
-
-        h3 {
-            color: #fff;
-            font-size: 1.6rem;
-            margin-bottom: 10px;
-            text-decoration: underline decoration-color: var(--accent-color);
-        }
-
-        p {
-            font-size: 1.4rem; /* Texte de base très grand */
-            margin-bottom: 20px;
-            text-align: justify;
-        }
-
-        a {
-            color: var(--link-color);
-            text-decoration: none;
-            border-bottom: 2px solid var(--link-color);
-            font-weight: bold;
-        }
-
-        /* Grille pour les cartes */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 2px solid #555;
-            padding: 25px;
-            border-radius: 15px;
-            transition: transform 0.3s;
-        }
-        
-        .card:hover {
-            border-color: var(--accent-color);
-        }
-
-        .tag {
-            display: inline-block;
-            background: var(--accent-color);
-            color: #000;
-            padding: 5px 15px;
-            font-weight: bold;
-            border-radius: 20px;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-
-        footer {
-            margin-top: 80px;
-            padding: 40px;
-            background: #000;
-            border-top: 2px solid #333;
-            text-align: center;
-            font-size: 1.3rem;
-        }
-
-        /* --- 3. LA LOUPE (Design) --- */
-        #loupe-container {
-            position: fixed;
-            top: 0; left: 0;
-            width: var(--loupe-size);
-            height: var(--loupe-size);
-            border-radius: 50%;
-            border: 6px solid #fff;
-            box-shadow: 0 0 0 10000px rgba(0,0,0,0.7); /* Assombrit le reste de l'écran (Focus Mode) */
-            overflow: hidden;
-            z-index: 9999;
-            pointer-events: none; /* Permet de cliquer à travers */
-            display: none; 
-            background: var(--bg-color);
-        }
-
-        /* Le clone miroir */
-        #loupe-clone {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%;
-            transform-origin: 0 0;
-            background-color: var(--bg-color);
-        }
-
-        /* Indicateur Audio */
-        #audio-indicator {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
-            color: #0f0; /* Vert fluo */
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            opacity: 0;
-            transition: opacity 0.2s;
-            white-space: nowrap;
-            border: 1px solid #0f0;
-        }
-        
-        /* Réticule central pour aider à viser */
-        #loupe-container::after {
-            content: '+';
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -55%);
-            color: red;
-            font-size: 2rem;
-            opacity: 0.5;
-        }
-
-    </style>
-</head>
-<body>
-
-    <div id="site-wrapper">
-        <header>
-            <h1>AIX EN VUE</h1>
-            <p style="font-size: 1.8rem; color: #ccc;">VOIR LE MONDE AUTREMENT</p>
-            <div style="margin-top: 20px;">
-                <span class="tag">Association Loi 1901</span>
-            </div>
-        </header>
-
-        <main>
-            <section>
-                <h2>QUI SOMMES NOUS ?</h2>
-                <p>
-                    <strong>Aix En Vue</strong> est fondée le 12 avril 2024 par Karine Centeno, Catherine Canivenc, Sandrine Mau et Valerie Grenet. 
-                </p>
-                <p>
-                    Elle vise à promouvoir l'indépendance des déficients visuels, à les accompagner dans leurs démarches administratives et à les aider à sortir de chez eux pour renforcer leur autonomie.
-                </p>
-            </section>
-
-            <section>
-                <h2>NOS ACTIONS</h2>
-                <div class="grid">
-                    <article class="card">
-                        <h3>Accessibilité</h3>
-                        <p>Collaborer avec nos partenaires et les autorités locales pour faciliter l’accessibilité aux personnes malvoyantes dans notre société.</p>
-                        <a href="#">En savoir plus sur l'accessibilité</a>
-                    </article>
-
-                    <article class="card">
-                        <h3>Sensibilisation</h3>
-                        <p>Proposer des activités de sensibilisation auprès des familles, entreprises, établissements scolaires, et lors d'événements.</p>
-                        <a href="#">Je sensibilise</a>
-                    </article>
-
-                    <article class="card">
-                        <h3>Inclusion & Activités</h3>
-                        <p>Inclure les personnes malvoyantes à travers des activités adaptées : sport, culture, activités manuelles, aide au quotidien.</p>
-                        <a href="#">Découvrir nos activités</a>
-                    </article>
-                </div>
-            </section>
-
-            <section>
-                <h2>LA PRESSE EN PARLE</h2>
-                <p>Retrouvez nos interventions dans les médias locaux.</p>
-                
-                <div class="grid">
-                    <article class="card">
-                        <span class="tag" style="background:white; color:black;">Radio Air Zen</span>
-                        <p>Le 31 octobre 2024, Karine a présenté notre engagement pour l'accessibilité des personnes déficientes visuelles.</p>
-                        <a href="#">Écouter l'entretien</a>
-                    </article>
-
-                    <article class="card">
-                        <span class="tag" style="background:white; color:black;">La Provence</span>
-                        <p>Le 10 octobre 2024, La Provence a publié un article sur notre fête d'inauguration et ce qui a poussé nos fondateurs à créer Aix En Vue.</p>
-                        <a href="#">Lire l'article</a>
-                    </article>
-                </div>
-            </section>
-        </main>
-
-        <footer>
-            <h2>CONTACT</h2>
-            <p><strong>Téléphone :</strong> 07 44 99 94 38</p>
-            <p><strong>Email :</strong> <a href="mailto:info@aixenvue.fr">info@aixenvue.fr</a></p>
-            <p>
-                <a href="#">Instagram</a> | <a href="#">Facebook</a> | <a href="#">Espace Adhérent</a>
-            </p>
-            <br>
-            <p style="font-size: 1rem; color: #555;">© 2025 Aix En Vue - Version Accessible Générée par IA</p>
-        </footer>
+<div id="a11y-widget" role="region" aria-label="Outils d'accessibilité">
+    <div class="a11y-controls">
+        <button id="btn-play" aria-label="Lire le contenu de la page" title="Lire la page">
+            ▶ Lire la page
+        </button>
+        <button id="btn-pause" aria-label="Mettre en pause la lecture" title="Pause" style="display:none;">
+            ⏸ Pause
+        </button>
+        <button id="btn-stop" aria-label="Arrêter la lecture" title="Arrêter">
+            ⏹ Arrêter
+        </button>
     </div>
+    <div id="a11y-status" aria-live="polite">Prêt à lire</div>
+</div>
 
-    <div id="loupe-container">
-        <div id="loupe-clone"></div>
-        <div id="audio-indicator">🔊 Lecture en cours...</div>
-    </div>
+<style>
+    /* --- STYLE DU WIDGET --- */
+    #a11y-widget {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #111827; /* Fond sombre */
+        border: 4px solid #FFD700; /* Jaune très contrasté */
+        border-radius: 12px;
+        padding: 15px;
+        z-index: 99999; /* Au-dessus de tout le reste */
+        font-family: 'Verdana', sans-serif;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        max-width: 300px;
+    }
 
-    <script>
-        // --- 1. CONFIGURATION ---
-        const ZOOM_LEVEL = 2.2; // Doit correspondre au CSS
-        const LOUPE_SIZE = 350; // Doit correspondre au CSS
+    .a11y-controls {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 8px;
+    }
+
+    #a11y-widget button {
+        background-color: #FFD700;
+        color: #000000;
+        border: 2px solid #FFFFFF;
+        padding: 10px 15px;
+        font-weight: bold;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 6px;
+        flex: 1;
+        transition: transform 0.1s, background 0.2s;
+    }
+
+    #a11y-widget button:hover, #a11y-widget button:focus {
+        background-color: #FFFFFF;
+        border-color: #FFD700;
+        transform: scale(1.05);
+        outline: 2px solid #FFD700;
+    }
+
+    #a11y-status {
+        color: #FFD700;
+        text-align: center;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+</style>
+
+<script>
+    (function() {
+        // --- LOGIQUE DE SYNTHÈSE VOCALE ---
+        const synth = window.speechSynthesis;
+        let utterance = null;
         
-        const siteWrapper = document.getElementById('site-wrapper');
-        const loupeContainer = document.getElementById('loupe-container');
-        const loupeClone = document.getElementById('loupe-clone');
-        const audioIndicator = document.getElementById('audio-indicator');
-        
-        let synth = window.speechSynthesis;
-        let lastReadText = "";
-        let speechTimeout;
+        const btnPlay = document.getElementById('btn-play');
+        const btnPause = document.getElementById('btn-pause');
+        const btnStop = document.getElementById('btn-stop');
+        const statusDisplay = document.getElementById('a11y-status');
 
-        // --- 2. INITIALISATION (CLONAGE) ---
-        function initLoupe() {
-            // On copie tout le HTML du site dans la loupe
-            loupeClone.innerHTML = siteWrapper.outerHTML;
-            loupeClone.setAttribute('aria-hidden', 'true'); // Invisible pour les vrais lecteurs d'écran
-            loupeClone.style.transform = `scale(${ZOOM_LEVEL})`;
+        // Fonction pour récupérer le texte pertinent (évite les menus et footers techniques)
+        function getReadableContent() {
+            // On cible les titres et paragraphes principaux
+            // Note: Sur Google Sites, le contenu est souvent dans des div spécifiques, 
+            // ici on ratisse large mais proprement.
+            const contentNodes = document.querySelectorAll('h1, h2, h3, p, article, .tyJCtd'); 
+            let textToRead = "";
             
-            // Ajustement largeur pour éviter les coupures
-            loupeClone.style.width = document.body.scrollWidth + 'px';
-            
-            // On affiche la loupe
-            loupeContainer.style.display = 'block';
+            contentNodes.forEach(node => {
+                // On évite le texte caché ou vide
+                if(node.innerText && node.innerText.trim().length > 0 && node.offsetParent !== null) {
+                    textToRead += node.innerText + ". ";
+                }
+            });
+            return textToRead;
         }
 
-        // --- 3. SYNTHESE VOCALE (TTS) ---
-        function speak(text) {
-            if (!text || text.trim().length < 2) return; // Ignore les textes trop courts
+        function startReading() {
+            if (synth.speaking && synth.paused) {
+                synth.resume();
+                togglePlayPause(true);
+                statusDisplay.textContent = "Lecture en cours...";
+                return;
+            }
 
-            synth.cancel(); // Coupe la parole précédente immédiatement
+            // Annuler toute lecture précédente
+            synth.cancel();
 
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'fr-FR';
-            utterance.rate = 1.1; // Légèrement plus rapide
+            const text = getReadableContent();
+            if (!text) {
+                statusDisplay.textContent = "Aucun texte détecté.";
+                return;
+            }
+
+            utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'fr-FR'; // Force la langue française
+            utterance.rate = 1; // Vitesse normale
             utterance.pitch = 1;
 
-            utterance.onstart = () => { audioIndicator.style.opacity = 1; };
-            utterance.onend = () => { audioIndicator.style.opacity = 0; };
+            // Événements de lecture
+            utterance.onend = () => {
+                togglePlayPause(false);
+                statusDisplay.textContent = "Lecture terminée.";
+            };
+
+            utterance.onerror = () => {
+                togglePlayPause(false);
+                statusDisplay.textContent = "Erreur de lecture.";
+            };
 
             synth.speak(utterance);
+            togglePlayPause(true);
+            statusDisplay.textContent = "Lecture en cours...";
         }
 
-        // --- 4. GESTION DU MOUVEMENT (COEUR DU SYSTEME) ---
-        document.addEventListener('mousemove', (e) => {
-            const mouseX = e.clientX;
-            const mouseY = e.clientY;
-            const pageX = e.pageX; // Prend en compte le scroll
-            const pageY = e.pageY;
-
-            // A. Déplacement de la loupe (Visuel)
-            loupeContainer.style.transform = `translate(${mouseX - LOUPE_SIZE / 2}px, ${mouseY - LOUPE_SIZE / 2}px)`;
-
-            // B. Déplacement du contenu interne (Effet Optique)
-            // Calcul inverse : -(Position * Zoom) + Centrage
-            const contentX = - (pageX * ZOOM_LEVEL) + (LOUPE_SIZE / 2);
-            const contentY = - (pageY * ZOOM_LEVEL) + (LOUPE_SIZE / 2);
-
-            loupeClone.style.left = contentX + "px";
-            loupeClone.style.top = contentY + "px";
-
-            // C. Détection du texte sous la souris (Audio)
-            // On utilise elementFromPoint sur le document original (la loupe est transparente au clic)
-            const elementsSousSouris = document.elementsFromPoint(mouseX, mouseY);
-            
-            // On cherche le premier élément qui contient du texte pertinent
-            let target = elementsSousSouris.find(el => {
-                return el.tagName.match(/P|H1|H2|H3|A|LI|SPAN|STRONG/) && 
-                       el.id !== 'loupe-container' && 
-                       !el.closest('#loupe-container');
-            });
-
-            if (target) {
-                // On récupère le texte complet du bloc (ex: tout le paragraphe)
-                // Pour éviter de lire juste un mot en gras
-                let block = target.closest('p, h1, h2, h3, a, li') || target;
-                let text = block.innerText;
-
-                if (text !== lastReadText) {
-                    lastReadText = text;
-                    
-                    // Anti-rebond (Debounce) : on attend 300ms que la souris se stabilise
-                    clearTimeout(speechTimeout);
-                    speechTimeout = setTimeout(() => {
-                        speak(text);
-                    }, 300);
-                }
-            } else {
-                // Si on sort d'un texte, on reset pour pouvoir le relire si on revient
-                lastReadText = "";
+        function pauseReading() {
+            if (synth.speaking) {
+                synth.pause();
+                togglePlayPause(false);
+                statusDisplay.textContent = "Lecture en pause.";
             }
+        }
+
+        function stopReading() {
+            synth.cancel();
+            togglePlayPause(false);
+            statusDisplay.textContent = "Lecture arrêtée.";
+        }
+
+        function togglePlayPause(isPlaying) {
+            if (isPlaying) {
+                btnPlay.style.display = 'none';
+                btnPause.style.display = 'inline-block';
+                btnPause.focus(); // Garde le focus pour l'accessibilité
+            } else {
+                btnPlay.style.display = 'inline-block';
+                btnPause.style.display = 'none';
+                if(document.activeElement === btnPause) btnPlay.focus();
+            }
+        }
+
+        // Écouteurs d'événements
+        btnPlay.addEventListener('click', startReading);
+        btnPause.addEventListener('click', pauseReading);
+        btnStop.addEventListener('click', stopReading);
+
+        // Nettoyage si on quitte la page
+        window.addEventListener('beforeunload', () => {
+            synth.cancel();
         });
 
-        // --- 5. GESTION DU REDIMENSIONNEMENT ---
-        window.addEventListener('resize', () => {
-            loupeClone.innerHTML = siteWrapper.outerHTML;
-            loupeClone.style.width = document.body.scrollWidth + 'px';
-        });
-
-        // Lancement au chargement
-        initLoupe();
-
-    </script>
-</body>
-</html>
+    })();
+</script>
