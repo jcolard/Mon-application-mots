@@ -3,353 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iris & Sens - Activités pour tous les regards</title>
-    <meta name="description" content="Association proposant des activités sportives et culturelles adaptées aux déficients visuels.">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-
+    <title>Site Accessible - Loupe Interactive</title>
     <style>
-        /* --- VARIABLES & COULEURS --- */
+        /* --- CONFIGURATION GLOBALE --- */
         :root {
-            /* Palette Haute Visibilité */
-            --bg-color: #111827; /* Gris très sombre (plus doux que le noir pur) */
-            --text-color: #F3F4F6; /* Blanc cassé */
-            --accent-color: #FFD700; /* Jaune Or pur (Contraste maximal sur fond sombre) */
-            --secondary-accent: #38BDF8; /* Bleu clair pour les liens secondaires */
-            --card-bg: #1F2937;
-            
-            /* Espacements pour la lisibilité */
-            --spacing-unit: 1.5rem;
-            --max-width: 1100px;
+            --bg-color: #1a1a1a;
+            --text-color: #ffff00; /* Jaune sur noir pour haut contraste */
+            --highlight-color: #000000;
+            --loupe-size: 250px;
+            --loupe-zoom: 2.5; /* Facteur de grossissement */
         }
 
-        /* Mode "Contraste Renforcé" (activable via JS) */
-        body.high-contrast {
-            --bg-color: #000000;
-            --text-color: #FFFFFF;
-            --accent-color: #FFFF00;
-            --card-bg: #000000;
-            border: 2px solid white;
-        }
-
-        /* --- RESET & BASE --- */
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            cursor: none; /* On cache le curseur par défaut pour utiliser la loupe */
         }
 
         body {
-            font-family: 'Atkinson Hyperlegible', Verdana, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            line-height: 1.7; /* Interlignage augmenté pour la lisibilité */
-            font-size: 120%; /* Taille de base augmentée (approx 19px) */
+            font-family: 'Verdana', 'Arial', sans-serif; /* Polices sans-serif pour lisibilité */
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
-        /* --- ACCESSIBILITÉ --- */
-        /* Lien d'évitement pour la navigation au clavier */
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: var(--accent-color);
-            color: var(--bg-color);
-            padding: 8px;
-            z-index: 100;
-            font-weight: bold;
-            transition: top 0.2s;
-        }
-        .skip-link:focus {
-            top: 0;
-        }
-
-        /* Focus visible (Indispensable) */
-        *:focus-visible {
-            outline: 4px solid var(--accent-color);
-            outline-offset: 4px;
-        }
-
-        /* --- LAYOUT --- */
+        /* --- CONTENU DU SITE --- */
         .container {
-            max-width: var(--max-width);
+            max-width: 800px;
             margin: 0 auto;
-            padding: 0 var(--spacing-unit);
+            padding: 50px 20px;
         }
 
-        /* --- HEADER --- */
         header {
-            padding: 2rem 0;
-            border-bottom: 2px solid var(--card-bg);
+            border-bottom: 2px solid var(--text-color);
+            margin-bottom: 40px;
+            padding-bottom: 20px;
         }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .logo {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            text-decoration: none;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: 700;
-            border-bottom: 2px solid transparent;
-            transition: border-color 0.3s;
-        }
-
-        .nav-links a:hover, .nav-links a[aria-current="page"] {
-            border-bottom-color: var(--accent-color);
-        }
-
-        /* Bouton d'accessibilité */
-        .a11y-toggle {
-            background: transparent;
-            border: 2px solid var(--text-color);
-            color: var(--text-color);
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: bold;
-            border-radius: 4px;
-        }
-        
-        .a11y-toggle:hover {
-            background: var(--text-color);
-            color: var(--bg-color);
-        }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            padding: 6rem 0;
-            position: relative;
-            /* Concept Branding: Le flou visuel vs la clarté du contenu */
-        }
-
-        /* Effet "Bokeh" purement décoratif (caché aux lecteurs d'écran) */
-        .blur-circle {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: var(--accent-color);
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.2;
-            z-index: -1;
-        }
-        .blur-1 { top: -50px; right: 10%; }
-        .blur-2 { bottom: 0; left: -50px; background: var(--secondary-accent); }
 
         h1 {
-            font-size: 3.5rem;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-            max-width: 800px;
+            font-size: 3rem;
+            margin-bottom: 10px;
         }
 
-        .hero p {
-            font-size: 1.4rem;
-            max-width: 600px;
-            margin-bottom: 2.5rem;
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
         }
 
-        .cta-button {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: #000000;
-            font-size: 1.25rem;
-            font-weight: 700;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
+        button {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-right: 10px;
             transition: transform 0.2s;
-            /* Icone flèche en CSS pur */
-        }
-        
-        .cta-button:hover {
-            transform: scale(1.05);
-            background-color: #FFF;
         }
 
-        /* --- ACTIVITIES SECTION --- */
-        .activities {
-            padding: 4rem 0;
-        }
-
-        h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            border-left: 8px solid var(--accent-color);
-            padding-left: 1rem;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+        button:hover {
+            transform: scale(1.1);
+            background-color: #fff;
         }
 
         .card {
-            background-color: var(--card-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            border: 2px solid transparent;
-            transition: border-color 0.3s;
+            border: 2px solid var(--text-color);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 15px;
         }
 
-        .card:hover {
-            border-color: var(--accent-color);
-        }
-
-        .card h3 {
-            color: var(--accent-color);
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            margin-top: 4rem;
-            padding: 3rem 0;
-            background-color: var(--card-bg);
+        /* --- LA LOUPE (CURSEUR) --- */
+        #loupe {
+            position: fixed;
+            pointer-events: none; /* La loupe ne bloque pas les clics */
+            width: var(--loupe-size);
+            height: var(--loupe-size);
+            border-radius: 50%;
+            border: 5px solid #fff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            background-color: #000; /* Fond noir profond dans la loupe */
+            overflow: hidden;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
+            transform: translate(-50%, -50%); /* Centrer sur la souris */
+            transition: opacity 0.2s;
         }
 
-        /* --- MOBILE --- */
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            .nav-links { display: none; } /* Pour simplifier la démo, on cache le menu desktop */
-            /* En prod, il faudrait un menu burger accessible */
+        /* Le texte à l'intérieur de la loupe */
+        #loupe-content {
+            color: #fff;
+            font-size: 2rem; /* Taille de base dans la loupe */
+            font-weight: bold;
+            padding: 20px;
+            line-height: 1.2;
         }
+
+        /* Petit point rouge au centre pour viser */
+        #loupe::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            background-color: red;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Style pour les images dans la loupe */
+        #loupe img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
     </style>
 </head>
 <body>
 
-    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+    <div id="loupe">
+        <div id="loupe-content">Survolez un élément</div>
+    </div>
 
-    <header role="banner">
-        <div class="container">
-            <nav role="navigation" aria-label="Menu principal">
-                <a href="#" class="logo">Iris<span style="color:white">&</span>Sens</a>
-                
-                <button id="contrast-toggle" class="a11y-toggle" aria-pressed="false">
-                    Activer Contraste Max
-                </button>
+    <div class="container">
+        <header>
+            <h1 data-read="Bienvenue sur AccessiWeb">AccessiWeb</h1>
+            <p data-read="Un site conçu pour la déficience visuelle.">Un site démonstrateur conçu pour améliorer la lisibilité.</p>
+        </header>
 
-                <ul class="nav-links">
-                    <li><a href="#" aria-current="page">Accueil</a></li>
-                    <li><a href="#">Activités</a></li>
-                    <li><a href="#">Bénévolat</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <main id="main-content" role="main">
-        
-        <section class="hero" aria-labelledby="hero-title">
-            <div class="blur-circle blur-1" aria-hidden="true"></div>
-            <div class="container">
-                <h1 id="hero-title">Vivez l'aventure,<br> au-delà du visible.</h1>
-                <p>
-                    Rejoignez une communauté dynamique où la déficience visuelle n'est pas une limite. 
-                    Tandem, randonnée audio, ateliers sensoriels : redécouvrez vos sens.
+        <main>
+            <section class="card">
+                <h2 data-read="Comment ça marche ?">Comment ça marche ?</h2>
+                <p data-read="Utilisez votre souris pour explorer la page. Le cercle agit comme une loupe de lecture qui grossit le texte instantanément.">
+                    Utilisez votre souris pour explorer la page. Le cercle agit comme une loupe de lecture qui grossit le texte instantanément.
                 </p>
-                <a href="#activites" class="cta-button">
-                    Découvrir nos activités
-                    <span aria-hidden="true"> &rarr;</span>
-                </a>
-            </div>
-            <div class="blur-circle blur-2" aria-hidden="true"></div>
-        </section>
+                <button data-read="Bouton d'action">Action 1</button>
+                <button data-read="Bouton de contact">Contact</button>
+            </section>
 
-        <section id="activites" class="activities" aria-labelledby="activities-title">
-            <div class="container">
-                <h2 id="activities-title">Nos prochaines sorties</h2>
-                
-                <div class="grid">
-                    <article class="card">
-                        <h3>Cyclisme en Tandem</h3>
-                        <p>
-                            Tous les samedis matins. Pilotes voyants et co-pilotes malvoyants forment un binôme 
-                            pour des balades de 20 à 50km. Sensations de vitesse garanties.
-                        </p>
-                    </article>
+            <section class="card">
+                <h2 data-read="Accessibilité Renforcée">Accessibilité Renforcée</h2>
+                <p data-read="Nous utilisons un contraste élevé (Jaune sur Noir) qui est la combinaison la plus perceptible pour l'œil humain.">
+                    Nous utilisons un contraste élevé (Jaune sur Noir) qui est la combinaison la plus perceptible pour l'œil humain.
+                </p>
+                <ul style="font-size: 1.4rem;">
+                    <li data-read="Texte agrandi">Texte agrandi</li>
+                    <li data-read="Contraste fort">Contraste fort</li>
+                    <li data-read="Navigation simple">Navigation simple</li>
+                </ul>
+            </section>
+        </main>
 
-                    <article class="card">
-                        <h3>Randonnée Sonore</h3>
-                        <p>
-                            Une immersion en forêt guidée par le son. Nos parcours sont balisés avec des 
-                            repères auditifs et accompagnés de descriptions audio en direct.
-                        </p>
-                    </article>
-
-                    <article class="card">
-                        <h3>Atelier Poterie Tactile</h3>
-                        <p>
-                            Apprenez à modeler l'argile sans utiliser la vue. Un travail sur la texture, 
-                            la forme et la créativité pure, encadré par des artisans.
-                        </p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="container" style="margin-top: 2rem;">
-            <h2>Notre vision</h2>
-            <p style="max-width: 800px; font-size: 1.2rem;">
-                Chez Iris & Sens, nous croyons que l'autonomie passe par le collectif. 
-                Nous ne "compensons" pas le handicap, nous créons des environnements où il devient un détail.
-                Nos interfaces numériques, comme nos activités, sont conçues pour être universelles ("Design for All").
-            </p>
-        </section>
-
-    </main>
-
-    <footer role="contentinfo">
-        <div class="container">
-            <p><strong>Association Iris & Sens</strong></p>
-            <p>12 Rue de la Clarté, 75000 Ville-Lumière</p>
-            <p><a href="tel:+33123456789" style="color:var(--accent-color);">01 23 45 67 89</a></p>
-            <p style="margin-top: 1rem; font-size: 0.9rem;">Site conçu selon les normes RGAA / WCAG AAA.</p>
-        </div>
-    </footer>
+        <footer>
+            <p data-read="Pied de page - Droits réservés 2024">© 2024 - Projet Accessibilité</p>
+        </footer>
+    </div>
 
     <script>
-        // Script simple pour basculer le mode contraste élevé
-        const toggleBtn = document.getElementById('contrast-toggle');
-        const body = document.body;
+        const loupe = document.getElementById('loupe');
+        const loupeContent = document.getElementById('loupe-content');
+        
+        // Mouvement de la loupe
+        document.addEventListener('mousemove', (e) => {
+            // Positionner la loupe sur la souris
+            loupe.style.left = e.clientX + 'px';
+            loupe.style.top = e.clientY + 'px';
 
-        toggleBtn.addEventListener('click', () => {
-            body.classList.toggle('high-contrast');
-            
-            // Mise à jour de l'attribut ARIA pour les lecteurs d'écran
-            const isHighContrast = body.classList.contains('high-contrast');
-            toggleBtn.setAttribute('aria-pressed', isHighContrast);
-            
-            toggleBtn.textContent = isHighContrast 
-                ? 'Désactiver Contraste Max' 
-                : 'Activer Contraste Max';
+            // Détecter l'élément sous la souris
+            // Nous utilisons elementFromPoint mais ignorons la loupe elle-même (pointer-events: none)
+            const elementMouseIsOver = document.elementFromPoint(e.clientX, e.clientY);
+
+            if (elementMouseIsOver) {
+                // Vérifier si l'élément a un attribut 'data-read' (priorité)
+                let textToDisplay = elementMouseIsOver.getAttribute('data-read');
+
+                // Sinon, essayer de prendre le texte direct s'il n'est pas trop long
+                if (!textToDisplay && elementMouseIsOver.innerText && elementMouseIsOver.innerText.length < 100) {
+                     // On évite de prendre tout le texte du body ou container
+                     if(!elementMouseIsOver.classList.contains('container') && elementMouseIsOver.tagName !== 'BODY') {
+                         textToDisplay = elementMouseIsOver.innerText;
+                     }
+                }
+
+                // Mise à jour du contenu de la loupe
+                if (textToDisplay) {
+                    loupeContent.innerHTML = textToDisplay;
+                    loupe.style.borderColor = "#fff"; // Bordure blanche quand actif
+                } else {
+                    // Si on survole le vide
+                    loupeContent.innerHTML = "";
+                    loupe.style.borderColor = "#555"; // Bordure grise quand inactif
+                }
+            }
+        });
+
+        // Gestion de la sortie de la fenêtre
+        document.addEventListener('mouseleave', () => {
+            loupe.style.opacity = '0';
+        });
+        document.addEventListener('mouseenter', () => {
+            loupe.style.opacity = '1';
+        });
+
+        // Initialisation : ajouter l'attribut data-read automatiquement aux paragraphes si absent
+        // pour simplifier la vie du développeur
+        document.querySelectorAll('p, h1, h2, h3, button, li').forEach(el => {
+            if(!el.getAttribute('data-read')) {
+                // On tronque le texte s'il est trop long pour l'attribut
+                let txt = el.innerText.substring(0, 150); 
+                el.setAttribute('data-read', txt);
+            }
         });
     </script>
 </body>
