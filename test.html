@@ -3,656 +3,353 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parlez-Moi d'Autisme - Association de Soutien</title>
+    <title>Iris & Sens - Activités pour tous les regards</title>
+    <meta name="description" content="Association proposant des activités sportives et culturelles adaptées aux déficients visuels.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
+        /* --- VARIABLES & COULEURS --- */
+        :root {
+            /* Palette Haute Visibilité */
+            --bg-color: #111827; /* Gris très sombre (plus doux que le noir pur) */
+            --text-color: #F3F4F6; /* Blanc cassé */
+            --accent-color: #FFD700; /* Jaune Or pur (Contraste maximal sur fond sombre) */
+            --secondary-accent: #38BDF8; /* Bleu clair pour les liens secondaires */
+            --card-bg: #1F2937;
+            
+            /* Espacements pour la lisibilité */
+            --spacing-unit: 1.5rem;
+            --max-width: 1100px;
+        }
+
+        /* Mode "Contraste Renforcé" (activable via JS) */
+        body.high-contrast {
+            --bg-color: #000000;
+            --text-color: #FFFFFF;
+            --accent-color: #FFFF00;
+            --card-bg: #000000;
+            border: 2px solid white;
+        }
+
+        /* --- RESET & BASE --- */
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Arial Black', 'Impact', sans-serif;
-            background: linear-gradient(135deg, #FF006E, #8338EC, #3A86FF, #FFBE0B);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-            color: #000;
+            font-family: 'Atkinson Hyperlegible', Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7; /* Interlignage augmenté pour la lisibilité */
+            font-size: 120%; /* Taille de base augmentée (approx 19px) */
             overflow-x: hidden;
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Header avec style chaotique */
-        header {
-            background: linear-gradient(45deg, #FF006E, #FB5607);
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 8px solid #000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        header::before {
-            content: '';
+        /* --- ACCESSIBILITÉ --- */
+        /* Lien d'évitement pour la navigation au clavier */
+        .skip-link {
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 10px,
-                rgba(255,255,255,0.1) 10px,
-                rgba(255,255,255,0.1) 20px
-            );
-            animation: headerPattern 20s linear infinite;
+            top: -40px;
+            left: 0;
+            background: var(--accent-color);
+            color: var(--bg-color);
+            padding: 8px;
+            z-index: 100;
+            font-weight: bold;
+            transition: top 0.2s;
+        }
+        .skip-link:focus {
+            top: 0;
         }
 
-        @keyframes headerPattern {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
+        /* Focus visible (Indispensable) */
+        *:focus-visible {
+            outline: 4px solid var(--accent-color);
+            outline-offset: 4px;
         }
 
-        .logo-container {
+        /* --- LAYOUT --- */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-unit);
+        }
+
+        /* --- HEADER --- */
+        header {
+            padding: 2rem 0;
+            border-bottom: 2px solid var(--card-bg);
+        }
+
+        nav {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 20px;
-            position: relative;
-            z-index: 10;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(-2deg); }
-            50% { transform: translateY(-10px) rotate(2deg); }
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .logo {
-            width: 100px;
-            height: 100px;
-            border: 5px solid #FFBE0B;
-            border-radius: 20px;
-            transform: rotate(-5deg);
-            box-shadow: 5px 5px 0 #000, 10px 10px 0 #FFBE0B;
-            transition: all 0.3s ease;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
-        .logo:hover {
-            transform: rotate(5deg) scale(1.1);
-            box-shadow: -5px 5px 0 #000, -10px 10px 0 #3A86FF;
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
         }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 700;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a[aria-current="page"] {
+            border-bottom-color: var(--accent-color);
+        }
+
+        /* Bouton d'accessibilité */
+        .a11y-toggle {
+            background: transparent;
+            border: 2px solid var(--text-color);
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+        
+        .a11y-toggle:hover {
+            background: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 6rem 0;
+            position: relative;
+            /* Concept Branding: Le flou visuel vs la clarté du contenu */
+        }
+
+        /* Effet "Bokeh" purement décoratif (caché aux lecteurs d'écran) */
+        .blur-circle {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.2;
+            z-index: -1;
+        }
+        .blur-1 { top: -50px; right: 10%; }
+        .blur-2 { bottom: 0; left: -50px; background: var(--secondary-accent); }
 
         h1 {
-            font-size: 3em;
-            color: #FFFF00;
-            text-shadow: 4px 4px 0 #000, 8px 8px 0 #8338EC;
-            transform: skew(-5deg);
-            animation: titlePulse 2s ease-in-out infinite;
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            max-width: 800px;
         }
 
-        @keyframes titlePulse {
-            0%, 100% { transform: skew(-5deg) scale(1); }
-            50% { transform: skew(5deg) scale(1.02); }
+        .hero p {
+            font-size: 1.4rem;
+            max-width: 600px;
+            margin-bottom: 2.5rem;
         }
 
-        .tagline {
-            font-size: 1.2em;
-            color: #FFF;
-            background: #000;
-            padding: 10px 20px;
+        .cta-button {
             display: inline-block;
-            transform: rotate(-2deg);
-            border: 3px solid #FFBE0B;
-            margin-top: 10px;
-        }
-
-        /* Navigation chaotique */
-        nav {
-            background: #000;
-            padding: 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 5px solid #FF006E;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-        }
-
-        nav ul {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            list-style: none;
-        }
-
-        nav li {
-            position: relative;
-        }
-
-        nav a {
-            display: block;
-            padding: 20px 30px;
-            color: #FFFF00;
+            background-color: var(--accent-color);
+            color: #000000;
+            font-size: 1.25rem;
+            font-weight: 700;
+            padding: 1rem 2rem;
+            border-radius: 8px;
             text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1em;
-            transition: all 0.3s ease;
-            border-right: 2px solid #8338EC;
-            position: relative;
-            overflow: hidden;
+            transition: transform 0.2s;
+            /* Icone flèche en CSS pur */
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+            background-color: #FFF;
         }
 
-        nav a::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, #FF006E, #FFBE0B);
-            transition: left 0.3s ease;
-            z-index: -1;
-        }
-
-        nav a:hover::before {
-            left: 0;
-        }
-
-        nav a:hover {
-            color: #000;
-            transform: scale(1.1) rotate(-2deg);
-        }
-
-        /* Container principal */
-        .container {
-            max-width: 1400px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-
-        /* Section Hero avec portraits */
-        .hero {
-            background: linear-gradient(135deg, #FFBE0B, #FF006E);
-            padding: 60px;
-            border: 8px solid #000;
-            border-radius: 30px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 15px 15px 0 #000, 30px 30px 0 rgba(131, 56, 236, 0.5);
-            margin-bottom: 40px;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 50px,
-                rgba(0,0,0,0.1) 50px,
-                rgba(0,0,0,0.1) 52px
-            );
-            pointer-events: none;
-        }
-
-        .portraits {
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-
-        .portrait {
-            position: relative;
-            animation: portraitBounce 3s ease-in-out infinite;
-        }
-
-        .portrait:nth-child(2) {
-            animation-delay: 0.5s;
-        }
-
-        @keyframes portraitBounce {
-            0%, 100% { transform: translateY(0) rotate(-5deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-        }
-
-        .portrait img {
-            width: 250px;
-            height: 250px;
-            border: 8px solid #000;
-            border-radius: 50%;
-            box-shadow: 10px 10px 0 #FFFF00, 20px 20px 0 #3A86FF;
-            transition: all 0.3s ease;
-            filter: contrast(1.2) saturate(1.5);
-        }
-
-        .portrait:hover img {
-            transform: scale(1.1) rotate(10deg);
-            box-shadow: -10px 10px 0 #FF006E, -20px 20px 0 #8338EC;
-        }
-
-        .portrait figcaption {
-            text-align: center;
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #FFF;
-            background: #000;
-            padding: 10px;
-            margin-top: 15px;
-            border: 3px solid #FFFF00;
-            transform: rotate(-2deg);
-        }
-
-        /* Sections de contenu expressives */
-        .content-section {
-            background: #FFF;
-            padding: 40px;
-            margin-bottom: 30px;
-            border: 8px solid #000;
-            position: relative;
-            box-shadow: 10px 10px 0 #FF006E, 20px 20px 0 rgba(0,0,0,0.3);
-            animation: sectionFloat 4s ease-in-out infinite;
-        }
-
-        .content-section:nth-child(even) {
-            box-shadow: -10px 10px 0 #3A86FF, -20px 20px 0 rgba(0,0,0,0.3);
-            animation-delay: 1s;
-        }
-
-        @keyframes sectionFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-5px) rotate(1deg); }
-        }
-
-        .content-section::before {
-            content: '';
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            right: -5px;
-            bottom: -5px;
-            background: repeating-linear-gradient(
-                45deg,
-                #FFBE0B,
-                #FFBE0B 10px,
-                #FF006E 10px,
-                #FF006E 20px
-            );
-            z-index: -1;
-            opacity: 0.3;
+        /* --- ACTIVITIES SECTION --- */
+        .activities {
+            padding: 4rem 0;
         }
 
         h2 {
-            font-size: 2.5em;
-            color: #FF006E;
-            text-shadow: 3px 3px 0 #000, 6px 6px 0 #FFBE0B;
-            margin-bottom: 20px;
-            transform: skew(-3deg);
-            display: inline-block;
-            padding: 10px 20px;
-            background: linear-gradient(45deg, #FFFF00, #3A86FF);
-            border: 4px solid #000;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            border-left: 8px solid var(--accent-color);
+            padding-left: 1rem;
         }
 
-        h3 {
-            font-size: 1.8em;
-            color: #8338EC;
-            margin: 30px 0 15px;
-            text-decoration: underline wavy #FFBE0B;
-            text-underline-offset: 8px;
-        }
-
-        p, li {
-            font-family: 'Arial', sans-serif;
-            font-size: 1.1em;
-            line-height: 1.8;
-            margin-bottom: 15px;
-            color: #000;
-        }
-
-        strong {
-            color: #FF006E;
-            background: #FFFF00;
-            padding: 2px 8px;
-            border: 2px solid #000;
-        }
-
-        /* Listes stylisées */
-        ul, ol {
-            margin-left: 40px;
-            margin-bottom: 20px;
-        }
-
-        li {
-            margin-bottom: 10px;
-            position: relative;
-        }
-
-        ul li::marker {
-            content: '▶';
-            color: #FF006E;
-            font-size: 1.2em;
-        }
-
-        /* Valeurs avec style punk */
-        .values {
+        .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 40px 0;
+            gap: 2rem;
         }
 
-        .value-card {
-            background: linear-gradient(135deg, #8338EC, #3A86FF);
-            padding: 30px;
-            border: 6px solid #000;
-            border-radius: 20px;
-            box-shadow: 8px 8px 0 #FFBE0B;
-            transition: all 0.3s ease;
-            animation: cardPulse 3s ease-in-out infinite;
+        .card {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            transition: border-color 0.3s;
         }
 
-        .value-card:nth-child(2) {
-            background: linear-gradient(135deg, #FF006E, #FB5607);
-            animation-delay: 0.5s;
+        .card:hover {
+            border-color: var(--accent-color);
         }
 
-        .value-card:nth-child(3) {
-            background: linear-gradient(135deg, #FFBE0B, #FF006E);
-            animation-delay: 1s;
+        .card h3 {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
         }
 
-        @keyframes cardPulse {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.02) rotate(1deg); }
-        }
-
-        .value-card:hover {
-            transform: scale(1.05) rotate(-2deg) !important;
-            box-shadow: -8px 8px 0 #FF006E;
-        }
-
-        .value-card h3 {
-            color: #FFFF00;
-            text-shadow: 3px 3px 0 #000;
-            text-decoration: none;
-            margin-bottom: 15px;
-        }
-
-        .value-card p {
-            color: #FFF;
-            font-weight: bold;
-            text-shadow: 1px 1px 2px #000;
-        }
-
-        /* Contact chaotique */
-        .contact-info {
-            background: #000;
-            color: #FFFF00;
-            padding: 40px;
-            border: 8px solid #FF006E;
-            border-radius: 20px;
-            text-align: center;
-            font-size: 1.5em;
-            box-shadow: 0 0 30px rgba(255, 0, 110, 0.5);
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 30px rgba(255, 0, 110, 0.5); }
-            50% { box-shadow: 0 0 60px rgba(255, 0, 110, 0.8); }
-        }
-
-        .contact-info a {
-            color: #3A86FF;
-            text-decoration: none;
-            border-bottom: 3px solid #FFBE0B;
-            transition: all 0.3s ease;
-        }
-
-        .contact-info a:hover {
-            color: #FFFF00;
-            border-bottom-color: #FF006E;
-        }
-
-        /* Footer énergique */
+        /* --- FOOTER --- */
         footer {
-            background: #000;
-            color: #FFFF00;
-            padding: 40px;
+            margin-top: 4rem;
+            padding: 3rem 0;
+            background-color: var(--card-bg);
             text-align: center;
-            border-top: 8px solid #FF006E;
-            margin-top: 60px;
         }
 
-        footer a {
-            color: #3A86FF;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        footer a:hover {
-            color: #FFBE0B;
-            text-shadow: 0 0 10px #FFBE0B;
-        }
-
-        /* Animations interactives */
-        .interactive-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .shape {
-            position: absolute;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            animation: floatShapes 20s linear infinite;
-        }
-
-        .shape:nth-child(1) {
-            width: 100px;
-            height: 100px;
-            background: rgba(255, 0, 110, 0.3);
-            top: 10%;
-            left: 10%;
-            border-radius: 50%;
-        }
-
-        .shape:nth-child(2) {
-            width: 150px;
-            height: 150px;
-            background: rgba(131, 56, 236, 0.3);
-            top: 60%;
-            left: 80%;
-            transform: rotate(45deg);
-            animation-delay: 5s;
-        }
-
-        .shape:nth-child(3) {
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 190, 11, 0.3);
-            top: 30%;
-            left: 60%;
-            border-radius: 30%;
-            animation-delay: 10s;
-        }
-
-        @keyframes floatShapes {
-            0% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-50px) rotate(180deg); }
-            100% { transform: translateY(0) rotate(360deg); }
-        }
-
-        /* Responsive */
+        /* --- MOBILE --- */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2em;
-            }
-
-            .portraits {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .portrait img {
-                width: 200px;
-                height: 200px;
-            }
-
-            nav a {
-                padding: 15px 20px;
-                font-size: 1em;
-            }
-
-            .content-section {
-                padding: 20px;
-            }
-
-            h2 {
-                font-size: 2em;
-            }
+            h1 { font-size: 2.5rem; }
+            .nav-links { display: none; } /* Pour simplifier la démo, on cache le menu desktop */
+            /* En prod, il faudrait un menu burger accessible */
         }
     </style>
 </head>
 <body>
-    <div class="interactive-bg">
-        <div class="shape"></div>
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
 
-    <header>
-        <div class="logo-container">
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%23FF006E' width='100' height='100'/%3E%3Cpath fill='%23FFFF00' d='M30,50 Q50,20 70,50 Q50,80 30,50'/%3E%3C/svg%3E" alt="Logo PMDA" class="logo">
-            <div>
-                <h1>"PARLEZ-MOI D'AUTISME"</h1>
-                <div class="tagline">Association de soutien aux familles</div>
-            </div>
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
+    <header role="banner">
+        <div class="container">
+            <nav role="navigation" aria-label="Menu principal">
+                <a href="#" class="logo">Iris<span style="color:white">&</span>Sens</a>
+                
+                <button id="contrast-toggle" class="a11y-toggle" aria-pressed="false">
+                    Activer Contraste Max
+                </button>
+
+                <ul class="nav-links">
+                    <li><a href="#" aria-current="page">Accueil</a></li>
+                    <li><a href="#">Activités</a></li>
+                    <li><a href="#">Bénévolat</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
-    <nav>
-        <ul>
-            <li><a href="#accueil">ACCUEIL</a></li>
-            <li><a href="#actions">NOS ACTIONS</a></li>
-            <li><a href="#infos">INFOS UTILES</a></li>
-            <li><a href="#contact">CONTACT</a></li>
-            <li><a href="#don">FAIRE UN DON</a></li>
-        </ul>
-    </nav>
+    <main id="main-content" role="main">
+        
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="blur-circle blur-1" aria-hidden="true"></div>
+            <div class="container">
+                <h1 id="hero-title">Vivez l'aventure,<br> au-delà du visible.</h1>
+                <p>
+                    Rejoignez une communauté dynamique où la déficience visuelle n'est pas une limite. 
+                    Tandem, randonnée audio, ateliers sensoriels : redécouvrez vos sens.
+                </p>
+                <a href="#activites" class="cta-button">
+                    Découvrir nos activités
+                    <span aria-hidden="true"> &rarr;</span>
+                </a>
+            </div>
+            <div class="blur-circle blur-2" aria-hidden="true"></div>
+        </section>
 
-    <div class="container">
-        <section class="hero" id="accueil">
-            <div class="portraits">
-                <figure class="portrait">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 250 250'%3E%3Ccircle fill='%233A86FF' cx='125' cy='125' r='125'/%3E%3Ccircle fill='%23FF006E' cx='100' cy='100' r='20'/%3E%3Ccircle fill='%23FF006E' cx='150' cy='100' r='20'/%3E%3Cpath stroke='%23000' stroke-width='5' fill='none' d='M70,150 Q125,180 180,150'/%3E%3C/svg%3E" alt="Maxime">
-                    <figcaption>MAXIME</figcaption>
-                </figure>
-                <figure class="portrait">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 250 250'%3E%3Ccircle fill='%23FFBE0B' cx='125' cy='125' r='125'/%3E%3Ccircle fill='%238338EC' cx='100' cy='100' r='20'/%3E%3Ccircle fill='%238338EC' cx='150' cy='100' r='20'/%3E%3Cpath stroke='%23000' stroke-width='5' fill='none' d='M70,150 Q125,180 180,150'/%3E%3C/svg%3E" alt="Julien">
-                    <figcaption>JULIEN</figcaption>
-                </figure>
+        <section id="activites" class="activities" aria-labelledby="activities-title">
+            <div class="container">
+                <h2 id="activities-title">Nos prochaines sorties</h2>
+                
+                <div class="grid">
+                    <article class="card">
+                        <h3>Cyclisme en Tandem</h3>
+                        <p>
+                            Tous les samedis matins. Pilotes voyants et co-pilotes malvoyants forment un binôme 
+                            pour des balades de 20 à 50km. Sensations de vitesse garanties.
+                        </p>
+                    </article>
+
+                    <article class="card">
+                        <h3>Randonnée Sonore</h3>
+                        <p>
+                            Une immersion en forêt guidée par le son. Nos parcours sont balisés avec des 
+                            repères auditifs et accompagnés de descriptions audio en direct.
+                        </p>
+                    </article>
+
+                    <article class="card">
+                        <h3>Atelier Poterie Tactile</h3>
+                        <p>
+                            Apprenez à modeler l'argile sans utiliser la vue. Un travail sur la texture, 
+                            la forme et la créativité pure, encadré par des artisans.
+                        </p>
+                    </article>
+                </div>
             </div>
         </section>
 
-        <section class="content-section">
-            <h2>NOS VALEURS</h2>
-            <div class="values">
-                <div class="value-card">
-                    <h3>LIBERTÉ / AUTONOMIE</h3>
-                    <p><strong>La liberté</strong> c'est pouvoir agir sans contraintes et exercer son libre arbitre.</p>
-                    <p><strong>L'autonomie</strong> c'est se gouverner soi-même et interagir en toute indépendance.</p>
-                </div>
-                <div class="value-card">
-                    <h3>ÉGALITÉ / ÉQUITÉ</h3>
-                    <p><strong>L'égalité</strong> c'est procurer les mêmes chances à chacun sans discrimination.</p>
-                    <p><strong>L'équité</strong> c'est s'adapter aux différences et aux besoins individuels.</p>
-                </div>
-                <div class="value-card">
-                    <h3>FRATERNITÉ / SOLIDARITÉ</h3>
-                    <p><strong>La fraternité</strong> c'est l'amour universel qui unit tous les humains.</p>
-                    <p><strong>La solidarité</strong> implique une obligation morale d'entraide.</p>
-                </div>
-            </div>
+        <section class="container" style="margin-top: 2rem;">
+            <h2>Notre vision</h2>
+            <p style="max-width: 800px; font-size: 1.2rem;">
+                Chez Iris & Sens, nous croyons que l'autonomie passe par le collectif. 
+                Nous ne "compensons" pas le handicap, nous créons des environnements où il devient un détail.
+                Nos interfaces numériques, comme nos activités, sont conçues pour être universelles ("Design for All").
+            </p>
         </section>
 
-        <section class="content-section" id="actions">
-            <h2>NOTRE MISSION</h2>
-            <p>Notre Association <strong>« Parlez-Moi d'Autisme »</strong> propose aux familles d'enfants ou d'adultes Autistes un soutien moral et des conseils pour mieux vivre avec ce handicap.</p>
-            
-            <h3>CE QUE NOUS PROPOSONS :</h3>
-            <ul>
-                <li><strong>ÉCOUTE & ACCUEIL</strong> - Rendez-vous avec les familles, groupes de parole</li>
-                <li><strong>TÉMOIGNAGE</strong> - Partage d'expérience de parents d'enfants autistes</li>
-                <li><strong>CONSEIL & ORIENTATION</strong> - Adresses utiles, dépistage, spécialistes</li>
-                <li><strong>INFORMATION</strong> - Sensibilisation sur l'autisme auprès de différents publics</li>
-                <li><strong>MISE EN RELATION</strong> - Entre familles et avec les professionnels</li>
-            </ul>
+    </main>
 
-            <h3>CE QUE NOUS NE FAISONS PAS :</h3>
-            <ul>
-                <li>Aider à trouver une structure de prise en charge</li>
-                <li>Choisir une méthode ou proposer des éducateurs</li>
-                <li>Faire un diagnostic (aucun conseil médical)</li>
-                <li>Être une structure d'accueil</li>
-            </ul>
-        </section>
-
-        <section class="content-section contact-info" id="contact">
-            <h2>CONTACTEZ-NOUS !</h2>
-            <p>📞 Tel : <strong>06 31 90 91 45</strong><br>(9h00 - 20h00 / Lun - Sam)</p>
-            <p>✉️ Email : <a href="mailto:autisme.pmda@gmail.com">autisme.pmda@gmail.com</a></p>
-        </section>
-    </div>
-
-    <footer>
-        <p>Copyright © 2025 "Parlez-Moi d'Autisme"</p>
-        <p><a href="#mentions">Mentions Légales</a></p>
+    <footer role="contentinfo">
+        <div class="container">
+            <p><strong>Association Iris & Sens</strong></p>
+            <p>12 Rue de la Clarté, 75000 Ville-Lumière</p>
+            <p><a href="tel:+33123456789" style="color:var(--accent-color);">01 23 45 67 89</a></p>
+            <p style="margin-top: 1rem; font-size: 0.9rem;">Site conçu selon les normes RGAA / WCAG AAA.</p>
+        </div>
     </footer>
 
     <script>
-        // Animation interactive au survol
-        document.querySelectorAll('.value-card, .content-section').forEach(el => {
-            el.addEventListener('mouseenter', function() {
-                this.style.transform = 'scale(1.05) rotate(' + (Math.random() * 4 - 2) + 'deg)';
-            });
-            el.addEventListener('mouseleave', function() {
-                this.style.transform = '';
-            });
-        });
+        // Script simple pour basculer le mode contraste élevé
+        const toggleBtn = document.getElementById('contrast-toggle');
+        const body = document.body;
 
-        // Animation de parallaxe simple
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            document.querySelectorAll('.shape').forEach((shape, index) => {
-                const speed = 0.5 + (index * 0.2);
-                shape.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.1}deg)`;
-            });
-        });
-
-        // Effet de pulsation sur les éléments au clic
-        document.querySelectorAll('a, button').forEach(el => {
-            el.addEventListener('click', function(e) {
-                this.style.animation = 'none';
-                setTimeout(() => {
-                    this.style.animation = '';
-                }, 10);
-            });
+        toggleBtn.addEventListener('click', () => {
+            body.classList.toggle('high-contrast');
+            
+            // Mise à jour de l'attribut ARIA pour les lecteurs d'écran
+            const isHighContrast = body.classList.contains('high-contrast');
+            toggleBtn.setAttribute('aria-pressed', isHighContrast);
+            
+            toggleBtn.textContent = isHighContrast 
+                ? 'Désactiver Contraste Max' 
+                : 'Activer Contraste Max';
         });
     </script>
 </body>
