@@ -1,169 +1,193 @@
-<div id="a11y-widget" role="region" aria-label="Outils d'accessibilité">
-    <div class="a11y-controls">
-        <button id="btn-play" aria-label="Lire le contenu de la page" title="Lire la page">
-            ▶ Lire la page
-        </button>
-        <button id="btn-pause" aria-label="Mettre en pause la lecture" title="Pause" style="display:none;">
-            ⏸ Pause
-        </button>
-        <button id="btn-stop" aria-label="Arrêter la lecture" title="Arrêter">
-            ⏹ Arrêter
-        </button>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>CV Mani KACHIGAR - Assistant RH</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #f4f4f4;
+        }
+        .cv-container {
+            background-color: #fff;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        header {
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            margin: 0;
+            color: #2c3e50;
+            text-transform: uppercase;
+        }
+        h2 {
+            color: #2980b9;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 25px;
+            text-transform: uppercase;
+            font-size: 1.2em;
+        }
+        .contact-info {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        .profile-summary {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-left: 5px solid #2980b9;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .experience-item, .education-item {
+            margin-bottom: 15px;
+        }
+        .date-location {
+            font-weight: bold;
+            color: #7f8c8d;
+            display: block;
+            font-size: 0.9em;
+        }
+        .job-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #2c3e50;
+        }
+        .company {
+            font-style: italic;
+            color: #34495e;
+        }
+        ul {
+            margin-top: 5px;
+            padding-left: 20px;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .badge {
+            display: inline-block;
+            background: #ecf0f1;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin: 2px;
+            font-size: 0.85em;
+        }
+        @media print {
+            body { background-color: #fff; padding: 0; }
+            .cv-container { box-shadow: none; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="cv-container">
+    <header>
+        <h1>Mani KACHIGAR</h1>
+        <div class="contact-info">
+            <span>📍 18, place de la Daurade, 31000 Toulouse</span>
+            <span>📞 06 56 80 91 95</span>
+            <span>✉️ manikashigar@gmail.com</span>
+            <span>🚗 Permis B</span>
+        </div>
+    </header>
+
+    <div class="profile-summary">
+        <strong>Objectif : Stage Assistant Ressources Humaines</strong><br>
+        À profil organisé et rigoureux, ancien enseignant, je souhaite mettre à profit mon expérience en coordination de projets et mes compétences en gestion et accompagnement au service des missions RH (recrutement, formation, administration).
     </div>
-    <div id="a11y-status" aria-live="polite">Prêt à lire</div>
+
+    <h2>Compétences RH & Transversales</h2>
+    <div class="skills-grid">
+        <div>
+            <strong>Savoir-faire (Hard Skills)</strong>
+            <ul>
+                <li>Gestion administrative & Suivi de dossiers</li>
+                <li>Coordination de projets pédagogiques/artistiques</li>
+                <li>Rédaction de rapports et supports de communication</li>
+                <li>Maîtrise Pack Office (Word, PowerPoint) & Adobe (Ps, Ai, Id)</li>
+                <li>Techniques d'entretien (expérience journaliste/interprète)</li>
+            </ul>
+        </div>
+        <div>
+            <strong>Savoir-être (Soft Skills)</strong>
+            <ul>
+                <li>Esprit d'analyse et de synthèse</li>
+                <li>Sens de l'organisation et rigueur</li>
+                <li>Adaptation et aisance relationnelle</li>
+                <li>Autonomie et travail en équipe</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Expériences Professionnelles</h2>
+
+    <div class="experience-item">
+        <span class="date-location">2022 - Présent | Toulouse</span>
+        <span class="job-title">Professeur d'Arts Plastiques (Contractuel)</span><br>
+        <span class="company">Le Rectorat de Toulouse</span>
+        <ul>
+            <li>Gestion de groupes et animation de sessions de formation.</li>
+            <li>Organisation et planification de projets pédagogiques annuels.</li>
+            <li>Évaluation des compétences et accompagnement individuel.</li>
+        </ul>
+    </div>
+
+    <div class="experience-item">
+        <span class="date-location">2012 - 2015 | Paris / International</span>
+        <span class="job-title">Interprète Agréé & Journaliste Culturel</span><br>
+        <span class="company">MEDEF - Paris / Asia Financial</span>
+        <ul>
+            <li>Accompagnement de délégations économiques (médiation relationnelle).</li>
+            <li>Réalisation d'interviews et reportages (écoute active, synthèse).</li>
+            <li>Gestion de la mise en page graphique et iconographique.</li>
+        </ul>
+    </div>
+
+    <div class="experience-item">
+        <span class="date-location">2015 | Toulouse</span>
+        <span class="job-title">Archiviste (Service Numérisation)</span><br>
+        <span class="company">Musée du Vieux Toulouse</span>
+        <ul>
+            <li>Gestion rigoureuse de bases de données et classement administratif.</li>
+        </ul>
+    </div>
+
+    <h2>Formation</h2>
+    <div class="education-item">
+        <span class="date-location">2020 - 2022</span>
+        <span class="job-title">Master MEEF Arts Plastiques</span><br>
+        <span class="company">Université Jean Jaurès / INSPE, Toulouse</span>
+    </div>
+    <div class="education-item">
+        <span class="date-location">2012 - 2015</span>
+        <span class="job-title">Licence en Cinématographie (Théorie et Pratique)</span><br>
+        <span class="company">Université de Kent Canterbury / UCLA California</span>
+    </div>
+
+    <h2>Langues</h2>
+    <div>
+        <span class="badge">Français : Courant</span>
+        <span class="badge">Anglais : Professionnel (TOEFL 93/120)</span>
+        <span class="badge">Persan : Courant</span>
+        <span class="badge">Russe/Arabe : Débutant</span>
+    </div>
+
+    <h2>Centres d'intérêt</h2>
+    <p>Alpinisme, natation, littérature, cinéma.</p>
 </div>
 
-<style>
-    /* --- STYLE DU WIDGET --- */
-    #a11y-widget {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background-color: #111827; /* Fond sombre */
-        border: 4px solid #FFD700; /* Jaune très contrasté */
-        border-radius: 12px;
-        padding: 15px;
-        z-index: 99999; /* Au-dessus de tout le reste */
-        font-family: 'Verdana', sans-serif;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        max-width: 300px;
-    }
-
-    .a11y-controls {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 8px;
-    }
-
-    #a11y-widget button {
-        background-color: #FFD700;
-        color: #000000;
-        border: 2px solid #FFFFFF;
-        padding: 10px 15px;
-        font-weight: bold;
-        font-size: 1rem;
-        cursor: pointer;
-        border-radius: 6px;
-        flex: 1;
-        transition: transform 0.1s, background 0.2s;
-    }
-
-    #a11y-widget button:hover, #a11y-widget button:focus {
-        background-color: #FFFFFF;
-        border-color: #FFD700;
-        transform: scale(1.05);
-        outline: 2px solid #FFD700;
-    }
-
-    #a11y-status {
-        color: #FFD700;
-        text-align: center;
-        font-weight: bold;
-        font-size: 0.9rem;
-    }
-</style>
-
-<script>
-    (function() {
-        // --- LOGIQUE DE SYNTHÈSE VOCALE ---
-        const synth = window.speechSynthesis;
-        let utterance = null;
-        
-        const btnPlay = document.getElementById('btn-play');
-        const btnPause = document.getElementById('btn-pause');
-        const btnStop = document.getElementById('btn-stop');
-        const statusDisplay = document.getElementById('a11y-status');
-
-        // Fonction pour récupérer le texte pertinent (évite les menus et footers techniques)
-        function getReadableContent() {
-            // On cible les titres et paragraphes principaux
-            // Note: Sur Google Sites, le contenu est souvent dans des div spécifiques, 
-            // ici on ratisse large mais proprement.
-            const contentNodes = document.querySelectorAll('h1, h2, h3, p, article, .tyJCtd'); 
-            let textToRead = "";
-            
-            contentNodes.forEach(node => {
-                // On évite le texte caché ou vide
-                if(node.innerText && node.innerText.trim().length > 0 && node.offsetParent !== null) {
-                    textToRead += node.innerText + ". ";
-                }
-            });
-            return textToRead;
-        }
-
-        function startReading() {
-            if (synth.speaking && synth.paused) {
-                synth.resume();
-                togglePlayPause(true);
-                statusDisplay.textContent = "Lecture en cours...";
-                return;
-            }
-
-            // Annuler toute lecture précédente
-            synth.cancel();
-
-            const text = getReadableContent();
-            if (!text) {
-                statusDisplay.textContent = "Aucun texte détecté.";
-                return;
-            }
-
-            utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'fr-FR'; // Force la langue française
-            utterance.rate = 1; // Vitesse normale
-            utterance.pitch = 1;
-
-            // Événements de lecture
-            utterance.onend = () => {
-                togglePlayPause(false);
-                statusDisplay.textContent = "Lecture terminée.";
-            };
-
-            utterance.onerror = () => {
-                togglePlayPause(false);
-                statusDisplay.textContent = "Erreur de lecture.";
-            };
-
-            synth.speak(utterance);
-            togglePlayPause(true);
-            statusDisplay.textContent = "Lecture en cours...";
-        }
-
-        function pauseReading() {
-            if (synth.speaking) {
-                synth.pause();
-                togglePlayPause(false);
-                statusDisplay.textContent = "Lecture en pause.";
-            }
-        }
-
-        function stopReading() {
-            synth.cancel();
-            togglePlayPause(false);
-            statusDisplay.textContent = "Lecture arrêtée.";
-        }
-
-        function togglePlayPause(isPlaying) {
-            if (isPlaying) {
-                btnPlay.style.display = 'none';
-                btnPause.style.display = 'inline-block';
-                btnPause.focus(); // Garde le focus pour l'accessibilité
-            } else {
-                btnPlay.style.display = 'inline-block';
-                btnPause.style.display = 'none';
-                if(document.activeElement === btnPause) btnPlay.focus();
-            }
-        }
-
-        // Écouteurs d'événements
-        btnPlay.addEventListener('click', startReading);
-        btnPause.addEventListener('click', pauseReading);
-        btnStop.addEventListener('click', stopReading);
-
-        // Nettoyage si on quitte la page
-        window.addEventListener('beforeunload', () => {
-            synth.cancel();
-        });
-
-    })();
-</script>
+</body>
+</html>
