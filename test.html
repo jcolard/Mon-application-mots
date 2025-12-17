@@ -6,93 +6,108 @@
     <title>CV Mani KACHIGAR - Stagiaire Assistant RH</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif; /* Police standard pour ATS [cite: 89] */
-            line-height: 1.5;
+            font-family: 'Arial', 'Calibri', sans-serif; /* Polices standards ATS [cite: 89] */
+            line-height: 1.4;
             color: #333;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f0f0f0;
         }
         .container {
-            width: 21cm; /* Format A4 [cite: 129] */
+            width: 21cm; /* Format A4 [cite: 84] */
+            min-height: 29.7cm;
             margin: 20px auto;
             background: white;
-            padding: 40px;
+            /* Marge standard de 40px + 1cm supplémentaire à droite demandée */
+            padding: 40px calc(40px + 1cm) 40px 40px; 
+            box-sizing: border-box;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         header {
             display: flex;
             align-items: center;
-            border-bottom: 2px solid #2c3e50;
-            padding-bottom: 20px;
+            border-bottom: 3px solid #1a2a6c;
+            padding-bottom: 15px;
             margin-bottom: 20px;
         }
         .photo {
-            width: 120px;
-            height: 150px;
+            width: 110px;
+            height: 140px;
             object-fit: cover;
-            border-radius: 5px;
-            margin-right: 30px;
+            border-radius: 4px;
+            margin-right: 25px;
         }
         .info h1 {
             margin: 0;
-            color: #2c3e50;
+            color: #1a2a6c;
+            font-size: 24pt;
             text-transform: uppercase;
         }
         .info p {
-            margin: 5px 0;
-            font-size: 0.9em;
+            margin: 3px 0;
+            font-size: 10pt;
         }
-        .job-title {
-            background-color: #2c3e50;
+        .titre-poste {
+            background-color: #1a2a6c;
             color: white;
-            padding: 10px;
+            padding: 12px;
             text-align: center;
             font-weight: bold;
-            font-size: 1.2em;
+            font-size: 14pt;
             margin-bottom: 20px;
+            text-transform: uppercase;
         }
-        .hook {
-            font-style: italic;
+        .profil {
             background: #f9f9f9;
             padding: 15px;
-            border-left: 5px solid #2c3e50;
+            border-left: 4px solid #1a2a6c;
             margin-bottom: 20px;
+            font-size: 11pt;
         }
         h2 {
-            color: #2c3e50;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
+            color: #1a2a6c;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 3px;
             text-transform: uppercase;
-            font-size: 1.1em;
-            margin-top: 25px;
+            font-size: 12pt;
+            margin-top: 20px;
         }
-        .section {
+        .item {
             margin-bottom: 15px;
+            display: flex;
         }
-        .exp-item, .edu-item {
-            margin-bottom: 12px;
-        }
-        .date {
+        .dates {
+            width: 120px;
             font-weight: bold;
+            font-size: 10pt;
+            flex-shrink: 0;
+        }
+        .details {
+            flex-grow: 1;
+        }
+        .details strong {
+            display: block;
+            font-size: 11pt;
+            color: #000;
+        }
+        .details em {
+            display: block;
+            margin-bottom: 5px;
             color: #555;
-            width: 150px;
-            display: inline-block;
-        }
-        .content {
-            display: inline-block;
-            vertical-align: top;
-            width: 550px;
-        }
-        .bold { font-weight: bold; }
-        .skills-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
         }
         ul {
             margin: 5px 0;
-            padding-left: 20px;
+            padding-left: 18px;
+            list-size-type: disc;
+        }
+        li {
+            margin-bottom: 3px;
+            font-size: 10pt;
+        }
+        .competences-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
     </style>
 </head>
@@ -103,91 +118,91 @@
         <img src="https://i.ibb.co/gb1zwCC0/Screenshot-2025-12-17-21-39-41.png" alt="Mani KACHIGAR" class="photo">
         <div class="info">
             <h1>Mani KACHIGAR [cite: 18]</h1>
-            <p>📍 18, place de la Daurade, 31000 Toulouse [cite: 27, 28]</p>
+            <p>📍 18, place de la Daurade, Apt 224, 31000 Toulouse [cite: 27, 28]</p>
             <p>📞 06 56 80 91 95 [cite: 26] | 📧 manikashigar@gmail.com [cite: 27]</p>
-            <p>🚗 Permis de conduire [cite: 2]</p>
+            <p>🚗 Nationalité française - Permis de conduire [cite: 2]</p>
         </div>
     </header>
 
-    <div class="job-title">STAGIAIRE ASSISTANT RESSOURCES HUMAINES</div>
+    <div class="titre-poste">Stagiaire Assistant Ressources Humaines [cite: 35]</div>
 
-    <div class="hook">
-        À profil organisé et rigoureux, ancien enseignant, je souhaite mettre mon expérience en coordination de projets et mes compétences en gestion et accompagnement au service des missions RH. 
+    <div class="profil">
+        <strong>Profil Professionnel :</strong><br>
+        À profil organisé et rigoureux, ancien enseignant, je souhaite mettre mon expérience en coordination de projets et mes compétences en gestion et accompagnement au service des missions RH[cite: 35].
     </div>
 
-    <div class="section">
-        <h2>Expérience Professionnelle [cite: 20, 92]</h2>
-        
-        <div class="exp-item">
-            <span class="date">2022 – Présent</span>
-            <div class="content">
-                <span class="bold">Professeur d'Arts Plastiques contractuel</span> – Rectorat de Toulouse<br>
-                • Coordination de projets pédagogiques et gestion de groupes (30+ personnes). [cite: 20, 35]<br>
-                • Analyse des besoins et suivi individuel des collaborateurs (élèves). 
-            </div>
-        </div>
-
-        <div class="exp-item">
-            <span class="date">2012 – 2015</span>
-            <div class="content">
-                <span class="bold">Interprète Agréé auprès de la délégation économique</span> – MEDEF Paris<br>
-                • Accompagnement de délégations internationales et facilitation relationnelle. [cite: 9, 20]<br>
-                • Gestion de la communication interculturelle en environnement professionnel exigeant. [cite: 9, 13]
-            </div>
-        </div>
-
-        <div class="exp-item">
-            <span class="date">2015</span>
-            <div class="content">
-                <span class="bold">Archiviste</span> – Musée du Vieux Toulouse<br>
-                • Organisation rigoureuse et numérisation de documents administratifs. [cite: 7, 20]
-            </div>
-        </div>
-
-        <div class="exp-item">
-            <span class="date">2012 – 2015</span>
-            <div class="content">
-                <span class="bold">Journaliste Culturel & Infographiste</span> – Asia Financial / Online<br>
-                • Rédaction d'analyses et création de supports de communication visuelle (Logos, Affiches). [cite: 20, 33]
-            </div>
+    <h2>Expérience Professionnelle [cite: 19]</h2>
+    
+    <div class="item">
+        <div class="dates">2022 – Présent</div>
+        <div class="details">
+            <strong>Professeur d'Arts plastiques contractuel [cite: 20]</strong>
+            <em>Le rectorat de Toulouse [cite: 20]</em>
+            <ul>
+                <li>Gestion et coordination de groupes (public scolaire)[cite: 20].</li>
+                <li>Organisation de projets pédagogiques et suivi administratif[cite: 40].</li>
+                <li>Adaptation aux besoins des collaborateurs (élèves) et sens du relationnel[cite: 8, 9].</li>
+            </ul>
         </div>
     </div>
 
-    <div class="section">
-        <h2>Formation [cite: 23, 92]</h2>
-        <div class="edu-item">
-            <span class="date">2020 – 2022</span>
-            <div class="content"><span class="bold">Master MEEF Arts Plastiques</span> – Université Jean Jaurès / INSPE, Toulouse</div>
-        </div>
-        <div class="edu-item">
-            <span class="date">2012 – 2015</span>
-            <div class="content"><span class="bold">Licence en Cinématographie (Théorie et Pratique)</span> – Université de Kent / UCLA</div>
-        </div>
-        <div class="edu-item">
-            <span class="date">2007 – 2010</span>
-            <div class="content"><span class="bold">Formation d'Infographie et Média</span> – École Émile Cohl, Lyon</div>
+    <div class="item">
+        <div class="dates">2012 – 2015</div>
+        <div class="details">
+            <strong>Interprète agréé auprès de la délégation économique [cite: 20]</strong>
+            <em>MEDEF - Paris [cite: 20]</em>
+            <ul>
+                <li>Accompagnement de délégations et facilitation des échanges interculturels[cite: 20].</li>
+                <li>Gestion de la communication professionnelle en environnement de haut niveau[cite: 9].</li>
+            </ul>
         </div>
     </div>
 
-    <div class="section">
-        <h2>Compétences [cite: 3, 92]</h2>
-        <div class="skills-container">
-            <div>
-                <span class="bold">Soft Skills :</span> [cite: 144]
-                <ul>
-                    <li>Esprit d'analyse et d'initiative [cite: 5, 6]</li>
-                    <li>Sens de l'organisation et Autonomie [cite: 7, 11]</li>
-                    <li>Excellent relationnel et travail d'équipe [cite: 9, 10]</li>
-                </ul>
-            </div>
-            <div>
-                <span class="bold">Outils & Langues :</span> [cite: 4, 12]
-                <ul>
-                    <li>Pack Office (Word, PowerPoint) [cite: 31, 32]</li>
-                    <li>Adobe Suite (InDesign, Photoshop, Illustrator) [cite: 33]</li>
-                    <li>Anglais (Professionnel - TOEFL 93/120), Français, Persan [cite: 13, 14, 15]</li>
-                </ul>
-            </div>
+    <div class="item">
+        <div class="dates">2015</div>
+        <div class="details">
+            <strong>Archiviste [cite: 20]</strong>
+            <em>Musée du vieux Toulouse [cite: 20]</em>
+            <ul>
+                <li>Service de numérisation et organisation rigoureuse des documents[cite: 20].</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Formation [cite: 29]</h2>
+    <div class="item">
+        <div class="dates">2020 – 2022</div>
+        <div class="details">
+            <strong>Master MEEF Arts plastiques [cite: 23]</strong>
+            <em>Université Jean Jaurès, INSPE Toulouse [cite: 23]</em>
+        </div>
+    </div>
+    <div class="item">
+        <div class="dates">2012 – 2015</div>
+        <div class="details">
+            <strong>Licence en Cinématographie (Théorie et Pratique) [cite: 23]</strong>
+            <em>Université de Kent Canterbury / UCLA, California [cite: 23]</em>
+        </div>
+    </div>
+
+    <h2>Compétences & Langues [cite: 3, 12]</h2>
+    <div class="competences-grid">
+        <div>
+            <strong>Savoir-être (Soft Skills) [cite: 144]</strong>
+            <ul>
+                <li>Esprit d'initiative et d'analyse[cite: 5, 6].</li>
+                <li>Sens de l'organisation et rigueur[cite: 7, 40].</li>
+                <li>Travail en équipe et autonomie[cite: 10, 11].</li>
+            </ul>
+        </div>
+        <div>
+            <strong>Outils & Langues [cite: 4, 12]</strong>
+            <ul>
+                <li>Bureautique : Word, PowerPoint, Pack Office[cite: 4, 31, 32].</li>
+                <li>Design : InDesign, Photoshop, Illustrator[cite: 33].</li>
+                <li>Anglais : Professionnel (TOEFL 93/120)[cite: 13].</li>
+                <li>Français & Persan : Courant[cite: 14, 15].</li>
+            </ul>
         </div>
     </div>
 </div>
