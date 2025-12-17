@@ -6,91 +6,104 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            line-height: 1.6;
+            line-height: 1.3; /* Interligne réduit pour condenser */
             color: #333;
             max-width: 800px;
             margin: 0 auto;
-            padding: 40px;
+            padding: 20px; /* Marges extérieures réduites */
             background-color: #f4f4f4;
         }
         .cv-container {
             background-color: #fff;
-            padding: 40px;
+            padding: 25px 35px; /* Équilibre pour laisser du vide en bas */
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            min-height: 950px; /* Assure une structure de page constante */
         }
         header {
             display: flex;
             align-items: center;
             border-bottom: 2px solid #2c3e50;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
         }
         .photo-candidat {
-            width: 120px;
-            height: 150px;
+            width: 100px; /* Taille légèrement réduite */
+            height: 125px;
             object-fit: cover;
-            border-radius: 8px;
-            margin-right: 25px;
-            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 20px;
         }
-        .header-text {
-            flex-grow: 1;
-        }
-        h1 {
+        .header-text h1 {
             margin: 0;
             color: #2c3e50;
             text-transform: uppercase;
-            font-size: 1.8em;
+            font-size: 1.6em;
+        }
+        .contact-info {
+            font-size: 0.85em;
+            color: #555;
+            margin-top: 3px;
         }
         h2 {
             color: #2980b9;
             border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
-            margin-top: 25px;
+            padding-bottom: 3px;
+            margin-top: 12px; /* Espacement réduit entre sections */
+            margin-bottom: 8px;
             text-transform: uppercase;
-            font-size: 1.1em;
-        }
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            font-size: 0.9em;
-            margin-top: 5px;
-            color: #555;
+            font-size: 1em;
         }
         .profile-summary {
             background-color: #f9f9f9;
-            padding: 15px;
-            border-left: 5px solid #2980b9;
-            margin: 20px 0;
+            padding: 10px;
+            border-left: 4px solid #2980b9;
+            margin-bottom: 15px;
+            font-size: 0.9em;
         }
         .experience-item {
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         .job-title {
             font-weight: bold;
             color: #2c3e50;
+            font-size: 0.95em;
         }
         .date-location {
             font-weight: bold;
             color: #7f8c8d;
-            font-size: 0.85em;
+            font-size: 0.8em;
+            float: right; /* Gain de place vertical */
+        }
+        .company {
+            font-style: italic;
+            font-size: 0.9em;
+        }
+        ul {
+            margin-top: 3px;
+            margin-bottom: 3px;
+            padding-left: 18px;
+            font-size: 0.88em;
         }
         .skills-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 15px;
+            font-size: 0.88em;
         }
         .badge {
             display: inline-block;
             background: #ecf0f1;
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin: 2px;
-            font-size: 0.85em;
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin: 1px;
+            font-size: 0.8em;
+        }
+        .footer-space {
+            height: 50px; /* Zone de vide en bas pour éviter le débordement sur p2 */
         }
         @media print {
             body { background-color: #fff; padding: 0; }
-            .cv-container { box-shadow: none; width: 100%; }
+            .cv-container { box-shadow: none; width: 100%; border: none; }
         }
     </style>
 </head>
@@ -102,37 +115,37 @@
         <div class="header-text">
             <h1>Mani KACHIGAR</h1>
             <div class="contact-info">
-                <span>📍 18, place de la Daurade, 31000 Toulouse [cite: 27, 28]</span>
-                <span>📞 06 56 80 91 95 [cite: 26]</span>
-                <span>✉️ manikashigar@gmail.com [cite: 27]</span>
-                <span>🚗 Permis B [cite: 2]</span>
+                18, place de la Daurade, 31000 Toulouse<br>
+                06 56 80 91 95 | manikashigar@gmail.com<br>
+                Nationalité : Française | Permis B
             </div>
         </div>
     </header>
 
     <div class="profile-summary">
         <strong>Objectif : Stage Assistant Ressources Humaines</strong><br>
-        À profil organisé et rigoureux, ancien enseignant, je souhaite mettre à profit mon expérience en coordination de projets et mes compétences en gestion et accompagnement au service des missions RH. [cite: 35]
+        À profil organisé et rigoureux, ancien enseignant, je souhaite mettre à profit mon expérience en coordination de projets et mes compétences en gestion et accompagnement au service des missions RH (recrutement, formation, administration).
     </div>
 
-    <h2>Compétences Transversales & RH</h2>
+    <h2>Compétences & Outils</h2>
     <div class="skills-grid">
         <div>
-            <strong>Expertises techniques</strong>
+            <strong>Savoir-faire Transversaux</strong>
             <ul>
-                <li>Gestion et organisation de projets [cite: 35, 40]</li>
-                <li>Rédaction et analyse documentaire [cite: 40, 41]</li>
-                <li>Médiation et relationnel [cite: 9, 37]</li>
-                <li>Outils : Pack Office (W, P) et Adobe (ID, Ps, Ai) [cite: 31, 32, 33]</li>
+                <li>Gestion et organisation de projets</li>
+                <li>Esprit d'analyse et rédaction</li>
+                <li>Médiation et relationnel public</li>
+                <li>Bureautique : Word, PowerPoint</li>
+                <li>Design : InDesign, Photoshop, Illustrator</li>
             </ul>
         </div>
         <div>
-            <strong>Qualités professionnelles</strong>
+            <strong>Qualités (Soft Skills)</strong>
             <ul>
-                <li>Esprit d'analyse et de synthèse [cite: 6]</li>
-                <li>Sens de l'organisation et rigueur [cite: 7, 35, 40]</li>
-                <li>Adaptabilité et travail en équipe [cite: 8, 10]</li>
-                <li>Autonomie et initiative [cite: 5, 11]</li>
+                <li>Sens de l'organisation et rigueur</li>
+                <li>Esprit d'initiative et autonomie</li>
+                <li>Adaptation et travail en équipe</li>
+                <li>Accompagnement et pédagogie</li>
             </ul>
         </div>
     </div>
@@ -140,47 +153,53 @@
     <h2>Expériences Professionnelles</h2>
 
     <div class="experience-item">
-        <span class="date-location">2022 - Présent | Toulouse [cite: 20]</span><br>
-        <span class="job-title">Professeur d'Arts Plastiques contractuel [cite: 20]</span><br>
-        <span class="company">Le rectorat de Toulouse [cite: 20]</span>
+        <span class="date-location">2022 - Présent</span>
+        <span class="job-title">Professeur d'Arts Plastiques contractuel</span><br>
+        <span class="company">Rectorat de Toulouse</span>
         <ul>
-            <li>Coordination de projets pédagogiques et gestion de groupes. [cite: 40]</li>
-            <li>Accompagnement et suivi individuel. [cite: 35]</li>
+            <li>Coordination de projets et gestion administrative des dossiers élèves.</li>
+            <li>Accompagnement individuel et évaluation des objectifs.</li>
         </ul>
     </div>
 
     <div class="experience-item">
-        <span class="date-location">2012 - 2015 | Paris [cite: 20]</span><br>
-        <span class="job-title">Interprète agréé auprès du MEDEF [cite: 20]</span>
+        <span class="date-location">2012 - 2015</span>
+        <span class="job-title">Interprète agréé & Journaliste culturel</span><br>
+        <span class="company">MEDEF Paris / Asia Financial</span>
         <ul>
-            <li>Accompagnement de délégations économiques et interprétariat. [cite: 20]</li>
-            <li>Gestion du relationnel en environnement professionnel exigeant. [cite: 9]</li>
+            <li>Accompagnement de délégations économiques (relationnel haut niveau).</li>
+            <li>Rédaction d'articles d'analyse et interviews exclusives.</li>
         </ul>
     </div>
 
     <div class="experience-item">
-        <span class="date-location">2015 | Toulouse [cite: 20]</span><br>
-        <span class="job-title">Archiviste - Musée du Vieux Toulouse [cite: 20]</span>
+        <span class="date-location">2015</span>
+        <span class="job-title">Archiviste - Service de numérisation</span><br>
+        <span class="company">Musée du Vieux Toulouse</span>
         <ul>
-            <li>Service de numérisation et gestion méthodique des documents. [cite: 20]</li>
+            <li>Organisation et classement méthodique de documents historiques.</li>
         </ul>
     </div>
 
     <h2>Formation</h2>
     <div class="experience-item">
-        <span class="date-location">2020 - 2022 | Toulouse [cite: 23]</span><br>
-        <span class="job-title">Master MEEF Arts Plastiques [cite: 23]</span><br>
-        <span>Université Jean Jaurès, INSPE [cite: 23]</span>
+        <span class="date-location">2020 - 2022</span>
+        <span class="job-title">Master MEEF Arts Plastiques</span><br>
+        <span class="company">Université Jean Jaurès, INSPE Toulouse</span>
+    </div>
+    <div class="experience-item">
+        <span class="date-location">2012 - 2015</span>
+        <span class="job-title">Licence en Cinématographie (Théorie et Pratique)</span><br>
+        <span class="company">Université de Kent Canterbury, UCLA California</span>
     </div>
 
-    <h2>Langues</h2>
-    <div>
-        <span class="badge">Français : Courant [cite: 14]</span>
-        <span class="badge">Anglais : Professionnel (TOEFL 93/120) [cite: 13]</span>
-        <span class="badge">Persan : Courant [cite: 15]</span>
-        <span class="badge">Russe / Arabe : Débutant [cite: 16, 17]</span>
+    <h2>Langues & Intérêts</h2>
+    <div style="font-size: 0.9em;">
+        <strong>Langues :</strong> Français (Courant), Persan (Courant), Anglais (Pro - TOEFL 93/120), Russe/Arabe (Débutant).<br>
+        <strong>Intérêts :</strong> Alpinisme, natation, littérature, cinéma.
     </div>
-</div>
+
+    <div class="footer-space"></div> </div>
 
 </body>
 </html>
