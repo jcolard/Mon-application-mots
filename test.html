@@ -19,14 +19,28 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         header {
+            display: flex;
+            align-items: center;
             border-bottom: 2px solid #2c3e50;
             padding-bottom: 20px;
             margin-bottom: 20px;
+        }
+        .photo-candidat {
+            width: 120px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 25px;
+            border: 1px solid #ddd;
+        }
+        .header-text {
+            flex-grow: 1;
         }
         h1 {
             margin: 0;
             color: #2c3e50;
             text-transform: uppercase;
+            font-size: 1.8em;
         }
         h2 {
             color: #2980b9;
@@ -34,43 +48,32 @@
             padding-bottom: 5px;
             margin-top: 25px;
             text-transform: uppercase;
-            font-size: 1.2em;
+            font-size: 1.1em;
         }
         .contact-info {
             display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
+            flex-direction: column;
             font-size: 0.9em;
-            margin-top: 10px;
+            margin-top: 5px;
+            color: #555;
         }
         .profile-summary {
             background-color: #f9f9f9;
             padding: 15px;
             border-left: 5px solid #2980b9;
             margin: 20px 0;
-            font-style: italic;
         }
-        .experience-item, .education-item {
+        .experience-item {
             margin-bottom: 15px;
+        }
+        .job-title {
+            font-weight: bold;
+            color: #2c3e50;
         }
         .date-location {
             font-weight: bold;
             color: #7f8c8d;
-            display: block;
-            font-size: 0.9em;
-        }
-        .job-title {
-            font-weight: bold;
-            font-size: 1.1em;
-            color: #2c3e50;
-        }
-        .company {
-            font-style: italic;
-            color: #34495e;
-        }
-        ul {
-            margin-top: 5px;
-            padding-left: 20px;
+            font-size: 0.85em;
         }
         .skills-grid {
             display: grid;
@@ -95,39 +98,41 @@
 
 <div class="cv-container">
     <header>
-        <h1>Mani KACHIGAR</h1>
-        <div class="contact-info">
-            <span>📍 18, place de la Daurade, 31000 Toulouse</span>
-            <span>📞 06 56 80 91 95</span>
-            <span>✉️ manikashigar@gmail.com</span>
-            <span>🚗 Permis B</span>
+        <img src="https://i.ibb.co/gb1zwCC0/Screenshot-2025-12-17-21-39-41.png" alt="Mani KACHIGAR" class="photo-candidat">
+        <div class="header-text">
+            <h1>Mani KACHIGAR</h1>
+            <div class="contact-info">
+                <span>📍 18, place de la Daurade, 31000 Toulouse [cite: 27, 28]</span>
+                <span>📞 06 56 80 91 95 [cite: 26]</span>
+                <span>✉️ manikashigar@gmail.com [cite: 27]</span>
+                <span>🚗 Permis B [cite: 2]</span>
+            </div>
         </div>
     </header>
 
     <div class="profile-summary">
         <strong>Objectif : Stage Assistant Ressources Humaines</strong><br>
-        À profil organisé et rigoureux, ancien enseignant, je souhaite mettre à profit mon expérience en coordination de projets et mes compétences en gestion et accompagnement au service des missions RH (recrutement, formation, administration).
+        À profil organisé et rigoureux, ancien enseignant, je souhaite mettre à profit mon expérience en coordination de projets et mes compétences en gestion et accompagnement au service des missions RH. [cite: 35]
     </div>
 
-    <h2>Compétences RH & Transversales</h2>
+    <h2>Compétences Transversales & RH</h2>
     <div class="skills-grid">
         <div>
-            <strong>Savoir-faire (Hard Skills)</strong>
+            <strong>Expertises techniques</strong>
             <ul>
-                <li>Gestion administrative & Suivi de dossiers</li>
-                <li>Coordination de projets pédagogiques/artistiques</li>
-                <li>Rédaction de rapports et supports de communication</li>
-                <li>Maîtrise Pack Office (Word, PowerPoint) & Adobe (Ps, Ai, Id)</li>
-                <li>Techniques d'entretien (expérience journaliste/interprète)</li>
+                <li>Gestion et organisation de projets [cite: 35, 40]</li>
+                <li>Rédaction et analyse documentaire [cite: 40, 41]</li>
+                <li>Médiation et relationnel [cite: 9, 37]</li>
+                <li>Outils : Pack Office (W, P) et Adobe (ID, Ps, Ai) [cite: 31, 32, 33]</li>
             </ul>
         </div>
         <div>
-            <strong>Savoir-être (Soft Skills)</strong>
+            <strong>Qualités professionnelles</strong>
             <ul>
-                <li>Esprit d'analyse et de synthèse</li>
-                <li>Sens de l'organisation et rigueur</li>
-                <li>Adaptation et aisance relationnelle</li>
-                <li>Autonomie et travail en équipe</li>
+                <li>Esprit d'analyse et de synthèse [cite: 6]</li>
+                <li>Sens de l'organisation et rigueur [cite: 7, 35, 40]</li>
+                <li>Adaptabilité et travail en équipe [cite: 8, 10]</li>
+                <li>Autonomie et initiative [cite: 5, 11]</li>
             </ul>
         </div>
     </div>
@@ -135,58 +140,46 @@
     <h2>Expériences Professionnelles</h2>
 
     <div class="experience-item">
-        <span class="date-location">2022 - Présent | Toulouse</span>
-        <span class="job-title">Professeur d'Arts Plastiques (Contractuel)</span><br>
-        <span class="company">Le Rectorat de Toulouse</span>
+        <span class="date-location">2022 - Présent | Toulouse [cite: 20]</span><br>
+        <span class="job-title">Professeur d'Arts Plastiques contractuel [cite: 20]</span><br>
+        <span class="company">Le rectorat de Toulouse [cite: 20]</span>
         <ul>
-            <li>Gestion de groupes et animation de sessions de formation.</li>
-            <li>Organisation et planification de projets pédagogiques annuels.</li>
-            <li>Évaluation des compétences et accompagnement individuel.</li>
+            <li>Coordination de projets pédagogiques et gestion de groupes. [cite: 40]</li>
+            <li>Accompagnement et suivi individuel. [cite: 35]</li>
         </ul>
     </div>
 
     <div class="experience-item">
-        <span class="date-location">2012 - 2015 | Paris / International</span>
-        <span class="job-title">Interprète Agréé & Journaliste Culturel</span><br>
-        <span class="company">MEDEF - Paris / Asia Financial</span>
+        <span class="date-location">2012 - 2015 | Paris [cite: 20]</span><br>
+        <span class="job-title">Interprète agréé auprès du MEDEF [cite: 20]</span>
         <ul>
-            <li>Accompagnement de délégations économiques (médiation relationnelle).</li>
-            <li>Réalisation d'interviews et reportages (écoute active, synthèse).</li>
-            <li>Gestion de la mise en page graphique et iconographique.</li>
+            <li>Accompagnement de délégations économiques et interprétariat. [cite: 20]</li>
+            <li>Gestion du relationnel en environnement professionnel exigeant. [cite: 9]</li>
         </ul>
     </div>
 
     <div class="experience-item">
-        <span class="date-location">2015 | Toulouse</span>
-        <span class="job-title">Archiviste (Service Numérisation)</span><br>
-        <span class="company">Musée du Vieux Toulouse</span>
+        <span class="date-location">2015 | Toulouse [cite: 20]</span><br>
+        <span class="job-title">Archiviste - Musée du Vieux Toulouse [cite: 20]</span>
         <ul>
-            <li>Gestion rigoureuse de bases de données et classement administratif.</li>
+            <li>Service de numérisation et gestion méthodique des documents. [cite: 20]</li>
         </ul>
     </div>
 
     <h2>Formation</h2>
-    <div class="education-item">
-        <span class="date-location">2020 - 2022</span>
-        <span class="job-title">Master MEEF Arts Plastiques</span><br>
-        <span class="company">Université Jean Jaurès / INSPE, Toulouse</span>
-    </div>
-    <div class="education-item">
-        <span class="date-location">2012 - 2015</span>
-        <span class="job-title">Licence en Cinématographie (Théorie et Pratique)</span><br>
-        <span class="company">Université de Kent Canterbury / UCLA California</span>
+    <div class="experience-item">
+        <span class="date-location">2020 - 2022 | Toulouse [cite: 23]</span><br>
+        <span class="job-title">Master MEEF Arts Plastiques [cite: 23]</span><br>
+        <span>Université Jean Jaurès, INSPE [cite: 23]</span>
     </div>
 
     <h2>Langues</h2>
     <div>
-        <span class="badge">Français : Courant</span>
-        <span class="badge">Anglais : Professionnel (TOEFL 93/120)</span>
-        <span class="badge">Persan : Courant</span>
-        <span class="badge">Russe/Arabe : Débutant</span>
+        <span class="badge">Français : Courant [cite: 14]</span>
+        <span class="badge">Anglais : Professionnel (TOEFL 93/120) [cite: 13]</span>
+        <span class="badge">Persan : Courant [cite: 15]</span>
+        <span class="badge">Russe / Arabe : Débutant [cite: 16, 17]</span>
     </div>
-
-    <h2>Centres d'intérêt</h2>
-    <p>Alpinisme, natation, littérature, cinéma.</p>
 </div>
 
 </body>
