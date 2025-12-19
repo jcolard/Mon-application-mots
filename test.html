@@ -2,218 +2,249 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>CV Mani KACHIGAR - Stagiaire Attaché Culturel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Kanban Clients 🚀</title>
     <style>
+        /* --- STYLE VISUEL (CSS) --- */
         body {
-            font-family: 'Arial', 'Helvetica', sans-serif;
-            line-height: 1.5;
-            color: #2c3e50;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f5f7;
+            margin: 0; padding: 20px;
+            display: flex; flex-direction: column; height: 100vh; box-sizing: border-box;
         }
-        .a4-page {
-            width: 21cm;
-            min-height: 29.7cm;
-            padding: 1.5cm;
-            margin: 1cm auto;
-            background: white;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-        }
+
+        /* En-tête */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 3px solid #8e44ad; /* Couleur plus artistique */
-            padding-bottom: 20px;
-            margin-bottom: 25px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px;
         }
-        .profile-img {
-            width: 130px;
-            height: 130px;
+        h1 { margin: 0; color: #172b4d; font-size: 24px; }
+        
+        /* Zone d'ajout */
+        .add-zone { display: flex; gap: 10px; }
+        input[type="text"] {
+            padding: 8px 12px; border: 2px solid #dfe1e6; border-radius: 4px; outline: none; width: 250px;
+        }
+        input[type="text"]:focus { border-color: #0079bf; }
+        button#add-btn {
+            background: #0079bf; color: white; border: none; padding: 8px 16px; 
+            border-radius: 4px; cursor: pointer; font-weight: bold;
+        }
+        button#add-btn:hover { background: #026aa7; }
+
+        /* Le Plateau Kanban */
+        .board {
+            display: flex; gap: 15px; overflow-x: auto; flex-grow: 1; align-items: flex-start;
+        }
+
+        /* Colonnes */
+        .column {
+            background-color: #ebecf0;
             border-radius: 8px;
-            object-fit: cover;
+            width: 280px;
+            min-width: 280px;
+            display: flex; flex-direction: column;
+            max-height: 100%;
         }
-        .header-text {
-            text-align: right;
+        .column-header {
+            padding: 12px; font-weight: bold; color: #172b4d;
+            border-bottom: 2px solid #dfe1e6; display: flex; justify-content: space-between;
         }
-        h1 {
-            margin: 0;
-            font-size: 28px;
-            color: #8e44ad;
-            text-transform: uppercase;
+        .count-badge {
+            background: rgba(0,0,0,0.1); border-radius: 12px; padding: 2px 8px; font-size: 0.8em;
         }
-        .contact-info {
-            font-size: 14px;
-            color: #34495e;
+
+        /* Zone de dépôt des cartes */
+        .card-list {
+            padding: 8px; flex-grow: 1; min-height: 100px; overflow-y: auto;
         }
-        .tagline {
-            background: #f8f1fb;
-            border-left: 5px solid #8e44ad;
-            padding: 15px;
-            margin-bottom: 25px;
-            font-size: 15px;
+        /* Effet visuel quand on survole une colonne avec une carte */
+        .card-list.drag-over { background-color: #e2e4e9; }
+
+        /* Les Cartes (Clients) */
+        .card {
+            background: white; border-radius: 4px; padding: 10px; margin-bottom: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1); cursor: grab;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: transform 0.1s; border-left: 4px solid transparent;
         }
-        h2 {
-            font-size: 18px;
-            border-bottom: 1px solid #dcdde1;
-            padding-bottom: 5px;
-            margin-top: 20px;
-            color: #8e44ad;
-            text-transform: uppercase;
+        .card:hover { background: #fafbfc; }
+        .card:active { cursor: grabbing; transform: rotate(1deg); }
+        
+        /* Couleurs bordure gauche selon colonne (Optionnel) */
+        [data-status="contact"] .card { border-left-color: #ff9f1a; } /* Orange */
+        [data-status="phone"] .card { border-left-color: #172b4d; } /* Bleu nuit */
+        [data-status="visio"] .card { border-left-color: #0079bf; } /* Bleu */
+        [data-status="validation"] .card { border-left-color: #eb5a46; } /* Rouge */
+        [data-status="signed"] .card { border-left-color: #61bd4f; } /* Vert */
+
+        .delete-btn {
+            opacity: 0; color: #aaa; cursor: pointer; font-weight: bold; padding: 5px;
         }
-        .entry {
-            margin-bottom: 15px;
-        }
-        .entry-header {
-            display: flex;
-            justify-content: space-between;
-            font-weight: bold;
-        }
-        .entry-sub {
-            font-style: italic;
-            color: #7f8c8d;
-            font-size: 14px;
-        }
-        ul {
-            margin: 5px 0;
-            padding-left: 20px;
-            font-size: 14px;
-        }
-        .skills-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-        }
-        .skill-box {
-            flex: 1;
-        }
-        .badge {
-            display: inline-block;
-            background: #f1f2f6;
-            padding: 3px 10px;
-            margin: 2px;
-            border-radius: 15px;
-            font-size: 13px;
-        }
+        .card:hover .delete-btn { opacity: 1; }
+        .delete-btn:hover { color: red; }
+
     </style>
 </head>
 <body>
 
-<div class="a4-page">
     <header>
-        <img src="https://i.ibb.co/gb1zwCC0/Screenshot-2025-12-17-21-39-41.png" alt="Mani KACHIGAR" class="profile-img">
-        <div class="header-text">
-            <h1>Mani KACHIGAR</h1>
-            <div class="contact-info">
-                18, place de la Daurade, 31000 Toulouse<br>
-                06 56 80 91 95 | manikashigar@gmail.com<br>
-                Nationalité : Française | Permis B
-            </div>
+        <h1>📋 Suivi Prospects</h1>
+        <div class="add-zone">
+            <input type="text" id="new-client-name" placeholder="Nom du nouveau client..." onkeypress="if(event.key==='Enter') addClient()">
+            <button id="add-btn" onclick="addClient()">+ Ajouter</button>
         </div>
     </header>
 
-    <div class="tagline">
-        <strong>Objectif : Stagiaire Attaché Culturel</strong><br>
-        À profil créatif et engagé, ancien enseignant en arts plastiques, passionné par la médiation culturelle et la coordination de projets artistiques. Je souhaite valoriser mon expérience au service du développement culturel territorial.
+    <div class="board">
+        <div class="column" data-status="contact">
+            <div class="column-header">📞 À contacté <span class="count-badge">0</span></div>
+            <div class="card-list" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)"></div>
+        </div>
+
+        <div class="column" data-status="phone">
+            <div class="column-header">📱 Entretien tél. <span class="count-badge">0</span></div>
+            <div class="card-list" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)"></div>
+        </div>
+
+        <div class="column" data-status="visio">
+            <div class="column-header">💻 Entretien visio <span class="count-badge">0</span></div>
+            <div class="card-list" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)"></div>
+        </div>
+
+        <div class="column" data-status="validation">
+            <div class="column-header">📝 1ère validation <span class="count-badge">0</span></div>
+            <div class="card-list" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)"></div>
+        </div>
+
+        <div class="column" data-status="signed">
+            <div class="column-header">✅ Contrat Signé <span class="count-badge">0</span></div>
+            <div class="card-list" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)"></div>
+        </div>
     </div>
 
-    <section>
-        <h2>Expérience Professionnelle</h2>
+    <script>
+        /* --- LOGIQUE JAVASCRIPT --- */
         
-        <div class="entry">
-            <div class="entry-header">
-                <span>Professeur d'Arts Plastiques contractuel</span>
-                <span>2022 - Présent</span>
-            </div>
-            <div class="entry-sub">Rectorat de Toulouse</div>
-            <ul>
-                <li>Médiation artistique et transmission de savoirs auprès de divers publics.</li>
-                <li>Conception et organisation de projets pédagogiques et créatifs.</li>
-            </ul>
-        </div>
+        const STORAGE_KEY = 'mon_kanban_data_json';
+        let clients = []; // Notre liste de données (le miroir du JSON)
 
-        <div class="entry">
-            <div class="entry-header">
-                <span>Archiviste & Service de numérisation</span>
-                <span>2015</span>
-            </div>
-            <div class="entry-sub">Musée du Vieux Toulouse</div>
-            <ul>
-                <li>Conservation du patrimoine culturel et gestion documentaire rigoureuse.</li>
-            </ul>
-        </div>
+        // 1. Chargement au démarrage
+        function init() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                clients = JSON.parse(stored);
+            }
+            renderBoard();
+        }
 
-        <div class="entry">
-            <div class="entry-header">
-                <span>Journaliste de service culturel / Infographiste</span>
-                <span>2012 - 2015</span>
-            </div>
-            <div class="entry-sub">Asia Financial / Magazine bimensuel</div>
-            <ul>
-                <li>Rédaction d'articles d'analyse cinématographique et littéraire.</li>
-                <li>Création de supports de communication visuelle (affiches, logos).</li>
-            </ul>
-        </div>
+        // 2. Sauvegarde dans le LocalStorage (JSON)
+        function save() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(clients));
+            renderBoard(); // On rafraichit l'affichage et les compteurs
+        }
 
-        <div class="entry">
-            <div class="entry-header">
-                <span>Interprète Agréé</span>
-                <span>2012 - 2015</span>
-            </div>
-            <div class="entry-sub">MEDEF Paris (Délégations économiques)</div>
-            <ul>
-                <li>Accompagnement et médiation linguistique de haut niveau.</li>
-            </ul>
-        </div>
-    </section>
+        // 3. Affichage (Rendu)
+        function renderBoard() {
+            // Vider toutes les colonnes
+            document.querySelectorAll('.card-list').forEach(el => el.innerHTML = '');
+            
+            // Remettre à zéro les compteurs
+            const counts = { contact:0, phone:0, visio:0, validation:0, signed:0 };
 
-    <div class="skills-container">
-        <div class="skill-box">
-            <h2>Compétences Clefs</h2>
-            <div class="badge">Médiation culturelle</div>
-            <div class="badge">Coordination de projets</div>
-            <div class="badge">Esprit d'analyse</div>
-            <div class="badge">Sens de l'organisation</div>
-            <div class="badge">PAO (Ps, Ai, InDesign)</div>
-            <div class="badge">Archivage numérique</div>
-        </div>
-        <div class="skill-box">
-            <h2>Langues</h2>
-            <ul>
-                <li><strong>Français :</strong> Courant</li>
-                <li><strong>Persan :</strong> Courant</li>
-                <li><strong>Anglais :</strong> Professionnel (TOEFL 93/120)</li>
-                <li><strong>Russe / Arabe :</strong> Débutant</li>
-            </ul>
-        </div>
-    </div>
+            // Pour chaque client dans nos données...
+            clients.forEach(client => {
+                // Créer la carte HTML
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.draggable = true; // Rend l'élément déplaçable
+                card.id = client.id;   // Important pour savoir qui on déplace
+                card.ondragstart = drag;
+                
+                card.innerHTML = `
+                    <span>${client.name}</span>
+                    <span class="delete-btn" onclick="deleteClient(${client.id})">✖</span>
+                `;
 
-    <section>
-        <h2>Formation</h2>
-        <div class="entry">
-            <div class="entry-header">
-                <span>Master MEEF Arts Plastiques</span>
-                <span>2020 - 2022</span>
-            </div>
-            <div class="entry-sub">Université Jean Jaurès, INSPE, Toulouse</div>
-        </div>
-        <div class="entry">
-            <div class="entry-header">
-                <span>Licence en Cinématographie (Théorie et Pratique)</span>
-                <span>2012 - 2015</span>
-            </div>
-            <div class="entry-sub">Université de Kent Canterbury / UCLA California</div>
-        </div>
-    </section>
+                // Trouver la bonne colonne dans le HTML
+                const column = document.querySelector(`.column[data-status="${client.status}"] .card-list`);
+                if (column) {
+                    column.appendChild(card);
+                    counts[client.status]++;
+                }
+            });
 
-    <section>
-        <h2>Centres d'intérêt</h2>
-        <p style="font-size: 14px;">
-            Alpinisme, natation, littérature et cinéma.
-        </p>
-    </section>
-</div>
+            // Mettre à jour les badges de comptage
+            for (const [key, val] of Object.entries(counts)) {
+                const header = document.querySelector(`.column[data-status="${key}"] .count-badge`);
+                if(header) header.innerText = val;
+            }
+        }
 
+        // 4. Ajouter un client
+        function addClient() {
+            const input = document.getElementById('new-client-name');
+            const name = input.value.trim();
+            if (!name) return;
+
+            const newClient = {
+                id: Date.now(), // On utilise l'heure comme ID unique
+                name: name,
+                status: 'contact' // Statut par défaut : première colonne
+            };
+
+            clients.push(newClient);
+            save();
+            input.value = ''; // Vider le champ
+        }
+
+        // 5. Supprimer un client
+        function deleteClient(id) {
+            if(confirm('Supprimer ce client ?')) {
+                clients = clients.filter(c => c.id !== id);
+                save();
+            }
+        }
+
+        /* --- GESTION DU DRAG & DROP (GLISSER-DEPOSER) --- */
+
+        function drag(ev) {
+            // On mémorise l'ID de la carte qu'on est en train de tirer
+            ev.dataTransfer.setData("text/plain", ev.target.id);
+            ev.target.style.opacity = '0.4'; // Petit effet visuel
+        }
+
+        function allowDrop(ev) {
+            ev.preventDefault(); // Nécessaire pour autoriser le "lâcher"
+            ev.currentTarget.classList.add('drag-over'); // Couleur de fond
+        }
+
+        function leaveDrop(ev) {
+            ev.currentTarget.classList.remove('drag-over');
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            ev.currentTarget.classList.remove('drag-over');
+            
+            // Récupérer l'ID de la carte lâchée
+            const id = parseInt(ev.dataTransfer.getData("text/plain"));
+            
+            // Trouver dans quelle colonne on a lâché (en remontant vers le parent .column)
+            const column = ev.currentTarget.closest('.column');
+            const newStatus = column.getAttribute('data-status');
+
+            // Mettre à jour nos données
+            const clientIndex = clients.findIndex(c => c.id === id);
+            if (clientIndex > -1) {
+                clients[clientIndex].status = newStatus;
+                save(); // Sauvegarde le changement dans le JSON
+            }
+        }
+
+        // Lancement au chargement de la page
+        init();
+
+    </script>
 </body>
 </html>
