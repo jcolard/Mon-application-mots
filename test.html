@@ -2,249 +2,247 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Kanban Clients 🚀</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chantier Pro UX</title>
     <style>
-        /* --- STYLE VISUEL (CSS) --- */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f5f7;
-            margin: 0; padding: 20px;
-            display: flex; flex-direction: column; height: 100vh; box-sizing: border-box;
+        :root {
+            /* Palette Moderne & "Chantier Clean" */
+            --primary: #2563EB; /* Bleu électrique pro */
+            --primary-dark: #1E40AF;
+            --accent: #F59E0B; /* Orange sécurité pour les statuts */
+            --bg: #F3F4F6;
+            --surface: #FFFFFF;
+            --text-main: #111827;
+            --text-sub: #6B7280;
+            --success: #10B981;
+            
+            /* Ombres douces pour la profondeur (Elevation) */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
 
-        /* En-tête */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        
+        body { background-color: var(--bg); color: var(--text-main); -webkit-font-smoothing: antialiased; padding-bottom: 80px; }
+
+        /* HEADER: Simple et Personnel */
         header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 20px;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--surface);
         }
-        h1 { margin: 0; color: #172b4d; font-size: 24px; }
+        .user-greet h1 { font-size: 20px; font-weight: 700; }
+        .user-greet p { font-size: 14px; color: var(--text-sub); }
+        .avatar { width: 40px; height: 40px; background: #E5E7EB; border-radius: 50%; }
+
+        /* HERO CARD: La Fusion Heures/Tâches */
+        .dashboard-hero {
+            margin: 24px;
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Indicateur Visuel Circulaire (CSS Pure) */
+        .progress-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary) 0% 80%, #E5E7EB 80% 100%); /* 80% réalisé */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .progress-circle::after {
+            content: "28h";
+            position: absolute;
+            background: var(--surface);
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--primary);
+        }
+
+        .hero-stats { flex: 1; margin-left: 20px; }
+        .hero-stats h2 { font-size: 16px; color: var(--text-sub); font-weight: 500; margin-bottom: 4px; }
+        .hero-stats .big-number { font-size: 28px; font-weight: 800; line-height: 1.1; }
+        .hero-stats .sub-info { font-size: 13px; color: var(--success); font-weight: 600; margin-top: 4px; display: flex; align-items: center; gap: 4px;}
         
-        /* Zone d'ajout */
-        .add-zone { display: flex; gap: 10px; }
-        input[type="text"] {
-            padding: 8px 12px; border: 2px solid #dfe1e6; border-radius: 4px; outline: none; width: 250px;
-        }
-        input[type="text"]:focus { border-color: #0079bf; }
-        button#add-btn {
-            background: #0079bf; color: white; border: none; padding: 8px 16px; 
-            border-radius: 4px; cursor: pointer; font-weight: bold;
-        }
-        button#add-btn:hover { background: #026aa7; }
+        /* SECTION FOCUS: L'Action Immédiate */
+        .section-title { padding: 0 24px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-sub); font-weight: 700; margin-bottom: 12px; }
 
-        /* Le Plateau Kanban */
-        .board {
-            display: flex; gap: 15px; overflow-x: auto; flex-grow: 1; align-items: flex-start;
+        .current-task-card {
+            margin: 0 24px 32px 24px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
         }
-
-        /* Colonnes */
-        .column {
-            background-color: #ebecf0;
-            border-radius: 8px;
-            width: 280px;
-            min-width: 280px;
-            display: flex; flex-direction: column;
-            max-height: 100%;
+        .task-tag { 
+            background: rgba(255,255,255,0.2); 
+            padding: 4px 12px; border-radius: 20px; 
+            font-size: 12px; font-weight: 600; display: inline-block; margin-bottom: 12px;
         }
-        .column-header {
-            padding: 12px; font-weight: bold; color: #172b4d;
-            border-bottom: 2px solid #dfe1e6; display: flex; justify-content: space-between;
-        }
-        .count-badge {
-            background: rgba(0,0,0,0.1); border-radius: 12px; padding: 2px 8px; font-size: 0.8em;
-        }
-
-        /* Zone de dépôt des cartes */
-        .card-list {
-            padding: 8px; flex-grow: 1; min-height: 100px; overflow-y: auto;
-        }
-        /* Effet visuel quand on survole une colonne avec une carte */
-        .card-list.drag-over { background-color: #e2e4e9; }
-
-        /* Les Cartes (Clients) */
-        .card {
-            background: white; border-radius: 4px; padding: 10px; margin-bottom: 8px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1); cursor: grab;
-            display: flex; justify-content: space-between; align-items: center;
-            transition: transform 0.1s; border-left: 4px solid transparent;
-        }
-        .card:hover { background: #fafbfc; }
-        .card:active { cursor: grabbing; transform: rotate(1deg); }
+        .current-task-card h3 { font-size: 22px; margin-bottom: 8px; font-weight: 700; }
+        .current-task-card p { opacity: 0.9; font-size: 14px; margin-bottom: 24px; display: flex; align-items: center; gap: 6px; }
         
-        /* Couleurs bordure gauche selon colonne (Optionnel) */
-        [data-status="contact"] .card { border-left-color: #ff9f1a; } /* Orange */
-        [data-status="phone"] .card { border-left-color: #172b4d; } /* Bleu nuit */
-        [data-status="visio"] .card { border-left-color: #0079bf; } /* Bleu */
-        [data-status="validation"] .card { border-left-color: #eb5a46; } /* Rouge */
-        [data-status="signed"] .card { border-left-color: #61bd4f; } /* Vert */
-
-        .delete-btn {
-            opacity: 0; color: #aaa; cursor: pointer; font-weight: bold; padding: 5px;
+        /* Le Bouton d'Action Principal (Swipe to complete style) */
+        .action-btn {
+            background: var(--surface);
+            color: var(--primary);
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            border: none;
+            font-weight: 700;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.1s;
         }
-        .card:hover .delete-btn { opacity: 1; }
-        .delete-btn:hover { color: red; }
+        .action-btn:active { transform: scale(0.98); }
+
+        /* SECTION UPCOMING: Scroll Horizontal */
+        .horizontal-scroll {
+            display: flex;
+            overflow-x: auto;
+            padding: 0 24px 24px 24px;
+            gap: 16px;
+            -webkit-overflow-scrolling: touch; /* Smooth scroll iOS */
+        }
+        /* Masquer scrollbar */
+        .horizontal-scroll::-webkit-scrollbar { display: none; }
+
+        .mini-task-card {
+            min-width: 160px;
+            background: var(--surface);
+            padding: 16px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #E5E7EB;
+        }
+        .mini-task-card h4 { font-size: 15px; margin-bottom: 4px; }
+        .mini-task-card span { font-size: 12px; color: var(--text-sub); }
+        .time-badge { 
+            display: inline-block; margin-bottom: 8px; 
+            font-size: 11px; font-weight: 700; color: var(--accent);
+            background: #FFFBEB; padding: 2px 8px; border-radius: 4px;
+        }
+
+        /* BOTTOM NAV: Moderne & Flottante */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: var(--surface);
+            border-top: 1px solid #E5E7EB;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0 24px 0; /* Padding bas pour iPhone X+ */
+            z-index: 100;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-sub);
+            font-size: 10px;
+            font-weight: 600;
+            gap: 4px;
+        }
+        .nav-item.active { color: var(--primary); }
+        .nav-icon { width: 24px; height: 24px; background: currentColor; border-radius: 6px; opacity: 0.2; } /* Placeholder icone */
+        .nav-item.active .nav-icon { opacity: 1; }
 
     </style>
 </head>
 <body>
 
     <header>
-        <h1>📋 Suivi Prospects</h1>
-        <div class="add-zone">
-            <input type="text" id="new-client-name" placeholder="Nom du nouveau client..." onkeypress="if(event.key==='Enter') addClient()">
-            <button id="add-btn" onclick="addClient()">+ Ajouter</button>
+        <div class="user-greet">
+            <p>Bonjour Thomas,</p>
+            <h1>Bon courage 💪</h1>
         </div>
+        <div class="avatar"></div>
     </header>
 
-    <div class="board">
-        <div class="column" data-status="contact">
-            <div class="column-header">📞 À contacté <span class="count-badge">0</span></div>
-            <div class="card-list" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)"></div>
+    <main>
+        <div class="dashboard-hero">
+            <div class="hero-stats">
+                <h2>Objectif Semaine</h2>
+                <div class="big-number">7h <span style="font-size:16px; color:var(--text-sub); font-weight:400;">restantes</span></div>
+                <div class="sub-info">
+                    <span style="width:8px; height:8px; background:var(--success); border-radius:50%;"></span>
+                    En avance sur le planning
+                </div>
+            </div>
+            <div class="progress-circle"></div>
         </div>
 
-        <div class="column" data-status="phone">
-            <div class="column-header">📱 Entretien tél. <span class="count-badge">0</span></div>
-            <div class="card-list" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)"></div>
-        </div>
-
-        <div class="column" data-status="visio">
-            <div class="column-header">💻 Entretien visio <span class="count-badge">0</span></div>
-            <div class="card-list" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)"></div>
-        </div>
-
-        <div class="column" data-status="validation">
-            <div class="column-header">📝 1ère validation <span class="count-badge">0</span></div>
-            <div class="card-list" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)"></div>
-        </div>
-
-        <div class="column" data-status="signed">
-            <div class="column-header">✅ Contrat Signé <span class="count-badge">0</span></div>
-            <div class="card-list" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)"></div>
-        </div>
-    </div>
-
-    <script>
-        /* --- LOGIQUE JAVASCRIPT --- */
+        <div class="section-title">En ce moment</div>
         
-        const STORAGE_KEY = 'mon_kanban_data_json';
-        let clients = []; // Notre liste de données (le miroir du JSON)
-
-        // 1. Chargement au démarrage
-        function init() {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (stored) {
-                clients = JSON.parse(stored);
-            }
-            renderBoard();
-        }
-
-        // 2. Sauvegarde dans le LocalStorage (JSON)
-        function save() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(clients));
-            renderBoard(); // On rafraichit l'affichage et les compteurs
-        }
-
-        // 3. Affichage (Rendu)
-        function renderBoard() {
-            // Vider toutes les colonnes
-            document.querySelectorAll('.card-list').forEach(el => el.innerHTML = '');
+        <div class="current-task-card">
+            <div class="task-tag">CHANTIER B - ETAGE 2</div>
+            <h3>Pose isolation phonique</h3>
+            <p>📍 Lotissement Les Érables • Salle de bain</p>
             
-            // Remettre à zéro les compteurs
-            const counts = { contact:0, phone:0, visio:0, validation:0, signed:0 };
+            <button class="action-btn">
+                ✅ Valider cette étape
+            </button>
+        </div>
 
-            // Pour chaque client dans nos données...
-            clients.forEach(client => {
-                // Créer la carte HTML
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.draggable = true; // Rend l'élément déplaçable
-                card.id = client.id;   // Important pour savoir qui on déplace
-                card.ondragstart = drag;
-                
-                card.innerHTML = `
-                    <span>${client.name}</span>
-                    <span class="delete-btn" onclick="deleteClient(${client.id})">✖</span>
-                `;
+        <div class="section-title">À suivre aujourd'hui (2)</div>
+        <div class="horizontal-scroll">
+            <div class="mini-task-card">
+                <div class="time-badge">14:00</div>
+                <h4>Nettoyage zone</h4>
+                <span>Chantier B • RDC</span>
+            </div>
+            <div class="mini-task-card">
+                <div class="time-badge">16:30</div>
+                <h4>Réunion Chef</h4>
+                <span>Bureau Principal</span>
+            </div>
+            <div class="mini-task-card" style="opacity: 0.5; border-style: dashed;">
+                <div class="time-badge">Demain</div>
+                <h4>Livraison Matériaux</h4>
+                <span>Chantier C</span>
+            </div>
+        </div>
+    </main>
 
-                // Trouver la bonne colonne dans le HTML
-                const column = document.querySelector(`.column[data-status="${client.status}"] .card-list`);
-                if (column) {
-                    column.appendChild(card);
-                    counts[client.status]++;
-                }
-            });
+    <nav class="bottom-nav">
+        <div class="nav-item active">
+            <div class="nav-icon" style="mask: url('data:image/svg+xml;utf8,<svg viewBox=\'0 0 24 24\' fill=\'currentColor\'><rect x=\'3\' y=\'3\' width=\'7\' height=\'7\'/><rect x=\'14\' y=\'3\' width=\'7\' height=\'7\'/><rect x=\'14\' y=\'14\' width=\'7\' height=\'7\'/><rect x=\'3\' y=\'14\' width=\'7\' height=\'7\'/></svg>')"></div>
+            Focus
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon"></div> Planning
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon"></div> Heures
+        </div>
+    </nav>
 
-            // Mettre à jour les badges de comptage
-            for (const [key, val] of Object.entries(counts)) {
-                const header = document.querySelector(`.column[data-status="${key}"] .count-badge`);
-                if(header) header.innerText = val;
-            }
-        }
-
-        // 4. Ajouter un client
-        function addClient() {
-            const input = document.getElementById('new-client-name');
-            const name = input.value.trim();
-            if (!name) return;
-
-            const newClient = {
-                id: Date.now(), // On utilise l'heure comme ID unique
-                name: name,
-                status: 'contact' // Statut par défaut : première colonne
-            };
-
-            clients.push(newClient);
-            save();
-            input.value = ''; // Vider le champ
-        }
-
-        // 5. Supprimer un client
-        function deleteClient(id) {
-            if(confirm('Supprimer ce client ?')) {
-                clients = clients.filter(c => c.id !== id);
-                save();
-            }
-        }
-
-        /* --- GESTION DU DRAG & DROP (GLISSER-DEPOSER) --- */
-
-        function drag(ev) {
-            // On mémorise l'ID de la carte qu'on est en train de tirer
-            ev.dataTransfer.setData("text/plain", ev.target.id);
-            ev.target.style.opacity = '0.4'; // Petit effet visuel
-        }
-
-        function allowDrop(ev) {
-            ev.preventDefault(); // Nécessaire pour autoriser le "lâcher"
-            ev.currentTarget.classList.add('drag-over'); // Couleur de fond
-        }
-
-        function leaveDrop(ev) {
-            ev.currentTarget.classList.remove('drag-over');
-        }
-
-        function drop(ev) {
-            ev.preventDefault();
-            ev.currentTarget.classList.remove('drag-over');
-            
-            // Récupérer l'ID de la carte lâchée
-            const id = parseInt(ev.dataTransfer.getData("text/plain"));
-            
-            // Trouver dans quelle colonne on a lâché (en remontant vers le parent .column)
-            const column = ev.currentTarget.closest('.column');
-            const newStatus = column.getAttribute('data-status');
-
-            // Mettre à jour nos données
-            const clientIndex = clients.findIndex(c => c.id === id);
-            if (clientIndex > -1) {
-                clients[clientIndex].status = newStatus;
-                save(); // Sauvegarde le changement dans le JSON
-            }
-        }
-
-        // Lancement au chargement de la page
-        init();
-
-    </script>
 </body>
 </html>
