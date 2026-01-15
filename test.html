@@ -2,247 +2,108 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Chantier Pro UX</title>
     <style>
         :root {
-            /* Palette Moderne & "Chantier Clean" */
-            --primary: #2563EB; /* Bleu électrique pro */
-            --primary-dark: #1E40AF;
-            --accent: #F59E0B; /* Orange sécurité pour les statuts */
-            --bg: #F3F4F6;
-            --surface: #FFFFFF;
-            --text-main: #111827;
-            --text-sub: #6B7280;
-            --success: #10B981;
-            
-            /* Ombres douces pour la profondeur (Elevation) */
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --bg-card: #ffffff;
+            --text-main: #1F2937;
+            --text-light: #6B7280;
+            --primary: #6D28D9; /* Violet pour l'asso/organisateurs */
+            --accent-red: #DC2626;
+            --date-bg: #F3F4F6;
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         
-        body { background-color: var(--bg); color: var(--text-main); -webkit-font-smoothing: antialiased; padding-bottom: 80px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #E5E7EB; padding: 20px; display: flex; justify-content: center; }
 
-        /* HEADER: Simple et Personnel */
-        header {
-            padding: 20px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--surface);
-        }
-        .user-greet h1 { font-size: 20px; font-weight: 700; }
-        .user-greet p { font-size: 14px; color: var(--text-sub); }
-        .avatar { width: 40px; height: 40px; background: #E5E7EB; border-radius: 50%; }
-
-        /* HERO CARD: La Fusion Heures/Tâches */
-        .dashboard-hero {
-            margin: 24px;
-            background: var(--surface);
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: var(--shadow-md);
-            position: relative;
+        /* LA CARTE PRO */
+        .event-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex; /* La magie opère ici : Layout Horizontal */
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        /* Indicateur Visuel Circulaire (CSS Pure) */
-        .progress-circle {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: conic-gradient(var(--primary) 0% 80%, #E5E7EB 80% 100%); /* 80% réalisé */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        .progress-circle::after {
-            content: "28h";
-            position: absolute;
-            background: var(--surface);
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 18px;
-            color: var(--primary);
-        }
-
-        .hero-stats { flex: 1; margin-left: 20px; }
-        .hero-stats h2 { font-size: 16px; color: var(--text-sub); font-weight: 500; margin-bottom: 4px; }
-        .hero-stats .big-number { font-size: 28px; font-weight: 800; line-height: 1.1; }
-        .hero-stats .sub-info { font-size: 13px; color: var(--success); font-weight: 600; margin-top: 4px; display: flex; align-items: center; gap: 4px;}
-        
-        /* SECTION FOCUS: L'Action Immédiate */
-        .section-title { padding: 0 24px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-sub); font-weight: 700; margin-bottom: 12px; }
-
-        .current-task-card {
-            margin: 0 24px 32px 24px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: var(--shadow-lg);
-            position: relative;
-        }
-        .task-tag { 
-            background: rgba(255,255,255,0.2); 
-            padding: 4px 12px; border-radius: 20px; 
-            font-size: 12px; font-weight: 600; display: inline-block; margin-bottom: 12px;
-        }
-        .current-task-card h3 { font-size: 22px; margin-bottom: 8px; font-weight: 700; }
-        .current-task-card p { opacity: 0.9; font-size: 14px; margin-bottom: 24px; display: flex; align-items: center; gap: 6px; }
-        
-        /* Le Bouton d'Action Principal (Swipe to complete style) */
-        .action-btn {
-            background: var(--surface);
-            color: var(--primary);
             width: 100%;
-            padding: 16px;
-            border-radius: 16px;
-            border: none;
-            font-weight: 700;
-            font-size: 16px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transition: transform 0.1s;
-        }
-        .action-btn:active { transform: scale(0.98); }
-
-        /* SECTION UPCOMING: Scroll Horizontal */
-        .horizontal-scroll {
-            display: flex;
-            overflow-x: auto;
-            padding: 0 24px 24px 24px;
-            gap: 16px;
-            -webkit-overflow-scrolling: touch; /* Smooth scroll iOS */
-        }
-        /* Masquer scrollbar */
-        .horizontal-scroll::-webkit-scrollbar { display: none; }
-
-        .mini-task-card {
-            min-width: 160px;
-            background: var(--surface);
-            padding: 16px;
-            border-radius: 16px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid #E5E7EB;
-        }
-        .mini-task-card h4 { font-size: 15px; margin-bottom: 4px; }
-        .mini-task-card span { font-size: 12px; color: var(--text-sub); }
-        .time-badge { 
-            display: inline-block; margin-bottom: 8px; 
-            font-size: 11px; font-weight: 700; color: var(--accent);
-            background: #FFFBEB; padding: 2px 8px; border-radius: 4px;
+            max-width: 400px;
+            position: relative;
         }
 
-        /* BOTTOM NAV: Moderne & Flottante */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: var(--surface);
-            border-top: 1px solid #E5E7EB;
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 0 24px 0; /* Padding bas pour iPhone X+ */
-            z-index: 100;
-        }
-        .nav-item {
+        /* GAUCHE : LE DATE BLOCK
+           On isole la date pour créer un point d'ancrage visuel fort.
+           Plus besoin de lire "Dimanche...", on voit "01 DÉC".
+        */
+        .date-column {
+            background: var(--date-bg);
+            min-width: 80px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: var(--text-sub);
-            font-size: 10px;
-            font-weight: 600;
-            gap: 4px;
+            justify-content: center;
+            padding: 12px;
+            text-align: center;
+            border-right: 1px solid #E5E7EB;
         }
-        .nav-item.active { color: var(--primary); }
-        .nav-icon { width: 24px; height: 24px; background: currentColor; border-radius: 6px; opacity: 0.2; } /* Placeholder icone */
-        .nav-item.active .nav-icon { opacity: 1; }
+        .date-day { font-size: 24px; font-weight: 800; color: var(--text-main); line-height: 1; }
+        .date-month { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--text-light); margin-top: 4px;}
+        .date-time { font-size: 11px; color: var(--text-light); margin-top: 8px; font-weight: 500;}
+
+        /* DROITE : LE CONTENU */
+        .content-column {
+            padding: 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Badges en haut */
+        .meta-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+        
+        /* Chips (Pilules) pour les statuts au lieu de texte brut */
+        .status-chip {
+            font-size: 10px; font-weight: 700; text-transform: uppercase;
+            padding: 4px 8px; border-radius: 6px; letter-spacing: 0.5px;
+        }
+        .chip-private { background: #FEF2F2; color: var(--accent-red); display: flex; align-items: center; gap:4px; }
+        .chip-asso { background: #F3E8FF; color: var(--primary); }
+
+        /* Le Titre */
+        h3 { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; line-height: 1.3; }
+
+        /* Les Organisateurs (discret mais présent) */
+        .organizers { font-size: 12px; color: var(--text-light); display: flex; align-items: center; gap: 6px; }
+        .organizers svg { width: 14px; height: 14px; color: var(--primary); }
+
+        /* L'Action (Edit) */
+        .edit-btn { position: absolute; bottom: 12px; right: 12px; opacity: 0.3; cursor: pointer; }
 
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="user-greet">
-            <p>Bonjour Thomas,</p>
-            <h1>Bon courage 💪</h1>
+    <div class="event-card">
+        <div class="date-column">
+            <span class="date-day">01</span>
+            <span class="date-month">Déc.</span>
+            <span class="date-time">15h - 11h</span>
         </div>
-        <div class="avatar"></div>
-    </header>
 
-    <main>
-        <div class="dashboard-hero">
-            <div class="hero-stats">
-                <h2>Objectif Semaine</h2>
-                <div class="big-number">7h <span style="font-size:16px; color:var(--text-sub); font-weight:400;">restantes</span></div>
-                <div class="sub-info">
-                    <span style="width:8px; height:8px; background:var(--success); border-radius:50%;"></span>
-                    En avance sur le planning
+        <div class="content-column">
+            <div class="meta-header">
+                <div style="display:flex; gap:6px;">
+                    <span class="status-chip chip-private">🔒 Privé</span>
+                    <span class="status-chip chip-asso" style="background:#FFF1F2; color:#BE123C;">Inscription</span>
                 </div>
             </div>
-            <div class="progress-circle"></div>
-        </div>
 
-        <div class="section-title">En ce moment</div>
-        
-        <div class="current-task-card">
-            <div class="task-tag">CHANTIER B - ETAGE 2</div>
-            <h3>Pose isolation phonique</h3>
-            <p>📍 Lotissement Les Érables • Salle de bain</p>
-            
-            <button class="action-btn">
-                ✅ Valider cette étape
-            </button>
-        </div>
+            <h3>Célébration de Noël œcuménique</h3>
 
-        <div class="section-title">À suivre aujourd'hui (2)</div>
-        <div class="horizontal-scroll">
-            <div class="mini-task-card">
-                <div class="time-badge">14:00</div>
-                <h4>Nettoyage zone</h4>
-                <span>Chantier B • RDC</span>
-            </div>
-            <div class="mini-task-card">
-                <div class="time-badge">16:30</div>
-                <h4>Réunion Chef</h4>
-                <span>Bureau Principal</span>
-            </div>
-            <div class="mini-task-card" style="opacity: 0.5; border-style: dashed;">
-                <div class="time-badge">Demain</div>
-                <h4>Livraison Matériaux</h4>
-                <span>Chantier C</span>
+            <div class="organizers">
+                <svg fill="currentColor" viewBox="0 0 20 20"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path></svg>
+                Catherine C., Jeanne B.
             </div>
         </div>
-    </main>
 
-    <nav class="bottom-nav">
-        <div class="nav-item active">
-            <div class="nav-icon" style="mask: url('data:image/svg+xml;utf8,<svg viewBox=\'0 0 24 24\' fill=\'currentColor\'><rect x=\'3\' y=\'3\' width=\'7\' height=\'7\'/><rect x=\'14\' y=\'3\' width=\'7\' height=\'7\'/><rect x=\'14\' y=\'14\' width=\'7\' height=\'7\'/><rect x=\'3\' y=\'14\' width=\'7\' height=\'7\'/></svg>')"></div>
-            Focus
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon"></div> Planning
-        </div>
-        <div class="nav-item">
-            <div class="nav-icon"></div> Heures
-        </div>
-    </nav>
+        <div class="edit-btn">✏️</div>
+    </div>
 
 </body>
 </html>
