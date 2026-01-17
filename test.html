@@ -2,107 +2,372 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concept UX AppSheet - Suivi Chantier</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --bg-card: #ffffff;
-            --text-main: #1F2937;
-            --text-light: #6B7280;
-            --primary: #6D28D9; /* Violet pour l'asso/organisateurs */
-            --accent-red: #DC2626;
-            --date-bg: #F3F4F6;
+            --primary: #2563EB; /* Bleu AppSheet/Pro */
+            --secondary: #64748B;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --bg: #F1F5F9;
+            --card: #FFFFFF;
+            --text: #1E293B;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: #e2e8f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: var(--text);
+        }
+
+        /* Cadre Mobile Simulation */
+        .mobile-frame {
+            width: 375px;
+            height: 750px;
+            background-color: var(--bg);
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border: 8px solid #333;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--card);
+            padding: 20px 20px 10px 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .user-info h1 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .user-info span {
+            font-size: 0.8rem;
+            color: var(--secondary);
+        }
+
+        /* Jauge Heures (Visualisation rapide) */
+        .hours-tracker {
+            background: linear-gradient(135deg, var(--primary), #1e40af);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+        }
+
+        .hours-text {
+            display: flex;
+            flex-direction: column;
         }
         
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #E5E7EB; padding: 20px; display: flex; justify-content: center; }
+        .hours-big { font-size: 1.5rem; font-weight: bold; }
+        .hours-label { font-size: 0.8rem; opacity: 0.9; }
 
-        /* LA CARTE PRO */
-        .event-card {
-            background: var(--bg-card);
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            display: flex; /* La magie opère ici : Layout Horizontal */
-            overflow: hidden;
-            width: 100%;
-            max-width: 400px;
-            position: relative;
+        .progress-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: conic-gradient(#fff 75%, rgba(255,255,255,0.2) 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .progress-inner {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
         }
 
-        /* GAUCHE : LE DATE BLOCK
-           On isole la date pour créer un point d'ancrage visuel fort.
-           Plus besoin de lire "Dimanche...", on voit "01 DÉC".
-        */
-        .date-column {
-            background: var(--date-bg);
-            min-width: 80px;
+        /* Content Scrollable */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--secondary);
+            margin: 20px 0 10px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Card Style */
+        .card {
+            background: var(--card);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border-left: 4px solid transparent;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        
+        .card:active { transform: scale(0.98); }
+
+        .card.priority-high { border-left-color: var(--danger); }
+        .card.priority-normal { border-left-color: var(--primary); }
+        .card.type-admin { border-left-color: var(--warning); background-color: #fffbeb; }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .tag-site { background-color: #dbeafe; color: var(--primary); }
+        .tag-admin { background-color: #fef3c7; color: var(--warning); }
+        .tag-client { background-color: #e2e8f0; color: var(--secondary); margin-right: 5px;}
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-details {
+            font-size: 0.8rem;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .deadline {
+            color: var(--danger);
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: absolute;
+            bottom: 80px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+            cursor: pointer;
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            background-color: var(--card);
+            height: 60px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 12px;
-            text-align: center;
-            border-right: 1px solid #E5E7EB;
-        }
-        .date-day { font-size: 24px; font-weight: 800; color: var(--text-main); line-height: 1; }
-        .date-month { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--text-light); margin-top: 4px;}
-        .date-time { font-size: 11px; color: var(--text-light); margin-top: 8px; font-weight: 500;}
-
-        /* DROITE : LE CONTENU */
-        .content-column {
-            padding: 16px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            color: var(--secondary);
+            font-size: 0.7rem;
+            cursor: pointer;
         }
 
-        /* Badges en haut */
-        .meta-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        /* Log Request Modal Simulation */
+        .log-hours-btn {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.5);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            margin-top: 5px;
+            cursor: pointer;
+        }
         
-        /* Chips (Pilules) pour les statuts au lieu de texte brut */
-        .status-chip {
-            font-size: 10px; font-weight: 700; text-transform: uppercase;
-            padding: 4px 8px; border-radius: 6px; letter-spacing: 0.5px;
+        .checkbox-custom {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--secondary);
+            border-radius: 4px;
+            display: inline-block;
         }
-        .chip-private { background: #FEF2F2; color: var(--accent-red); display: flex; align-items: center; gap:4px; }
-        .chip-asso { background: #F3E8FF; color: var(--primary); }
-
-        /* Le Titre */
-        h3 { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; line-height: 1.3; }
-
-        /* Les Organisateurs (discret mais présent) */
-        .organizers { font-size: 12px; color: var(--text-light); display: flex; align-items: center; gap: 6px; }
-        .organizers svg { width: 14px; height: 14px; color: var(--primary); }
-
-        /* L'Action (Edit) */
-        .edit-btn { position: absolute; bottom: 12px; right: 12px; opacity: 0.3; cursor: pointer; }
 
     </style>
 </head>
 <body>
 
-    <div class="event-card">
-        <div class="date-column">
-            <span class="date-day">01</span>
-            <span class="date-month">Déc.</span>
-            <span class="date-time">15h - 11h</span>
-        </div>
-
-        <div class="content-column">
-            <div class="meta-header">
-                <div style="display:flex; gap:6px;">
-                    <span class="status-chip chip-private">🔒 Privé</span>
-                    <span class="status-chip chip-asso" style="background:#FFF1F2; color:#BE123C;">Inscription</span>
+    <div class="mobile-frame">
+        <div class="header">
+            <div class="header-top">
+                <div class="user-info">
+                    <h1>Bonjour, Thomas</h1>
+                    <span>Mardi 9 Janvier</span>
+                </div>
+                <div style="background: #eff6ff; padding: 5px 10px; border-radius: 20px;">
+                    <i class="fas fa-user-circle" style="color:var(--primary)"></i>
                 </div>
             </div>
 
-            <h3>Célébration de Noël œcuménique</h3>
-
-            <div class="organizers">
-                <svg fill="currentColor" viewBox="0 0 20 20"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path></svg>
-                Catherine C., Jeanne B.
+            <div class="hours-tracker">
+                <div class="hours-text">
+                    <span class="hours-label">Hebdomadaire</span>
+                    <span class="hours-big">26h / 35h</span>
+                    <button class="log-hours-btn"><i class="fas fa-clock"></i> Saisir mes heures</button>
+                </div>
+                <div class="progress-circle">
+                    <div class="progress-inner">75%</div>
+                </div>
             </div>
         </div>
 
-        <div class="edit-btn">✏️</div>
+        <div class="content">
+            
+            <div class="section-title">
+                <span>À faire aujourd'hui</span>
+                <span style="font-size: 0.7rem; color: var(--primary);">Voir planning ></span>
+            </div>
+
+            <div class="card priority-high">
+                <div class="card-header">
+                    <span class="tag tag-site">Chantier</span>
+                    <span class="deadline"><i class="far fa-clock"></i> 14:00</span>
+                </div>
+                <div class="card-title">
+                    <div class="checkbox-custom"></div>
+                    Pose isolation combles
+                </div>
+                <div class="card-details">
+                    <span class="tag tag-client"><i class="fas fa-building"></i> Mme. Dupont</span>
+                    <span><i class="fas fa-map-marker-alt"></i> Lyon 03</span>
+                </div>
+                <div style="margin-top: 10px; display: flex; gap: 10px; font-size: 0.8rem; color: var(--primary);">
+                    <span><i class="fas fa-file-pdf"></i> Plan.pdf</span>
+                    <span><i class="fas fa-camera"></i> 2 photos</span>
+                </div>
+            </div>
+
+            <div class="card type-admin">
+                <div class="card-header">
+                    <span class="tag tag-admin">Back-Office</span>
+                    <span class="deadline">Fin de journée</span>
+                </div>
+                <div class="card-title">
+                    <div class="checkbox-custom"></div>
+                    Envoyer relevé d'heures
+                </div>
+                <div class="card-details">
+                    <span><i class="fas fa-info-circle"></i> Administratif</span>
+                </div>
+            </div>
+
+            <div class="section-title">
+                <span>Mes Chantiers en cours</span>
+            </div>
+
+            <div class="card priority-normal">
+                <div class="card-header">
+                    <span class="tag tag-site" style="background:#dcfce7; color:#166534">En Cours</span>
+                </div>
+                <div class="card-title">
+                    Rénovation Élec - Villa Green
+                </div>
+                <div class="card-details">
+                    <span><i class="fas fa-tasks"></i> 3 tâches restantes</span>
+                </div>
+            </div>
+
+            <div class="card priority-normal">
+                <div class="card-header">
+                    <span class="tag tag-site" style="background:#e0e7ff; color:#3730a3">À venir</span>
+                </div>
+                <div class="card-title">
+                    Installation Solaire - Entrepôt Sud
+                </div>
+                <div class="card-details">
+                    <span><i class="fas fa-calendar-alt"></i> Début: 12 Janv.</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="fab">
+            <i class="fas fa-plus"></i>
+        </div>
+
+        <div class="bottom-nav">
+            <div class="nav-item active">
+                <i class="fas fa-clipboard-check"></i>
+                <span>Tâches</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-hard-hat"></i>
+                <span>Chantiers</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-history"></i>
+                <span>Heures</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-folder"></i>
+                <span>Docs</span>
+            </div>
+        </div>
     </div>
 
 </body>
