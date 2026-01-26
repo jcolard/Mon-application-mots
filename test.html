@@ -2,69 +2,175 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Reçu Fiscal - Aix en Vue</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon CV - Design Épuré</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; padding: 40px; }
-        .receipt-container { border: 2px solid #000; padding: 30px; max-width: 800px; margin: auto; }
-        .header { text-align: center; border-bottom: 1px solid #000; margin-bottom: 20px; padding-bottom: 10px; }
-        .cerfa-number { float: right; font-weight: bold; font-size: 0.8em; }
-        h1 { font-size: 1.4em; margin-top: 0; }
-        .section { margin-bottom: 15px; }
-        .label { font-weight: bold; text-decoration: underline; }
-        .info-box { border: 1px dashed #666; padding: 10px; margin: 10px 0; background: #f9f9f9; }
-        .footer { margin-top: 40px; display: flex; justify-content: space-between; }
-        .signature-box { border: 1px solid #000; width: 250px; height: 100px; padding: 5px; text-align: center; }
-        .legal { font-size: 0.75em; font-style: italic; margin-top: 20px; text-align: justify; }
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --text: #333;
+            --bg: #f4f7f6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        header {
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-info h1 {
+            margin: 0;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .contact-info {
+            text-align: right;
+            font-size: 0.9em;
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: var(--accent);
+            border-left: 4px solid var(--accent);
+            padding-left: 15px;
+            text-transform: uppercase;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .job, .edu {
+            margin-bottom: 20px;
+        }
+
+        .job-title {
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .company {
+            font-style: italic;
+            color: #666;
+        }
+
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .skill-item {
+            background: #ecf0f1;
+            padding: 8px 12px;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        @media (max-width: 600px) {
+            header { flex-direction: column; text-align: center; }
+            .contact-info { text-align: center; margin-top: 15px; }
+            .job-title { flex-direction: column; }
+        }
     </style>
 </head>
 <body>
 
-<div class="receipt-container">
-    <div class="cerfa-number">N° 11580 * 05</div>
-    <div class="header">
-        <h1>REÇU AU TITRE DES DONS ET COTISATIONS</h1>
-        <p>(Articles 200 et 238 bis du Code Général des Impôts)</p>
-    </div>
-
-    <div class="section">
-        <span class="label">Bénéficiaire du don :</span>
-        <div class="info-box">
-            <strong>Association :</strong> Aix en Vue<br>
-            <strong>Adresse :</strong> 123 Rue du Panorama, 13100 Aix-en-Provence<br>
-            <strong>Objet :</strong> Promotion de la culture et de la vision artistique locale.
+<div class="container">
+    <header>
+        <div class="header-info">
+            <h1>[TON NOM PRÉNOM]</h1>
+            <p><strong>[Ton Intitulé de Poste / Passion]</strong></p>
         </div>
-    </div>
-
-    <div class="section">
-        <span class="label">Donateur :</span>
-        <div class="info-box">
-            <strong>Nom/Entreprise :</strong> Jérémy Colard<br>
-            <strong>Adresse :</strong> [Ton Adresse], Toulouse
+        <div class="contact-info">
+            <p>📧 [email@exemple.com]</p>
+            <p>📱 [06 00 00 00 00]</p>
+            <p>📍 [Ville, Pays]</p>
         </div>
-    </div>
+    </header>
 
-    <div class="section">
-        <p>Le bénéficiaire certifie avoir reçu ce jour, le <strong>23 janvier 2026</strong>, </p>
-        <p>la somme de : <strong>CENT EUROS (100 €)</strong></p>
-        <p>Forme du don : <strong>Virement bancaire</strong></p>
-    </div>
+    <section>
+        <h2>Profil Personnel</h2>
+        <p>Passionné par [Ton domaine], j'ai développé une expertise en [Compétence clé]. Mon approche combine rigueur technique et créativité pour résoudre des problèmes complexes.</p>
+    </section>
 
-    <div class="legal">
-        Le bénéficiaire certifie que le don ou la cotisation ouvre droit à la réduction d'impôt prévue aux articles 200 et 238 bis du Code Général des Impôts (CGI).
-    </div>
-
-    <div class="footer">
-        <div>
-            Fait à : Aix-en-Provence<br>
-            Le : 23/01/2026
-        </div>
-        <div>
-            <strong>Signature du Trésorier ou Président</strong>
-            <div class="signature-box">
-                <br><em>Cachet de l'association</em>
+    <section>
+        <h2>Expériences Professionnelles</h2>
+        <div class="job">
+            <div class="job-title">
+                <span>[Intitulé du Poste]</span>
+                <span>[Dates : 2022 - Présent]</span>
             </div>
+            <div class="company">[Nom de l'entreprise]</div>
+            <ul>
+                <li>Optimisation des processus de [Projet A].</li>
+                <li>Gestion d'une équipe de [X] personnes.</li>
+                <li>Augmentation de la productivité de 15%.</li>
+            </ul>
         </div>
-    </div>
+
+        <div class="job">
+            <div class="job-title">
+                <span>[Intitulé du Poste Précédent]</span>
+                <span>[Dates : 2020 - 2022]</span>
+            </div>
+            <div class="company">[Ancienne Entreprise]</div>
+            <ul>
+                <li>Développement de solutions pour [Projet B].</li>
+                <li>Collaboration étroite avec les départements marketing et tech.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>Compétences</h2>
+        <div class="skills-container">
+            <div class="skill-item">HTML / CSS</div>
+            <div class="skill-item">JavaScript</div>
+            <div class="skill-item">Gestion de Projet</div>
+            <div class="skill-item">UI / UX Design</div>
+            <div class="skill-item">Anglais (C1)</div>
+            <div class="skill-item">Adaptabilité</div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Formation</h2>
+        <div class="edu">
+            <div class="job-title">
+                <span>[Nom du Diplôme]</span>
+                <span>[Année]</span>
+            </div>
+            <div class="company">[Nom de l'Université / École]</div>
+        </div>
+    </section>
 </div>
 
 </body>
