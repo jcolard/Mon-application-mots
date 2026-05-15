@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Lien pour l'autre — L'habitat inclusif</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FDF6EC;
+    --bg-2: #F5E8D3;
+    --ink: #2A2A2A;
+    --ink-soft: #5C4A3A;
+    --paper: #FFFBF3;
+    --accent: #E8623D;
+    --accent-soft: #F4A582;
+    --gold: #D4A574;
+    --green: #6B8E5A;
+    --blue: #4A6FA5;
+    --shadow-soft: 0 2px 0 rgba(42,42,42,0.08), 0 4px 16px rgba(42,42,42,0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; }
+
+  html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .game {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    width: 100vw;
+  }
+
+  .dashboard {
+    height: 30dvh;
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    padding: 12px 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    z-index: 10;
+    border-bottom: 2px solid rgba(42,42,42,0.05);
+  }
+
+  .dash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .brand-logo { font-family: 'Fraunces', serif; font-weight: 800; font-style: italic; font-size: 20px; color: var(--accent); line-height: 1; }
+  .header-actions { display: flex; gap: 8px; }
+  .icon-btn {
+    width: 32px; height: 32px; border-radius: 50%; background: var(--bg);
+    border: 1.5px solid rgba(42,42,42,0.08); font-size: 14px; font-weight: bold;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .level-container { margin-bottom: 12px; }
+  .level-header { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+  .level-header span.vis { color: var(--blue); }
+  .progress-bar { width: 100%; height: 8px; background: rgba(0,0,0,0.06); border-radius: 99px; overflow: hidden; position: relative; }
+  .progress-fill { height: 100%; background: var(--green); transition: width 0.4s ease; border-radius: 99px; width: 0%; }
+
+  .action-buttons {
+    display: flex; gap: 10px; flex: 1; align-items: center; justify-content: space-between;
+  }
+  .action-btn {
+    flex: 1; background: var(--bg); border: 1.5px solid rgba(0,0,0,0.08); border-radius: 12px;
+    padding: 8px; display: flex; align-items: center; gap: 8px; text-align: left;
+    transition: transform 0.1s, border-color 0.2s, box-shadow 0.2s; position: relative; overflow: hidden; cursor: pointer;
+  }
+  .action-btn:active { transform: scale(0.96); }
+  .action-btn.disabled { opacity: 0.5; filter: grayscale(1); pointer-events: none; }
+  .action-icon { font-size: 24px; }
+  .action-text { display: flex; flex-direction: column; flex: 1; }
+  .action-title { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--ink-soft); line-height: 1.1; margin-bottom: 2px;}
+  .action-desc { font-size: 14px; font-family: 'Fraunces', serif; font-weight: 700; color: var(--ink); }
+  .action-cost { font-size: 12px; font-weight: 700; color: var(--blue); background: rgba(74, 111, 165, 0.1); padding: 4px 8px; border-radius: 8px; }
+
+  @keyframes blinkAlert {
+    0%, 100% { box-shadow: none; border-color: rgba(0,0,0,0.08); background: var(--bg); }
+    50% { box-shadow: 0 0 15px var(--accent); border-color: var(--accent); background: #FFF5EE; }
+  }
+  .blink-alert {
+    animation: blinkAlert 0.4s ease-in-out 3;
+    z-index: 20;
+  }
+
+  .gallery {
+    height: 60dvh;
+    background: var(--bg);
+    padding: 12px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gallery-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 8px; font-size: 11px; color: var(--ink-soft); font-weight: 500;
+  }
+  .regen-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green); margin-right: 4px; animation: pulse 1.5s infinite;
+  }
+
+  .people-grid {
+    flex: 1;
+    display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr); gap: 8px;
+  }
+  .grid-cell { background: rgba(42,42,42,0.03); border: 1.5px dashed rgba(42,42,42,0.1); border-radius: 16px; position: relative; display: flex; align-items: center; justify-content: center; }
+  .grid-cell.empty::after { content: '+'; font-size: 20px; color: rgba(42,42,42,0.15); }
+
+  .person {
+    position: absolute; inset: 0; background: var(--paper); border-radius: 16px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 2px solid transparent; transition: transform 0.15s, border-color 0.15s;
+    animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer;
+  }
+  .person.selected { border-color: var(--accent); transform: scale(1.05); background: #FFF5EE; z-index: 5; box-shadow: 0 6px 16px rgba(232,98,61,0.2); }
+  .person.mismatch { animation: shake 0.4s; }
+
+  .person-face { font-size: 30px; line-height: 1; margin-bottom: 2px; }
+  .person-name { font-family: 'Fraunces', serif; font-weight: 700; font-size: 12px; color: var(--ink); }
+  .person-trait { font-size: 9px; line-height: 1.1; font-weight: 600; margin-top: 2px; padding:0 2px; }
+  .person-profil { font-size: 8px; color: var(--ink-soft); font-style: italic; margin-top: 2px;}
+
+  .coup-de-coeur::after { content: '✨'; position: absolute; top: -6px; right: -6px; font-size: 16px; animation: pulse 1.5s infinite; }
+
+  .houses-area {
+    height: 10dvh; background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+    border-top: 2px dashed rgba(42,42,42,0.1); display: flex; align-items: center; justify-content: center; padding: 0 12px; gap: 8px;
+    overflow-x: auto; flex-wrap: nowrap;
+  }
+  .houses-area::-webkit-scrollbar { display: none; }
+  .house {
+    min-width: 45px; height: 45px; background: var(--paper); border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; font-size: 24px;
+    box-shadow: var(--shadow-soft); animation: pop-in 0.4s;
+  }
+
+  @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.2); opacity: 0.6; } }
+  @keyframes pop-in { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+  @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+
+  .toast {
+    position: fixed; top: 12px; left: 50%; transform: translateX(-50%) translateY(-100px);
+    background: var(--ink); color: var(--paper); padding: 10px 16px; border-radius: 99px;
+    font-size: 12px; font-weight: 500; z-index: 100; transition: 0.4s; text-align: center; width: 90%;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.success { background: var(--green); }
+  .toast.fail { background: #C97B84; }
+  .toast.lvlup { background: linear-gradient(90deg, var(--accent), var(--gold)); color: white; font-size: 14px; font-weight: bold;}
+
+  .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
+  .modal-bg.show { display: flex; }
+  .modal { background: var(--paper); border-radius: 24px; padding: 24px; text-align: center; width: 100%; max-width: 400px; }
+  .modal h2 { font-family: 'Fraunces', serif; color: var(--accent); margin-bottom: 12px; font-size: 24px; line-height: 1.1;}
+  .modal p { font-size: 14px; margin-bottom: 16px; color: var(--ink-soft); line-height: 1.4; text-align: left;}
+  .btn { background: var(--accent); color: white; border: none; padding: 12px 20px; border-radius: 99px; font-weight: 600; width: 100%; margin-bottom: 8px; font-size: 15px; cursor: pointer;}
+  .btn.outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="game">
+  <section class="dashboard">
+    <div class="dash-header">
+      <div class="brand-logo">Lien pour l'autre</div>
+      <div class="header-actions">
+        <button class="icon-btn" id="btn-music" style="opacity: 0.4;" title="Musique de fond">🎵</button>
+        <button class="icon-btn" id="btn-help" title="Aide">?</button>
+        <button class="icon-btn" id="btn-reset" title="Recommencer">↻</button>
+      </div>
+    </div>
+
+    <div class="level-container">
+      <div class="level-header">
+        <span id="level-display">Niveau 1 (0/3)</span>
+        <span class="vis" id="vis-display">0 ✨ Impact</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <button class="action-btn" id="btn-asso">
+        <div class="action-icon">🤝</div>
+        <div class="action-text">
+          <span class="action-title">Asso Partenaire</span>
+          <span class="action-desc" id="desc-asso">+3 profils</span>
+        </div>
+        <div class="action-cost">6 ✨</div>
+      </button>
+
+      <button class="action-btn" id="btn-bailleur">
+        <div class="action-icon">🏠</div>
+        <div class="action-text">
+          <span class="action-title">Bailleur Solidaire</span>
+          <span class="action-desc" id="desc-bailleur">+1 logement</span>
+        </div>
+        <div class="action-cost">6 ✨</div>
+      </button>
+    </div>
+  </section>
+
+  <section class="gallery">
+    <div class="gallery-header">
+      <span><span class="regen-dot"></span>Recherche de profils : <strong id="regen-countdown">8s</strong></span>
+      <span>Galerie solidaire</span>
+    </div>
+    <div class="people-grid" id="people-grid"></div>
+  </section>
+
+  <section class="houses-area" id="houses-grid"></section>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-bg" id="modal-bg">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<script>
+let audioCtx = null;
+let bgmGain = null;
+let bgmOscillators = [];
+let isMusicPlaying = false;
+
+function initAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+document.body.addEventListener('touchstart', initAudio, { once: true });
+document.body.addEventListener('click', initAudio, { once: true });
+
+function playSfx(type) {
+  if (!audioCtx) return;
+  const t = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain); gain.connect(audioCtx.destination);
+
+  if (type === 'click') {
+    osc.type = 'sine'; osc.frequency.setValueAtTime(600, t);
+    gain.gain.setValueAtTime(0.1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
+    osc.start(t); osc.stop(t + 0.1);
+  } else if (type === 'match') {
+    osc.type = 'sine'; osc.frequency.setValueAtTime(523.25, t); osc.frequency.setValueAtTime(659.25, t + 0.1);
+    gain.gain.setValueAtTime(0.1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
+    osc.start(t); osc.stop(t + 0.3);
+  } else if (type === 'heart') {
+    osc.type = 'sine'; osc.frequency.setValueAtTime(440, t); osc.frequency.setValueAtTime(554.37, t + 0.1); osc.frequency.setValueAtTime(659.25, t + 0.2);
+    gain.gain.setValueAtTime(0.1, t); gain.gain.linearRampToValueAtTime(0, t + 0.5);
+    osc.start(t); osc.stop(t + 0.5);
+  } else if (type === 'error') {
+    osc.type = 'square'; osc.frequency.setValueAtTime(150, t);
+    gain.gain.setValueAtTime(0.05, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
+    osc.start(t); osc.stop(t + 0.2);
+  } else if (type === 'buy') {
+    osc.type = 'sine'; osc.frequency.setValueAtTime(800, t); osc.frequency.setValueAtTime(1200, t + 0.1);
+    gain.gain.setValueAtTime(0.1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
+    osc.start(t); osc.stop(t + 0.2);
+  } else if (type === 'lvlup') {
+    osc.type = 'sine'; osc.frequency.setValueAtTime(440, t); osc.frequency.setValueAtTime(659.25, t+0.1); osc.frequency.setValueAtTime(880, t+0.2);
+    gain.gain.setValueAtTime(0.1, t); gain.gain.linearRampToValueAtTime(0, t + 0.6);
+    osc.start(t); osc.stop(t + 0.6);
+  }
+}
+
+function toggleMusic() {
+  initAudio();
+  const btn = document.getElementById('btn-music');
+
+  if (isMusicPlaying) {
+    if (bgmGain) bgmGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.5);
+    isMusicPlaying = false;
+    btn.style.opacity = '0.4';
+  } else {
+    if (bgmOscillators.length === 0) {
+      const freqs = [130.81, 164.81, 196.00, 246.94];
+      bgmGain = audioCtx.createGain();
+      bgmGain.gain.value = 0;
+
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.value = 400;
+
+      bgmGain.connect(filter);
+      filter.connect(audioCtx.destination);
+
+      freqs.forEach((f, i) => {
+        const osc = audioCtx.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.value = f;
+
+        const lfo = audioCtx.createOscillator();
+        lfo.type = 'sine';
+        lfo.frequency.value = 0.05 + (i * 0.02);
+
+        const lfoGain = audioCtx.createGain();
+        lfoGain.gain.value = 0.08;
+
+        lfo.connect(lfoGain.gain);
+        osc.connect(lfoGain);
+        lfoGain.connect(bgmGain);
+
+        osc.start();
+        lfo.start();
+        bgmOscillators.push(osc);
+      });
+    }
+    bgmGain.gain.setTargetAtTime(1, audioCtx.currentTime, 1);
+    isMusicPlaying = true;
+    btn.style.opacity = '1';
+  }
+}
+
+document.getElementById('btn-music').addEventListener('click', toggleMusic);
+
+const NAMES = ['Léa','Tom','Sami','Inès','Nora','Yann','Mei','Jules','Aïsha','Léo','Maya','Théo','Lila','Nael','Zoé'];
+const FACES = ['👩‍🦰','👨‍🦱','👩‍🦳','🧑‍🦲','👨‍🦰','🧕','👩‍🦱','👨‍🦳','👱‍♀️','👱','🧔','👩','👨','🧑','👵','👴'];
+const TYPES_PROFIL = ['Jeune actif', 'Senior isolé', 'En transition', 'Étudiant', 'En reconstruction'];
+
+const TRAIT_GROUPS = [
+  { color: 'var(--accent)', traits: ['Rythme matinal', 'Aime cuisiner', 'Repas partagés'] },
+  { color: 'var(--blue)', traits: ['Vie associative', 'Entraide', 'Discussions'] },
+  { color: 'var(--green)', traits: ['Calme & Nature', 'Jardinage', 'Silence zen'] },
+  { color: 'var(--purple)', traits: ['Art & Culture', 'Bricolage', 'Créatif'] },
+  { color: 'var(--teal)', traits: ['Sport & Énergie', 'Sorties', 'Dynamique'] }
+];
+
+const LEVELS = [3, 7, 12, 16, 20];
+const ACTION_COST = 6;
+
+let state = {
+  grid: Array(12).fill(null),
+  houses: [],
+  selectedIdx: null,
+  score: 0,
+  level: 1,
+  visibility: 0,
+  maxHouses: 8,
+  peopleRegenMs: 7000,
+  housesRegenMs: 12000,
+  peopleTimer: 0,
+  housesTimer: 0,
+  ended: false
+};
+
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function generatePerson() {
+  const group = pick(TRAIT_GROUPS);
+  return {
+    id: Math.random().toString(36).substr(2,9),
+    name: pick(NAMES), face: pick(FACES),
+    profil: pick(TYPES_PROFIL),
+    trait: pick(group.traits), color: group.color,
+    coupDeCoeur: Math.random() < 0.15
+  };
+}
+
+function spawnPersonInGrid() {
+  const emptyIndices = state.grid.map((p, i) => p === null ? i : -1).filter(i => i !== -1);
+  if (emptyIndices.length > 0) {
+    state.grid[pick(emptyIndices)] = generatePerson();
+    return true;
+  }
+  return false;
+}
+
+const gridEl = document.getElementById('people-grid');
+function renderGrid() {
+  gridEl.innerHTML = '';
+  state.grid.forEach((p, idx) => {
+    const cell = document.createElement('div');
+    cell.className = 'grid-cell ' + (p ? '' : 'empty');
+    if (p) {
+      const personEl = document.createElement('div');
+      personEl.className = 'person' + (state.selectedIdx === idx ? ' selected' : '') + (p.coupDeCoeur ? ' coup-de-coeur' : '');
+      personEl.innerHTML = `
+        <span class="person-face">${p.face}</span>
+        <div class="person-name">${p.name}</div>
+        <div class="person-profil">${p.profil}</div>
+        <div class="person-trait" style="color:${p.color}">${p.trait}</div>
+      `;
+      personEl.onclick = () => onPersonClick(idx, personEl);
+      cell.appendChild(personEl);
+    }
+    gridEl.appendChild(cell);
+  });
+}
+
+const housesEl = document.getElementById('houses-grid');
+function renderHouses() {
+  housesEl.innerHTML = '';
+  state.houses.forEach(() => {
+    const h = document.createElement('div');
+    h.className = 'house'; h.textContent = pick(['🏠','🏡','🏢']);
+    housesEl.appendChild(h);
+  });
+}
+
+function renderDashboard() {
+  const target = LEVELS[state.level - 1] || 20;
+  const prevTarget = state.level > 1 ? LEVELS[state.level - 2] : 0;
+  const range = target - prevTarget;
+  const progressInLevel = state.score - prevTarget;
+  const pct = Math.min(100, Math.max(0, (progressInLevel / range) * 100));
+
+  document.getElementById('level-display').textContent = `Niveau ${state.level} (${state.score}/${target})`;
+  document.getElementById('vis-display').textContent = `${state.visibility} ✨ Impact`;
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  const assoGain = 3 + (state.level - 1);
+  const bailleurGain = 1 + Math.floor((state.level - 1) / 2);
+  document.getElementById('desc-asso').textContent = `+${assoGain} profils`;
+  document.getElementById('desc-bailleur').textContent = `+${bailleurGain} logement${bailleurGain>1?'s':''}`;
+
+  const canAfford = state.visibility >= ACTION_COST;
+  document.getElementById('btn-asso').className = 'action-btn ' + (canAfford ? '' : 'disabled');
+  document.getElementById('btn-bailleur').className = 'action-btn ' + (canAfford ? '' : 'disabled');
+}
+
+function renderAll() { renderGrid(); renderHouses(); renderDashboard(); }
+
+document.getElementById('btn-asso').onclick = () => {
+  if (state.visibility < ACTION_COST) return;
+  state.visibility -= ACTION_COST;
+  playSfx('buy');
+
+  const amount = 3 + (state.level - 1);
+  let spawned = 0;
+  for (let i = 0; i < amount; i++) {
+    if (spawnPersonInGrid()) spawned++;
+  }
+
+  if (spawned < amount) showToast(`Grille pleine ! Seulement ${spawned} profil(s) ajouté(s)`, 'fail');
+  renderAll();
+};
+
+document.getElementById('btn-bailleur').onclick = () => {
+  if (state.visibility < ACTION_COST) return;
+  state.visibility -= ACTION_COST;
+  playSfx('buy');
+
+  const amount = 1 + Math.floor((state.level - 1) / 2);
+  for (let i = 0; i < amount; i++) {
+    if (state.houses.length < state.maxHouses) state.houses.push({});
+  }
+  renderAll();
+};
+
+function onPersonClick(idx) {
+  if (state.ended) return;
+  playSfx('click');
+
+  if (state.selectedIdx === null) {
+    state.selectedIdx = idx;
+    renderGrid();
+    return;
+  }
+  if (state.selectedIdx === idx) {
+    state.selectedIdx = null;
+    renderGrid();
+    return;
+  }
+
+  const p1 = state.grid[state.selectedIdx];
+  const p2 = state.grid[idx];
+
+  if (p1.color === p2.color) attemptMatch(state.selectedIdx, idx, p1, p2);
+  else {
+    playSfx('error');
+    showToast("Leurs rythmes de vie sont trop différents. Cherche la même couleur !", "fail");
+    state.selectedIdx = null;
+    renderGrid();
+  }
+}
+
+function attemptMatch(idx1, idx2, p1, p2) {
+  if (state.houses.length === 0) {
+    playSfx('error');
+    showToast("Aucun logement disponible ! Sollicite un Bailleur Solidaire.", "fail");
+    state.selectedIdx = null;
+    renderGrid();
+
+    const btnBailleur = document.getElementById('btn-bailleur');
+    btnBailleur.classList.remove('blink-alert');
+    void btnBailleur.offsetWidth;
+    btnBailleur.classList.add('blink-alert');
+    setTimeout(() => btnBailleur.classList.remove('blink-alert'), 1200);
+    return;
+  }
+
+  const isCoup = p1.coupDeCoeur || p2.coupDeCoeur;
+  const visGain = isCoup ? 9 : 3;
+  playSfx(isCoup ? 'heart' : 'match');
+
+  state.grid[idx1] = null;
+  state.grid[idx2] = null;
+  state.houses.shift();
+  state.score++;
+  state.visibility += visGain;
+  state.selectedIdx = null;
+
+  showToast(isCoup ? `💖 Superbe équilibre ! +${visGain} ✨ Impact` : `🏡 Foyer inclusif créé ! +${visGain} ✨ Impact`, 'success');
+
+  checkLevelUp();
+  renderAll();
+}
+
+function checkLevelUp() {
+  if (state.level > 5) return;
+  const target = LEVELS[state.level - 1];
+
+  if (state.score >= target) {
+    if (state.level === 5) {
+      endGame();
+    } else {
+      state.level++;
+      playSfx('lvlup');
+      showToast(`🌟 NIVEAU ${state.level} ATTEINT ! Tes actions partenaires sont renforcées !`, 'lvlup');
+    }
+  }
+}
+
+const toastEl = document.getElementById('toast');
+function showToast(msg, type) {
+  toastEl.className = 'toast show ' + type;
+  toastEl.textContent = msg;
+  setTimeout(() => toastEl.className = 'toast', 2500);
+}
+
+function endGame() {
+  state.ended = true;
+  playSfx('lvlup');
+  document.getElementById('modal-content').innerHTML = `
+    <h2 style="text-align:center;">🎉 MISSION ACCOMPLIE !</h2>
+    <p style="text-align:center; font-weight:bold;">Niveau 5 atteint !</p>
+    <p>Grâce à toi, <b>20 foyers inclusifs</b> ont vu le jour. Tu as su associer des profils différents (jeunes, seniors, actifs, personnes en transition) en trouvant leurs valeurs communes.</p>
+    <p>Dans la vraie vie, l'association <b>Lien pour l'autre</b> accompagne au quotidien ces parcours croisés pour faire reculer la précarité.</p>
+    <button class="btn" onclick="window.open('https://www.lienpourlautre.com/', '_blank')">Découvrir l'association</button>
+    <button class="btn outline" onclick="location.reload()">Rejouer</button>
+  `;
+  document.getElementById('modal-bg').classList.add('show');
+}
+
+document.getElementById('btn-help').onclick = () => {
+  document.getElementById('modal-content').innerHTML = `
+    <h2>L'Habitat Inclusif</h2>
+    <p>
+      <b>1.</b> Associe 2 profils partageant un <b>rythme ou des valeurs communes</b> (même couleur de texte) pour recréer une dynamique de vie (nécessite 1 logement 🏠).<br><br>
+      <b>2.</b> Chaque réussite génère de l'<b>Impact ✨</b>. Utilise-le pour mobiliser nos partenaires : une <b>Asso partenaire</b> (trouve de nouveaux profils) ou un <b>Bailleur solidaire</b> (débloque des logements).<br><br>
+      <b>3.</b> Franchis les 5 paliers. L'objectif ? Former 20 colocations inclusives !
+    </p>
+    <button class="btn" onclick="document.getElementById('modal-bg').classList.remove('show')">C'est parti !</button>
+  `;
+  document.getElementById('modal-bg').classList.add('show');
+};
+document.getElementById('btn-reset').onclick = () => location.reload();
+
+let lastTime = Date.now();
+function loop() {
+  if (state.ended) return;
+  const now = Date.now();
+  const dt = now - lastTime;
+  lastTime = now;
+
+  state.peopleTimer += dt;
+  state.housesTimer += dt;
+
+  const emptyCount = state.grid.filter(p => p === null).length;
+  if (emptyCount > 0) {
+    document.getElementById('regen-countdown').textContent = Math.max(0, Math.ceil((state.peopleRegenMs - state.peopleTimer)/1000)) + 's';
+    if (state.peopleTimer >= state.peopleRegenMs) {
+      spawnPersonInGrid();
+      state.peopleTimer = 0;
+      renderGrid();
+    }
+  } else {
+    document.getElementById('regen-countdown').textContent = 'Pleine';
+  }
+
+  if (state.houses.length < state.maxHouses && state.housesTimer >= state.housesRegenMs) {
+    state.houses.push({});
+    state.housesTimer = 0;
+    renderHouses();
+  }
+
+  requestAnimationFrame(loop);
+}
+
+for(let i=0; i<6; i++) spawnPersonInGrid();
+for(let i=0; i<3; i++) state.houses.push({});
+state.grid[1].color = state.grid[0].color;
+state.grid[1].trait = state.grid[0].trait;
+
+renderAll();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
