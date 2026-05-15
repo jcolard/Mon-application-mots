@@ -1,79 +1,893 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestion des cartes - Supabase</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lien pour l'autre — L'habitat inclusif qui transforme la vulnérabilité en force</title>
+<meta name="description" content="Lienpourlautre développe des colocations inclusives où jeunes, seniors et personnes en transition vivent ensemble. Une réponse concrète à la précarité et à l'isolement.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600;1,9..144,800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FDF6EC;
+    --bg-2: #F5E8D3;
+    --bg-3: #ECDDC4;
+    --ink: #2A2A2A;
+    --ink-soft: #5C4A3A;
+    --ink-mute: #8A7560;
+    --paper: #FFFBF3;
+    --accent: #E8623D;
+    --accent-deep: #C44A28;
+    --accent-soft: #F4A582;
+    --gold: #D4A574;
+    --green: #6B8E5A;
+    --green-deep: #4F6B42;
+    --blue: #4A6FA5;
+    --plum: #8B5A6B;
+    --shadow-soft: 0 2px 0 rgba(42,42,42,0.06), 0 8px 24px rgba(42,42,42,0.06);
+    --shadow-card: 0 4px 0 rgba(42,42,42,0.08), 0 12px 32px rgba(42,42,42,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* === GRAIN OVERLAY === */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.2 0 0 0 0 0.1 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* === NAVIGATION === */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(253, 246, 236, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(42,42,42,0.06);
+  }
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--ink); font-style: normal; }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px 20px;
+    border-radius: 99px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent); transform: translateY(-1px); }
+  @media (max-width: 768px) {
+    nav { padding: 14px 18px; }
+    .nav-links a:not(.nav-cta) { display: none; }
+  }
+
+  /* === HERO === */
+  .hero {
+    min-height: 100vh;
+    padding: 120px 32px 80px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Decorative blobs */
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.4;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .blob-1 { width: 500px; height: 500px; background: var(--accent-soft); top: -100px; right: -150px; }
+  .blob-2 { width: 400px; height: 400px; background: var(--gold); bottom: -100px; left: -100px; }
+
+  .hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--paper);
+    padding: 8px 16px;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    border: 1px solid rgba(42,42,42,0.08);
+    margin-bottom: 32px;
+    box-shadow: var(--shadow-soft);
+    animation: fadeUp 0.8s ease-out;
+  }
+  .eyebrow .dot {
+    width: 8px; height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: clamp(40px, 7vw, 88px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 28px;
+    max-width: 18ch;
+    animation: fadeUp 0.9s ease-out 0.1s backwards;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  h1 .stroke {
+    position: relative;
+    display: inline-block;
+  }
+  h1 .stroke::after {
+    content: '';
+    position: absolute;
+    bottom: 0.1em;
+    left: -0.05em;
+    right: -0.05em;
+    height: 0.18em;
+    background: var(--gold);
+    z-index: -1;
+    opacity: 0.6;
+  }
+
+  .hero-lead {
+    font-size: clamp(17px, 2vw, 21px);
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 56ch;
+    margin-bottom: 40px;
+    animation: fadeUp 1s ease-out 0.2s backwards;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    animation: fadeUp 1.1s ease-out 0.3s backwards;
+  }
+  .btn-primary, .btn-secondary {
+    padding: 16px 32px;
+    border-radius: 99px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 4px 0 var(--accent-deep), 0 8px 24px rgba(232,98,61,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--accent-deep), 0 12px 28px rgba(232,98,61,0.4); }
+  .btn-primary:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--accent-deep), 0 4px 12px rgba(232,98,61,0.3); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid rgba(42,42,42,0.2);
+  }
+  .btn-secondary:hover { border-color: var(--ink); transform: translateY(-2px); }
+
+  /* === HERO STATS BAR === */
+  .hero-stats {
+    margin-top: 80px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(42,42,42,0.08);
+    animation: fadeUp 1.2s ease-out 0.4s backwards;
+  }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(28px, 4vw, 42px);
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-num em { font-style: italic; }
+  .stat-label {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+  @media (max-width: 768px) {
+    .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* === SECTION COMMUNE === */
+  section {
+    position: relative;
+    z-index: 2;
+  }
+  .section-pad {
+    padding: 100px 32px;
+  }
+  @media (max-width: 768px) {
+    .section-pad { padding: 64px 18px; }
+  }
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  .section-eyebrow {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 24px;
+    max-width: 20ch;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+  .section-lead {
+    font-size: 18px;
+    color: var(--ink-soft);
+    max-width: 56ch;
+    line-height: 1.6;
+  }
+
+  /* === SECTION PROBLÈME === */
+  .problem {
+    background: var(--bg-2);
+    position: relative;
+  }
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 60px;
+  }
+  @media (max-width: 900px) {
+    .problem-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  .problem-text p {
+    font-size: 18px;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+    line-height: 1.7;
+  }
+  .problem-text p strong { color: var(--ink); font-weight: 600; }
+  .problem-visual {
+    position: relative;
+    aspect-ratio: 1;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .figure-card {
+    position: absolute;
+    background: var(--paper);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s;
+  }
+  .figure-card:hover { transform: translateY(-6px) rotate(0deg) !important; }
+  .figure-face { font-size: 48px; margin-bottom: 12px; line-height: 1; }
+  .figure-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+  .figure-detail { font-size: 12px; color: var(--ink-mute); }
+
+  .figure-1 { top: 0; left: 0; width: 55%; transform: rotate(-3deg); z-index: 2; }
+  .figure-2 { top: 18%; right: 0; width: 55%; transform: rotate(4deg); z-index: 1; }
+  .figure-3 { bottom: 0; left: 18%; width: 55%; transform: rotate(-2deg); z-index: 3; }
+
+  /* === SECTION MODÈLE === */
+  .model { background: var(--bg); }
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+  @media (max-width: 900px) {
+    .pillars { grid-template-columns: 1fr; }
+  }
+  .pillar {
+    background: var(--paper);
+    border-radius: 24px;
+    padding: 36px 32px;
+    border: 1px solid rgba(42,42,42,0.06);
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .pillar:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card);
+  }
+  .pillar-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+  }
+  .pillar-icon {
+    width: 56px; height: 56px;
+    background: var(--bg-2);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 24px;
+  }
+  .pillar h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 12px;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .pillar p { font-size: 15px; color: var(--ink-soft); line-height: 1.6; }
+
+  /* === SECTION JEU === */
+  .game-section {
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-3) 100%);
+    overflow: hidden;
+  }
+  .game-intro {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 60px;
+  }
+  .game-intro .section-title { margin: 0 auto 24px; }
+  .game-intro .section-lead { margin: 0 auto; }
+  .game-wrapper {
+    max-width: 420px;
+    margin: 0 auto;
+    background: var(--paper);
+    border-radius: 32px;
+    padding: 12px;
+    box-shadow: 0 8px 0 rgba(42,42,42,0.08), 0 24px 60px rgba(42,42,42,0.18);
+    position: relative;
+  }
+  .game-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: -16px;
+    background: linear-gradient(135deg, var(--accent-soft), var(--gold), var(--green));
+    border-radius: 40px;
+    z-index: -1;
+    opacity: 0.3;
+    filter: blur(20px);
+  }
+  .game-frame {
+    width: 100%;
+    height: 720px;
+    border: none;
+    border-radius: 24px;
+    background: var(--bg);
+    display: block;
+  }
+  .game-caption {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 13px;
+    color: var(--ink-mute);
+    font-style: italic;
+  }
+
+  /* === SECTION TÉMOIGNAGES === */
+  .stories { background: var(--bg-2); }
+  .stories-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 60px;
+  }
+  @media (max-width: 900px) {
+    .stories-grid { grid-template-columns: 1fr; }
+  }
+  .story-card {
+    background: var(--paper);
+    border-radius: 28px;
+    padding: 40px;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+  }
+  .story-card::before {
+    content: '"';
+    font-family: 'Fraunces', serif;
+    font-size: 120px;
+    color: var(--accent);
+    position: absolute;
+    top: 0px;
+    left: 24px;
+    line-height: 1;
+    opacity: 0.2;
+    font-weight: 800;
+  }
+  .story-quote {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--ink);
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 2;
+  }
+  .story-author {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(42,42,42,0.08);
+  }
+  .story-avatar {
+    width: 48px; height: 48px;
+    background: var(--bg-2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+  .story-meta { display: flex; flex-direction: column; }
+  .story-name { font-weight: 600; font-size: 15px; color: var(--ink); }
+  .story-role { font-size: 13px; color: var(--ink-mute); }
+
+  /* === SECTION CTA FINAL === */
+  .cta-final {
+    background: var(--ink);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-final::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    opacity: 0.25;
+    top: -200px; right: -200px;
+    border-radius: 50%;
+    filter: blur(40px);
+  }
+  .cta-final .container { position: relative; z-index: 2; }
+  .cta-final .section-title { color: var(--paper); max-width: 18ch; }
+  .cta-final .section-title em { color: var(--accent-soft); }
+  .cta-final .section-lead { color: rgba(255,251,243,0.7); }
+  .cta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 48px;
+    max-width: 640px;
+  }
+  @media (max-width: 600px) {
+    .cta-grid { grid-template-columns: 1fr; }
+  }
+  .cta-card {
+    background: rgba(255,251,243,0.05);
+    border: 1px solid rgba(255,251,243,0.12);
+    border-radius: 20px;
+    padding: 28px;
+    transition: background 0.2s, transform 0.2s;
+    text-decoration: none;
+    color: var(--paper);
+    display: block;
+  }
+  .cta-card:hover { background: rgba(255,251,243,0.1); transform: translateY(-2px); }
+  .cta-card-icon { font-size: 28px; margin-bottom: 16px; }
+  .cta-card h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  .cta-card p { font-size: 14px; color: rgba(255,251,243,0.65); }
+
+  /* === FOOTER === */
+  footer {
+    background: #1A1A1A;
+    color: rgba(255,251,243,0.6);
+    padding: 48px 32px 32px;
+  }
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 32px;
+  }
+  @media (max-width: 768px) {
+    .footer-content { grid-template-columns: 1fr; gap: 28px; }
+  }
+  .footer-col h5 {
+    color: var(--paper);
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+  .footer-col p, .footer-col a {
+    color: rgba(255,251,243,0.55);
+    font-size: 14px;
+    line-height: 1.8;
+    text-decoration: none;
+    display: block;
+  }
+  .footer-col a:hover { color: var(--accent-soft); }
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,251,243,0.08);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 12px;
+    color: rgba(255,251,243,0.4);
+  }
+
+  /* === Reveal on scroll === */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+</style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col">
+<body>
 
-  <header class="bg-white shadow p-4 flex justify-between items-center">
-    <h1 class="text-xl font-bold">Cartes interactives</h1>
-    <button id="addBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">+ Ajouter</button>
-  </header>
+<nav>
+  <div class="logo">Lien<em>·</em><span>pour l'autre</span></div>
+  <div class="nav-links">
+    <a href="#modele">Le modèle</a>
+    <a href="#experience">L'expérience</a>
+    <a href="#temoignages">Témoignages</a>
+    <a href="#contact" class="nav-cta">Nous contacter</a>
+  </div>
+</nav>
 
-  <main class="flex-grow">
-  
-    <section class="p-4">
-      <h2 class="text-lg font-semibold mb-2">Centre</h2>
-      <div id="centre" class="flex flex-wrap gap-4 min-h-[100px] bg-white p-4 rounded shadow"></div>
-    </section>
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="hero-content">
+    <div class="eyebrow">
+      <span class="dot"></span>
+      Habitat inclusif · Modèle API · Rapport Piveteau-Wolfrom
+    </div>
+    <h1>
+      Transformer la <span class="stroke">vulnérabilité</span><br>
+      en <em>force collective.</em>
+    </h1>
+    <p class="hero-lead">
+      Lienpourlautre crée des colocations inclusives où jeunes, seniors, actifs et personnes en reconstruction vivent ensemble. La complémentarité de leurs parcours devient un filet de sécurité — et une nouvelle façon d'habiter.
+    </p>
+    <div class="hero-cta">
+      <a href="#experience" class="btn-primary">
+        Essayer le jeu Lien pour l'autre
+        <span>→</span>
+      </a>
+      <a href="#modele" class="btn-secondary">Découvrir le modèle</a>
+    </div>
 
-    <section id="appsheet-view" class="hidden p-4">
-      <h2 class="text-lg font-semibold mb-2">Mon Application de Suivi</h2>
-      <iframe
-        src="https://www.appsheet.com/start/641dfa1e-404c-463f-b03b-f67a2dd80e67"
-        width="100%"
-        height="600"
-        style="border:none;"
-        title="Application AppSheet intégrée">
-      </iframe>
-    </section>
-
-    <section class="p-4 grid grid-cols-1 md:grid-cols-4 gap-4">
-    
-      <div class="bg-white p-4 rounded shadow min-h-[200px]" data-tiroir="Tiroir 1">
-        <h3 class="font-semibold mb-2">Tiroir 1</h3>
-        <div class="dropzone min-h-[150px] flex flex-col gap-2"></div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num"><em>4</em> profils</div>
+        <div class="stat-label">complémentaires par cellule de vie partagée</div>
       </div>
-      
-      <div id="open-appsheet-btn" class="module-card bg-white p-4 rounded shadow min-h-[200px] cursor-pointer flex flex-col items-center justify-center">
-        <img src="https://images.pexels.com/photos/3785931/pexels-photo-3785931.jpeg" alt="Module AppSheet" class="w-full h-32 object-cover rounded mb-2">
-        <p class="font-semibold text-center">Ouvrir mon application de suivi</p>
+      <div>
+        <div class="stat-num"><em>1</em> charte</div>
+        <div class="stat-label">de vie commune co-construite par les habitants</div>
       </div>
-
-      <div class="bg-white p-4 rounded shadow min-h-[200px]" data-tiroir="Tiroir 2">
-        <h3 class="font-semibold mb-2">Tiroir 2</h3>
-        <div class="dropzone min-h-[150px] flex flex-col gap-2"></div>
+      <div>
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">veille de proximité entre colocataires</div>
       </div>
-      
-      <div class="bg-white p-4 rounded shadow min-h-[200px]" data-tiroir="Tiroir 3">
-        <h3 class="font-semibold mb-2">Tiroir 3</h3>
-        <div class="dropzone min-h-[150px] flex flex-col gap-2"></div>
-      </div>
-      
-      <div class="bg-white p-4 rounded shadow min-h-[200px]" data-tiroir="Tiroir 4">
-        <h3 class="font-semibold mb-2">Tiroir 4</h3>
-        <div class="dropzone min-h-[150px] flex flex-col gap-2"></div>
-      </div>
-
-    </section>
-
-  </main>
-
-  <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-    <div class="bg-white p-6 rounded shadow w-80">
-      <h2 class="text-lg font-semibold mb-4">Nouvelle carte</h2>
-      <input id="newNom" type="text" placeholder="Nom" class="border p-2 w-full mb-4 rounded">
-      <div class="flex justify-end gap-2">
-        <button id="cancelBtn" class="px-4 py-2 border rounded">Annuler</button>
-        <button id="saveBtn" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Ajouter</button>
+      <div>
+        <div class="stat-num"><em>0</em> isolement</div>
+        <div class="stat-label">objectif central du modèle inclusif</div>
       </div>
     </div>
   </div>
+</section>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.7/dist/umd/supabase.js"></script>
-  <script src="code.js"></script>
+<!-- ============ PROBLÈME ============ -->
+<section class="problem section-pad">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow">Le constat</div>
+      <h2 class="section-title">L'isolement coûte plus cher que <em>la solidarité.</em></h2>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-text reveal">
+        <p>
+          <strong>La précarité et l'isolement social s'aggravent.</strong> Les services médico-sociaux, débordés, ne peuvent plus garantir un suivi de proximité — surtout depuis la crise du COVID, qui a montré les limites de l'accompagnement à distance.
+        </p>
+        <p>
+          Les structures traditionnelles gèrent la vulnérabilité comme un problème uniforme. Lienpourlautre fait le pari inverse : <strong>les fragilités des uns peuvent être compensées par les forces des autres.</strong>
+        </p>
+        <p>
+          Un senior apporte expérience et stabilité. Un jeune accompagne sur le numérique. Un profil stable structure. Une personne en transition trouve un cadre. Personne n'est seulement « accueilli » — chacun est <strong>acteur</strong>.
+        </p>
+      </div>
+      <div class="problem-visual reveal">
+        <div class="figure-card figure-1">
+          <div class="figure-face">👵</div>
+          <div class="figure-name">Maurice, 65</div>
+          <div class="figure-detail">Senior · Expérience</div>
+        </div>
+        <div class="figure-card figure-2">
+          <div class="figure-face">🧑</div>
+          <div class="figure-name">Léa, 24</div>
+          <div class="figure-detail">Jeune · Numérique</div>
+        </div>
+        <div class="figure-card figure-3">
+          <div class="figure-face">👨</div>
+          <div class="figure-name">Paul, 62</div>
+          <div class="figure-detail">Propriétaire · Stable</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MODÈLE ============ -->
+<section class="model section-pad" id="modele">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow">Le modèle</div>
+      <h2 class="section-title">Trois piliers, une <em>cellule de vie.</em></h2>
+      <p class="section-lead">
+        Une approche inspirée du rapport Piveteau-Wolfrom (modèle API : Accompagné, Partagé, Inséré) qui transforme le logement en levier d'autonomie durable.
+      </p>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar reveal">
+        <div class="pillar-num">— 01 / Sélection</div>
+        <div class="pillar-icon">🤝</div>
+        <h3>Constitution<br>des cellules</h3>
+        <p>
+          Sélection rigoureuse des profils selon leurs besoins et apports potentiels. L'équilibre de la colocation se joue dès la composition — pas par hasard.
+        </p>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-num">— 02 / Mobilisation</div>
+        <div class="pillar-icon">🏠</div>
+        <h3>Logements<br>solidaires</h3>
+        <p>
+          Recherche de propriétaires bailleurs (participants ou non à la colocation) et aménagement de logements adaptés à la vie partagée.
+        </p>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-num">— 03 / Accompagnement</div>
+        <div class="pillar-icon">✨</div>
+        <h3>Charte de<br>vie commune</h3>
+        <p>
+          Construite collectivement, elle définit interactions et responsabilités. Le coordinateur facilite, médie, et oriente vers des partenaires experts si besoin.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ JEU ============ -->
+<section class="game-section section-pad" id="experience">
+  <div class="container">
+    <div class="game-intro reveal">
+      <div class="section-eyebrow">L'expérience</div>
+      <h2 class="section-title">Et si vous <em>jouiez</em> au coordinateur ?</h2>
+      <p class="section-lead">
+        Composez des colocations inclusives en associant des profils complémentaires. Trouvez l'équilibre, mobilisez nos partenaires, faites grandir votre impact. Un jeu pour comprendre notre métier — en quelques minutes.
+      </p>
+    </div>
+
+    <div class="game-wrapper reveal">
+      <iframe class="game-frame" src="game.html" title="Jeu Lien pour l'autre"></iframe>
+    </div>
+    <p class="game-caption">Astuce : associez deux profils qui partagent une valeur commune (même couleur de trait).</p>
+  </div>
+</section>
+
+<!-- ============ TÉMOIGNAGES ============ -->
+<section class="stories section-pad" id="temoignages">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow">Témoignages</div>
+      <h2 class="section-title">Des parcours <em>croisés.</em></h2>
+    </div>
+
+    <div class="stories-grid">
+      <div class="story-card reveal">
+        <p class="story-quote">
+          L'engagement et la compréhension de mon colocataire, pourtant issu d'un horizon très différent du mien, me permettent de traverser des périodes difficiles. On ne s'attendait pas, mais on s'apporte.
+        </p>
+        <div class="story-author">
+          <div class="story-avatar">👴</div>
+          <div class="story-meta">
+            <span class="story-name">Maurice, 65 ans</span>
+            <span class="story-role">Colocataire senior</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-card reveal">
+        <p class="story-quote">
+          J'avais des appréhensions sur la vie collective. Mais des profils complémentaires créent un équilibre que je n'imaginais pas. Aujourd'hui, c'est un projet de vie autant qu'un projet immobilier.
+        </p>
+        <div class="story-author">
+          <div class="story-avatar">👨</div>
+          <div class="story-meta">
+            <span class="story-name">Paul, 62 ans</span>
+            <span class="story-role">Propriétaire participant</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA FINAL ============ -->
+<section class="cta-final section-pad" id="contact">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-eyebrow" style="color: var(--accent-soft);">Rejoindre le mouvement</div>
+      <h2 class="section-title">Vous avez un logement, du temps, ou <em>un besoin ?</em></h2>
+      <p class="section-lead">
+        Que vous soyez bailleur, futur colocataire, partenaire associatif ou simplement curieux — parlons-en.
+      </p>
+    </div>
+
+    <div class="cta-grid">
+      <a href="tel:+33671039373" class="cta-card reveal">
+        <div class="cta-card-icon">📞</div>
+        <h4>Nous appeler</h4>
+        <p>06 71 03 93 73<br>Du lundi au samedi · 9h30 — 19h</p>
+      </a>
+      <a href="mailto:contact@lienpourlautre.com" class="cta-card reveal">
+        <div class="cta-card-icon">✉️</div>
+        <h4>Nous écrire</h4>
+        <p>Une question, un projet, une candidature à la colocation ?</p>
+      </a>
+      <a href="#" class="cta-card reveal">
+        <div class="cta-card-icon">🏠</div>
+        <h4>Proposer un logement</h4>
+        <p>Devenir bailleur solidaire, avec ou sans participation à la colocation.</p>
+      </a>
+      <a href="#" class="cta-card reveal">
+        <div class="cta-card-icon">🤝</div>
+        <h4>Devenir partenaire</h4>
+        <p>Association, collectivité, entreprise : construisons ensemble.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-col">
+      <h5>Lien pour l'autre</h5>
+      <p>Habitat inclusif et coliving solidaire.<br>Une réponse concrète à la précarité et à l'isolement social.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Nous joindre</h5>
+      <a href="tel:+33671039373">06 71 03 93 73</a>
+      <a href="tel:+33561818981">05 61 81 89 81</a>
+      <a href="tel:+33637136798">06 37 13 67 98</a>
+    </div>
+    <div class="footer-col">
+      <h5>Plan du site</h5>
+      <a href="#modele">Le modèle</a>
+      <a href="#experience">L'expérience</a>
+      <a href="#temoignages">Témoignages</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Lienpourlautre — Tous droits réservés</span>
+    <span>Inspiré du rapport Piveteau-Wolfrom · Modèle API</span>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
 </body>
 </html>
