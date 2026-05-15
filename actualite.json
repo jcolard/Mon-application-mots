@@ -1,0 +1,14 @@
+[
+  {
+    "nom": "Lancement de notre nouveau site web",
+    "date": "2026-05-15",
+    "url_image": "/images/blog/lancement-site.jpg",
+    "contenu": "Nous sommes ravis de vous présenter notre tout nouvel espace en ligne ! Plus moderne, plus rapide et entièrement pensé pour vous offrir la meilleure expérience possible. Prenez quelques minutes pour le découvrir."
+  },
+  {
+    "nom": "Atelier Portes Ouvertes : Édition Printemps",
+    "date": "2026-06-02",
+    "url_image": "/images/evenements/portes-ouvertes.jpg",
+    "contenu": "Rejoignez-nous le temps d'une journée exclusive pour visiter nos coulisses, rencontrer l'équipe et participer à nos ateliers créatifs interactifs. Entrée libre et gratuite, café offert !"
+  }
+]
