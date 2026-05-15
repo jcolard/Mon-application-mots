@@ -17,12 +17,16 @@
     --accent: #E8623D;
     --accent-soft: #F4A582;
     --gold: #D4A574;
+    --gold-dark: #B8854A;
     --green: #6B8E5A;
     --blue: #4A6FA5;
+    --purple: #8B6BAA;
+    --teal: #5BA89C;
     --shadow-soft: 0 2px 0 rgba(42,42,42,0.08), 0 4px 16px rgba(42,42,42,0.06);
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; touch-action: manipulation; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  button, .icon-btn, .action-btn, .sort-btn { touch-action: manipulation; }
 
   html, body {
     height: 100%;
@@ -33,6 +37,7 @@
     font-family: 'Outfit', sans-serif;
   }
 
+  /* ========== LAYOUT ========== */
   .game {
     display: flex;
     flex-direction: column;
@@ -40,8 +45,9 @@
     width: 100vw;
   }
 
+  /* --- ZONE 1 : DASHBOARD --- */
   .dashboard {
-    height: 30dvh;
+    height: calc(30dvh - 11px);
     background: var(--paper);
     display: flex;
     flex-direction: column;
@@ -55,10 +61,36 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
   .brand-logo { font-family: 'Fraunces', serif; font-weight: 800; font-style: italic; font-size: 20px; color: var(--accent); line-height: 1; }
-  .header-actions { display: flex; gap: 8px; }
+  .header-actions { display: flex; gap: 8px; align-items: center; }
+  
+  /* Combo badge */
+  .combo-badge {
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    color: white;
+    padding: 4px 10px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 700;
+    display: none;
+    align-items: center;
+    gap: 4px;
+    animation: comboGlow 0.6s ease-out;
+  }
+  .combo-badge.active { display: flex; }
+  .combo-badge.peak { animation: comboPeak 0.5s ease-out; }
+  @keyframes comboGlow {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes comboPeak {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.25); box-shadow: 0 0 20px var(--gold); }
+  }
+  
   .icon-btn {
     width: 32px; height: 32px; border-radius: 50%; background: var(--bg);
     border: 1.5px solid rgba(42,42,42,0.08); font-size: 14px; font-weight: bold;
@@ -66,12 +98,35 @@
     transition: opacity 0.2s;
   }
 
-  .level-container { margin-bottom: 12px; }
+  /* Barre de niveau */
+  .level-container { margin-bottom: 10px; }
   .level-header { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
   .level-header span.vis { color: var(--blue); }
-  .progress-bar { width: 100%; height: 8px; background: rgba(0,0,0,0.06); border-radius: 99px; overflow: hidden; position: relative; }
-  .progress-fill { height: 100%; background: var(--green); transition: width 0.4s ease; border-radius: 99px; width: 0%; }
+  .progress-bar { width: 100%; height: 10px; background: rgba(0,0,0,0.06); border-radius: 99px; overflow: hidden; position: relative; }
+  .progress-fill { 
+    height: 100%; 
+    background: linear-gradient(90deg, var(--green), var(--green));
+    transition: width 0.4s ease; 
+    border-radius: 99px; 
+    width: 0%;
+    position: relative;
+  }
+  /* Pulse quand on est proche du level up */
+  .progress-fill.near-up {
+    background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent));
+    background-size: 200% 100%;
+    animation: nearUpPulse 1.2s ease-in-out infinite, gradientShift 2s linear infinite;
+  }
+  @keyframes nearUpPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(232,98,61,0.4); }
+    50% { box-shadow: 0 0 12px 2px rgba(232,98,61,0.6); }
+  }
+  @keyframes gradientShift {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200% 0%; }
+  }
 
+  /* Boutons d'action */
   .action-buttons {
     display: flex; gap: 10px; flex: 1; align-items: center; justify-content: space-between;
   }
@@ -85,7 +140,7 @@
   .action-icon { font-size: 24px; }
   .action-text { display: flex; flex-direction: column; flex: 1; }
   .action-title { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--ink-soft); line-height: 1.1; margin-bottom: 2px;}
-  .action-desc { font-size: 14px; font-family: 'Fraunces', serif; font-weight: 700; color: var(--ink); }
+  .action-desc { font-size: 13px; font-family: 'Fraunces', serif; font-weight: 700; color: var(--ink); }
   .action-cost { font-size: 12px; font-weight: 700; color: var(--blue); background: rgba(74, 111, 165, 0.1); padding: 4px 8px; border-radius: 8px; }
 
   @keyframes blinkAlert {
@@ -97,10 +152,11 @@
     z-index: 20;
   }
 
+  /* --- ZONE 2 : GALERIE --- */
   .gallery {
-    height: 60dvh;
+    height: calc(60dvh - 11px);
     background: var(--bg);
-    padding: 12px;
+    padding: 10px 12px 12px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -109,36 +165,284 @@
   .gallery-header {
     display: flex; justify-content: space-between; align-items: center;
     margin-bottom: 8px; font-size: 11px; color: var(--ink-soft); font-weight: 500;
+    gap: 8px;
   }
   .regen-dot {
     display: inline-block; width: 8px; height: 8px; border-radius: 50%;
     background: var(--green); margin-right: 4px; animation: pulse 1.5s infinite;
+  }
+  
+  /* Bouton Tri */
+  .sort-btn {
+    background: var(--paper);
+    border: 1.5px solid rgba(42,42,42,0.1);
+    border-radius: 99px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s;
+  }
+  .sort-btn:active { transform: scale(0.95); }
+  .sort-btn.locked {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .sort-btn:not(.locked):hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
   }
 
   .people-grid {
     flex: 1;
     display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr); gap: 8px;
   }
-  .grid-cell { background: rgba(42,42,42,0.03); border: 1.5px dashed rgba(42,42,42,0.1); border-radius: 16px; position: relative; display: flex; align-items: center; justify-content: center; }
+  .grid-cell { 
+    background: rgba(42,42,42,0.03); 
+    border: 1.5px dashed rgba(42,42,42,0.1); 
+    border-radius: 16px; 
+    position: relative; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
   .grid-cell.empty::after { content: '+'; font-size: 20px; color: rgba(42,42,42,0.15); }
 
   .person {
     position: absolute; inset: 0; background: var(--paper); border-radius: 16px;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     text-align: center; padding: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    border: 2px solid transparent; transition: transform 0.15s, border-color 0.15s;
+    border: 2px solid transparent; transition: transform 0.15s, border-color 0.15s, box-shadow 0.3s;
     animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer;
   }
   .person.selected { border-color: var(--accent); transform: scale(1.05); background: #FFF5EE; z-index: 5; box-shadow: 0 6px 16px rgba(232,98,61,0.2); }
   .person.mismatch { animation: shake 0.4s; }
+  
+  /* DRAG & DROP */
+  .person.dragging {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+  .grid-cell.drop-target-valid {
+    background: rgba(107, 142, 90, 0.15);
+    border: 2px solid var(--green);
+    border-style: solid;
+    transform: scale(1.05);
+  }
+  .grid-cell.drop-target-invalid {
+    background: rgba(201, 123, 132, 0.15);
+    border: 2px solid #C97B84;
+    border-style: solid;
+  }
+  /* Ghost qui suit le doigt */
+  .drag-ghost {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1000;
+    width: 90px;
+    height: 90px;
+    background: var(--paper);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+    border: 2px solid var(--accent);
+    transform: translate(-50%, -50%) scale(1.1) rotate(-3deg);
+    transition: none;
+  }
+  .drag-ghost .person-face { font-size: 28px; line-height: 1; }
+  .drag-ghost .person-name { font-family: 'Fraunces', serif; font-weight: 700; font-size: 11px; }
+  .drag-ghost .person-trait { font-size: 9px; font-weight: 600; margin-top: 2px; }
 
-  .person-face { font-size: 30px; line-height: 1; margin-bottom: 2px; }
-  .person-name { font-family: 'Fraunces', serif; font-weight: 700; font-size: 12px; color: var(--ink); }
-  .person-trait { font-size: 9px; line-height: 1.1; font-weight: 600; margin-top: 2px; padding:0 2px; }
+  .person-face { font-size: 24px; line-height: 1; margin-bottom: 1px; }
+  .person-name { font-family: 'Fraunces', serif; font-weight: 700; font-size: 11px; color: var(--ink); line-height: 1.1;}
+  .person-label { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; margin: 1px 0; }
+  .person-apport { font-size: 8px; line-height: 1.15; color: var(--green); font-weight: 600; padding: 0 2px; }
+  .person-besoin { font-size: 8px; line-height: 1.15; color: var(--accent); font-weight: 600; padding: 0 2px; }
   .person-profil { font-size: 8px; color: var(--ink-soft); font-style: italic; margin-top: 2px;}
+  .person-trait { font-size: 9px; line-height: 1.1; font-weight: 600; margin-top: 2px; padding:0 2px; }
+  
+  /* ========== TICKER ACTUALITÉS ========== */
+  .news-ticker {
+    height: 22px;
+    background: var(--ink);
+    color: var(--paper);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    border-bottom: 2px solid var(--accent);
+  }
+  .news-ticker-label {
+    background: var(--accent);
+    color: white;
+    padding: 0 8px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 2;
+    box-shadow: 4px 0 8px rgba(0,0,0,0.2);
+  }
+  .news-ticker-content {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+  }
+  .news-ticker-track {
+    position: absolute;
+    white-space: nowrap;
+    will-change: transform;
+    animation: tickerScroll 35s linear infinite;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .news-ticker-track .news-item {
+    padding: 0 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .news-ticker-track .news-item::before {
+    content: '●';
+    color: var(--accent);
+    font-size: 8px;
+  }
+  @keyframes tickerScroll {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+  }
+  
+  /* ========== ANIMATION MATCH ⇒ MAISON ========== */
+  .flying-person {
+    position: fixed;
+    pointer-events: none;
+    z-index: 500;
+    width: 60px;
+    height: 60px;
+    background: var(--paper);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    border: 2px solid var(--accent);
+    transition: all 0.9s cubic-bezier(0.5, 0, 0.5, 1);
+  }
+  .house.receiving {
+    animation: houseReceive 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @keyframes houseReceive {
+    0% { transform: scale(1); background: var(--paper); }
+    40% { transform: scale(1.4); background: linear-gradient(135deg, #FFEAA7, #FAB1A0); box-shadow: 0 0 30px var(--gold); }
+    70% { transform: scale(1.2) rotate(-5deg); }
+    100% { transform: scale(0) rotate(0deg); opacity: 0; }
+  }
+  .house-glow {
+    position: fixed;
+    pointer-events: none;
+    z-index: 499;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,98,61,0.5) 0%, transparent 70%);
+    animation: glowPulse 1s ease-out;
+  }
+  @keyframes glowPulse {
+    0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+  }
+  
+  /* ========== PIÈCES ALÉATOIRES ========== */
+  .floating-coin {
+    position: fixed;
+    z-index: 400;
+    font-size: 36px;
+    cursor: pointer;
+    user-select: none;
+    filter: drop-shadow(0 4px 8px rgba(212,165,116,0.6));
+    animation: coinBob 1.2s ease-in-out infinite;
+  }
+  @keyframes coinBob {
+    0%, 100% { transform: translateY(0) rotate(-8deg); }
+    50% { transform: translateY(-10px) rotate(8deg); }
+  }
+  .coin-burst {
+    position: fixed;
+    pointer-events: none;
+    z-index: 401;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--gold-dark);
+    background: white;
+    padding: 6px 12px;
+    border-radius: 99px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    animation: coinBurst 1.5s ease-out forwards;
+  }
+  @keyframes coinBurst {
+    0% { transform: translate(-50%, 0) scale(0.5); opacity: 0; }
+    20% { transform: translate(-50%, -10px) scale(1.2); opacity: 1; }
+    80% { transform: translate(-50%, -50px) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -80px) scale(0.9); opacity: 0; }
+  }
 
+  /* Badge coup de coeur */
   .coup-de-coeur::after { content: '✨'; position: absolute; top: -6px; right: -6px; font-size: 16px; animation: pulse 1.5s infinite; }
+  
+  /* Badge Trait Bonus (Lvl 2+) */
+  .trait-bonus::before {
+    content: '⭐';
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    font-size: 14px;
+    animation: spin 3s linear infinite;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Duo VIP (Lvl 3+) - paire pré-liée avec glow doré */
+  .vip-duo {
+    box-shadow: 0 0 0 2px var(--gold), 0 0 16px rgba(212, 165, 116, 0.5) !important;
+    border-color: var(--gold) !important;
+    animation: vipGlow 2s ease-in-out infinite, pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes vipGlow {
+    0%, 100% { box-shadow: 0 0 0 2px var(--gold), 0 0 12px rgba(212, 165, 116, 0.4); }
+    50% { box-shadow: 0 0 0 2px var(--gold), 0 0 20px rgba(212, 165, 116, 0.8); }
+  }
+  .vip-duo::after {
+    content: '💞';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    font-size: 16px;
+    animation: pulse 1.2s infinite;
+  }
 
+  /* --- ZONE 3 : MAISONS (10%) --- */
   .houses-area {
     height: 10dvh; background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
     border-top: 2px dashed rgba(42,42,42,0.1); display: flex; align-items: center; justify-content: center; padding: 0 12px; gap: 8px;
@@ -151,6 +455,7 @@
     box-shadow: var(--shadow-soft); animation: pop-in 0.4s;
   }
 
+  /* ========== ANIMATIONS & TOASTS ========== */
   @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.2); opacity: 0.6; } }
   @keyframes pop-in { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
   @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
@@ -164,12 +469,17 @@
   .toast.success { background: var(--green); }
   .toast.fail { background: #C97B84; }
   .toast.lvlup { background: linear-gradient(90deg, var(--accent), var(--gold)); color: white; font-size: 14px; font-weight: bold;}
+  .toast.unlock { background: linear-gradient(90deg, var(--purple), var(--blue)); color: white; font-weight: bold;}
 
+  /* Modales */
   .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
   .modal-bg.show { display: flex; }
-  .modal { background: var(--paper); border-radius: 24px; padding: 24px; text-align: center; width: 100%; max-width: 400px; }
+  .modal { background: var(--paper); border-radius: 24px; padding: 24px; text-align: center; width: 100%; max-width: 400px; max-height: 85vh; overflow-y: auto; }
   .modal h2 { font-family: 'Fraunces', serif; color: var(--accent); margin-bottom: 12px; font-size: 24px; line-height: 1.1;}
   .modal p { font-size: 14px; margin-bottom: 16px; color: var(--ink-soft); line-height: 1.4; text-align: left;}
+  .modal .feature-list { background: var(--bg); border-radius: 12px; padding: 12px; margin-bottom: 16px; text-align: left;}
+  .modal .feature-list .feat { font-size: 13px; margin-bottom: 6px; color: var(--ink); }
+  .modal .feature-list .feat:last-child { margin-bottom: 0; }
   .btn { background: var(--accent); color: white; border: none; padding: 12px 20px; border-radius: 99px; font-weight: 600; width: 100%; margin-bottom: 8px; font-size: 15px; cursor: pointer;}
   .btn.outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); }
 </style>
@@ -177,10 +487,20 @@
 <body>
 
 <div class="game">
+  <!-- TICKER ACTUALITÉS -->
+  <div class="news-ticker">
+    <div class="news-ticker-label">⚡ ACTUS</div>
+    <div class="news-ticker-content">
+      <div class="news-ticker-track" id="ticker-track"></div>
+    </div>
+  </div>
+
+  <!-- 30% : SCORES & ACTIONS -->
   <section class="dashboard">
     <div class="dash-header">
       <div class="brand-logo">Lien pour l'autre</div>
       <div class="header-actions">
+        <div class="combo-badge" id="combo-badge">🔥 <span id="combo-count">0</span></div>
         <button class="icon-btn" id="btn-music" style="opacity: 0.4;" title="Musique de fond">🎵</button>
         <button class="icon-btn" id="btn-help" title="Aide">?</button>
         <button class="icon-btn" id="btn-reset" title="Recommencer">↻</button>
@@ -218,14 +538,18 @@
     </div>
   </section>
 
+  <!-- 60% : GALERIE (12 CASES) -->
   <section class="gallery">
     <div class="gallery-header">
-      <span><span class="regen-dot"></span>Recherche de profils : <strong id="regen-countdown">8s</strong></span>
-      <span>Galerie solidaire</span>
+      <span><span class="regen-dot"></span>Profils : <strong id="regen-countdown">8s</strong></span>
+      <button class="sort-btn locked" id="btn-sort" title="Organiser par affinité">
+        <span id="sort-icon">🔒</span> <span id="sort-label">Organiser</span>
+      </button>
     </div>
     <div class="people-grid" id="people-grid"></div>
   </section>
 
+  <!-- 10% : MAISONS -->
   <section class="houses-area" id="houses-grid"></section>
 </div>
 
@@ -236,6 +560,9 @@
 </div>
 
 <script>
+// ==========================================
+// AUDIO SYSTEM
+// ==========================================
 let audioCtx = null;
 let bgmGain = null;
 let bgmOscillators = [];
@@ -267,6 +594,13 @@ function playSfx(type) {
     osc.type = 'sine'; osc.frequency.setValueAtTime(440, t); osc.frequency.setValueAtTime(554.37, t + 0.1); osc.frequency.setValueAtTime(659.25, t + 0.2);
     gain.gain.setValueAtTime(0.1, t); gain.gain.linearRampToValueAtTime(0, t + 0.5);
     osc.start(t); osc.stop(t + 0.5);
+  } else if (type === 'combo') {
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(659.25, t);
+    osc.frequency.setValueAtTime(783.99, t + 0.08);
+    osc.frequency.setValueAtTime(987.77, t + 0.16);
+    gain.gain.setValueAtTime(0.12, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.4);
+    osc.start(t); osc.stop(t + 0.4);
   } else if (type === 'error') {
     osc.type = 'square'; osc.frequency.setValueAtTime(150, t);
     gain.gain.setValueAtTime(0.05, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
@@ -279,52 +613,188 @@ function playSfx(type) {
     osc.type = 'sine'; osc.frequency.setValueAtTime(440, t); osc.frequency.setValueAtTime(659.25, t+0.1); osc.frequency.setValueAtTime(880, t+0.2);
     gain.gain.setValueAtTime(0.1, t); gain.gain.linearRampToValueAtTime(0, t + 0.6);
     osc.start(t); osc.stop(t + 0.6);
+  } else if (type === 'sort') {
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(700, t);
+    osc.frequency.linearRampToValueAtTime(1000, t + 0.2);
+    gain.gain.setValueAtTime(0.08, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.25);
+    osc.start(t); osc.stop(t + 0.25);
+  } else if (type === 'unlock') {
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(523, t);
+    osc.frequency.setValueAtTime(659, t + 0.1);
+    osc.frequency.setValueAtTime(784, t + 0.2);
+    osc.frequency.setValueAtTime(1047, t + 0.3);
+    gain.gain.setValueAtTime(0.1, t); gain.gain.linearRampToValueAtTime(0, t + 0.8);
+    osc.start(t); osc.stop(t + 0.8);
   }
 }
 
 function toggleMusic() {
   initAudio();
   const btn = document.getElementById('btn-music');
-
+  
   if (isMusicPlaying) {
-    if (bgmGain) bgmGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.5);
+    // Fade out + cleanup
+    if (bgmGain) bgmGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.8);
     isMusicPlaying = false;
     btn.style.opacity = '0.4';
+    // On laisse les oscillateurs tourner pour pouvoir reprendre vite, juste muet
   } else {
     if (bgmOscillators.length === 0) {
-      const freqs = [130.81, 164.81, 196.00, 246.94];
+      // ============================================
+      // MUSIQUE LO-FI AMBIENT avec progression d'accords
+      // Progression : Am7 - Dm7 - G7 - Cmaj7 (ii-V-I en C, ambiance jazz/lo-fi)
+      // ============================================
+      
       bgmGain = audioCtx.createGain();
       bgmGain.gain.value = 0;
-
+      
+      // Reverb simulé par délai à feedback
+      const delay = audioCtx.createDelay(2);
+      delay.delayTime.value = 0.35;
+      const feedback = audioCtx.createGain();
+      feedback.gain.value = 0.35;
+      const wetGain = audioCtx.createGain();
+      wetGain.gain.value = 0.25;
+      delay.connect(feedback);
+      feedback.connect(delay);
+      delay.connect(wetGain);
+      
+      // Filtre warm général
       const filter = audioCtx.createBiquadFilter();
       filter.type = 'lowpass';
-      filter.frequency.value = 400;
-
+      filter.frequency.value = 1200;
+      filter.Q.value = 0.5;
+      
       bgmGain.connect(filter);
+      bgmGain.connect(delay);
+      wetGain.connect(filter);
       filter.connect(audioCtx.destination);
-
-      freqs.forEach((f, i) => {
+      
+      // --- 1. NAPPE DE BASSE (Pad) qui change avec les accords ---
+      // Notes de base des accords (basses)
+      const chordRoots = [
+        110.00, // A2 (Am7)
+        146.83, // D3 (Dm7)
+        98.00,  // G2 (G7)
+        130.81  // C3 (Cmaj7)
+      ];
+      // Tierces et quintes (pour enrichir la nappe)
+      const chordThirds = [
+        130.81, // C3
+        174.61, // F3
+        123.47, // B2
+        164.81  // E3
+      ];
+      const chordFifths = [
+        164.81, // E3
+        220.00, // A3
+        146.83, // D3
+        196.00  // G3
+      ];
+      
+      // Créer 3 oscillateurs (basse + tierce + quinte) avec gain controllable
+      const padOscs = [];
+      const padGains = [];
+      [chordRoots, chordThirds, chordFifths].forEach((arr, voiceIdx) => {
         const osc = audioCtx.createOscillator();
-        osc.type = 'sine';
-        osc.frequency.value = f;
-
+        osc.type = voiceIdx === 0 ? 'triangle' : 'sine'; // basse triangle, harmoniques sinus
+        osc.frequency.value = arr[0];
+        const g = audioCtx.createGain();
+        g.gain.value = voiceIdx === 0 ? 0.12 : 0.06; // basse plus forte
+        
+        // Petit LFO pour donner du mouvement
         const lfo = audioCtx.createOscillator();
         lfo.type = 'sine';
-        lfo.frequency.value = 0.05 + (i * 0.02);
-
+        lfo.frequency.value = 0.1 + voiceIdx * 0.05;
         const lfoGain = audioCtx.createGain();
-        lfoGain.gain.value = 0.08;
-
+        lfoGain.gain.value = g.gain.value * 0.3;
         lfo.connect(lfoGain.gain);
-        osc.connect(lfoGain);
-        lfoGain.connect(bgmGain);
-
+        
+        osc.connect(g);
+        g.connect(bgmGain);
         osc.start();
         lfo.start();
-        bgmOscillators.push(osc);
+        padOscs.push(osc);
+        padGains.push(g);
+        bgmOscillators.push(osc, lfo);
       });
+      
+      // Stocker pour les changements d'accord
+      window.__bgmPadOscs = padOscs;
+      window.__bgmChordArrays = [chordRoots, chordThirds, chordFifths];
+      
+      // --- 2. MÉLODIE GÉNÉRATIVE (gamme C majeur pentatonique) ---
+      // Notes pentatoniques : C, D, E, G, A (toujours consonantes)
+      const pentaScale = [
+        261.63, // C4
+        293.66, // D4
+        329.63, // E4
+        392.00, // G4
+        440.00, // A4
+        523.25, // C5
+        587.33, // D5
+        659.25  // E5
+      ];
+      
+      // Programmer des notes de mélodie périodiquement
+      function playMelodyNote() {
+        if (!isMusicPlaying || !audioCtx) return;
+        
+        const t = audioCtx.currentTime;
+        const note = pentaScale[Math.floor(Math.random() * pentaScale.length)];
+        
+        // 30% de chance de silence (pour de la respiration)
+        if (Math.random() < 0.3) {
+          setTimeout(playMelodyNote, 1000 + Math.random() * 1500);
+          return;
+        }
+        
+        const osc = audioCtx.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.value = note;
+        
+        const noteGain = audioCtx.createGain();
+        noteGain.gain.setValueAtTime(0, t);
+        noteGain.gain.linearRampToValueAtTime(0.05, t + 0.05); // attack
+        noteGain.gain.exponentialRampToValueAtTime(0.001, t + 1.5); // release lent
+        
+        osc.connect(noteGain);
+        noteGain.connect(bgmGain);
+        noteGain.connect(delay); // un peu de reverb sur la mélodie
+        
+        osc.start(t);
+        osc.stop(t + 1.6);
+        
+        // Programmer la prochaine note
+        setTimeout(playMelodyNote, 1200 + Math.random() * 1800);
+      }
+      
+      // --- 3. CHANGEMENT D'ACCORDS toutes les 4 secondes ---
+      let chordIdx = 0;
+      function changeChord() {
+        if (!isMusicPlaying || !audioCtx) return;
+        
+        chordIdx = (chordIdx + 1) % 4;
+        const t = audioCtx.currentTime;
+        
+        window.__bgmPadOscs.forEach((osc, voiceIdx) => {
+          const newFreq = window.__bgmChordArrays[voiceIdx][chordIdx];
+          // Glissement doux entre les accords
+          osc.frequency.setTargetAtTime(newFreq, t, 0.3);
+        });
+        
+        setTimeout(changeChord, 4000);
+      }
+      
+      // Démarrer les boucles
+      setTimeout(playMelodyNote, 1500);
+      setTimeout(changeChord, 4000);
     }
-    bgmGain.gain.setTargetAtTime(1, audioCtx.currentTime, 1);
+    
+    // Fade in
+    bgmGain.gain.setTargetAtTime(0.8, audioCtx.currentTime, 1.5);
     isMusicPlaying = true;
     btn.style.opacity = '1';
   }
@@ -332,20 +802,89 @@ function toggleMusic() {
 
 document.getElementById('btn-music').addEventListener('click', toggleMusic);
 
-const NAMES = ['Léa','Tom','Sami','Inès','Nora','Yann','Mei','Jules','Aïsha','Léo','Maya','Théo','Lila','Nael','Zoé'];
-const FACES = ['👩‍🦰','👨‍🦱','👩‍🦳','🧑‍🦲','👨‍🦰','🧕','👩‍🦱','👨‍🦳','👱‍♀️','👱','🧔','👩','👨','🧑','👵','👴'];
-const TYPES_PROFIL = ['Jeune actif', 'Senior isolé', 'En transition', 'Étudiant', 'En reconstruction'];
+// ==========================================
+// GAME DATA & LOGIC
+// ==========================================
+const NAMES = ['Léa','Tom','Sami','Inès','Nora','Yann','Mei','Jules','Aïsha','Léo','Maya','Théo','Lila','Nael','Zoé','Anna','Karim','Solène','Marc','Fatou'];
 
-const TRAIT_GROUPS = [
-  { color: 'var(--accent)', traits: ['Rythme matinal', 'Aime cuisiner', 'Repas partagés'] },
-  { color: 'var(--blue)', traits: ['Vie associative', 'Entraide', 'Discussions'] },
-  { color: 'var(--green)', traits: ['Calme & Nature', 'Jardinage', 'Silence zen'] },
-  { color: 'var(--purple)', traits: ['Art & Culture', 'Bricolage', 'Créatif'] },
-  { color: 'var(--teal)', traits: ['Sport & Énergie', 'Sorties', 'Dynamique'] }
+// 5 archétypes de profils inspirés de Lien pour l'autre
+// Chacun a un Apport (ce qu'il offre) et un Besoin (ce qu'il cherche)
+// Match = l'apport de l'un = le besoin de l'autre (vraie complémentarité)
+const PROFILS = [
+  { 
+    type: 'jeune',
+    label: 'Jeune actif',
+    faces: ['👱','👱‍♀️','🧑','👩','👨'],
+    apport: 'numerique',
+    besoin: 'stabilite',
+    color: 'var(--blue)',
+    colorName: 'blue',
+    apportLabel: 'Aide au numérique',
+    besoinLabel: 'Cherche stabilité'
+  },
+  { 
+    type: 'senior',
+    label: 'Senior',
+    faces: ['👵','👴','🧓'],
+    apport: 'stabilite',
+    besoin: 'numerique',
+    color: 'var(--purple)',
+    colorName: 'purple',
+    apportLabel: 'Expérience & écoute',
+    besoinLabel: 'Cherche compagnie'
+  },
+  { 
+    type: 'transition',
+    label: 'En transition',
+    faces: ['🧔','👩‍🦰','👨‍🦱','👩‍🦱'],
+    apport: 'bienveillance',
+    besoin: 'reseau',
+    color: 'var(--accent)',
+    colorName: 'accent',
+    apportLabel: 'Temps & écoute',
+    besoinLabel: 'Cherche un réseau'
+  },
+  { 
+    type: 'reconstruction',
+    label: 'En reconstruction',
+    faces: ['🧕','👨‍🦳','👩‍🦳','🧑‍🦲'],
+    apport: 'reseau',
+    besoin: 'bienveillance',
+    color: 'var(--green)',
+    colorName: 'green',
+    apportLabel: 'Réseau associatif',
+    besoinLabel: 'Cherche bienveillance'
+  },
+  { 
+    type: 'etudiant',
+    label: 'Étudiant',
+    faces: ['🧑','👨','👩','👱‍♀️','👱'],
+    apport: 'energie',
+    besoin: 'logement',
+    color: 'var(--teal)',
+    colorName: 'teal',
+    apportLabel: 'Énergie & entraide',
+    besoinLabel: 'Cherche un toit'
+  },
+  { 
+    type: 'famille',
+    label: 'Famille hôte',
+    faces: ['👨‍🦰','👩‍🦰','👨‍🦱','👩‍🦱'],
+    apport: 'logement',
+    besoin: 'energie',
+    color: 'var(--gold-dark)',
+    colorName: 'gold',
+    apportLabel: 'Chambre à partager',
+    besoinLabel: 'Cherche dynamisme'
+  }
 ];
+
+// Les paires complémentaires (apport ↔ besoin)
+// jeune ↔ senior, transition ↔ reconstruction, etudiant ↔ famille
 
 const LEVELS = [3, 7, 12, 16, 20];
 const ACTION_COST = 6;
+const COMBO_TIMEOUT_MS = 12000; // 12s d'inactivité = reset combo
 
 let state = {
   grid: Array(12).fill(null),
@@ -355,23 +894,42 @@ let state = {
   level: 1,
   visibility: 0,
   maxHouses: 8,
-  peopleRegenMs: 7000,
+  peopleRegenMs: 7000, 
   housesRegenMs: 12000,
   peopleTimer: 0,
   housesTimer: 0,
-  ended: false
+  ended: false,
+  
+  // Nouvelles mécaniques
+  combo: 0,
+  lastMatchTime: 0,
+  unlockedFeatures: {
+    sort: false,      // Lvl 2
+    traitBonus: false, // Lvl 2
+    vipDuo: false,    // Lvl 3
+    comboBoost: false // Lvl 4
+  }
 };
 
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-function generatePerson() {
-  const group = pick(TRAIT_GROUPS);
+function generatePerson(forcedType = null) {
+  const profil = forcedType ? PROFILS.find(p => p.type === forcedType) : pick(PROFILS);
   return {
     id: Math.random().toString(36).substr(2,9),
-    name: pick(NAMES), face: pick(FACES),
-    profil: pick(TYPES_PROFIL),
-    trait: pick(group.traits), color: group.color,
-    coupDeCoeur: Math.random() < 0.15
+    name: pick(NAMES),
+    face: pick(profil.faces),
+    type: profil.type,
+    label: profil.label,
+    apport: profil.apport,
+    besoin: profil.besoin,
+    apportLabel: profil.apportLabel,
+    besoinLabel: profil.besoinLabel,
+    color: profil.color,
+    colorName: profil.colorName,
+    coupDeCoeur: Math.random() < 0.12,
+    traitBonus: state.unlockedFeatures.traitBonus && Math.random() < 0.08,
+    vipDuoId: null
   };
 }
 
@@ -384,26 +942,261 @@ function spawnPersonInGrid() {
   return false;
 }
 
+// Spawn d'un Duo VIP (lvl 3+) - 2 personnes pré-liées
+function maybeSpawnVipDuo() {
+  if (!state.unlockedFeatures.vipDuo) return false;
+  if (Math.random() > 0.04) return false;
+  
+  const emptyIndices = state.grid.map((p, i) => p === null ? i : -1).filter(i => i !== -1);
+  if (emptyIndices.length < 2) return false;
+  
+  // Choisit une paire complémentaire au hasard
+  const complementaryPairs = [
+    ['jeune', 'senior'],
+    ['transition', 'reconstruction'],
+    ['etudiant', 'famille']
+  ];
+  const pair = pick(complementaryPairs);
+  const duoId = 'vip_' + Date.now();
+  
+  const idx1 = pick(emptyIndices);
+  const remaining = emptyIndices.filter(i => i !== idx1);
+  const idx2 = pick(remaining);
+  
+  const p1 = generatePerson(pair[0]);
+  const p2 = generatePerson(pair[1]);
+  p1.vipDuoId = duoId;
+  p2.vipDuoId = duoId;
+  
+  state.grid[idx1] = p1;
+  state.grid[idx2] = p2;
+  
+  showToast('💞 Un Duo VIP est apparu ! Associe-les pour un gros bonus !', 'unlock');
+  return true;
+}
+
+// ==========================================
+// RENDERERS
+// ==========================================
 const gridEl = document.getElementById('people-grid');
+
+// État de drag (séparé de state pour éviter les renders parasites)
+let dragState = {
+  isDragging: false,
+  startX: 0,
+  startY: 0,
+  sourceIdx: null,
+  ghost: null,
+  hoveredCellIdx: null,
+  pointerMoved: false
+};
+
+const DRAG_THRESHOLD = 8; // pixels avant de considérer un drag
+
 function renderGrid() {
   gridEl.innerHTML = '';
   state.grid.forEach((p, idx) => {
     const cell = document.createElement('div');
     cell.className = 'grid-cell ' + (p ? '' : 'empty');
+    cell.dataset.idx = idx;
     if (p) {
       const personEl = document.createElement('div');
-      personEl.className = 'person' + (state.selectedIdx === idx ? ' selected' : '') + (p.coupDeCoeur ? ' coup-de-coeur' : '');
+      let classes = 'person';
+      if (state.selectedIdx === idx) classes += ' selected';
+      if (p.coupDeCoeur) classes += ' coup-de-coeur';
+      if (p.traitBonus) classes += ' trait-bonus';
+      if (p.vipDuoId) classes += ' vip-duo';
+      personEl.className = classes;
+      personEl.dataset.idx = idx;
       personEl.innerHTML = `
         <span class="person-face">${p.face}</span>
         <div class="person-name">${p.name}</div>
-        <div class="person-profil">${p.profil}</div>
-        <div class="person-trait" style="color:${p.color}">${p.trait}</div>
+        <div class="person-label" style="color:${p.color}">${p.label}</div>
+        <div class="person-apport">↗ ${p.apportLabel}</div>
+        <div class="person-besoin">↙ ${p.besoinLabel}</div>
       `;
-      personEl.onclick = () => onPersonClick(idx, personEl);
+      // Listeners unifiés (touch + mouse)
+      attachDragListeners(personEl, idx);
       cell.appendChild(personEl);
     }
     gridEl.appendChild(cell);
   });
+}
+
+// ==========================================
+// DRAG & DROP (touch + mouse unifiés)
+// ==========================================
+function attachDragListeners(personEl, idx) {
+  const startHandler = (e) => handlePointerStart(e, idx, personEl);
+  personEl.addEventListener('touchstart', startHandler, { passive: false });
+  personEl.addEventListener('mousedown', startHandler);
+}
+
+function getPointerPos(e) {
+  if (e.touches && e.touches.length > 0) {
+    return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  }
+  if (e.changedTouches && e.changedTouches.length > 0) {
+    return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+  }
+  return { x: e.clientX, y: e.clientY };
+}
+
+function handlePointerStart(e, idx, personEl) {
+  if (state.ended) return;
+  e.preventDefault();
+  
+  const pos = getPointerPos(e);
+  dragState.isDragging = false;
+  dragState.pointerMoved = false;
+  dragState.startX = pos.x;
+  dragState.startY = pos.y;
+  dragState.sourceIdx = idx;
+  dragState.sourceEl = personEl;
+  
+  // Listeners globaux pour le mouvement et la fin
+  document.addEventListener('touchmove', handlePointerMove, { passive: false });
+  document.addEventListener('touchend', handlePointerEnd);
+  document.addEventListener('touchcancel', handlePointerEnd);
+  document.addEventListener('mousemove', handlePointerMove);
+  document.addEventListener('mouseup', handlePointerEnd);
+}
+
+function handlePointerMove(e) {
+  if (dragState.sourceIdx === null) return;
+  e.preventDefault();
+  
+  const pos = getPointerPos(e);
+  const dx = pos.x - dragState.startX;
+  const dy = pos.y - dragState.startY;
+  const dist = Math.sqrt(dx*dx + dy*dy);
+  
+  // Démarrer le drag si on a dépassé le seuil
+  if (!dragState.isDragging && dist > DRAG_THRESHOLD) {
+    dragState.isDragging = true;
+    dragState.pointerMoved = true;
+    startDragVisual(pos);
+  }
+  
+  if (dragState.isDragging) {
+    updateDragVisual(pos);
+  }
+}
+
+function startDragVisual(pos) {
+  const sourceP = state.grid[dragState.sourceIdx];
+  if (!sourceP) return;
+  
+  // Marque la source comme "dragging"
+  if (dragState.sourceEl) dragState.sourceEl.classList.add('dragging');
+  
+  // Crée le ghost
+  const ghost = document.createElement('div');
+  ghost.className = 'drag-ghost';
+  ghost.innerHTML = `
+    <span class="person-face">${sourceP.face}</span>
+    <div class="person-name">${sourceP.name}</div>
+    <div class="person-label" style="color:${sourceP.color}">${sourceP.label}</div>
+  `;
+  ghost.style.left = pos.x + 'px';
+  ghost.style.top = pos.y + 'px';
+  document.body.appendChild(ghost);
+  dragState.ghost = ghost;
+}
+
+function updateDragVisual(pos) {
+  if (dragState.ghost) {
+    dragState.ghost.style.left = pos.x + 'px';
+    dragState.ghost.style.top = pos.y + 'px';
+  }
+  
+  // Détection de la cellule sous le doigt
+  const elementsBelow = document.elementsFromPoint(pos.x, pos.y);
+  let targetCell = null;
+  for (const el of elementsBelow) {
+    if (el.classList && el.classList.contains('grid-cell')) {
+      targetCell = el;
+      break;
+    }
+    // Si on est sur un .person, remonter à la cellule parente
+    if (el.classList && el.classList.contains('person')) {
+      targetCell = el.parentElement;
+      break;
+    }
+  }
+  
+  // Reset des highlights précédents
+  document.querySelectorAll('.grid-cell').forEach(c => {
+    c.classList.remove('drop-target-valid', 'drop-target-invalid');
+  });
+  
+  if (targetCell) {
+    const targetIdx = parseInt(targetCell.dataset.idx);
+    dragState.hoveredCellIdx = targetIdx;
+    
+    if (targetIdx === dragState.sourceIdx) {
+      // Sur soi-même : neutre
+    } else {
+      const sourceP = state.grid[dragState.sourceIdx];
+      const targetP = state.grid[targetIdx];
+      if (targetP) {
+        const isComplementary = (sourceP.apport === targetP.besoin) && (targetP.apport === sourceP.besoin);
+        if (isComplementary) {
+          targetCell.classList.add('drop-target-valid');
+        } else {
+          targetCell.classList.add('drop-target-invalid');
+        }
+      }
+    }
+  } else {
+    dragState.hoveredCellIdx = null;
+  }
+}
+
+function handlePointerEnd(e) {
+  // Cleanup listeners
+  document.removeEventListener('touchmove', handlePointerMove);
+  document.removeEventListener('touchend', handlePointerEnd);
+  document.removeEventListener('touchcancel', handlePointerEnd);
+  document.removeEventListener('mousemove', handlePointerMove);
+  document.removeEventListener('mouseup', handlePointerEnd);
+  
+  // Si c'était un drag, traiter le drop
+  if (dragState.isDragging) {
+    const sourceIdx = dragState.sourceIdx;
+    const targetIdx = dragState.hoveredCellIdx;
+    
+    // Cleanup visuel
+    if (dragState.ghost) {
+      dragState.ghost.remove();
+      dragState.ghost = null;
+    }
+    if (dragState.sourceEl) dragState.sourceEl.classList.remove('dragging');
+    document.querySelectorAll('.grid-cell').forEach(c => {
+      c.classList.remove('drop-target-valid', 'drop-target-invalid');
+    });
+    
+    // Si on a une cible valide et différente, déclencher l'action
+    if (targetIdx !== null && targetIdx !== sourceIdx && state.grid[targetIdx]) {
+      // Reset la sélection pour partir propre
+      state.selectedIdx = sourceIdx;
+      onPersonClick(targetIdx);
+    } else if (targetIdx === null || !state.grid[targetIdx]) {
+      // Drop dans le vide : juste désélectionner
+      state.selectedIdx = null;
+      renderGrid();
+    }
+  } else {
+    // C'était un simple tap → comportement de clic classique
+    onPersonClick(dragState.sourceIdx);
+  }
+  
+  // Reset
+  dragState.isDragging = false;
+  dragState.sourceIdx = null;
+  dragState.sourceEl = null;
+  dragState.hoveredCellIdx = null;
+  dragState.pointerMoved = false;
 }
 
 const housesEl = document.getElementById('houses-grid');
@@ -425,7 +1218,15 @@ function renderDashboard() {
 
   document.getElementById('level-display').textContent = `Niveau ${state.level} (${state.score}/${target})`;
   document.getElementById('vis-display').textContent = `${state.visibility} ✨ Impact`;
-  document.getElementById('progress-fill').style.width = pct + '%';
+  
+  const progressFill = document.getElementById('progress-fill');
+  progressFill.style.width = pct + '%';
+  // PULSE quand on est à 75%+ du palier (Presque-succès)
+  if (pct >= 75 && pct < 100) {
+    progressFill.classList.add('near-up');
+  } else {
+    progressFill.classList.remove('near-up');
+  }
 
   const assoGain = 3 + (state.level - 1);
   const bailleurGain = 1 + Math.floor((state.level - 1) / 2);
@@ -435,21 +1236,94 @@ function renderDashboard() {
   const canAfford = state.visibility >= ACTION_COST;
   document.getElementById('btn-asso').className = 'action-btn ' + (canAfford ? '' : 'disabled');
   document.getElementById('btn-bailleur').className = 'action-btn ' + (canAfford ? '' : 'disabled');
+  
+  // Combo badge
+  const comboBadge = document.getElementById('combo-badge');
+  if (state.combo >= 2) {
+    comboBadge.classList.add('active');
+    document.getElementById('combo-count').textContent = `Combo x${state.combo}`;
+    if (state.combo >= 5) comboBadge.classList.add('peak');
+  } else {
+    comboBadge.classList.remove('active', 'peak');
+  }
+  
+  // Bouton de tri
+  const sortBtn = document.getElementById('btn-sort');
+  if (state.unlockedFeatures.sort) {
+    sortBtn.classList.remove('locked');
+    document.getElementById('sort-icon').textContent = '✨';
+    document.getElementById('sort-label').textContent = 'Organiser';
+  } else {
+    sortBtn.classList.add('locked');
+    document.getElementById('sort-icon').textContent = '🔒';
+    document.getElementById('sort-label').textContent = 'Lvl 2';
+  }
 }
 
 function renderAll() { renderGrid(); renderHouses(); renderDashboard(); }
 
+// ==========================================
+// MODE TRI (Ordre - Lvl 2+)
+// ==========================================
+document.getElementById('btn-sort').onclick = () => {
+  if (!state.unlockedFeatures.sort) {
+    showToast('🔒 Déblocable au Niveau 2 !', 'fail');
+    return;
+  }
+  
+  const profiles = state.grid.filter(p => p !== null);
+  if (profiles.length === 0) return;
+  
+  playSfx('sort');
+  
+  // Tri par paire complémentaire : on rapproche les profils qui peuvent matcher
+  // Ordre des paires : jeune/senior, transition/reconstruction, etudiant/famille
+  const pairOrder = {
+    'jeune': 0, 'senior': 0,
+    'transition': 1, 'reconstruction': 1,
+    'etudiant': 2, 'famille': 2
+  };
+  // Au sein d'une paire, on alterne pour les mettre côte à côte
+  const typeSubOrder = {
+    'jeune': 0, 'senior': 1,
+    'transition': 0, 'reconstruction': 1,
+    'etudiant': 0, 'famille': 1
+  };
+  
+  profiles.sort((a, b) => {
+    const pairA = pairOrder[a.type] ?? 99;
+    const pairB = pairOrder[b.type] ?? 99;
+    if (pairA !== pairB) return pairA - pairB;
+    // VIP en tête de leur sous-groupe
+    if (a.vipDuoId && !b.vipDuoId) return -1;
+    if (!a.vipDuoId && b.vipDuoId) return 1;
+    return (typeSubOrder[a.type] ?? 0) - (typeSubOrder[b.type] ?? 0);
+  });
+  
+  state.grid = Array(12).fill(null);
+  profiles.forEach((p, i) => {
+    state.grid[i] = p;
+  });
+  
+  state.selectedIdx = null;
+  showToast('🎯 Profils complémentaires regroupés !', 'success');
+  renderGrid();
+};
+
+// ==========================================
+// ACTIONS (Boutons)
+// ==========================================
 document.getElementById('btn-asso').onclick = () => {
   if (state.visibility < ACTION_COST) return;
   state.visibility -= ACTION_COST;
   playSfx('buy');
-
+  
   const amount = 3 + (state.level - 1);
   let spawned = 0;
   for (let i = 0; i < amount; i++) {
     if (spawnPersonInGrid()) spawned++;
   }
-
+  
   if (spawned < amount) showToast(`Grille pleine ! Seulement ${spawned} profil(s) ajouté(s)`, 'fail');
   renderAll();
 };
@@ -458,7 +1332,7 @@ document.getElementById('btn-bailleur').onclick = () => {
   if (state.visibility < ACTION_COST) return;
   state.visibility -= ACTION_COST;
   playSfx('buy');
-
+  
   const amount = 1 + Math.floor((state.level - 1) / 2);
   for (let i = 0; i < amount; i++) {
     if (state.houses.length < state.maxHouses) state.houses.push({});
@@ -466,6 +1340,9 @@ document.getElementById('btn-bailleur').onclick = () => {
   renderAll();
 };
 
+// ==========================================
+// INTERACTIONS
+// ==========================================
 function onPersonClick(idx) {
   if (state.ended) return;
   playSfx('click');
@@ -484,12 +1361,20 @@ function onPersonClick(idx) {
   const p1 = state.grid[state.selectedIdx];
   const p2 = state.grid[idx];
 
-  if (p1.color === p2.color) attemptMatch(state.selectedIdx, idx, p1, p2);
+  // Complémentarité : l'apport de l'un = le besoin de l'autre (dans les 2 sens)
+  const isComplementary = (p1.apport === p2.besoin) && (p2.apport === p1.besoin);
+  
+  if (isComplementary) attemptMatch(state.selectedIdx, idx, p1, p2);
   else {
     playSfx('error');
-    showToast("Leurs rythmes de vie sont trop différents. Cherche la même couleur !", "fail");
+    showToast(`${p1.name} et ${p2.name} ne sont pas complémentaires. Cherche un Apport qui répond à un Besoin !`, "fail");
+    // Reset combo sur mismatch
+    if (state.combo >= 2) {
+      showToast(`💔 Combo brisé (x${state.combo})`, 'fail');
+    }
+    state.combo = 0;
     state.selectedIdx = null;
-    renderGrid();
+    renderAll();
   }
 }
 
@@ -499,7 +1384,7 @@ function attemptMatch(idx1, idx2, p1, p2) {
     showToast("Aucun logement disponible ! Sollicite un Bailleur Solidaire.", "fail");
     state.selectedIdx = null;
     renderGrid();
-
+    
     const btnBailleur = document.getElementById('btn-bailleur');
     btnBailleur.classList.remove('blink-alert');
     void btnBailleur.offsetWidth;
@@ -509,72 +1394,171 @@ function attemptMatch(idx1, idx2, p1, p2) {
   }
 
   const isCoup = p1.coupDeCoeur || p2.coupDeCoeur;
-  const visGain = isCoup ? 9 : 3;
-  playSfx(isCoup ? 'heart' : 'match');
+  const isVipDuo = p1.vipDuoId && p1.vipDuoId === p2.vipDuoId;
+  const hasTraitBonus = p1.traitBonus || p2.traitBonus;
+  
+  // Calcul du gain de base
+  let visGain = 3;
+  if (isCoup) visGain = 9;
+  if (isVipDuo) visGain += 10;
+  if (hasTraitBonus) visGain += 5;
+  
+  // Combo
+  state.combo++;
+  state.lastMatchTime = Date.now();
+  
+  // Multiplicateur de combo (Lvl 4+)
+  let comboMultiplier = 1;
+  if (state.unlockedFeatures.comboBoost && state.combo >= 5) {
+    comboMultiplier = 2;
+    visGain = Math.floor(visGain * comboMultiplier);
+  } else if (state.combo >= 3) {
+    visGain += (state.combo - 2);
+  }
+  
+  // Sons
+  if (state.combo >= 5) playSfx('combo');
+  else if (isCoup || isVipDuo) playSfx('heart');
+  else playSfx('match');
 
+  // Capturer les éléments visuels AVANT de modifier le state
+  const cells = document.querySelectorAll('.grid-cell');
+  const sourceEl1 = cells[idx1]?.querySelector('.person');
+  const sourceEl2 = cells[idx2]?.querySelector('.person');
+  
+  // Vider visuellement les cases sources tout de suite (mais on garde les flying-person)
+  if (sourceEl1) sourceEl1.style.opacity = '0';
+  if (sourceEl2) sourceEl2.style.opacity = '0';
+  
+  // Update du state immédiat (sauf maison qu'on enlèvera après l'anim)
   state.grid[idx1] = null;
   state.grid[idx2] = null;
-  state.houses.shift();
   state.score++;
   state.visibility += visGain;
   state.selectedIdx = null;
-
-  showToast(isCoup ? `💖 Superbe équilibre ! +${visGain} ✨ Impact` : `🏡 Foyer inclusif créé ! +${visGain} ✨ Impact`, 'success');
-
+  
+  // Message contextualisé
+  let msg = '';
+  if (isVipDuo) msg = `💞 DUO VIP : ${p1.name} & ${p2.name} cohabitent ! +${visGain} ✨`;
+  else if (isCoup) msg = `💖 Belle complémentarité ! +${visGain} ✨`;
+  else if (hasTraitBonus) msg = `⭐ Match bonus ! +${visGain} ✨`;
+  else if (state.combo >= 5 && comboMultiplier > 1) msg = `🔥 COMBO x${state.combo} DOUBLÉ ! +${visGain} ✨`;
+  else if (state.combo >= 3) msg = `🔥 Combo x${state.combo} ! +${visGain} ✨`;
+  else msg = `🏡 ${p1.name} & ${p2.name} emménagent ensemble ! +${visGain} ✨`;
+  
+  showToast(msg, 'success');
+  
+  // Lancer l'animation vers la maison
+  if (sourceEl1 && sourceEl2) {
+    animateMatchToHouse(p1, p2, sourceEl1, sourceEl2, () => {
+      // Une fois l'anim terminée : consommer la maison + render
+      state.houses.shift();
+      renderAll();
+      updateTicker();
+    });
+  } else {
+    state.houses.shift();
+    renderAll();
+    updateTicker();
+  }
+  
   checkLevelUp();
-  renderAll();
+  renderDashboard(); // update score & barre immédiatement
 }
 
 function checkLevelUp() {
   if (state.level > 5) return;
   const target = LEVELS[state.level - 1];
-
+  
   if (state.score >= target) {
     if (state.level === 5) {
       endGame();
     } else {
       state.level++;
       playSfx('lvlup');
-      showToast(`🌟 NIVEAU ${state.level} ATTEINT ! Tes actions partenaires sont renforcées !`, 'lvlup');
+      
+      // Déblocage de nouvelles mécaniques selon le niveau
+      let unlockMsg = '';
+      if (state.level === 2) {
+        state.unlockedFeatures.sort = true;
+        state.unlockedFeatures.traitBonus = true;
+        unlockMsg = '🌟 NIVEAU 2 ! Débloqué : Bouton "Organiser" + Profils ⭐ bonus';
+      } else if (state.level === 3) {
+        state.unlockedFeatures.vipDuo = true;
+        unlockMsg = '🌟 NIVEAU 3 ! Des Duos VIP 💞 vont apparaître (gros bonus si réunis)';
+      } else if (state.level === 4) {
+        state.unlockedFeatures.comboBoost = true;
+        unlockMsg = '🌟 NIVEAU 4 ! Les Combos x5+ doublent désormais l\'Impact 🔥';
+      } else if (state.level === 5) {
+        unlockMsg = '🌟 NIVEAU 5 ! Dernier palier — tout est cumulé, fonce !';
+      }
+      
+      // Toast de level up + déblocage avec délai
+      showToast(`🌟 NIVEAU ${state.level} ATTEINT !`, 'lvlup');
+      setTimeout(() => {
+        playSfx('unlock');
+        showToast(unlockMsg, 'unlock');
+      }, 2200);
     }
   }
 }
 
+// ==========================================
+// TOAST & MODAL
+// ==========================================
 const toastEl = document.getElementById('toast');
+let toastTimer = null;
 function showToast(msg, type) {
+  if (toastTimer) clearTimeout(toastTimer);
   toastEl.className = 'toast show ' + type;
   toastEl.textContent = msg;
-  setTimeout(() => toastEl.className = 'toast', 2500);
+  toastTimer = setTimeout(() => toastEl.className = 'toast', 2500);
 }
 
 function endGame() {
   state.ended = true;
   playSfx('lvlup');
   document.getElementById('modal-content').innerHTML = `
-    <h2 style="text-align:center;">🎉 MISSION ACCOMPLIE !</h2>
-    <p style="text-align:center; font-weight:bold;">Niveau 5 atteint !</p>
-    <p>Grâce à toi, <b>20 foyers inclusifs</b> ont vu le jour. Tu as su associer des profils différents (jeunes, seniors, actifs, personnes en transition) en trouvant leurs valeurs communes.</p>
-    <p>Dans la vraie vie, l'association <b>Lien pour l'autre</b> accompagne au quotidien ces parcours croisés pour faire reculer la précarité.</p>
-    <button class="btn" onclick="window.open('https://www.lienpourlautre.com/', '_blank')">Découvrir l'association</button>
-    <button class="btn outline" onclick="location.reload()">Rejouer</button>
+    <h2 style="text-align:center;">🎉 BRAVO !</h2>
+    <p style="text-align:center; font-weight:bold; color:var(--ink); font-size:15px;">Tu as créé <span style="color:var(--accent);">20 foyers inclusifs</span> 🏡</p>
+    <p>En 2 minutes, tu as compris le principe de <b>Lien pour l'autre</b> : associer des personnes <b>complémentaires</b> (jeunes/seniors, actifs/en transition, étudiants/familles…) dans des logements partagés pour faire reculer la précarité par l'entraide.</p>
+    <p style="font-weight:bold; color:var(--accent); margin-bottom: 10px;">👉 Et dans la vraie vie, tu peux aider :</p>
+    <div class="feature-list">
+      <div class="feat">📢 <b>Donner de la visibilité</b> — partage ce jeu autour de toi</div>
+      <div class="feat">🤝 <b>Adhérer à l'association</b> pour soutenir l'action</div>
+      <div class="feat">💶 <b>Faire un don</b> (déductible des impôts à 66%)</div>
+      <div class="feat">🏠 <b>Proposer un logement</b> si tu es propriétaire</div>
+      <div class="feat">🆘 <b>Orienter</b> une personne en difficulté vers l'asso</div>
+    </div>
+    <button class="btn" onclick="window.open('https://www.lienpourlautre.com/', '_blank')">🌐 Découvrir Lien pour l'autre</button>
+    <button class="btn outline" onclick="location.reload()">🔄 Rejouer</button>
   `;
   document.getElementById('modal-bg').classList.add('show');
 }
 
 document.getElementById('btn-help').onclick = () => {
   document.getElementById('modal-content').innerHTML = `
-    <h2>L'Habitat Inclusif</h2>
+    <h2>Crée des foyers inclusifs !</h2>
     <p>
-      <b>1.</b> Associe 2 profils partageant un <b>rythme ou des valeurs communes</b> (même couleur de texte) pour recréer une dynamique de vie (nécessite 1 logement 🏠).<br><br>
-      <b>2.</b> Chaque réussite génère de l'<b>Impact ✨</b>. Utilise-le pour mobiliser nos partenaires : une <b>Asso partenaire</b> (trouve de nouveaux profils) ou un <b>Bailleur solidaire</b> (débloque des logements).<br><br>
-      <b>3.</b> Franchis les 5 paliers. L'objectif ? Former 20 colocations inclusives !
+      <b>🎯 Le principe :</b> chaque profil a un <b style="color:var(--green)">↗ Apport</b> et un <b style="color:var(--accent)">↙ Besoin</b>. Associe deux personnes <b>complémentaires</b> (l'apport de l'une = le besoin de l'autre).<br><br>
+      <b>👆 Comment :</b> tape 2 profils, ou glisse l'un sur l'autre. Chaque foyer créé consomme un logement 🏠.<br><br>
+      <b>💰 Bonus :</b> attrape les pièces qui passent ! Et enchaîne les matchs pour faire monter ton combo 🔥.
     </p>
+    <div class="feature-list">
+      <div class="feat"><b>Niveau 2</b> : 🎯 Bouton "Organiser" + ⭐ Profils bonus</div>
+      <div class="feat"><b>Niveau 3</b> : 💞 Duos VIP (gros bonus)</div>
+      <div class="feat"><b>Niveau 4</b> : 🔥 Combo x5+ double l'Impact</div>
+      <div class="feat"><b>Niveau 5</b> : 🏆 Objectif : 20 foyers</div>
+    </div>
     <button class="btn" onclick="document.getElementById('modal-bg').classList.remove('show')">C'est parti !</button>
   `;
   document.getElementById('modal-bg').classList.add('show');
 };
 document.getElementById('btn-reset').onclick = () => location.reload();
 
+// ==========================================
+// GAME LOOP
+// ==========================================
 let lastTime = Date.now();
 function loop() {
   if (state.ended) return;
@@ -584,12 +1568,20 @@ function loop() {
 
   state.peopleTimer += dt;
   state.housesTimer += dt;
+  
+  // Timeout combo (12s sans match = reset)
+  if (state.combo >= 2 && (now - state.lastMatchTime) > COMBO_TIMEOUT_MS) {
+    state.combo = 0;
+    renderDashboard();
+  }
 
   const emptyCount = state.grid.filter(p => p === null).length;
   if (emptyCount > 0) {
     document.getElementById('regen-countdown').textContent = Math.max(0, Math.ceil((state.peopleRegenMs - state.peopleTimer)/1000)) + 's';
     if (state.peopleTimer >= state.peopleRegenMs) {
-      spawnPersonInGrid();
+      // Chance de spawn VIP Duo, sinon profil normal
+      const duoSpawned = maybeSpawnVipDuo();
+      if (!duoSpawned) spawnPersonInGrid();
       state.peopleTimer = 0;
       renderGrid();
     }
@@ -606,13 +1598,253 @@ function loop() {
   requestAnimationFrame(loop);
 }
 
-for(let i=0; i<6; i++) spawnPersonInGrid();
-for(let i=0; i<3; i++) state.houses.push({});
-state.grid[1].color = state.grid[0].color;
-state.grid[1].trait = state.grid[0].trait;
+// ==========================================
+// TICKER ACTUALITÉS
+// L'actu change selon le palier d'Impact atteint
+// ==========================================
+const NEWS_BY_TIER = {
+  0: [
+    "Lien pour l'autre lance ses 1ers ateliers de mise en relation",
+    "L'isolement touche 1 senior sur 4 en France",
+    "Et si la solution au mal-logement passait par l'entraide ?",
+    "200 000 jeunes ont besoin d'un toit chaque année",
+    "Lien pour l'autre : faire reculer la précarité par la cohabitation"
+  ],
+  15: [
+    "🎉 Première colocation intergénérationnelle inaugurée à Lyon",
+    "Sylvie, 72 ans, partage son toit avec Yanis, étudiant",
+    "Témoignage : « Vivre ensemble, c'est se réinventer »",
+    "10 colocations équilibrées créées ce mois-ci"
+  ],
+  40: [
+    "🏡 50 foyers inclusifs accompagnés par l'association",
+    "La presse locale salue le modèle Lien pour l'autre",
+    "Une charte de vie partagée co-rédigée par les colocataires",
+    "Partenariat noué avec 3 nouveaux bailleurs solidaires"
+  ],
+  80: [
+    "💰 Subvention régionale décrochée pour étendre le programme",
+    "Lien pour l'autre étend son réseau à 5 nouvelles villes",
+    "Reportage TV : « Quand cohabiter répare des vies »",
+    "100 mises en relation réussies depuis le lancement"
+  ],
+  150: [
+    "🌟 Lauréat de l'appel à projets « Habitat pour des liens »",
+    "Reconnaissance d'utilité publique en cours d'instruction",
+    "Le modèle Lien pour l'autre essaime dans toute la France",
+    "Tu fais partie de cette dynamique : merci pour ton soutien !"
+  ]
+};
 
+function getCurrentNewsTier() {
+  if (state.visibility >= 150) return 150;
+  if (state.visibility >= 80) return 80;
+  if (state.visibility >= 40) return 40;
+  if (state.visibility >= 15) return 15;
+  return 0;
+}
+
+let currentNewsTier = -1;
+function updateTicker(force = false) {
+  const tier = getCurrentNewsTier();
+  if (!force && tier === currentNewsTier) return;
+  currentNewsTier = tier;
+  
+  const news = NEWS_BY_TIER[tier];
+  const track = document.getElementById('ticker-track');
+  // Dupliquer pour boucle infinie fluide
+  const items = news.map(n => `<span class="news-item">${n}</span>`).join('');
+  track.innerHTML = items + items;
+  
+  // Annoncer le palier avec un toast (sauf au démarrage)
+  if (force === false && tier > 0) {
+    showToast(`📰 Nouvelles actus débloquées !`, 'unlock');
+  }
+}
+
+// ==========================================
+// ANIMATION : profils glissent vers la maison
+// ==========================================
+function animateMatchToHouse(p1, p2, sourceEl1, sourceEl2, onComplete) {
+  // Position de départ : centre des cellules sources
+  const rect1 = sourceEl1.getBoundingClientRect();
+  const rect2 = sourceEl2.getBoundingClientRect();
+  
+  // Position cible : première maison disponible
+  const housesEl = document.getElementById('houses-grid');
+  const firstHouse = housesEl.querySelector('.house');
+  if (!firstHouse) { onComplete(); return; }
+  const houseRect = firstHouse.getBoundingClientRect();
+  const targetX = houseRect.left + houseRect.width / 2 - 30;
+  const targetY = houseRect.top + houseRect.height / 2 - 30;
+  
+  // Crée les 2 personnes volantes
+  const fly1 = document.createElement('div');
+  fly1.className = 'flying-person';
+  fly1.textContent = p1.face;
+  fly1.style.left = (rect1.left + rect1.width/2 - 30) + 'px';
+  fly1.style.top = (rect1.top + rect1.height/2 - 30) + 'px';
+  document.body.appendChild(fly1);
+  
+  const fly2 = document.createElement('div');
+  fly2.className = 'flying-person';
+  fly2.textContent = p2.face;
+  fly2.style.left = (rect2.left + rect2.width/2 - 30) + 'px';
+  fly2.style.top = (rect2.top + rect2.height/2 - 30) + 'px';
+  document.body.appendChild(fly2);
+  
+  // Force reflow puis trigger animation
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      fly1.style.left = (targetX - 8) + 'px';
+      fly1.style.top = targetY + 'px';
+      fly1.style.transform = 'scale(0.5) rotate(-15deg)';
+      fly2.style.left = (targetX + 8) + 'px';
+      fly2.style.top = targetY + 'px';
+      fly2.style.transform = 'scale(0.5) rotate(15deg)';
+    });
+  });
+  
+  // Quand l'animation se termine
+  setTimeout(() => {
+    // Halo de lumière
+    const glow = document.createElement('div');
+    glow.className = 'house-glow';
+    glow.style.left = (houseRect.left + houseRect.width/2) + 'px';
+    glow.style.top = (houseRect.top + houseRect.height/2) + 'px';
+    document.body.appendChild(glow);
+    
+    // Animation maison
+    firstHouse.classList.add('receiving');
+    firstHouse.textContent = '👨‍👩'; // famille forme
+    
+    // Cleanup
+    fly1.remove();
+    fly2.remove();
+    setTimeout(() => glow.remove(), 1000);
+    setTimeout(() => {
+      onComplete();
+    }, 800);
+  }, 900);
+}
+
+// ==========================================
+// PIÈCES ALÉATOIRES (Don / Subvention)
+// ==========================================
+const COIN_EVENTS = [
+  { emoji: '🪙', label: 'Don anonyme', amount: 5, vis: 3 },
+  { emoji: '🪙', label: 'Don anonyme', amount: 10, vis: 4 },
+  { emoji: '💶', label: 'Adhésion solidaire', amount: 25, vis: 6 },
+  { emoji: '💶', label: 'Don déductible IR', amount: 50, vis: 8 },
+  { emoji: '💰', label: 'Subvention CAF', amount: 500, vis: 12 },
+  { emoji: '💰', label: 'Forfait ARS', amount: 1000, vis: 15 },
+  { emoji: '🏛️', label: 'Subvention Région', amount: 3000, vis: 20 },
+  { emoji: '🎁', label: 'Mécénat entreprise', amount: 2000, vis: 18 }
+];
+
+function spawnFloatingCoin() {
+  if (state.ended) return;
+  
+  // Choisir un événement adapté au niveau (les grosses subventions arrivent plus tard)
+  let pool;
+  if (state.level <= 1) pool = COIN_EVENTS.filter(e => e.amount <= 25);
+  else if (state.level <= 3) pool = COIN_EVENTS.filter(e => e.amount <= 500);
+  else pool = COIN_EVENTS;
+  
+  const event = pick(pool);
+  
+  const coin = document.createElement('div');
+  coin.className = 'floating-coin';
+  coin.textContent = event.emoji;
+  
+  // Trajet : entre dashboard et maisons, traverse horizontalement
+  const winW = window.innerWidth;
+  const dashH = window.innerHeight * 0.30;
+  const galleryH = window.innerHeight * 0.60;
+  const startY = dashH + (Math.random() * galleryH * 0.7) + galleryH * 0.15;
+  
+  const fromLeft = Math.random() < 0.5;
+  const startX = fromLeft ? -50 : winW + 50;
+  const endX = fromLeft ? winW + 50 : -50;
+  
+  coin.style.left = startX + 'px';
+  coin.style.top = startY + 'px';
+  coin.style.transition = 'left 8s linear, top 8s ease-in-out';
+  
+  document.body.appendChild(coin);
+  
+  // Démarrer l'animation de traversée
+  requestAnimationFrame(() => {
+    coin.style.left = endX + 'px';
+    coin.style.top = (startY + (Math.random() * 60 - 30)) + 'px';
+  });
+  
+  // Au clic : bonus !
+  let claimed = false;
+  const claim = (e) => {
+    if (claimed) return;
+    claimed = true;
+    e.stopPropagation();
+    
+    const rect = coin.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top;
+    
+    // Burst visuel
+    const burst = document.createElement('div');
+    burst.className = 'coin-burst';
+    burst.style.left = x + 'px';
+    burst.style.top = y + 'px';
+    
+    const amountText = event.amount >= 1000 ? (event.amount/1000).toFixed(0) + 'k€' : event.amount + '€';
+    burst.textContent = `+${event.vis} ✨ ${event.label} ${amountText}`;
+    document.body.appendChild(burst);
+    
+    state.visibility += event.vis;
+    playSfx('buy');
+    
+    coin.style.transition = 'transform 0.3s, opacity 0.3s';
+    coin.style.transform = 'scale(1.5) rotate(360deg)';
+    coin.style.opacity = '0';
+    setTimeout(() => coin.remove(), 300);
+    setTimeout(() => burst.remove(), 1500);
+    
+    renderDashboard();
+    checkLevelUp();
+    updateTicker();
+  };
+  coin.addEventListener('click', claim);
+  coin.addEventListener('touchstart', claim, { passive: false });
+  
+  // Auto-remove après le trajet
+  setTimeout(() => {
+    if (coin.parentNode) coin.remove();
+  }, 9000);
+}
+
+// Planifier les pièces : toutes les 12-25s
+function scheduleNextCoin() {
+  if (state.ended) return;
+  const delay = 12000 + Math.random() * 13000;
+  setTimeout(() => {
+    spawnFloatingCoin();
+    scheduleNextCoin();
+  }, delay);
+}
+
+
+state.grid[0] = generatePerson('jeune');
+state.grid[1] = generatePerson('senior');
+for(let i=0; i<4; i++) spawnPersonInGrid();
+for(let i=0; i<3; i++) state.houses.push({});
+
+updateTicker(true); // Force le premier remplissage du ticker
 renderAll();
 requestAnimationFrame(loop);
+
+// Démarrer les pièces aléatoires après 15s
+setTimeout(scheduleNextCoin, 15000);
+
 </script>
 </body>
 </html>
