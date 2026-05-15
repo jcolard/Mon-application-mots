@@ -2,891 +2,1626 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lien pour l'autre — L'habitat inclusif qui transforme la vulnérabilité en force</title>
-<meta name="description" content="Lienpourlautre développe des colocations inclusives où jeunes, seniors et personnes en transition vivent ensemble. Une réponse concrète à la précarité et à l'isolement.">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Lienpourlautre — l'habitat inclusif qui transforme la vulnérabilité en force collective. Coliving solidaire, intergénérationnel, structuré." />
+<title>Lienpourlautre — L'habitat qui relie</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600;1,9..144,800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #FDF6EC;
-    --bg-2: #F5E8D3;
-    --bg-3: #ECDDC4;
-    --ink: #2A2A2A;
-    --ink-soft: #5C4A3A;
-    --ink-mute: #8A7560;
-    --paper: #FFFBF3;
-    --accent: #E8623D;
-    --accent-deep: #C44A28;
-    --accent-soft: #F4A582;
-    --gold: #D4A574;
-    --green: #6B8E5A;
-    --green-deep: #4F6B42;
-    --blue: #4A6FA5;
-    --plum: #8B5A6B;
-    --shadow-soft: 0 2px 0 rgba(42,42,42,0.06), 0 8px 24px rgba(42,42,42,0.06);
-    --shadow-card: 0 4px 0 rgba(42,42,42,0.08), 0 12px 32px rgba(42,42,42,0.08);
+  :root{
+    --bleu:#305598;
+    --bleu-deep:#1e3a6f;
+    --bleu-ciel:#5b9bd5;
+    --rose:#d48ca8;
+    --rose-vif:#c46285;
+    --vert:#70ad47;
+    --vert-deep:#558235;
+    --kaki:#998856;
+    --kaki-deep:#776a3f;
+    --noir:#0f1420;
+    --creme:#f5efe4;
+    --creme-warm:#ebe2cf;
+    --blanc:#ffffff;
+
+    --ff-display:'Fraunces', Georgia, serif;
+    --ff-body:'Manrope', system-ui, sans-serif;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'Outfit', sans-serif;
-    font-weight: 400;
-    line-height: 1.6;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--ff-body);
+    background:var(--creme);
+    color:var(--noir);
+    overflow-x:hidden;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--rose);color:var(--bleu-deep)}
+
+  /* ---------- GRAIN OVERLAY ---------- */
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    background-image:url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity:.18;
+    pointer-events:none;
+    z-index:9999;
+    mix-blend-mode:multiply;
   }
 
-  /* === GRAIN OVERLAY === */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    pointer-events: none;
-    z-index: 1000;
-    opacity: 0.35;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.2 0 0 0 0 0.1 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* ---------- NAV ---------- */
+  nav.top{
+    position:fixed;top:0;left:0;right:0;
+    z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 36px;
+    background:rgba(245,239,228,.78);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(48,85,152,.12);
+    transition:transform .4s ease;
+  }
+  nav.top.hidden{transform:translateY(-100%)}
+  .brand{
+    display:flex;align-items:center;gap:12px;
+    font-family:var(--ff-display);
+    font-weight:800;
+    font-size:1.25rem;
+    color:var(--bleu-deep);
+    text-decoration:none;
+    letter-spacing:-.02em;
+  }
+  .brand-mark{
+    width:36px;height:36px;
+    flex-shrink:0;
+  }
+  .nav-links{
+    display:flex;gap:32px;list-style:none;
+  }
+  .nav-links a{
+    color:var(--noir);text-decoration:none;
+    font-weight:500;font-size:.92rem;
+    position:relative;padding:6px 0;
+    transition:color .3s;
+  }
+  .nav-links a::after{
+    content:"";position:absolute;left:0;bottom:0;
+    width:0;height:2px;background:var(--rose-vif);
+    transition:width .3s ease;
+  }
+  .nav-links a:hover{color:var(--bleu)}
+  .nav-links a:hover::after{width:100%}
+
+  .nav-cta{
+    background:var(--bleu);
+    color:var(--blanc);
+    padding:10px 20px;
+    border-radius:999px;
+    text-decoration:none;
+    font-weight:600;
+    font-size:.88rem;
+    transition:all .3s;
+    border:2px solid var(--bleu);
+  }
+  .nav-cta:hover{background:var(--rose-vif);border-color:var(--rose-vif);transform:translateY(-2px)}
+
+  .burger{display:none;background:none;border:0;cursor:pointer;flex-direction:column;gap:5px}
+  .burger span{display:block;width:24px;height:2px;background:var(--bleu-deep);transition:.3s}
+
+  @media (max-width:880px){
+    nav.top{padding:14px 20px}
+    .nav-links{
+      position:fixed;top:64px;left:0;right:0;
+      flex-direction:column;background:var(--creme);
+      padding:30px;gap:18px;
+      transform:translateY(-150%);transition:transform .4s ease;
+      border-bottom:1px solid rgba(48,85,152,.12);
+    }
+    .nav-links.open{transform:translateY(0)}
+    .burger{display:flex}
+    .nav-cta{display:none}
   }
 
-  /* === NAVIGATION === */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 18px 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(253, 246, 236, 0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(42,42,42,0.06);
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100vh;
+    padding:140px 36px 80px;
+    position:relative;
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    gap:60px;
+    align-items:center;
+    overflow:hidden;
   }
-  .logo {
-    font-family: 'Fraunces', serif;
-    font-weight: 800;
-    font-style: italic;
-    font-size: 22px;
-    color: var(--accent);
-    letter-spacing: -0.5px;
+  .hero::before{
+    content:"";
+    position:absolute;
+    top:-20%;right:-10%;
+    width:60%;height:120%;
+    background:radial-gradient(circle at center, rgba(212,140,168,.35), transparent 65%);
+    pointer-events:none;
+    z-index:0;
   }
-  .logo span { color: var(--ink); font-style: normal; }
-  .nav-links { display: flex; gap: 28px; align-items: center; }
-  .nav-links a {
-    color: var(--ink-soft);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    transition: color 0.2s;
+  .hero::after{
+    content:"";
+    position:absolute;
+    bottom:-30%;left:-10%;
+    width:50%;height:90%;
+    background:radial-gradient(circle at center, rgba(112,173,71,.22), transparent 60%);
+    pointer-events:none;
+    z-index:0;
   }
-  .nav-links a:hover { color: var(--accent); }
-  .nav-cta {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 10px 20px;
-    border-radius: 99px;
-    font-size: 14px;
-    font-weight: 500;
-    transition: transform 0.2s, background 0.2s;
+  .hero-content{position:relative;z-index:2}
+  .hero-eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-size:.78rem;
+    font-weight:700;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--bleu);
+    margin-bottom:24px;
+    padding:8px 16px;
+    border:1.5px solid var(--bleu);
+    border-radius:999px;
+    background:rgba(255,255,255,.4);
   }
-  .nav-cta:hover { background: var(--accent); transform: translateY(-1px); }
-  @media (max-width: 768px) {
-    nav { padding: 14px 18px; }
-    .nav-links a:not(.nav-cta) { display: none; }
+  .hero-eyebrow::before{
+    content:"";width:8px;height:8px;
+    background:var(--vert);border-radius:50%;
+    animation:pulse 2s infinite;
   }
-
-  /* === HERO === */
-  .hero {
-    min-height: 100vh;
-    padding: 120px 32px 80px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
+  @keyframes pulse{
+    0%,100%{transform:scale(1);opacity:1}
+    50%{transform:scale(1.4);opacity:.6}
   }
 
-  /* Decorative blobs */
-  .blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(60px);
-    opacity: 0.4;
-    z-index: 0;
-    pointer-events: none;
+  h1.hero-title{
+    font-family:var(--ff-display);
+    font-weight:900;
+    font-size:clamp(2.8rem, 7vw, 6.5rem);
+    line-height:.92;
+    letter-spacing:-.03em;
+    color:var(--bleu-deep);
+    margin-bottom:32px;
   }
-  .blob-1 { width: 500px; height: 500px; background: var(--accent-soft); top: -100px; right: -150px; }
-  .blob-2 { width: 400px; height: 400px; background: var(--gold); bottom: -100px; left: -100px; }
+  h1.hero-title em{
+    font-style:italic;
+    font-weight:600;
+    color:var(--rose-vif);
+    position:relative;
+    display:inline-block;
+  }
+  h1.hero-title em::after{
+    content:"";
+    position:absolute;
+    bottom:6px;left:-4px;right:-4px;
+    height:14px;
+    background:var(--vert);
+    z-index:-1;
+    opacity:.35;
+    transform:skewX(-8deg);
+  }
+  h1.hero-title .word{
+    display:inline-block;
+    opacity:0;
+    transform:translateY(40px);
+    animation:rise .9s forwards;
+  }
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
 
-  .hero-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-    position: relative;
-    z-index: 2;
+  .hero-lead{
+    font-size:clamp(1.05rem, 1.6vw, 1.3rem);
+    max-width:560px;
+    color:#2a2f3d;
+    margin-bottom:40px;
+    opacity:0;animation:fadeIn 1s .7s forwards;
   }
-  .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--paper);
-    padding: 8px 16px;
-    border-radius: 99px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--ink-soft);
-    border: 1px solid rgba(42,42,42,0.08);
-    margin-bottom: 32px;
-    box-shadow: var(--shadow-soft);
-    animation: fadeUp 0.8s ease-out;
-  }
-  .eyebrow .dot {
-    width: 8px; height: 8px;
-    background: var(--green);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.8); }
-  }
+  @keyframes fadeIn{to{opacity:1}}
 
-  h1 {
-    font-family: 'Fraunces', serif;
-    font-weight: 700;
-    font-size: clamp(40px, 7vw, 88px);
-    line-height: 1.02;
-    letter-spacing: -0.03em;
-    color: var(--ink);
-    margin-bottom: 28px;
-    max-width: 18ch;
-    animation: fadeUp 0.9s ease-out 0.1s backwards;
+  .hero-ctas{display:flex;gap:16px;flex-wrap:wrap;opacity:0;animation:fadeIn 1s 1s forwards}
+  .btn{
+    padding:16px 30px;
+    border-radius:999px;
+    text-decoration:none;
+    font-weight:700;
+    font-size:.95rem;
+    display:inline-flex;align-items:center;gap:10px;
+    cursor:pointer;border:none;
+    transition:all .3s cubic-bezier(.2,.8,.3,1.2);
+    font-family:inherit;
   }
-  h1 em {
-    font-style: italic;
-    color: var(--accent);
-    font-weight: 600;
+  .btn-primary{
+    background:var(--bleu);
+    color:var(--blanc);
+    box-shadow:0 8px 24px -8px rgba(48,85,152,.6);
   }
-  h1 .stroke {
-    position: relative;
-    display: inline-block;
+  .btn-primary:hover{
+    background:var(--bleu-deep);
+    transform:translateY(-3px);
+    box-shadow:0 14px 30px -10px rgba(48,85,152,.7);
   }
-  h1 .stroke::after {
-    content: '';
-    position: absolute;
-    bottom: 0.1em;
-    left: -0.05em;
-    right: -0.05em;
-    height: 0.18em;
-    background: var(--gold);
-    z-index: -1;
-    opacity: 0.6;
+  .btn-ghost{
+    background:transparent;
+    color:var(--bleu-deep);
+    border:2px solid var(--bleu-deep);
   }
+  .btn-ghost:hover{background:var(--bleu-deep);color:var(--creme)}
 
-  .hero-lead {
-    font-size: clamp(17px, 2vw, 21px);
-    line-height: 1.5;
-    color: var(--ink-soft);
-    max-width: 56ch;
-    margin-bottom: 40px;
-    animation: fadeUp 1s ease-out 0.2s backwards;
+  /* HERO VISUAL — Composition graphique */
+  .hero-visual{
+    position:relative;
+    z-index:1;
+    aspect-ratio:1/1;
+    max-width:480px;
+    margin-left:auto;
   }
-
-  .hero-cta {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    animation: fadeUp 1.1s ease-out 0.3s backwards;
+  .hero-visual svg{width:100%;height:100%;overflow:visible}
+  .float-card{
+    position:absolute;
+    background:var(--blanc);
+    border-radius:18px;
+    padding:14px 18px;
+    box-shadow:0 18px 40px -16px rgba(15,20,32,.25);
+    font-size:.85rem;
+    font-weight:600;
+    color:var(--bleu-deep);
+    display:flex;align-items:center;gap:10px;
+    border:1.5px solid rgba(48,85,152,.1);
   }
-  .btn-primary, .btn-secondary {
-    padding: 16px 32px;
-    border-radius: 99px;
-    font-size: 15px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: transform 0.2s, box-shadow 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    border: none;
-    font-family: inherit;
+  .float-card .dot{
+    width:10px;height:10px;border-radius:50%;
   }
-  .btn-primary {
-    background: var(--accent);
-    color: white;
-    box-shadow: 0 4px 0 var(--accent-deep), 0 8px 24px rgba(232,98,61,0.3);
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--accent-deep), 0 12px 28px rgba(232,98,61,0.4); }
-  .btn-primary:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--accent-deep), 0 4px 12px rgba(232,98,61,0.3); }
-  .btn-secondary {
-    background: transparent;
-    color: var(--ink);
-    border: 1.5px solid rgba(42,42,42,0.2);
-  }
-  .btn-secondary:hover { border-color: var(--ink); transform: translateY(-2px); }
-
-  /* === HERO STATS BAR === */
-  .hero-stats {
-    margin-top: 80px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
-    padding-top: 32px;
-    border-top: 1px solid rgba(42,42,42,0.08);
-    animation: fadeUp 1.2s ease-out 0.4s backwards;
-  }
-  .stat-num {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: clamp(28px, 4vw, 42px);
-    color: var(--accent);
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-  .stat-num em { font-style: italic; }
-  .stat-label {
-    font-size: 13px;
-    color: var(--ink-soft);
-    line-height: 1.4;
-  }
-  @media (max-width: 768px) {
-    .hero-stats { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
+  .fc-1{top:8%;left:-8%;animation:float 6s ease-in-out infinite}
+  .fc-1 .dot{background:var(--vert)}
+  .fc-2{bottom:18%;left:-4%;animation:float 6s ease-in-out infinite -2s}
+  .fc-2 .dot{background:var(--rose-vif)}
+  .fc-3{top:30%;right:-8%;animation:float 6s ease-in-out infinite -4s}
+  .fc-3 .dot{background:var(--kaki)}
+  @keyframes float{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-14px)}
   }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  @media (max-width:980px){
+    .hero{grid-template-columns:1fr;gap:40px;padding:120px 24px 60px;text-align:left}
+    .hero-visual{max-width:380px;margin:0 auto}
   }
 
-  /* === SECTION COMMUNE === */
-  section {
-    position: relative;
-    z-index: 2;
+  /* ---------- MARQUEE ---------- */
+  .marquee{
+    background:var(--bleu-deep);
+    color:var(--creme);
+    overflow:hidden;
+    padding:22px 0;
+    border-top:1px solid var(--bleu);
+    border-bottom:1px solid var(--bleu);
+    position:relative;
   }
-  .section-pad {
-    padding: 100px 32px;
+  .marquee-track{
+    display:flex;
+    gap:60px;
+    animation:scroll 30s linear infinite;
+    white-space:nowrap;
+    font-family:var(--ff-display);
+    font-size:1.6rem;
+    font-style:italic;
+    font-weight:600;
+    letter-spacing:-.01em;
   }
-  @media (max-width: 768px) {
-    .section-pad { padding: 64px 18px; }
+  .marquee-track span{display:inline-flex;align-items:center;gap:60px}
+  .marquee-track .sep{
+    color:var(--rose-vif);
+    font-style:normal;
+    font-weight:900;
   }
-  .container { max-width: 1200px; margin: 0 auto; }
-
-  .section-eyebrow {
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--accent);
-    font-weight: 600;
-    margin-bottom: 16px;
-  }
-  .section-title {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: clamp(32px, 5vw, 56px);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    color: var(--ink);
-    margin-bottom: 24px;
-    max-width: 20ch;
-  }
-  .section-title em { font-style: italic; color: var(--accent); }
-  .section-lead {
-    font-size: 18px;
-    color: var(--ink-soft);
-    max-width: 56ch;
-    line-height: 1.6;
+  @keyframes scroll{
+    to{transform:translateX(-50%)}
   }
 
-  /* === SECTION PROBLÈME === */
-  .problem {
-    background: var(--bg-2);
-    position: relative;
+  /* ---------- SECTIONS COMMUNES ---------- */
+  section{padding:120px 36px;position:relative}
+  .container{max-width:1280px;margin:0 auto}
+  .section-head{margin-bottom:80px;max-width:880px}
+  .section-tag{
+    display:inline-block;
+    font-size:.78rem;
+    font-weight:700;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--rose-vif);
+    margin-bottom:18px;
   }
-  .problem-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-    margin-top: 60px;
+  .section-tag::before{content:"— ";color:var(--bleu)}
+  h2.section-title{
+    font-family:var(--ff-display);
+    font-weight:800;
+    font-size:clamp(2.2rem, 4.5vw, 4rem);
+    line-height:1;
+    letter-spacing:-.025em;
+    color:var(--bleu-deep);
+    margin-bottom:24px;
   }
-  @media (max-width: 900px) {
-    .problem-grid { grid-template-columns: 1fr; gap: 40px; }
+  h2.section-title em{
+    font-style:italic;font-weight:600;color:var(--vert-deep);
   }
-  .problem-text p {
-    font-size: 18px;
-    color: var(--ink-soft);
-    margin-bottom: 20px;
-    line-height: 1.7;
-  }
-  .problem-text p strong { color: var(--ink); font-weight: 600; }
-  .problem-visual {
-    position: relative;
-    aspect-ratio: 1;
-    max-width: 480px;
-    margin: 0 auto;
-  }
-  .figure-card {
-    position: absolute;
-    background: var(--paper);
-    border-radius: 24px;
-    padding: 24px;
-    box-shadow: var(--shadow-card);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    transition: transform 0.3s;
-  }
-  .figure-card:hover { transform: translateY(-6px) rotate(0deg) !important; }
-  .figure-face { font-size: 48px; margin-bottom: 12px; line-height: 1; }
-  .figure-name {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: 16px;
-    margin-bottom: 4px;
-  }
-  .figure-detail { font-size: 12px; color: var(--ink-mute); }
-
-  .figure-1 { top: 0; left: 0; width: 55%; transform: rotate(-3deg); z-index: 2; }
-  .figure-2 { top: 18%; right: 0; width: 55%; transform: rotate(4deg); z-index: 1; }
-  .figure-3 { bottom: 0; left: 18%; width: 55%; transform: rotate(-2deg); z-index: 3; }
-
-  /* === SECTION MODÈLE === */
-  .model { background: var(--bg); }
-  .pillars {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-top: 60px;
-  }
-  @media (max-width: 900px) {
-    .pillars { grid-template-columns: 1fr; }
-  }
-  .pillar {
-    background: var(--paper);
-    border-radius: 24px;
-    padding: 36px 32px;
-    border: 1px solid rgba(42,42,42,0.06);
-    box-shadow: var(--shadow-soft);
-    transition: transform 0.3s, box-shadow 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-  .pillar:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-card);
-  }
-  .pillar-num {
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    font-size: 14px;
-    color: var(--accent);
-    font-weight: 600;
-    margin-bottom: 20px;
-    letter-spacing: 1px;
-  }
-  .pillar-icon {
-    width: 56px; height: 56px;
-    background: var(--bg-2);
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    margin-bottom: 24px;
-  }
-  .pillar h3 {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: 24px;
-    margin-bottom: 12px;
-    color: var(--ink);
-    line-height: 1.2;
-  }
-  .pillar p { font-size: 15px; color: var(--ink-soft); line-height: 1.6; }
-
-  /* === SECTION JEU === */
-  .game-section {
-    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-3) 100%);
-    overflow: hidden;
-  }
-  .game-intro {
-    text-align: center;
-    max-width: 720px;
-    margin: 0 auto 60px;
-  }
-  .game-intro .section-title { margin: 0 auto 24px; }
-  .game-intro .section-lead { margin: 0 auto; }
-  .game-wrapper {
-    max-width: 420px;
-    margin: 0 auto;
-    background: var(--paper);
-    border-radius: 32px;
-    padding: 12px;
-    box-shadow: 0 8px 0 rgba(42,42,42,0.08), 0 24px 60px rgba(42,42,42,0.18);
-    position: relative;
-  }
-  .game-wrapper::before {
-    content: '';
-    position: absolute;
-    inset: -16px;
-    background: linear-gradient(135deg, var(--accent-soft), var(--gold), var(--green));
-    border-radius: 40px;
-    z-index: -1;
-    opacity: 0.3;
-    filter: blur(20px);
-  }
-  .game-frame {
-    width: 100%;
-    height: 720px;
-    border: none;
-    border-radius: 24px;
-    background: var(--bg);
-    display: block;
-  }
-  .game-caption {
-    text-align: center;
-    margin-top: 24px;
-    font-size: 13px;
-    color: var(--ink-mute);
-    font-style: italic;
+  .section-lead{
+    font-size:1.15rem;
+    color:#2a2f3d;
+    max-width:680px;
   }
 
-  /* === SECTION TÉMOIGNAGES === */
-  .stories { background: var(--bg-2); }
-  .stories-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-    margin-top: 60px;
-  }
-  @media (max-width: 900px) {
-    .stories-grid { grid-template-columns: 1fr; }
-  }
-  .story-card {
-    background: var(--paper);
-    border-radius: 28px;
-    padding: 40px;
-    box-shadow: var(--shadow-soft);
-    position: relative;
-  }
-  .story-card::before {
-    content: '"';
-    font-family: 'Fraunces', serif;
-    font-size: 120px;
-    color: var(--accent);
-    position: absolute;
-    top: 0px;
-    left: 24px;
-    line-height: 1;
-    opacity: 0.2;
-    font-weight: 800;
-  }
-  .story-quote {
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    font-size: 19px;
-    line-height: 1.5;
-    color: var(--ink);
-    margin-bottom: 24px;
-    position: relative;
-    z-index: 2;
-  }
-  .story-author {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(42,42,42,0.08);
-  }
-  .story-avatar {
-    width: 48px; height: 48px;
-    background: var(--bg-2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-  }
-  .story-meta { display: flex; flex-direction: column; }
-  .story-name { font-weight: 600; font-size: 15px; color: var(--ink); }
-  .story-role { font-size: 13px; color: var(--ink-mute); }
+  /* Reveal on scroll */
+  .reveal{opacity:0;transform:translateY(36px);transition:opacity .9s ease, transform .9s cubic-bezier(.2,.8,.3,1)}
+  .reveal.visible{opacity:1;transform:translateY(0)}
 
-  /* === SECTION CTA FINAL === */
-  .cta-final {
-    background: var(--ink);
-    color: var(--paper);
-    position: relative;
-    overflow: hidden;
+  /* ---------- MANIFESTE ---------- */
+  .manifeste{
+    background:var(--bleu-deep);
+    color:var(--creme);
+    padding:140px 36px;
+    position:relative;
+    overflow:hidden;
   }
-  .cta-final::before {
-    content: '';
-    position: absolute;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-    opacity: 0.25;
-    top: -200px; right: -200px;
-    border-radius: 50%;
-    filter: blur(40px);
+  .manifeste::before{
+    content:"";position:absolute;
+    top:-20%;right:-10%;
+    width:50%;height:140%;
+    background:radial-gradient(circle, rgba(212,140,168,.18), transparent 65%);
+    pointer-events:none;
   }
-  .cta-final .container { position: relative; z-index: 2; }
-  .cta-final .section-title { color: var(--paper); max-width: 18ch; }
-  .cta-final .section-title em { color: var(--accent-soft); }
-  .cta-final .section-lead { color: rgba(255,251,243,0.7); }
-  .cta-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 48px;
-    max-width: 640px;
+  .manifeste .section-tag{color:var(--rose)}
+  .manifeste .section-tag::before{color:var(--vert)}
+  .manifeste h2.section-title{color:var(--creme)}
+  .manifeste h2.section-title em{color:var(--rose)}
+  .manifeste-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:32px;
+    margin-top:60px;
   }
-  @media (max-width: 600px) {
-    .cta-grid { grid-template-columns: 1fr; }
+  .manifeste-card{
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(245,239,228,.15);
+    border-radius:20px;
+    padding:36px 30px;
+    transition:all .4s;
+    position:relative;
+    overflow:hidden;
   }
-  .cta-card {
-    background: rgba(255,251,243,0.05);
-    border: 1px solid rgba(255,251,243,0.12);
-    border-radius: 20px;
-    padding: 28px;
-    transition: background 0.2s, transform 0.2s;
-    text-decoration: none;
-    color: var(--paper);
-    display: block;
+  .manifeste-card::before{
+    content:"";
+    position:absolute;top:0;left:0;
+    width:60px;height:4px;
+    transition:width .4s;
   }
-  .cta-card:hover { background: rgba(255,251,243,0.1); transform: translateY(-2px); }
-  .cta-card-icon { font-size: 28px; margin-bottom: 16px; }
-  .cta-card h4 {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: 20px;
-    margin-bottom: 8px;
+  .manifeste-card:nth-child(1)::before{background:var(--rose)}
+  .manifeste-card:nth-child(2)::before{background:var(--vert)}
+  .manifeste-card:nth-child(3)::before{background:var(--kaki)}
+  .manifeste-card:hover{transform:translateY(-6px);background:rgba(255,255,255,.07)}
+  .manifeste-card:hover::before{width:100%}
+  .manifeste-card .num{
+    font-family:var(--ff-display);
+    font-size:3rem;
+    font-weight:900;
+    line-height:1;
+    color:var(--rose);
+    margin-bottom:16px;
+    display:block;
   }
-  .cta-card p { font-size: 14px; color: rgba(255,251,243,0.65); }
-
-  /* === FOOTER === */
-  footer {
-    background: #1A1A1A;
-    color: rgba(255,251,243,0.6);
-    padding: 48px 32px 32px;
+  .manifeste-card:nth-child(2) .num{color:var(--vert)}
+  .manifeste-card:nth-child(3) .num{color:var(--kaki)}
+  .manifeste-card h3{
+    font-family:var(--ff-display);
+    font-size:1.5rem;
+    font-weight:700;
+    margin-bottom:14px;
+    color:var(--creme);
+    line-height:1.15;
   }
-  .footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 40px;
-    margin-bottom: 32px;
+  .manifeste-card p{
+    font-size:.97rem;
+    color:rgba(245,239,228,.78);
+    line-height:1.7;
   }
-  @media (max-width: 768px) {
-    .footer-content { grid-template-columns: 1fr; gap: 28px; }
-  }
-  .footer-col h5 {
-    color: var(--paper);
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: 15px;
-    margin-bottom: 16px;
-  }
-  .footer-col p, .footer-col a {
-    color: rgba(255,251,243,0.55);
-    font-size: 14px;
-    line-height: 1.8;
-    text-decoration: none;
-    display: block;
-  }
-  .footer-col a:hover { color: var(--accent-soft); }
-  .footer-bottom {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-top: 24px;
-    border-top: 1px solid rgba(255,251,243,0.08);
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px;
-    font-size: 12px;
-    color: rgba(255,251,243,0.4);
+  @media (max-width:880px){
+    .manifeste-grid{grid-template-columns:1fr}
+    section{padding:80px 24px}
+    .manifeste{padding:90px 24px}
   }
 
-  /* === Reveal on scroll === */
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  /* ---------- PODCAST PLAYER ---------- */
+  .podcast-section{
+    background:var(--creme);
+    padding:140px 36px;
   }
-  .reveal.in { opacity: 1; transform: translateY(0); }
+  .podcast-wrap{
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:80px;
+    align-items:center;
+  }
+  .podcast-card{
+    background:linear-gradient(135deg, var(--rose) 0%, var(--rose-vif) 60%, var(--bleu) 130%);
+    border-radius:32px;
+    padding:48px;
+    color:var(--blanc);
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 30px 60px -25px rgba(196,98,133,.5);
+  }
+  .podcast-card::before{
+    content:"";
+    position:absolute;
+    top:-50%;right:-30%;
+    width:80%;height:200%;
+    background:radial-gradient(circle, rgba(255,255,255,.15), transparent 50%);
+    pointer-events:none;
+  }
+  .podcast-label{
+    font-size:.75rem;
+    font-weight:700;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    margin-bottom:18px;
+    opacity:.85;
+  }
+  .podcast-title{
+    font-family:var(--ff-display);
+    font-size:2.2rem;
+    font-weight:800;
+    line-height:1.05;
+    margin-bottom:28px;
+    position:relative;
+  }
+  .podcast-meta{
+    display:flex;gap:24px;
+    font-size:.85rem;
+    margin-bottom:32px;
+    opacity:.88;
+    flex-wrap:wrap;
+  }
+  .podcast-meta span{display:flex;align-items:center;gap:6px}
+
+  .player{
+    background:rgba(0,0,0,.18);
+    border-radius:20px;
+    padding:20px;
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    position:relative;z-index:2;
+  }
+  .player-top{
+    display:flex;align-items:center;gap:18px;
+    margin-bottom:16px;
+  }
+  .play-btn{
+    width:64px;height:64px;
+    border-radius:50%;
+    background:var(--blanc);
+    color:var(--bleu-deep);
+    border:none;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:all .25s;
+    flex-shrink:0;
+    box-shadow:0 8px 22px -8px rgba(0,0,0,.4);
+  }
+  .play-btn:hover{transform:scale(1.08)}
+  .play-btn svg{width:22px;height:22px;margin-left:2px}
+  .play-btn.playing svg{margin-left:0}
+  .waveform{
+    flex:1;
+    display:flex;align-items:center;gap:3px;
+    height:40px;
+  }
+  .waveform .bar{
+    flex:1;
+    background:rgba(255,255,255,.55);
+    border-radius:3px;
+    height:30%;
+    transition:height .3s;
+  }
+  .waveform.active .bar{
+    animation:wave 1.2s ease-in-out infinite;
+  }
+  .waveform.active .bar:nth-child(1){animation-delay:0s}
+  .waveform.active .bar:nth-child(2){animation-delay:.1s}
+  .waveform.active .bar:nth-child(3){animation-delay:.2s}
+  .waveform.active .bar:nth-child(4){animation-delay:.3s}
+  .waveform.active .bar:nth-child(5){animation-delay:.4s}
+  .waveform.active .bar:nth-child(6){animation-delay:.5s}
+  .waveform.active .bar:nth-child(7){animation-delay:.15s}
+  .waveform.active .bar:nth-child(8){animation-delay:.25s}
+  .waveform.active .bar:nth-child(9){animation-delay:.35s}
+  .waveform.active .bar:nth-child(10){animation-delay:.45s}
+  .waveform.active .bar:nth-child(11){animation-delay:.05s}
+  .waveform.active .bar:nth-child(12){animation-delay:.2s}
+  .waveform.active .bar:nth-child(13){animation-delay:.3s}
+  .waveform.active .bar:nth-child(14){animation-delay:.1s}
+  .waveform.active .bar:nth-child(15){animation-delay:.4s}
+  @keyframes wave{
+    0%,100%{height:25%}
+    50%{height:90%}
+  }
+  .progress-row{
+    display:flex;align-items:center;gap:12px;
+    font-size:.8rem;
+    font-variant-numeric:tabular-nums;
+  }
+  .progress{
+    flex:1;height:4px;
+    background:rgba(255,255,255,.25);
+    border-radius:2px;
+    cursor:pointer;
+    position:relative;overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;background:var(--blanc);
+    width:0%;border-radius:2px;
+    transition:width .15s linear;
+  }
+
+  .podcast-text h2{margin-bottom:24px}
+  .podcast-text p{
+    font-size:1.1rem;
+    color:#2a2f3d;
+    margin-bottom:20px;
+    max-width:520px;
+  }
+  .podcast-text .quote{
+    font-family:var(--ff-display);
+    font-style:italic;
+    font-size:1.35rem;
+    color:var(--bleu);
+    border-left:3px solid var(--rose-vif);
+    padding-left:20px;
+    margin-top:30px;
+    line-height:1.4;
+  }
+  @media (max-width:980px){
+    .podcast-wrap{grid-template-columns:1fr;gap:50px}
+    .podcast-card{padding:32px 28px}
+    .podcast-title{font-size:1.6rem}
+  }
+
+  /* ---------- MECANIQUE / DIAGRAMME ---------- */
+  .mecanique{
+    background:linear-gradient(180deg, var(--creme) 0%, var(--creme-warm) 100%);
+    padding:140px 36px;
+  }
+  .duo-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:24px;
+    margin-top:60px;
+  }
+  .duo-card{
+    background:var(--blanc);
+    border-radius:24px;
+    padding:36px;
+    border:1.5px solid rgba(48,85,152,.1);
+    transition:all .4s;
+    display:flex;flex-direction:column;gap:18px;
+    position:relative;
+    overflow:hidden;
+  }
+  .duo-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 28px 50px -25px rgba(48,85,152,.25);
+    border-color:transparent;
+  }
+  .duo-icon{
+    width:64px;height:64px;
+    border-radius:18px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--blanc);
+    flex-shrink:0;
+  }
+  .duo-icon svg{width:28px;height:28px}
+  .duo-card:nth-child(1) .duo-icon{background:var(--bleu)}
+  .duo-card:nth-child(2) .duo-icon{background:var(--rose-vif)}
+  .duo-card:nth-child(3) .duo-icon{background:var(--vert-deep)}
+  .duo-card:nth-child(4) .duo-icon{background:var(--kaki-deep)}
+  .duo-card h3{
+    font-family:var(--ff-display);
+    font-size:1.4rem;
+    font-weight:700;
+    color:var(--bleu-deep);
+    line-height:1.2;
+  }
+  .duo-card p{color:#3a4054;font-size:.97rem;line-height:1.65}
+  .duo-card .tag-line{
+    margin-top:auto;
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:.78rem;
+    font-weight:700;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--bleu);
+  }
+  @media (max-width:780px){.duo-grid{grid-template-columns:1fr}}
+
+  /* ---------- GAME + VIDEO ---------- */
+  .play-section{
+    background:var(--bleu-deep);
+    color:var(--creme);
+    padding:140px 36px;
+    position:relative;
+    overflow:hidden;
+  }
+  .play-section::before{
+    content:"";position:absolute;
+    top:10%;left:-10%;
+    width:40%;height:60%;
+    background:radial-gradient(circle, rgba(112,173,71,.2), transparent 65%);
+    pointer-events:none;
+  }
+  .play-section .section-tag{color:var(--vert)}
+  .play-section .section-tag::before{color:var(--rose)}
+  .play-section h2.section-title{color:var(--creme)}
+  .play-section h2.section-title em{color:var(--rose)}
+  .play-section .section-lead{color:rgba(245,239,228,.78)}
+
+  .play-grid{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:60px;
+    margin-top:60px;
+    align-items:center;
+  }
+  .phone-frame{
+    width:340px;
+    height:680px;
+    background:#0a0d18;
+    border-radius:48px;
+    padding:14px;
+    box-shadow:
+      0 0 0 8px #1a1f30,
+      0 0 0 9px #2a3043,
+      0 40px 80px -30px rgba(212,140,168,.4),
+      0 30px 60px -30px rgba(0,0,0,.8);
+    position:relative;
+    margin:0 auto;
+  }
+  .phone-frame::before{
+    content:"";
+    position:absolute;
+    top:24px;left:50%;
+    transform:translateX(-50%);
+    width:100px;height:24px;
+    background:#0a0d18;
+    border-radius:14px;
+    z-index:5;
+  }
+  .phone-screen{
+    width:100%;height:100%;
+    border-radius:36px;
+    overflow:hidden;
+    background:#fff;
+    position:relative;
+  }
+  .phone-screen iframe{
+    width:100%;height:100%;
+    border:0;
+    display:block;
+  }
+  .play-text h2{margin-bottom:24px}
+  .play-text p{
+    font-size:1.1rem;
+    color:rgba(245,239,228,.85);
+    margin-bottom:18px;
+    max-width:520px;
+  }
+  .play-features{
+    display:flex;flex-direction:column;gap:14px;
+    margin-top:28px;
+  }
+  .play-feature{
+    display:flex;align-items:center;gap:14px;
+    font-size:.95rem;
+    color:rgba(245,239,228,.9);
+  }
+  .play-feature .marker{
+    width:10px;height:10px;border-radius:2px;
+    flex-shrink:0;transform:rotate(45deg);
+  }
+  .play-feature:nth-child(1) .marker{background:var(--rose)}
+  .play-feature:nth-child(2) .marker{background:var(--vert)}
+  .play-feature:nth-child(3) .marker{background:var(--kaki)}
+  @media (max-width:980px){
+    .play-grid{grid-template-columns:1fr;gap:40px}
+    .phone-frame{transform:scale(.85);transform-origin:top center}
+  }
+
+  /* ---------- VIDEO COFONDATEUR ---------- */
+  .video-section{
+    background:var(--creme);
+    padding:140px 36px;
+  }
+  .video-grid{
+    display:grid;
+    grid-template-columns:1fr 1.3fr;
+    gap:60px;
+    align-items:center;
+  }
+  .video-wrap{
+    position:relative;
+    aspect-ratio:16/9;
+    border-radius:24px;
+    overflow:hidden;
+    background:var(--bleu-deep);
+    box-shadow:0 30px 60px -30px rgba(48,85,152,.5);
+  }
+  .video-wrap iframe{
+    position:absolute;inset:0;
+    width:100%;height:100%;border:0;
+  }
+  .video-deco{
+    position:absolute;
+    top:-30px;right:-30px;
+    width:120px;height:120px;
+    background:var(--rose-vif);
+    border-radius:50%;
+    z-index:-1;
+    opacity:.7;
+  }
+  .video-deco-2{
+    position:absolute;
+    bottom:-25px;left:-25px;
+    width:90px;height:90px;
+    background:var(--vert);
+    border-radius:24px;
+    z-index:-1;
+    transform:rotate(15deg);
+  }
+  .video-text .author{
+    display:flex;align-items:center;gap:14px;
+    margin-top:30px;
+    padding-top:30px;
+    border-top:1.5px solid rgba(48,85,152,.15);
+  }
+  .video-text .author-avatar{
+    width:48px;height:48px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--bleu),var(--rose-vif));
+    color:var(--blanc);
+    font-family:var(--ff-display);
+    font-weight:800;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.1rem;
+  }
+  .video-text .author-info strong{
+    display:block;color:var(--bleu-deep);font-weight:700;
+  }
+  .video-text .author-info span{font-size:.85rem;color:#5a6177}
+
+  @media (max-width:980px){.video-grid{grid-template-columns:1fr;gap:40px}}
+
+  /* ---------- TEMOIGNAGES ---------- */
+  .temoignages{
+    background:var(--vert-deep);
+    color:var(--creme);
+    padding:140px 36px;
+    position:relative;
+    overflow:hidden;
+  }
+  .temoignages::before{
+    content:"";position:absolute;
+    top:-30%;right:-15%;
+    width:60%;height:140%;
+    background:radial-gradient(circle, rgba(212,140,168,.25), transparent 60%);
+    pointer-events:none;
+  }
+  .temoignages .section-tag{color:var(--rose)}
+  .temoignages .section-tag::before{color:var(--creme)}
+  .temoignages h2.section-title{color:var(--creme)}
+  .temoignages h2.section-title em{color:var(--rose)}
+
+  .temoignages-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:30px;
+    margin-top:60px;
+    position:relative;z-index:2;
+  }
+  .tem-card{
+    background:rgba(245,239,228,.06);
+    border:1px solid rgba(245,239,228,.18);
+    border-radius:24px;
+    padding:40px;
+    transition:all .4s;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    position:relative;
+  }
+  .tem-card:hover{
+    background:rgba(245,239,228,.1);
+    transform:translateY(-6px);
+  }
+  .tem-card .quote-mark{
+    font-family:var(--ff-display);
+    font-size:5rem;
+    line-height:.7;
+    color:var(--rose);
+    font-style:italic;
+    margin-bottom:10px;
+    display:block;
+  }
+  .tem-card blockquote{
+    font-family:var(--ff-display);
+    font-size:1.25rem;
+    line-height:1.45;
+    color:var(--creme);
+    font-weight:500;
+    margin-bottom:24px;
+  }
+  .tem-card cite{
+    font-style:normal;
+    display:flex;align-items:center;gap:12px;
+  }
+  .tem-card .tem-avatar{
+    width:42px;height:42px;
+    border-radius:50%;
+    background:var(--rose-vif);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--blanc);
+    font-weight:700;
+    font-family:var(--ff-display);
+    font-size:1rem;
+  }
+  .tem-card cite strong{
+    display:block;color:var(--creme);font-weight:700;font-size:.95rem;
+  }
+  .tem-card cite span{
+    font-size:.82rem;
+    color:rgba(245,239,228,.7);
+  }
+  @media (max-width:780px){.temoignages-grid{grid-template-columns:1fr}}
+
+  /* ---------- ACTUALITES CAROUSSEL ---------- */
+  .actus{
+    background:var(--creme);
+    padding:140px 36px 100px;
+  }
+  .actus-header{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    margin-bottom:60px;
+    gap:30px;flex-wrap:wrap;
+  }
+  .actus-controls{display:flex;gap:12px}
+  .ctrl-btn{
+    width:54px;height:54px;
+    border-radius:50%;
+    background:transparent;
+    border:2px solid var(--bleu-deep);
+    color:var(--bleu-deep);
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:all .25s;
+  }
+  .ctrl-btn:hover:not(:disabled){background:var(--bleu-deep);color:var(--creme)}
+  .ctrl-btn:disabled{opacity:.3;cursor:not-allowed}
+  .ctrl-btn svg{width:20px;height:20px}
+
+  .carousel-viewport{
+    overflow:hidden;
+    margin:0 -16px;
+    padding:8px 16px 30px;
+  }
+  .carousel-track{
+    display:flex;
+    gap:24px;
+    transition:transform .55s cubic-bezier(.4,.0,.2,1);
+  }
+  .actu-card{
+    flex:0 0 calc((100% - 48px)/3);
+    background:var(--blanc);
+    border-radius:22px;
+    overflow:hidden;
+    border:1.5px solid rgba(48,85,152,.08);
+    transition:all .35s;
+    cursor:pointer;
+    display:flex;flex-direction:column;
+  }
+  .actu-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 28px 50px -25px rgba(48,85,152,.3);
+    border-color:transparent;
+  }
+  .actu-img{
+    aspect-ratio:16/10;
+    background:linear-gradient(135deg,var(--bleu),var(--rose-vif));
+    overflow:hidden;
+    position:relative;
+  }
+  .actu-img img{
+    width:100%;height:100%;object-fit:cover;
+    transition:transform .6s;
+  }
+  .actu-card:hover .actu-img img{transform:scale(1.06)}
+  .actu-img-fallback{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--blanc);
+    font-family:var(--ff-display);
+    font-weight:800;
+    font-size:3rem;
+    opacity:.4;
+  }
+  .actu-body{padding:24px;flex:1;display:flex;flex-direction:column;gap:12px}
+  .actu-date{
+    font-size:.78rem;
+    font-weight:700;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--rose-vif);
+  }
+  .actu-card h3{
+    font-family:var(--ff-display);
+    font-size:1.3rem;
+    font-weight:700;
+    color:var(--bleu-deep);
+    line-height:1.2;
+  }
+  .actu-card p{
+    font-size:.93rem;
+    color:#3a4054;
+    line-height:1.55;
+    flex:1;
+  }
+  .actu-link{
+    margin-top:8px;
+    font-weight:700;
+    color:var(--bleu);
+    font-size:.88rem;
+    display:inline-flex;align-items:center;gap:6px;
+    text-decoration:none;
+  }
+  .actu-card-empty{
+    flex:0 0 100%;
+    text-align:center;
+    padding:60px 30px;
+    color:#5a6177;
+    font-style:italic;
+  }
+  @media (max-width:980px){
+    .actu-card{flex:0 0 calc((100% - 24px)/2)}
+  }
+  @media (max-width:680px){
+    .actu-card{flex:0 0 100%}
+  }
+
+  /* ---------- CONTACT / CTA FINAL ---------- */
+  .contact{
+    background:var(--noir);
+    color:var(--creme);
+    padding:140px 36px;
+    position:relative;
+    overflow:hidden;
+  }
+  .contact::before{
+    content:"";position:absolute;
+    bottom:-40%;left:-20%;
+    width:70%;height:140%;
+    background:radial-gradient(circle, rgba(48,85,152,.4), transparent 60%);
+    pointer-events:none;
+  }
+  .contact::after{
+    content:"";position:absolute;
+    top:-30%;right:-20%;
+    width:60%;height:120%;
+    background:radial-gradient(circle, rgba(212,140,168,.25), transparent 60%);
+    pointer-events:none;
+  }
+  .contact-wrap{position:relative;z-index:2;max-width:1100px;margin:0 auto}
+  .contact h2{
+    font-family:var(--ff-display);
+    font-weight:800;
+    font-size:clamp(2.5rem, 6vw, 5.5rem);
+    line-height:.98;
+    letter-spacing:-.02em;
+    color:var(--creme);
+    margin-bottom:50px;
+    max-width:900px;
+  }
+  .contact h2 em{
+    font-style:italic;
+    font-weight:600;
+    color:var(--rose);
+  }
+  .contact-phones{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    margin:50px 0;
+  }
+  .phone-card{
+    background:rgba(245,239,228,.06);
+    border:1px solid rgba(245,239,228,.15);
+    border-radius:18px;
+    padding:24px 28px;
+    text-decoration:none;
+    color:var(--creme);
+    display:flex;flex-direction:column;gap:6px;
+    transition:all .3s;
+  }
+  .phone-card:hover{
+    background:var(--rose-vif);
+    border-color:var(--rose-vif);
+    transform:translateY(-4px);
+  }
+  .phone-card .label{
+    font-size:.75rem;
+    font-weight:700;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:rgba(245,239,228,.6);
+  }
+  .phone-card:hover .label{color:rgba(255,255,255,.85)}
+  .phone-card .number{
+    font-family:var(--ff-display);
+    font-size:1.5rem;
+    font-weight:700;
+    letter-spacing:-.01em;
+  }
+  .contact-hours{
+    font-size:.95rem;
+    color:rgba(245,239,228,.7);
+    margin-bottom:30px;
+  }
+  .contact-hours strong{color:var(--vert)}
+  @media (max-width:780px){.contact-phones{grid-template-columns:1fr}}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--noir);
+    color:rgba(245,239,228,.5);
+    padding:40px 36px;
+    border-top:1px solid rgba(245,239,228,.08);
+    text-align:center;
+    font-size:.85rem;
+  }
+  footer strong{color:var(--creme)}
+
+  /* ---------- UTILS ---------- */
+  audio{display:none}
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="logo">Lien<em>·</em><span>pour l'autre</span></div>
-  <div class="nav-links">
-    <a href="#modele">Le modèle</a>
-    <a href="#experience">L'expérience</a>
-    <a href="#temoignages">Témoignages</a>
-    <a href="#contact" class="nav-cta">Nous contacter</a>
-  </div>
+<!-- ============ NAV ============ -->
+<nav class="top" id="topnav">
+  <a href="#" class="brand">
+    <svg class="brand-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g fill="none" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 50 Q35 25, 50 50 T80 50" stroke="#305598"/>
+        <path d="M20 60 Q35 35, 50 60 T80 60" stroke="#d48ca8"/>
+        <path d="M20 40 Q35 65, 50 40 T80 40" stroke="#70ad47"/>
+        <circle cx="50" cy="50" r="4" fill="#998856" stroke="none"/>
+      </g>
+    </svg>
+    <span>lienpourl'autre</span>
+  </a>
+  <ul class="nav-links" id="navlinks">
+    <li><a href="#manifeste">Manifeste</a></li>
+    <li><a href="#mecanique">Mécanique</a></li>
+    <li><a href="#video">Le mot du fondateur</a></li>
+    <li><a href="#temoignages">Témoignages</a></li>
+    <li><a href="#actus">Actualités</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Nous joindre</a>
+  <button class="burger" aria-label="Menu" id="burger"><span></span><span></span><span></span></button>
 </nav>
 
 <!-- ============ HERO ============ -->
 <section class="hero">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
   <div class="hero-content">
-    <div class="eyebrow">
-      <span class="dot"></span>
-      Habitat inclusif · Modèle API · Rapport Piveteau-Wolfrom
-    </div>
-    <h1>
-      Transformer la <span class="stroke">vulnérabilité</span><br>
-      en <em>force collective.</em>
+    <div class="hero-eyebrow">Habitat inclusif · Coliving solidaire</div>
+    <h1 class="hero-title" id="hero-title">
+      <span class="word" style="animation-delay:.1s">Vivre</span>
+      <span class="word" style="animation-delay:.2s">ensemble,</span><br>
+      <span class="word" style="animation-delay:.35s">c'est</span>
+      <em><span class="word" style="animation-delay:.5s">se</span> <span class="word" style="animation-delay:.6s">relier</span></em><br>
+      <span class="word" style="animation-delay:.75s">autrement.</span>
     </h1>
     <p class="hero-lead">
-      Lienpourlautre crée des colocations inclusives où jeunes, seniors, actifs et personnes en reconstruction vivent ensemble. La complémentarité de leurs parcours devient un filet de sécurité — et une nouvelle façon d'habiter.
+      Lienpourl'autre invente le coliving qui transforme la vulnérabilité en force collective. Des cellules de vie pensées, équilibrées, contractualisées — où la différence devient le moteur.
     </p>
-    <div class="hero-cta">
-      <a href="#experience" class="btn-primary">
-        Essayer le jeu Lien pour l'autre
-        <span>→</span>
+    <div class="hero-ctas">
+      <a href="#manifeste" class="btn btn-primary">
+        Découvrir le modèle
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
       </a>
-      <a href="#modele" class="btn-secondary">Découvrir le modèle</a>
+      <a href="#podcast" class="btn btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        Écouter le podcast
+      </a>
     </div>
-
-    <div class="hero-stats">
-      <div>
-        <div class="stat-num"><em>4</em> profils</div>
-        <div class="stat-label">complémentaires par cellule de vie partagée</div>
-      </div>
-      <div>
-        <div class="stat-num"><em>1</em> charte</div>
-        <div class="stat-label">de vie commune co-construite par les habitants</div>
-      </div>
-      <div>
-        <div class="stat-num">24/7</div>
-        <div class="stat-label">veille de proximité entre colocataires</div>
-      </div>
-      <div>
-        <div class="stat-num"><em>0</em> isolement</div>
-        <div class="stat-label">objectif central du modèle inclusif</div>
-      </div>
-    </div>
+  </div>
+  <div class="hero-visual" aria-hidden="true">
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#305598"/>
+          <stop offset="100%" stop-color="#1e3a6f"/>
+        </linearGradient>
+      </defs>
+      <!-- Maison stylisée -->
+      <g>
+        <rect x="100" y="180" width="200" height="180" rx="14" fill="url(#grad1)"/>
+        <polygon points="80,180 200,80 320,180" fill="#d48ca8"/>
+        <rect x="180" y="240" width="40" height="120" fill="#f5efe4"/>
+        <rect x="135" y="220" width="35" height="35" fill="#70ad47" rx="4"/>
+        <rect x="230" y="220" width="35" height="35" fill="#998856" rx="4"/>
+        <circle cx="200" cy="140" r="10" fill="#f5efe4"/>
+      </g>
+      <!-- Personnages stylisés autour -->
+      <g>
+        <circle cx="60" cy="280" r="22" fill="#70ad47"/>
+        <rect x="42" y="295" width="36" height="50" rx="10" fill="#70ad47"/>
+      </g>
+      <g>
+        <circle cx="340" cy="280" r="22" fill="#d48ca8"/>
+        <rect x="322" y="295" width="36" height="50" rx="10" fill="#d48ca8"/>
+      </g>
+      <g>
+        <circle cx="200" cy="385" r="0" fill="#998856"/>
+      </g>
+      <!-- Liens (brins) -->
+      <g fill="none" stroke-width="4" stroke-linecap="round" opacity=".55">
+        <path d="M82,275 Q120,250 140,280" stroke="#305598"/>
+        <path d="M320,275 Q280,250 260,280" stroke="#305598"/>
+      </g>
+    </svg>
+    <div class="float-card fc-1"><span class="dot"></span>Mixité réussie</div>
+    <div class="float-card fc-2"><span class="dot"></span>Charte commune</div>
+    <div class="float-card fc-3"><span class="dot"></span>Veille bienveillante</div>
   </div>
 </section>
 
-<!-- ============ PROBLÈME ============ -->
-<section class="problem section-pad">
-  <div class="container">
-    <div class="reveal">
-      <div class="section-eyebrow">Le constat</div>
-      <h2 class="section-title">L'isolement coûte plus cher que <em>la solidarité.</em></h2>
-    </div>
-    <div class="problem-grid">
-      <div class="problem-text reveal">
-        <p>
-          <strong>La précarité et l'isolement social s'aggravent.</strong> Les services médico-sociaux, débordés, ne peuvent plus garantir un suivi de proximité — surtout depuis la crise du COVID, qui a montré les limites de l'accompagnement à distance.
-        </p>
-        <p>
-          Les structures traditionnelles gèrent la vulnérabilité comme un problème uniforme. Lienpourlautre fait le pari inverse : <strong>les fragilités des uns peuvent être compensées par les forces des autres.</strong>
-        </p>
-        <p>
-          Un senior apporte expérience et stabilité. Un jeune accompagne sur le numérique. Un profil stable structure. Une personne en transition trouve un cadre. Personne n'est seulement « accueilli » — chacun est <strong>acteur</strong>.
-        </p>
-      </div>
-      <div class="problem-visual reveal">
-        <div class="figure-card figure-1">
-          <div class="figure-face">👵</div>
-          <div class="figure-name">Maurice, 65</div>
-          <div class="figure-detail">Senior · Expérience</div>
-        </div>
-        <div class="figure-card figure-2">
-          <div class="figure-face">🧑</div>
-          <div class="figure-name">Léa, 24</div>
-          <div class="figure-detail">Jeune · Numérique</div>
-        </div>
-        <div class="figure-card figure-3">
-          <div class="figure-face">👨</div>
-          <div class="figure-name">Paul, 62</div>
-          <div class="figure-detail">Propriétaire · Stable</div>
-        </div>
-      </div>
-    </div>
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Habitat inclusif <span class="sep">✦</span> Intergénérationnel <span class="sep">✦</span> Coliving solidaire <span class="sep">✦</span> Charte de vie commune <span class="sep">✦</span> Modèle API <span class="sep">✦</span></span>
+    <span>Habitat inclusif <span class="sep">✦</span> Intergénérationnel <span class="sep">✦</span> Coliving solidaire <span class="sep">✦</span> Charte de vie commune <span class="sep">✦</span> Modèle API <span class="sep">✦</span></span>
   </div>
-</section>
+</div>
 
-<!-- ============ MODÈLE ============ -->
-<section class="model section-pad" id="modele">
+<!-- ============ MANIFESTE ============ -->
+<section class="manifeste" id="manifeste">
   <div class="container">
-    <div class="reveal">
-      <div class="section-eyebrow">Le modèle</div>
-      <h2 class="section-title">Trois piliers, une <em>cellule de vie.</em></h2>
-      <p class="section-lead">
-        Une approche inspirée du rapport Piveteau-Wolfrom (modèle API : Accompagné, Partagé, Inséré) qui transforme le logement en levier d'autonomie durable.
+    <div class="section-head reveal">
+      <div class="section-tag">Notre manifeste</div>
+      <h2 class="section-title">La précarité n'est pas une fatalité —<br>c'est une <em>équation collective</em>.</h2>
+      <p class="section-lead" style="color:rgba(245,239,228,.78)">
+        Nous refusons la gestion uniforme de la pauvreté. Nous croyons à la complémentarité des parcours, à la force des différences, à l'utilité partagée. Trois principes guident chaque colocation.
       </p>
     </div>
-
-    <div class="pillars">
-      <div class="pillar reveal">
-        <div class="pillar-num">— 01 / Sélection</div>
-        <div class="pillar-icon">🤝</div>
-        <h3>Constitution<br>des cellules</h3>
-        <p>
-          Sélection rigoureuse des profils selon leurs besoins et apports potentiels. L'équilibre de la colocation se joue dès la composition — pas par hasard.
-        </p>
+    <div class="manifeste-grid">
+      <div class="manifeste-card reveal">
+        <span class="num">01</span>
+        <h3>Une rencontre choisie, pas subie</h3>
+        <p>Chaque cellule de vie est composée selon les besoins et les apports de chacun. Un senior et un jeune. Un actif et une personne en reconstruction. Là où d'autres voient un déséquilibre, nous orchestrons un équilibre.</p>
       </div>
-      <div class="pillar reveal">
-        <div class="pillar-num">— 02 / Mobilisation</div>
-        <div class="pillar-icon">🏠</div>
-        <h3>Logements<br>solidaires</h3>
-        <p>
-          Recherche de propriétaires bailleurs (participants ou non à la colocation) et aménagement de logements adaptés à la vie partagée.
-        </p>
+      <div class="manifeste-card reveal">
+        <span class="num">02</span>
+        <h3>Une charte construite ensemble</h3>
+        <p>La cohabitation ne se décrète pas, elle se contractualise. Chaque membre devient acteur de sa vie en communauté : la charte de vie commune cadre les responsabilités, les usages et la confiance.</p>
       </div>
-      <div class="pillar reveal">
-        <div class="pillar-num">— 03 / Accompagnement</div>
-        <div class="pillar-icon">✨</div>
-        <h3>Charte de<br>vie commune</h3>
-        <p>
-          Construite collectivement, elle définit interactions et responsabilités. Le coordinateur facilite, médie, et oriente vers des partenaires experts si besoin.
-        </p>
+      <div class="manifeste-card reveal">
+        <span class="num">03</span>
+        <h3>Une vigilance bienveillante</h3>
+        <p>La proximité physique permet une attention constante. Détection précoce des fragilités, médiation de premier niveau, escalade adaptée vers les services spécialisés quand c'est nécessaire.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ JEU ============ -->
-<section class="game-section section-pad" id="experience">
+<!-- ============ PODCAST ============ -->
+<section class="podcast-section" id="podcast">
   <div class="container">
-    <div class="game-intro reveal">
-      <div class="section-eyebrow">L'expérience</div>
-      <h2 class="section-title">Et si vous <em>jouiez</em> au coordinateur ?</h2>
+    <div class="podcast-wrap">
+      <div class="podcast-card reveal">
+        <div class="podcast-label">▶ Podcast · Épisode 01</div>
+        <div class="podcast-title">L'histoire de Lienpourl'autre, racontée par ses fondateurs.</div>
+        <div class="podcast-meta">
+          <span>🎧 Audio original</span>
+          <span>⏱ ~6 min</span>
+          <span>🇫🇷 Français</span>
+        </div>
+        <div class="player">
+          <div class="player-top">
+            <button class="play-btn" id="play-btn" aria-label="Lecture du podcast">
+              <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <div class="waveform" id="waveform">
+              <div class="bar" style="height:30%"></div>
+              <div class="bar" style="height:60%"></div>
+              <div class="bar" style="height:45%"></div>
+              <div class="bar" style="height:80%"></div>
+              <div class="bar" style="height:35%"></div>
+              <div class="bar" style="height:55%"></div>
+              <div class="bar" style="height:70%"></div>
+              <div class="bar" style="height:40%"></div>
+              <div class="bar" style="height:65%"></div>
+              <div class="bar" style="height:50%"></div>
+              <div class="bar" style="height:75%"></div>
+              <div class="bar" style="height:45%"></div>
+              <div class="bar" style="height:60%"></div>
+              <div class="bar" style="height:35%"></div>
+              <div class="bar" style="height:55%"></div>
+            </div>
+          </div>
+          <div class="progress-row">
+            <span id="time-current">0:00</span>
+            <div class="progress" id="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+            <span id="time-total">--:--</span>
+          </div>
+        </div>
+        <audio id="podcast-audio" preload="metadata">
+          <source src="podcast.mp3" type="audio/mpeg">
+        </audio>
+      </div>
+      <div class="podcast-text reveal">
+        <div class="section-tag">À l'oreille</div>
+        <h2 class="section-title">Six minutes pour <em>comprendre</em> ce qui nous anime.</h2>
+        <p>Avant de lire, écoutez. Les fondateurs racontent la genèse du projet, les déclics du terrain, et comment l'habitat partagé est devenu une réponse concrète à l'isolement.</p>
+        <div class="quote">« On ne soigne pas l'isolement avec un appel. On le soigne avec une présence. »</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MECANIQUE ============ -->
+<section class="mecanique" id="mecanique">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Comment ça marche</div>
+      <h2 class="section-title">Une mécanique <em>fine</em>,<br>quatre leviers articulés.</h2>
       <p class="section-lead">
-        Composez des colocations inclusives en associant des profils complémentaires. Trouvez l'équilibre, mobilisez nos partenaires, faites grandir votre impact. Un jeu pour comprendre notre métier — en quelques minutes.
+        Lienpourl'autre opère comme une plateforme de coordination entre propriétaires, locataires et partenaires sociaux. Chaque colocation est le résultat d'un travail d'orchestration patient.
       </p>
     </div>
-
-    <div class="game-wrapper reveal">
-      <iframe class="game-frame" src="game.html" title="Jeu Lien pour l'autre"></iframe>
+    <div class="duo-grid">
+      <div class="duo-card reveal">
+        <div class="duo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="9" r="3.5"/><circle cx="17" cy="11" r="2.5"/><path d="M3 19c0-3.5 2.7-5 6-5s6 1.5 6 5"/><path d="M14 19c0-2 1.5-3.5 3.5-3.5S21 17 21 19"/></svg></div>
+        <h3>Constitution des cellules</h3>
+        <p>Sélection rigoureuse des profils selon leurs besoins et leurs apports potentiels. L'équilibre n'est pas un hasard, c'est une architecture humaine.</p>
+        <div class="tag-line">→ Profils complémentaires</div>
+      </div>
+      <div class="duo-card reveal">
+        <div class="duo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 21V10l9-7 9 7v11"/><path d="M9 21v-8h6v8"/></svg></div>
+        <h3>Mobilisation immobilière</h3>
+        <p>Recherche de propriétaires bailleurs — participants ou non à la colocation — et aménagement de logements pensés pour l'usage partagé.</p>
+        <div class="tag-line">→ Logements adaptés</div>
+      </div>
+      <div class="duo-card reveal">
+        <div class="duo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 21V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13"/><path d="M8 21V12h8v9"/><circle cx="12" cy="16" r="1.2" fill="currentColor"/></svg></div>
+        <h3>Encadrement structurant</h3>
+        <p>Accompagnement social, médiation, facilitation de la charte de vie. Un coordinateur dédié assure la fluidité du quotidien et anticipe les frictions.</p>
+        <div class="tag-line">→ Médiation continue</div>
+      </div>
+      <div class="duo-card reveal">
+        <div class="duo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div>
+        <h3>Coordination experte</h3>
+        <p>Partenariats avec des associations spécialisées pour assurer la viabilité de la mixité sociale. Personne ne porte le projet seul.</p>
+        <div class="tag-line">→ Écosystème solidaire</div>
+      </div>
     </div>
-    <p class="game-caption">Astuce : associez deux profils qui partagent une valeur commune (même couleur de trait).</p>
   </div>
 </section>
 
-<!-- ============ TÉMOIGNAGES ============ -->
-<section class="stories section-pad" id="temoignages">
+<!-- ============ GAME ============ -->
+<section class="play-section">
   <div class="container">
-    <div class="reveal">
-      <div class="section-eyebrow">Témoignages</div>
-      <h2 class="section-title">Des parcours <em>croisés.</em></h2>
+    <div class="section-head reveal">
+      <div class="section-tag">Expérience interactive</div>
+      <h2 class="section-title">Deux minutes en colocation —<br><em>vivez l'expérience</em>.</h2>
+      <p class="section-lead">
+        Un mini-jeu mobile pour ressentir ce que veut dire « cellule de vie partagée ». Décidez, dialoguez, créez du lien. Format portrait, pensé pour le téléphone — joue directement depuis la page.
+      </p>
     </div>
+    <div class="play-grid">
+      <div class="phone-frame reveal">
+        <div class="phone-screen">
+          <iframe src="game.html" title="Mini-jeu Lienpourl'autre" loading="lazy" allow="autoplay"></iframe>
+        </div>
+      </div>
+      <div class="play-text reveal">
+        <h2 class="section-title">Apprendre en <em>jouant</em>.</h2>
+        <p>Le jeu raconte une journée type en colocation Lienpourl'autre. Vos choix révèlent les mécaniques d'entraide, les bénéfices croisés, et la valeur d'une charte vivante.</p>
+        <div class="play-features">
+          <div class="play-feature"><span class="marker"></span>Format vertical, jouable au pouce</div>
+          <div class="play-feature"><span class="marker"></span>Scénarios inspirés de vraies colocations</div>
+          <div class="play-feature"><span class="marker"></span>2 minutes pour comprendre l'essentiel</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <div class="stories-grid">
-      <div class="story-card reveal">
-        <p class="story-quote">
-          L'engagement et la compréhension de mon colocataire, pourtant issu d'un horizon très différent du mien, me permettent de traverser des périodes difficiles. On ne s'attendait pas, mais on s'apporte.
+<!-- ============ VIDEO ============ -->
+<section class="video-section" id="video">
+  <div class="container">
+    <div class="video-grid">
+      <div class="video-text reveal">
+        <div class="section-tag">Le mot du cofondateur</div>
+        <h2 class="section-title">Une <em>parole</em>,<br>face caméra.</h2>
+        <p style="font-size:1.1rem;color:#3a4054;margin-top:20px;line-height:1.65">
+          Pourquoi avoir créé Lienpourl'autre ? Quelles convictions portent le projet au quotidien ? Une réponse directe, sans détour, par l'un de ses cofondateurs.
         </p>
-        <div class="story-author">
-          <div class="story-avatar">👴</div>
-          <div class="story-meta">
-            <span class="story-name">Maurice, 65 ans</span>
-            <span class="story-role">Colocataire senior</span>
+        <div class="author">
+          <div class="author-avatar">LP</div>
+          <div class="author-info">
+            <strong>Lienpourl'autre</strong>
+            <span>Témoignage cofondateur · YouTube</span>
           </div>
         </div>
       </div>
-
-      <div class="story-card reveal">
-        <p class="story-quote">
-          J'avais des appréhensions sur la vie collective. Mais des profils complémentaires créent un équilibre que je n'imaginais pas. Aujourd'hui, c'est un projet de vie autant qu'un projet immobilier.
-        </p>
-        <div class="story-author">
-          <div class="story-avatar">👨</div>
-          <div class="story-meta">
-            <span class="story-name">Paul, 62 ans</span>
-            <span class="story-role">Propriétaire participant</span>
-          </div>
+      <div style="position:relative" class="reveal">
+        <div class="video-deco"></div>
+        <div class="video-deco-2"></div>
+        <div class="video-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/Ch5wrxZMyCI?rel=0"
+            title="Message du cofondateur"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ CTA FINAL ============ -->
-<section class="cta-final section-pad" id="contact">
+<!-- ============ TEMOIGNAGES ============ -->
+<section class="temoignages" id="temoignages">
   <div class="container">
-    <div class="reveal">
-      <div class="section-eyebrow" style="color: var(--accent-soft);">Rejoindre le mouvement</div>
-      <h2 class="section-title">Vous avez un logement, du temps, ou <em>un besoin ?</em></h2>
-      <p class="section-lead">
-        Que vous soyez bailleur, futur colocataire, partenaire associatif ou simplement curieux — parlons-en.
-      </p>
+    <div class="section-head reveal">
+      <div class="section-tag">Ils en parlent mieux que nous</div>
+      <h2 class="section-title">La force des <em>différences</em>,<br>racontée par ceux qui la vivent.</h2>
     </div>
+    <div class="temoignages-grid">
+      <div class="tem-card reveal">
+        <span class="quote-mark">"</span>
+        <blockquote>Mon colocataire est très différent de moi ; dans un autre contexte, peut-être que nous ne serions pas devenus amis. Par contre, son engagement à mes côtés et sa compréhension me permettent de me soulager dans la période difficile que je traverse.</blockquote>
+        <cite>
+          <div class="tem-avatar">M</div>
+          <div>
+            <strong>Maurice, 65 ans</strong>
+            <span>Colocataire en cellule de vie</span>
+          </div>
+        </cite>
+      </div>
+      <div class="tem-card reveal">
+        <span class="quote-mark">"</span>
+        <blockquote>Même si au départ j'étais plutôt confiant, j'appréhendais un peu cette vie collective. Mais finalement, nos profils plutôt complémentaires ont créé un équilibre bénéfique à tous.</blockquote>
+        <cite>
+          <div class="tem-avatar" style="background:var(--vert)">P</div>
+          <div>
+            <strong>Paul, 62 ans</strong>
+            <span>Propriétaire participant</span>
+          </div>
+        </cite>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <div class="cta-grid">
-      <a href="tel:+33671039373" class="cta-card reveal">
-        <div class="cta-card-icon">📞</div>
-        <h4>Nous appeler</h4>
-        <p>06 71 03 93 73<br>Du lundi au samedi · 9h30 — 19h</p>
+<!-- ============ ACTUALITES ============ -->
+<section class="actus" id="actus">
+  <div class="container">
+    <div class="actus-header reveal">
+      <div>
+        <div class="section-tag">Actualités</div>
+        <h2 class="section-title">Ce qui <em>bouge</em><br>en ce moment.</h2>
+      </div>
+      <div class="actus-controls">
+        <button class="ctrl-btn" id="prev-btn" aria-label="Précédent">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="ctrl-btn" id="next-btn" aria-label="Suivant">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="carousel-viewport">
+      <div class="carousel-track" id="carousel-track">
+        <div class="actu-card-empty">Chargement des actualités…</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="contact-wrap">
+    <div class="section-tag" style="color:var(--rose)">Parlons-en</div>
+    <h2>Un projet, une question,<br>un logement à partager —<br><em>on décroche.</em></h2>
+    <p class="contact-hours">
+      Notre équipe est joignable <strong>de 9h30 à 19h</strong>, du lundi au samedi.
+    </p>
+    <div class="contact-phones">
+      <a href="tel:+33671039373" class="phone-card">
+        <span class="label">Ligne 1</span>
+        <span class="number">06 71 03 93 73</span>
       </a>
-      <a href="mailto:contact@lienpourlautre.com" class="cta-card reveal">
-        <div class="cta-card-icon">✉️</div>
-        <h4>Nous écrire</h4>
-        <p>Une question, un projet, une candidature à la colocation ?</p>
+      <a href="tel:+33561818981" class="phone-card">
+        <span class="label">Ligne 2</span>
+        <span class="number">05 61 81 89 81</span>
       </a>
-      <a href="#" class="cta-card reveal">
-        <div class="cta-card-icon">🏠</div>
-        <h4>Proposer un logement</h4>
-        <p>Devenir bailleur solidaire, avec ou sans participation à la colocation.</p>
-      </a>
-      <a href="#" class="cta-card reveal">
-        <div class="cta-card-icon">🤝</div>
-        <h4>Devenir partenaire</h4>
-        <p>Association, collectivité, entreprise : construisons ensemble.</p>
+      <a href="tel:+33637136798" class="phone-card">
+        <span class="label">Ligne 3</span>
+        <span class="number">06 37 13 67 98</span>
       </a>
     </div>
+    <p style="color:rgba(245,239,228,.6);font-size:.9rem;margin-top:30px">
+      Vous êtes propriétaire d'un logement, professionnel du médico-social, ou cherchez une place en colocation solidaire ? Tous les profils sont les bienvenus.
+    </p>
   </div>
 </section>
 
 <!-- ============ FOOTER ============ -->
 <footer>
-  <div class="footer-content">
-    <div class="footer-col">
-      <h5>Lien pour l'autre</h5>
-      <p>Habitat inclusif et coliving solidaire.<br>Une réponse concrète à la précarité et à l'isolement social.</p>
-    </div>
-    <div class="footer-col">
-      <h5>Nous joindre</h5>
-      <a href="tel:+33671039373">06 71 03 93 73</a>
-      <a href="tel:+33561818981">05 61 81 89 81</a>
-      <a href="tel:+33637136798">06 37 13 67 98</a>
-    </div>
-    <div class="footer-col">
-      <h5>Plan du site</h5>
-      <a href="#modele">Le modèle</a>
-      <a href="#experience">L'expérience</a>
-      <a href="#temoignages">Témoignages</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2026 Lienpourlautre — Tous droits réservés</span>
-    <span>Inspiré du rapport Piveteau-Wolfrom · Modèle API</span>
-  </div>
+  © 2026 <strong>Lienpourl'autre</strong> · Habitat inclusif & coliving solidaire · Modèle API (Accompagné · Partagé · Inséré)
 </footer>
 
 <script>
-  // Scroll reveal
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('in');
-        observer.unobserve(e.target);
-      }
+/* ====== NAV : burger + hide-on-scroll ====== */
+const burger = document.getElementById('burger');
+const navlinks = document.getElementById('navlinks');
+const topnav = document.getElementById('topnav');
+burger.addEventListener('click', () => navlinks.classList.toggle('open'));
+navlinks.addEventListener('click', e => {
+  if (e.target.tagName === 'A') navlinks.classList.remove('open');
+});
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  if (y > 200 && y > lastScroll) topnav.classList.add('hidden');
+  else topnav.classList.remove('hidden');
+  lastScroll = y;
+});
+
+/* ====== REVEAL ON SCROLL ====== */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ====== PODCAST PLAYER ====== */
+const audio = document.getElementById('podcast-audio');
+const playBtn = document.getElementById('play-btn');
+const playIcon = document.getElementById('play-icon');
+const waveform = document.getElementById('waveform');
+const progressBar = document.getElementById('progress-bar');
+const progressFill = document.getElementById('progress-fill');
+const timeCurrent = document.getElementById('time-current');
+const timeTotal = document.getElementById('time-total');
+
+const fmt = s => {
+  if (!isFinite(s)) return '--:--';
+  const m = Math.floor(s/60); const sec = Math.floor(s%60);
+  return m + ':' + (sec<10 ? '0'+sec : sec);
+};
+
+audio.addEventListener('loadedmetadata', () => {
+  timeTotal.textContent = fmt(audio.duration);
+});
+audio.addEventListener('timeupdate', () => {
+  timeCurrent.textContent = fmt(audio.currentTime);
+  if (audio.duration) progressFill.style.width = (audio.currentTime/audio.duration*100) + '%';
+});
+audio.addEventListener('ended', () => {
+  playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+  playBtn.classList.remove('playing');
+  waveform.classList.remove('active');
+});
+audio.addEventListener('error', () => {
+  timeTotal.textContent = 'Audio indisponible';
+});
+
+playBtn.addEventListener('click', () => {
+  if (audio.paused) {
+    audio.play().then(() => {
+      playIcon.innerHTML = '<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>';
+      playBtn.classList.add('playing');
+      waveform.classList.add('active');
+    }).catch(err => {
+      console.warn('Lecture impossible:', err);
+      timeTotal.textContent = 'Fichier introuvable';
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  } else {
+    audio.pause();
+    playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+    playBtn.classList.remove('playing');
+    waveform.classList.remove('active');
+  }
+});
+progressBar.addEventListener('click', e => {
+  if (!audio.duration) return;
+  const rect = progressBar.getBoundingClientRect();
+  audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+});
+
+/* ====== ACTUALITES CAROUSEL ====== */
+const track = document.getElementById('carousel-track');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+
+const fmtDate = iso => {
+  try {
+    const d = new Date(iso);
+    return d.toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' });
+  } catch { return iso; }
+};
+
+const initials = name => name.split(/\s+/).slice(0,2).map(w => w[0]?.toUpperCase() || '').join('');
+
+const renderActus = (data) => {
+  if (!Array.isArray(data) || data.length === 0) {
+    track.innerHTML = '<div class="actu-card-empty">Aucune actualité pour le moment — revenez bientôt.</div>';
+    return;
+  }
+  // Tri par date desc
+  data.sort((a,b) => new Date(b.date) - new Date(a.date));
+  track.innerHTML = data.map(a => `
+    <article class="actu-card">
+      <div class="actu-img">
+        ${a.url_image ? `<img src="${a.url_image}" alt="${a.nom}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : ''}
+        <div class="actu-img-fallback" ${a.url_image ? 'style="display:none"' : ''}>${initials(a.nom)}</div>
+      </div>
+      <div class="actu-body">
+        <div class="actu-date">${fmtDate(a.date)}</div>
+        <h3>${a.nom}</h3>
+        <p>${a.contenu}</p>
+        <a href="#" class="actu-link" onclick="event.preventDefault()">Lire la suite →</a>
+      </div>
+    </article>
+  `).join('');
+};
+
+let currentIndex = 0;
+const getCardsPerView = () => {
+  const w = window.innerWidth;
+  if (w <= 680) return 1;
+  if (w <= 980) return 2;
+  return 3;
+};
+
+const updateCarousel = () => {
+  const cards = track.querySelectorAll('.actu-card');
+  if (!cards.length) { prevBtn.disabled = true; nextBtn.disabled = true; return; }
+  const cardsPerView = getCardsPerView();
+  const maxIndex = Math.max(0, cards.length - cardsPerView);
+  if (currentIndex > maxIndex) currentIndex = maxIndex;
+  const cardWidth = cards[0].offsetWidth + 24; // gap
+  track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+  prevBtn.disabled = currentIndex === 0;
+  nextBtn.disabled = currentIndex >= maxIndex;
+};
+
+prevBtn.addEventListener('click', () => { currentIndex = Math.max(0, currentIndex - 1); updateCarousel(); });
+nextBtn.addEventListener('click', () => { currentIndex += 1; updateCarousel(); });
+window.addEventListener('resize', updateCarousel);
+
+fetch('actualite.json')
+  .then(r => { if (!r.ok) throw new Error('not ok'); return r.json(); })
+  .then(data => { renderActus(data); setTimeout(updateCarousel, 50); })
+  .catch(() => {
+    // Fallback démo si le fichier est absent
+    const demo = [
+      { nom:"Lancement de notre nouveau site web", date:"2026-05-15", url_image:"/images/blog/lancement-site.jpg", contenu:"Nous sommes ravis de vous présenter notre tout nouvel espace en ligne ! Plus moderne, plus rapide et entièrement pensé pour vous offrir la meilleure expérience possible." },
+      { nom:"Atelier Portes Ouvertes : Édition Printemps", date:"2026-06-02", url_image:"/images/evenements/portes-ouvertes.jpg", contenu:"Rejoignez-nous le temps d'une journée exclusive pour visiter nos coulisses, rencontrer l'équipe et participer à nos ateliers créatifs interactifs. Entrée libre et gratuite, café offert !" }
+    ];
+    renderActus(demo);
+    setTimeout(updateCarousel, 50);
+  });
 </script>
 
 </body>
