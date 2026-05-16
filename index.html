@@ -527,12 +527,96 @@
     margin-top:6px;font-weight:700;color:var(--bleu);font-size:.86rem;
     display:inline-flex;align-items:center;gap:6px;text-decoration:none;
   }
+  .actu-card p{
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
   .actu-card-empty{
     flex:0 0 100%;text-align:center;padding:60px 30px;
     color:#5a6177;font-style:italic;
   }
   @media (max-width:980px){.actu-card{flex:0 0 calc((100% - 24px)/2)}}
   @media (max-width:680px){.actu-card{flex:0 0 100%}}
+
+  /* ============ POPUP ARTICLE ============ */
+  .modal-overlay{
+    position:fixed;inset:0;
+    z-index:1000;
+    background:rgba(15,20,32,.7);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .3s ease;
+  }
+  .modal-overlay.open{opacity:1;pointer-events:all}
+  .modal{
+    background:var(--creme);
+    border-radius:28px;
+    max-width:680px;
+    width:100%;
+    max-height:88vh;
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    box-shadow:0 40px 80px -20px rgba(0,0,0,.45);
+    transform:translateY(24px) scale(.97);
+    transition:transform .35s cubic-bezier(.2,.8,.3,1);
+  }
+  .modal-overlay.open .modal{transform:translateY(0) scale(1)}
+  .modal-img{
+    aspect-ratio:16/8;
+    background:linear-gradient(135deg,var(--bleu),var(--rose-vif));
+    overflow:hidden;
+    flex-shrink:0;
+    position:relative;
+  }
+  .modal-img img{width:100%;height:100%;object-fit:cover;display:block}
+  .modal-img-fallback{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--ff-display);font-weight:800;font-size:5rem;
+    color:var(--blanc);opacity:.3;
+  }
+  .modal-body{
+    padding:32px 36px 36px;
+    overflow-y:auto;
+    flex:1;
+  }
+  .modal-date{
+    font-size:.75rem;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--rose-vif);margin-bottom:10px;
+  }
+  .modal-body h2{
+    font-family:var(--ff-display);
+    font-weight:800;font-size:1.7rem;
+    color:var(--bleu-deep);line-height:1.15;
+    margin-bottom:18px;
+  }
+  .modal-body p{
+    font-size:1rem;color:#2a2f3d;line-height:1.7;
+  }
+  .modal-close{
+    position:absolute;top:18px;right:18px;
+    width:40px;height:40px;
+    background:rgba(15,20,32,.55);
+    border:none;border-radius:50%;
+    color:var(--blanc);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    font-size:1.1rem;
+    z-index:10;
+    transition:background .25s;
+    backdrop-filter:blur(4px);
+  }
+  .modal-close:hover{background:var(--rose-vif)}
+  @media (max-width:540px){
+    .modal-body{padding:24px 20px 28px}
+    .modal-body h2{font-size:1.35rem}
+  }
 
   /* ============ JEU MOBILE ============ */
   .play-section{
@@ -610,7 +694,6 @@
     display:flex;justify-content:center;align-items:center;
   }
 
-  /* Cadre téléphone pour le jeu — sans barre noire décorative */
   .phone-frame{
     width:320px;
     height:640px;
@@ -624,7 +707,6 @@
       0 30px 60px -30px rgba(0,0,0,.8);
     position:relative;
   }
-  /* PAS de ::before ici — suppression de la barre noire */
   .phone-screen{
     width:100%;height:100%;
     border-radius:34px;
@@ -673,27 +755,12 @@
     }
     .play-text{order:1}
     .play-phone-wrap{order:2}
-
-    /* Jeu pleine largeur sur mobile */
-    .phone-frame{
-      width:100%;
-      height:70vw;
-      min-height:480px;
-      border-radius:24px;
-      padding:0;
-      box-shadow:0 20px 50px -20px rgba(0,0,0,.6);
-    }
-    .phone-screen{
-      border-radius:24px;
-    }
-
+    .phone-frame{transform:scale(.92);transform-origin:center}
     .play-cta{flex-direction:column;text-align:center;gap:14px}
   }
   @media (max-width:480px){
-    .phone-frame{
-      height:80vw;
-      min-height:400px;
-    }
+    .phone-frame{transform:scale(.82)}
+    .actors-grid{grid-template-columns:1fr}
   }
 
   /* ============ APPROFONDIR ============ */
@@ -994,7 +1061,6 @@
 <nav class="top" id="topnav">
   <a href="#" class="brand">
     <img src="logo.png" alt="Lienpourl'autre" class="brand-mark">
-    <span>lienpourl'autre</span>
   </a>
   <a href="#contact" class="nav-cta">Nous joindre</a>
 </nav>
@@ -1058,8 +1124,8 @@
           Votre navigateur ne supporte pas la vidéo.
         </video>
       </div>
-      <div class="float-card fc-1"><span class="dot"></span>Charte commune</div>
-      <div class="float-card fc-2"><span class="dot"></span>Mixité</div>
+      <div class="float-card fc-1"><span class="dot"></span>Mixité réussie</div>
+      <div class="float-card fc-2"><span class="dot"></span>Charte commune</div>
       <div class="float-card fc-3"><span class="dot"></span>Veille bienveillante</div>
     </div>
   </div>
@@ -1289,6 +1355,22 @@
   </div>
 </section>
 
+<!-- ============ MODAL ARTICLE ============ -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal">
+    <div class="modal-img" id="modal-img">
+      <img id="modal-img-el" src="" alt="" style="display:none">
+      <div class="modal-img-fallback" id="modal-fallback"></div>
+      <button class="modal-close" id="modal-close" aria-label="Fermer">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-date" id="modal-date"></div>
+      <h2 id="modal-title"></h2>
+      <p id="modal-content"></p>
+    </div>
+  </div>
+</div>
+
 <!-- ============ FOOTER ============ -->
 <footer>
   © 2026 <strong>Lienpourl'autre</strong> · Habitat inclusif & coliving solidaire · Modèle API (Accompagné · Partagé · Inséré)
@@ -1408,8 +1490,10 @@ const renderActus = (data) => {
     return;
   }
   data.sort((a,b) => new Date(b.date) - new Date(a.date));
-  track.innerHTML = data.map(a => `
-    <article class="actu-card">
+  track.innerHTML = data.map((a, i) => {
+    const excerpt = a.contenu.length > 110 ? a.contenu.slice(0, 110).trimEnd() + '…' : a.contenu;
+    return `
+    <article class="actu-card" data-index="${i}" tabindex="0" role="button" aria-label="Lire l'article : ${a.nom}">
       <div class="actu-img">
         ${a.url_image ? `<img src="${a.url_image}" alt="${a.nom}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : ''}
         <div class="actu-img-fallback" ${a.url_image ? 'style="display:none"' : ''}>${initials(a.nom)}</div>
@@ -1417,12 +1501,55 @@ const renderActus = (data) => {
       <div class="actu-body">
         <div class="actu-date">${fmtDate(a.date)}</div>
         <h3>${a.nom}</h3>
-        <p>${a.contenu}</p>
-        <a href="#" class="actu-link" onclick="event.preventDefault()">Lire la suite →</a>
+        <p>${excerpt}</p>
+        <span class="actu-link">Lire la suite →</span>
       </div>
     </article>
-  `).join('');
+  `}).join('');
+
+  // Ouvrir la modale au clic sur une carte
+  track.querySelectorAll('.actu-card').forEach(card => {
+    const open = () => openModal(data[+card.dataset.index]);
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+  });
 };
+
+/* ====== MODALE ARTICLE ====== */
+const overlay  = document.getElementById('modal-overlay');
+const modalClose = document.getElementById('modal-close');
+const modalImgEl = document.getElementById('modal-img-el');
+const modalFallback = document.getElementById('modal-fallback');
+const modalDate = document.getElementById('modal-date');
+const modalTitle = document.getElementById('modal-title');
+const modalContent = document.getElementById('modal-content');
+
+const openModal = (a) => {
+  modalDate.textContent = fmtDate(a.date);
+  modalTitle.textContent = a.nom;
+  modalContent.textContent = a.contenu;
+  if (a.url_image) {
+    modalImgEl.src = a.url_image;
+    modalImgEl.style.display = 'block';
+    modalFallback.style.display = 'none';
+  } else {
+    modalImgEl.style.display = 'none';
+    modalFallback.textContent = initials(a.nom);
+    modalFallback.style.display = 'flex';
+  }
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  modalClose.focus();
+};
+
+const closeModal = () => {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+};
+
+modalClose.addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 let currentIndex = 0;
 const getCardsPerView = () => {
