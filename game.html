@@ -223,54 +223,11 @@
   }
   .person.selected { border-color: var(--accent); transform: scale(1.05); background: #FFF5EE; z-index: 5; box-shadow: 0 6px 16px rgba(232,98,61,0.2); }
   .person.mismatch { animation: shake 0.4s; }
-  
-  /* DRAG & DROP */
-  .person.dragging {
-    opacity: 0.3;
-    transform: scale(0.9);
-  }
-  .grid-cell.drop-target-valid {
-    background: rgba(107, 142, 90, 0.15);
-    border: 2px solid var(--green);
-    border-style: solid;
-    transform: scale(1.05);
-  }
-  .grid-cell.drop-target-invalid {
-    background: rgba(201, 123, 132, 0.15);
-    border: 2px solid #C97B84;
-    border-style: solid;
-  }
-  /* Ghost qui suit le doigt */
-  .drag-ghost {
-    position: fixed;
-    pointer-events: none;
-    z-index: 1000;
-    width: 90px;
-    height: 90px;
-    background: var(--paper);
-    border-radius: 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 4px;
-    box-shadow: 0 12px 32px rgba(0,0,0,0.25);
-    border: 2px solid var(--accent);
-    transform: translate(-50%, -50%) scale(1.1) rotate(-3deg);
-    transition: none;
-  }
-  .drag-ghost .person-face { font-size: 28px; line-height: 1; }
-  .drag-ghost .person-name { font-family: 'Fraunces', serif; font-weight: 700; font-size: 11px; }
-  .drag-ghost .person-trait { font-size: 9px; font-weight: 600; margin-top: 2px; }
 
-  .person-face { font-size: 24px; line-height: 1; margin-bottom: 1px; }
-  .person-name { font-family: 'Fraunces', serif; font-weight: 700; font-size: 11px; color: var(--ink); line-height: 1.1;}
-  .person-label { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; margin: 1px 0; }
-  .person-apport { font-size: 8px; line-height: 1.15; color: var(--green); font-weight: 600; padding: 0 2px; }
-  .person-besoin { font-size: 8px; line-height: 1.15; color: var(--accent); font-weight: 600; padding: 0 2px; }
-  .person-profil { font-size: 8px; color: var(--ink-soft); font-style: italic; margin-top: 2px;}
-  .person-trait { font-size: 9px; line-height: 1.1; font-weight: 600; margin-top: 2px; padding:0 2px; }
+  .person-face { font-size: 24px; line-height: 1; margin-bottom: 2px; }
+  .person-name { font-family: 'Fraunces', serif; font-weight: 700; font-size: 12px; color: var(--ink); line-height: 1.1;}
+  .person-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; margin: 2px 0; }
+  .person-desc { font-size: 8.5px; line-height: 1.15; color: var(--ink-soft); font-weight: 500; margin-top: 4px; padding: 0 4px; font-style: italic; }
   
   /* ========== TICKER ACTUALITÉS ========== */
   .news-ticker {
@@ -487,7 +444,6 @@
 <body>
 
 <div class="game">
-  <!-- TICKER ACTUALITÉS -->
   <div class="news-ticker">
     <div class="news-ticker-label">⚡ ACTUS</div>
     <div class="news-ticker-content">
@@ -495,13 +451,11 @@
     </div>
   </div>
 
-  <!-- 30% : SCORES & ACTIONS -->
   <section class="dashboard">
     <div class="dash-header">
       <div class="brand-logo">Lien pour l'autre</div>
       <div class="header-actions">
         <div class="combo-badge" id="combo-badge">🔥 <span id="combo-count">0</span></div>
-        <button class="icon-btn" id="btn-music" style="opacity: 0.4;" title="Musique de fond">🎵</button>
         <button class="icon-btn" id="btn-help" title="Aide">?</button>
         <button class="icon-btn" id="btn-reset" title="Recommencer">↻</button>
       </div>
@@ -538,7 +492,6 @@
     </div>
   </section>
 
-  <!-- 60% : GALERIE (12 CASES) -->
   <section class="gallery">
     <div class="gallery-header">
       <span><span class="regen-dot"></span>Profils : <strong id="regen-countdown">8s</strong></span>
@@ -549,7 +502,6 @@
     <div class="people-grid" id="people-grid"></div>
   </section>
 
-  <!-- 10% : MAISONS -->
   <section class="houses-area" id="houses-grid"></section>
 </div>
 
@@ -561,12 +513,9 @@
 
 <script>
 // ==========================================
-// AUDIO SYSTEM
+// AUDIO SYSTEM (Effets uniquement)
 // ==========================================
 let audioCtx = null;
-let bgmGain = null;
-let bgmOscillators = [];
-let isMusicPlaying = false;
 
 function initAudio() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -630,257 +579,44 @@ function playSfx(type) {
   }
 }
 
-function toggleMusic() {
-  initAudio();
-  const btn = document.getElementById('btn-music');
-  
-  if (isMusicPlaying) {
-    // Fade out + cleanup
-    if (bgmGain) bgmGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.8);
-    isMusicPlaying = false;
-    btn.style.opacity = '0.4';
-    // On laisse les oscillateurs tourner pour pouvoir reprendre vite, juste muet
-  } else {
-    if (bgmOscillators.length === 0) {
-      // ============================================
-      // MUSIQUE LO-FI AMBIENT avec progression d'accords
-      // Progression : Am7 - Dm7 - G7 - Cmaj7 (ii-V-I en C, ambiance jazz/lo-fi)
-      // ============================================
-      
-      bgmGain = audioCtx.createGain();
-      bgmGain.gain.value = 0;
-      
-      // Reverb simulé par délai à feedback
-      const delay = audioCtx.createDelay(2);
-      delay.delayTime.value = 0.35;
-      const feedback = audioCtx.createGain();
-      feedback.gain.value = 0.35;
-      const wetGain = audioCtx.createGain();
-      wetGain.gain.value = 0.25;
-      delay.connect(feedback);
-      feedback.connect(delay);
-      delay.connect(wetGain);
-      
-      // Filtre warm général
-      const filter = audioCtx.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.value = 1200;
-      filter.Q.value = 0.5;
-      
-      bgmGain.connect(filter);
-      bgmGain.connect(delay);
-      wetGain.connect(filter);
-      filter.connect(audioCtx.destination);
-      
-      // --- 1. NAPPE DE BASSE (Pad) qui change avec les accords ---
-      // Notes de base des accords (basses)
-      const chordRoots = [
-        110.00, // A2 (Am7)
-        146.83, // D3 (Dm7)
-        98.00,  // G2 (G7)
-        130.81  // C3 (Cmaj7)
-      ];
-      // Tierces et quintes (pour enrichir la nappe)
-      const chordThirds = [
-        130.81, // C3
-        174.61, // F3
-        123.47, // B2
-        164.81  // E3
-      ];
-      const chordFifths = [
-        164.81, // E3
-        220.00, // A3
-        146.83, // D3
-        196.00  // G3
-      ];
-      
-      // Créer 3 oscillateurs (basse + tierce + quinte) avec gain controllable
-      const padOscs = [];
-      const padGains = [];
-      [chordRoots, chordThirds, chordFifths].forEach((arr, voiceIdx) => {
-        const osc = audioCtx.createOscillator();
-        osc.type = voiceIdx === 0 ? 'triangle' : 'sine'; // basse triangle, harmoniques sinus
-        osc.frequency.value = arr[0];
-        const g = audioCtx.createGain();
-        g.gain.value = voiceIdx === 0 ? 0.12 : 0.06; // basse plus forte
-        
-        // Petit LFO pour donner du mouvement
-        const lfo = audioCtx.createOscillator();
-        lfo.type = 'sine';
-        lfo.frequency.value = 0.1 + voiceIdx * 0.05;
-        const lfoGain = audioCtx.createGain();
-        lfoGain.gain.value = g.gain.value * 0.3;
-        lfo.connect(lfoGain.gain);
-        
-        osc.connect(g);
-        g.connect(bgmGain);
-        osc.start();
-        lfo.start();
-        padOscs.push(osc);
-        padGains.push(g);
-        bgmOscillators.push(osc, lfo);
-      });
-      
-      // Stocker pour les changements d'accord
-      window.__bgmPadOscs = padOscs;
-      window.__bgmChordArrays = [chordRoots, chordThirds, chordFifths];
-      
-      // --- 2. MÉLODIE GÉNÉRATIVE (gamme C majeur pentatonique) ---
-      // Notes pentatoniques : C, D, E, G, A (toujours consonantes)
-      const pentaScale = [
-        261.63, // C4
-        293.66, // D4
-        329.63, // E4
-        392.00, // G4
-        440.00, // A4
-        523.25, // C5
-        587.33, // D5
-        659.25  // E5
-      ];
-      
-      // Programmer des notes de mélodie périodiquement
-      function playMelodyNote() {
-        if (!isMusicPlaying || !audioCtx) return;
-        
-        const t = audioCtx.currentTime;
-        const note = pentaScale[Math.floor(Math.random() * pentaScale.length)];
-        
-        // 30% de chance de silence (pour de la respiration)
-        if (Math.random() < 0.3) {
-          setTimeout(playMelodyNote, 1000 + Math.random() * 1500);
-          return;
-        }
-        
-        const osc = audioCtx.createOscillator();
-        osc.type = 'sine';
-        osc.frequency.value = note;
-        
-        const noteGain = audioCtx.createGain();
-        noteGain.gain.setValueAtTime(0, t);
-        noteGain.gain.linearRampToValueAtTime(0.05, t + 0.05); // attack
-        noteGain.gain.exponentialRampToValueAtTime(0.001, t + 1.5); // release lent
-        
-        osc.connect(noteGain);
-        noteGain.connect(bgmGain);
-        noteGain.connect(delay); // un peu de reverb sur la mélodie
-        
-        osc.start(t);
-        osc.stop(t + 1.6);
-        
-        // Programmer la prochaine note
-        setTimeout(playMelodyNote, 1200 + Math.random() * 1800);
-      }
-      
-      // --- 3. CHANGEMENT D'ACCORDS toutes les 4 secondes ---
-      let chordIdx = 0;
-      function changeChord() {
-        if (!isMusicPlaying || !audioCtx) return;
-        
-        chordIdx = (chordIdx + 1) % 4;
-        const t = audioCtx.currentTime;
-        
-        window.__bgmPadOscs.forEach((osc, voiceIdx) => {
-          const newFreq = window.__bgmChordArrays[voiceIdx][chordIdx];
-          // Glissement doux entre les accords
-          osc.frequency.setTargetAtTime(newFreq, t, 0.3);
-        });
-        
-        setTimeout(changeChord, 4000);
-      }
-      
-      // Démarrer les boucles
-      setTimeout(playMelodyNote, 1500);
-      setTimeout(changeChord, 4000);
-    }
-    
-    // Fade in
-    bgmGain.gain.setTargetAtTime(0.8, audioCtx.currentTime, 1.5);
-    isMusicPlaying = true;
-    btn.style.opacity = '1';
-  }
-}
-
-document.getElementById('btn-music').addEventListener('click', toggleMusic);
-
 // ==========================================
 // GAME DATA & LOGIC
 // ==========================================
 const NAMES = ['Léa','Tom','Sami','Inès','Nora','Yann','Mei','Jules','Aïsha','Léo','Maya','Théo','Lila','Nael','Zoé','Anna','Karim','Solène','Marc','Fatou'];
 
-// 5 archétypes de profils inspirés de Lien pour l'autre
-// Chacun a un Apport (ce qu'il offre) et un Besoin (ce qu'il cherche)
-// Match = l'apport de l'un = le besoin de l'autre (vraie complémentarité)
+// 5 archétypes de profils avec une description claire remplaçant le "apport/besoin" brut.
 const PROFILS = [
   { 
-    type: 'jeune',
-    label: 'Jeune actif',
-    faces: ['👱','👱‍♀️','🧑','👩','👨'],
-    apport: 'numerique',
-    besoin: 'stabilite',
-    color: 'var(--blue)',
-    colorName: 'blue',
-    apportLabel: 'Aide au numérique',
-    besoinLabel: 'Cherche stabilité'
+    type: 'jeune', label: 'Jeune actif', faces: ['👱','👱‍♀️','🧑','👩','👨'],
+    apport: 'numerique', besoin: 'stabilite', color: 'var(--blue)', colorName: 'blue',
+    description: 'Aide au numérique contre un cadre stable.'
   },
   { 
-    type: 'senior',
-    label: 'Senior',
-    faces: ['👵','👴','🧓'],
-    apport: 'stabilite',
-    besoin: 'numerique',
-    color: 'var(--purple)',
-    colorName: 'purple',
-    apportLabel: 'Expérience & écoute',
-    besoinLabel: 'Cherche compagnie'
+    type: 'senior', label: 'Senior', faces: ['👵','👴','🧓'],
+    apport: 'stabilite', besoin: 'numerique', color: 'var(--purple)', colorName: 'purple',
+    description: 'Offre un cadre stable contre une aide numérique.'
   },
   { 
-    type: 'transition',
-    label: 'En transition',
-    faces: ['🧔','👩‍🦰','👨‍🦱','👩‍🦱'],
-    apport: 'bienveillance',
-    besoin: 'reseau',
-    color: 'var(--accent)',
-    colorName: 'accent',
-    apportLabel: 'Temps & écoute',
-    besoinLabel: 'Cherche un réseau'
+    type: 'transition', label: 'En transition', faces: ['🧔','👩‍🦰','👨‍🦱','👩‍🦱'],
+    apport: 'bienveillance', besoin: 'reseau', color: 'var(--accent)', colorName: 'accent',
+    description: 'Offre une écoute bienveillante contre du réseau.'
   },
   { 
-    type: 'reconstruction',
-    label: 'En reconstruction',
-    faces: ['🧕','👨‍🦳','👩‍🦳','🧑‍🦲'],
-    apport: 'reseau',
-    besoin: 'bienveillance',
-    color: 'var(--green)',
-    colorName: 'green',
-    apportLabel: 'Réseau associatif',
-    besoinLabel: 'Cherche bienveillance'
+    type: 'reconstruction', label: 'En reconstruction', faces: ['🧕','👨‍🦳','👩‍🦳','🧑‍🦲'],
+    apport: 'reseau', besoin: 'bienveillance', color: 'var(--green)', colorName: 'green',
+    description: 'Partage son réseau contre un peu de bienveillance.'
   },
   { 
-    type: 'etudiant',
-    label: 'Étudiant',
-    faces: ['🧑','👨','👩','👱‍♀️','👱'],
-    apport: 'energie',
-    besoin: 'logement',
-    color: 'var(--teal)',
-    colorName: 'teal',
-    apportLabel: 'Énergie & entraide',
-    besoinLabel: 'Cherche un toit'
+    type: 'etudiant', label: 'Étudiant', faces: ['🧑','👨','👩','👱‍♀️','👱'],
+    apport: 'energie', besoin: 'logement', color: 'var(--teal)', colorName: 'teal',
+    description: 'Apporte son énergie contre une chambre.'
   },
   { 
-    type: 'famille',
-    label: 'Famille hôte',
-    faces: ['👨‍🦰','👩‍🦰','👨‍🦱','👩‍🦱'],
-    apport: 'logement',
-    besoin: 'energie',
-    color: 'var(--gold-dark)',
-    colorName: 'gold',
-    apportLabel: 'Chambre à partager',
-    besoinLabel: 'Cherche dynamisme'
+    type: 'famille', label: 'Famille hôte', faces: ['👨‍🦰','👩‍🦰','👨‍🦱','👩‍🦱'],
+    apport: 'logement', besoin: 'energie', color: 'var(--gold-dark)', colorName: 'gold',
+    description: 'Offre une chambre contre une présence dynamique.'
   }
 ];
-
-// Les paires complémentaires (apport ↔ besoin)
-// jeune ↔ senior, transition ↔ reconstruction, etudiant ↔ famille
 
 const LEVELS = [3, 7, 12, 16, 20];
 const ACTION_COST = 6;
@@ -900,7 +636,6 @@ let state = {
   housesTimer: 0,
   ended: false,
   
-  // Nouvelles mécaniques
   combo: 0,
   lastMatchTime: 0,
   unlockedFeatures: {
@@ -923,8 +658,7 @@ function generatePerson(forcedType = null) {
     label: profil.label,
     apport: profil.apport,
     besoin: profil.besoin,
-    apportLabel: profil.apportLabel,
-    besoinLabel: profil.besoinLabel,
+    description: profil.description,
     color: profil.color,
     colorName: profil.colorName,
     coupDeCoeur: Math.random() < 0.12,
@@ -942,7 +676,7 @@ function spawnPersonInGrid() {
   return false;
 }
 
-// Spawn d'un Duo VIP (lvl 3+) - 2 personnes pré-liées
+// Spawn d'un Duo VIP (lvl 3+)
 function maybeSpawnVipDuo() {
   if (!state.unlockedFeatures.vipDuo) return false;
   if (Math.random() > 0.04) return false;
@@ -950,7 +684,6 @@ function maybeSpawnVipDuo() {
   const emptyIndices = state.grid.map((p, i) => p === null ? i : -1).filter(i => i !== -1);
   if (emptyIndices.length < 2) return false;
   
-  // Choisit une paire complémentaire au hasard
   const complementaryPairs = [
     ['jeune', 'senior'],
     ['transition', 'reconstruction'],
@@ -980,19 +713,6 @@ function maybeSpawnVipDuo() {
 // ==========================================
 const gridEl = document.getElementById('people-grid');
 
-// État de drag (séparé de state pour éviter les renders parasites)
-let dragState = {
-  isDragging: false,
-  startX: 0,
-  startY: 0,
-  sourceIdx: null,
-  ghost: null,
-  hoveredCellIdx: null,
-  pointerMoved: false
-};
-
-const DRAG_THRESHOLD = 8; // pixels avant de considérer un drag
-
 function renderGrid() {
   gridEl.innerHTML = '';
   state.grid.forEach((p, idx) => {
@@ -1012,191 +732,14 @@ function renderGrid() {
         <span class="person-face">${p.face}</span>
         <div class="person-name">${p.name}</div>
         <div class="person-label" style="color:${p.color}">${p.label}</div>
-        <div class="person-apport">↗ ${p.apportLabel}</div>
-        <div class="person-besoin">↙ ${p.besoinLabel}</div>
+        <div class="person-desc">${p.description}</div>
       `;
-      // Listeners unifiés (touch + mouse)
-      attachDragListeners(personEl, idx);
+      // Remplacement du glisser-déposer par un simple clic
+      personEl.onclick = () => onPersonClick(idx);
       cell.appendChild(personEl);
     }
     gridEl.appendChild(cell);
   });
-}
-
-// ==========================================
-// DRAG & DROP (touch + mouse unifiés)
-// ==========================================
-function attachDragListeners(personEl, idx) {
-  const startHandler = (e) => handlePointerStart(e, idx, personEl);
-  personEl.addEventListener('touchstart', startHandler, { passive: false });
-  personEl.addEventListener('mousedown', startHandler);
-}
-
-function getPointerPos(e) {
-  if (e.touches && e.touches.length > 0) {
-    return { x: e.touches[0].clientX, y: e.touches[0].clientY };
-  }
-  if (e.changedTouches && e.changedTouches.length > 0) {
-    return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
-  }
-  return { x: e.clientX, y: e.clientY };
-}
-
-function handlePointerStart(e, idx, personEl) {
-  if (state.ended) return;
-  e.preventDefault();
-  
-  const pos = getPointerPos(e);
-  dragState.isDragging = false;
-  dragState.pointerMoved = false;
-  dragState.startX = pos.x;
-  dragState.startY = pos.y;
-  dragState.sourceIdx = idx;
-  dragState.sourceEl = personEl;
-  
-  // Listeners globaux pour le mouvement et la fin
-  document.addEventListener('touchmove', handlePointerMove, { passive: false });
-  document.addEventListener('touchend', handlePointerEnd);
-  document.addEventListener('touchcancel', handlePointerEnd);
-  document.addEventListener('mousemove', handlePointerMove);
-  document.addEventListener('mouseup', handlePointerEnd);
-}
-
-function handlePointerMove(e) {
-  if (dragState.sourceIdx === null) return;
-  e.preventDefault();
-  
-  const pos = getPointerPos(e);
-  const dx = pos.x - dragState.startX;
-  const dy = pos.y - dragState.startY;
-  const dist = Math.sqrt(dx*dx + dy*dy);
-  
-  // Démarrer le drag si on a dépassé le seuil
-  if (!dragState.isDragging && dist > DRAG_THRESHOLD) {
-    dragState.isDragging = true;
-    dragState.pointerMoved = true;
-    startDragVisual(pos);
-  }
-  
-  if (dragState.isDragging) {
-    updateDragVisual(pos);
-  }
-}
-
-function startDragVisual(pos) {
-  const sourceP = state.grid[dragState.sourceIdx];
-  if (!sourceP) return;
-  
-  // Marque la source comme "dragging"
-  if (dragState.sourceEl) dragState.sourceEl.classList.add('dragging');
-  
-  // Crée le ghost
-  const ghost = document.createElement('div');
-  ghost.className = 'drag-ghost';
-  ghost.innerHTML = `
-    <span class="person-face">${sourceP.face}</span>
-    <div class="person-name">${sourceP.name}</div>
-    <div class="person-label" style="color:${sourceP.color}">${sourceP.label}</div>
-  `;
-  ghost.style.left = pos.x + 'px';
-  ghost.style.top = pos.y + 'px';
-  document.body.appendChild(ghost);
-  dragState.ghost = ghost;
-}
-
-function updateDragVisual(pos) {
-  if (dragState.ghost) {
-    dragState.ghost.style.left = pos.x + 'px';
-    dragState.ghost.style.top = pos.y + 'px';
-  }
-  
-  // Détection de la cellule sous le doigt
-  const elementsBelow = document.elementsFromPoint(pos.x, pos.y);
-  let targetCell = null;
-  for (const el of elementsBelow) {
-    if (el.classList && el.classList.contains('grid-cell')) {
-      targetCell = el;
-      break;
-    }
-    // Si on est sur un .person, remonter à la cellule parente
-    if (el.classList && el.classList.contains('person')) {
-      targetCell = el.parentElement;
-      break;
-    }
-  }
-  
-  // Reset des highlights précédents
-  document.querySelectorAll('.grid-cell').forEach(c => {
-    c.classList.remove('drop-target-valid', 'drop-target-invalid');
-  });
-  
-  if (targetCell) {
-    const targetIdx = parseInt(targetCell.dataset.idx);
-    dragState.hoveredCellIdx = targetIdx;
-    
-    if (targetIdx === dragState.sourceIdx) {
-      // Sur soi-même : neutre
-    } else {
-      const sourceP = state.grid[dragState.sourceIdx];
-      const targetP = state.grid[targetIdx];
-      if (targetP) {
-        const isComplementary = (sourceP.apport === targetP.besoin) && (targetP.apport === sourceP.besoin);
-        if (isComplementary) {
-          targetCell.classList.add('drop-target-valid');
-        } else {
-          targetCell.classList.add('drop-target-invalid');
-        }
-      }
-    }
-  } else {
-    dragState.hoveredCellIdx = null;
-  }
-}
-
-function handlePointerEnd(e) {
-  // Cleanup listeners
-  document.removeEventListener('touchmove', handlePointerMove);
-  document.removeEventListener('touchend', handlePointerEnd);
-  document.removeEventListener('touchcancel', handlePointerEnd);
-  document.removeEventListener('mousemove', handlePointerMove);
-  document.removeEventListener('mouseup', handlePointerEnd);
-  
-  // Si c'était un drag, traiter le drop
-  if (dragState.isDragging) {
-    const sourceIdx = dragState.sourceIdx;
-    const targetIdx = dragState.hoveredCellIdx;
-    
-    // Cleanup visuel
-    if (dragState.ghost) {
-      dragState.ghost.remove();
-      dragState.ghost = null;
-    }
-    if (dragState.sourceEl) dragState.sourceEl.classList.remove('dragging');
-    document.querySelectorAll('.grid-cell').forEach(c => {
-      c.classList.remove('drop-target-valid', 'drop-target-invalid');
-    });
-    
-    // Si on a une cible valide et différente, déclencher l'action
-    if (targetIdx !== null && targetIdx !== sourceIdx && state.grid[targetIdx]) {
-      // Reset la sélection pour partir propre
-      state.selectedIdx = sourceIdx;
-      onPersonClick(targetIdx);
-    } else if (targetIdx === null || !state.grid[targetIdx]) {
-      // Drop dans le vide : juste désélectionner
-      state.selectedIdx = null;
-      renderGrid();
-    }
-  } else {
-    // C'était un simple tap → comportement de clic classique
-    onPersonClick(dragState.sourceIdx);
-  }
-  
-  // Reset
-  dragState.isDragging = false;
-  dragState.sourceIdx = null;
-  dragState.sourceEl = null;
-  dragState.hoveredCellIdx = null;
-  dragState.pointerMoved = false;
 }
 
 const housesEl = document.getElementById('houses-grid');
@@ -1221,7 +764,6 @@ function renderDashboard() {
   
   const progressFill = document.getElementById('progress-fill');
   progressFill.style.width = pct + '%';
-  // PULSE quand on est à 75%+ du palier (Presque-succès)
   if (pct >= 75 && pct < 100) {
     progressFill.classList.add('near-up');
   } else {
@@ -1237,7 +779,6 @@ function renderDashboard() {
   document.getElementById('btn-asso').className = 'action-btn ' + (canAfford ? '' : 'disabled');
   document.getElementById('btn-bailleur').className = 'action-btn ' + (canAfford ? '' : 'disabled');
   
-  // Combo badge
   const comboBadge = document.getElementById('combo-badge');
   if (state.combo >= 2) {
     comboBadge.classList.add('active');
@@ -1247,7 +788,6 @@ function renderDashboard() {
     comboBadge.classList.remove('active', 'peak');
   }
   
-  // Bouton de tri
   const sortBtn = document.getElementById('btn-sort');
   if (state.unlockedFeatures.sort) {
     sortBtn.classList.remove('locked');
@@ -1276,14 +816,11 @@ document.getElementById('btn-sort').onclick = () => {
   
   playSfx('sort');
   
-  // Tri par paire complémentaire : on rapproche les profils qui peuvent matcher
-  // Ordre des paires : jeune/senior, transition/reconstruction, etudiant/famille
   const pairOrder = {
     'jeune': 0, 'senior': 0,
     'transition': 1, 'reconstruction': 1,
     'etudiant': 2, 'famille': 2
   };
-  // Au sein d'une paire, on alterne pour les mettre côte à côte
   const typeSubOrder = {
     'jeune': 0, 'senior': 1,
     'transition': 0, 'reconstruction': 1,
@@ -1294,7 +831,6 @@ document.getElementById('btn-sort').onclick = () => {
     const pairA = pairOrder[a.type] ?? 99;
     const pairB = pairOrder[b.type] ?? 99;
     if (pairA !== pairB) return pairA - pairB;
-    // VIP en tête de leur sous-groupe
     if (a.vipDuoId && !b.vipDuoId) return -1;
     if (!a.vipDuoId && b.vipDuoId) return 1;
     return (typeSubOrder[a.type] ?? 0) - (typeSubOrder[b.type] ?? 0);
@@ -1361,14 +897,12 @@ function onPersonClick(idx) {
   const p1 = state.grid[state.selectedIdx];
   const p2 = state.grid[idx];
 
-  // Complémentarité : l'apport de l'un = le besoin de l'autre (dans les 2 sens)
   const isComplementary = (p1.apport === p2.besoin) && (p2.apport === p1.besoin);
   
   if (isComplementary) attemptMatch(state.selectedIdx, idx, p1, p2);
   else {
     playSfx('error');
-    showToast(`${p1.name} et ${p2.name} ne sont pas complémentaires. Cherche un Apport qui répond à un Besoin !`, "fail");
-    // Reset combo sur mismatch
+    showToast(`${p1.name} et ${p2.name} ne cherchent pas la même chose ! Associe des profils complémentaires.`, "fail");
     if (state.combo >= 2) {
       showToast(`💔 Combo brisé (x${state.combo})`, 'fail');
     }
@@ -1397,17 +931,14 @@ function attemptMatch(idx1, idx2, p1, p2) {
   const isVipDuo = p1.vipDuoId && p1.vipDuoId === p2.vipDuoId;
   const hasTraitBonus = p1.traitBonus || p2.traitBonus;
   
-  // Calcul du gain de base
   let visGain = 3;
   if (isCoup) visGain = 9;
   if (isVipDuo) visGain += 10;
   if (hasTraitBonus) visGain += 5;
   
-  // Combo
   state.combo++;
   state.lastMatchTime = Date.now();
   
-  // Multiplicateur de combo (Lvl 4+)
   let comboMultiplier = 1;
   if (state.unlockedFeatures.comboBoost && state.combo >= 5) {
     comboMultiplier = 2;
@@ -1416,28 +947,23 @@ function attemptMatch(idx1, idx2, p1, p2) {
     visGain += (state.combo - 2);
   }
   
-  // Sons
   if (state.combo >= 5) playSfx('combo');
   else if (isCoup || isVipDuo) playSfx('heart');
   else playSfx('match');
 
-  // Capturer les éléments visuels AVANT de modifier le state
   const cells = document.querySelectorAll('.grid-cell');
   const sourceEl1 = cells[idx1]?.querySelector('.person');
   const sourceEl2 = cells[idx2]?.querySelector('.person');
   
-  // Vider visuellement les cases sources tout de suite (mais on garde les flying-person)
   if (sourceEl1) sourceEl1.style.opacity = '0';
   if (sourceEl2) sourceEl2.style.opacity = '0';
   
-  // Update du state immédiat (sauf maison qu'on enlèvera après l'anim)
   state.grid[idx1] = null;
   state.grid[idx2] = null;
   state.score++;
   state.visibility += visGain;
   state.selectedIdx = null;
   
-  // Message contextualisé
   let msg = '';
   if (isVipDuo) msg = `💞 DUO VIP : ${p1.name} & ${p2.name} cohabitent ! +${visGain} ✨`;
   else if (isCoup) msg = `💖 Belle complémentarité ! +${visGain} ✨`;
@@ -1448,10 +974,8 @@ function attemptMatch(idx1, idx2, p1, p2) {
   
   showToast(msg, 'success');
   
-  // Lancer l'animation vers la maison
   if (sourceEl1 && sourceEl2) {
     animateMatchToHouse(p1, p2, sourceEl1, sourceEl2, () => {
-      // Une fois l'anim terminée : consommer la maison + render
       state.houses.shift();
       renderAll();
       updateTicker();
@@ -1463,7 +987,7 @@ function attemptMatch(idx1, idx2, p1, p2) {
   }
   
   checkLevelUp();
-  renderDashboard(); // update score & barre immédiatement
+  renderDashboard();
 }
 
 function checkLevelUp() {
@@ -1477,7 +1001,6 @@ function checkLevelUp() {
       state.level++;
       playSfx('lvlup');
       
-      // Déblocage de nouvelles mécaniques selon le niveau
       let unlockMsg = '';
       if (state.level === 2) {
         state.unlockedFeatures.sort = true;
@@ -1493,7 +1016,6 @@ function checkLevelUp() {
         unlockMsg = '🌟 NIVEAU 5 ! Dernier palier — tout est cumulé, fonce !';
       }
       
-      // Toast de level up + déblocage avec délai
       showToast(`🌟 NIVEAU ${state.level} ATTEINT !`, 'lvlup');
       setTimeout(() => {
         playSfx('unlock');
@@ -1521,7 +1043,7 @@ function endGame() {
   document.getElementById('modal-content').innerHTML = `
     <h2 style="text-align:center;">🎉 BRAVO !</h2>
     <p style="text-align:center; font-weight:bold; color:var(--ink); font-size:15px;">Tu as créé <span style="color:var(--accent);">20 foyers inclusifs</span> 🏡</p>
-    <p>En 2 minutes, tu as compris le principe de <b>Lien pour l'autre</b> : associer des personnes <b>complémentaires</b> (jeunes/seniors, actifs/en transition, étudiants/familles…) dans des logements partagés pour faire reculer la précarité par l'entraide.</p>
+    <p>En 2 minutes, tu as compris le principe de <b>Lien pour l'autre</b> : associer des personnes <b>complémentaires</b> dans des logements partagés pour faire reculer la précarité par l'entraide.</p>
     <p style="font-weight:bold; color:var(--accent); margin-bottom: 10px;">👉 Et dans la vraie vie, tu peux aider :</p>
     <div class="feature-list">
       <div class="feat">📢 <b>Donner de la visibilité</b> — partage ce jeu autour de toi</div>
@@ -1540,9 +1062,9 @@ document.getElementById('btn-help').onclick = () => {
   document.getElementById('modal-content').innerHTML = `
     <h2>Crée des foyers inclusifs !</h2>
     <p>
-      <b>🎯 Le principe :</b> chaque profil a un <b style="color:var(--green)">↗ Apport</b> et un <b style="color:var(--accent)">↙ Besoin</b>. Associe deux personnes <b>complémentaires</b> (l'apport de l'une = le besoin de l'autre).<br><br>
-      <b>👆 Comment :</b> tape 2 profils, ou glisse l'un sur l'autre. Chaque foyer créé consomme un logement 🏠.<br><br>
-      <b>💰 Bonus :</b> attrape les pièces qui passent ! Et enchaîne les matchs pour faire monter ton combo 🔥.
+      <b>🎯 Le principe :</b> Associe deux personnes <b>complémentaires</b> (les offres et les besoins de chacun doivent s'aligner).<br><br>
+      <b>👆 Comment :</b> Tape un profil, puis un deuxième pour les associer. Chaque foyer créé consomme un logement 🏠.<br><br>
+      <b>💰 Bonus :</b> Attrape les pièces qui passent ! Et enchaîne les matchs pour faire monter ton combo 🔥.
     </p>
     <div class="feature-list">
       <div class="feat"><b>Niveau 2</b> : 🎯 Bouton "Organiser" + ⭐ Profils bonus</div>
@@ -1569,7 +1091,6 @@ function loop() {
   state.peopleTimer += dt;
   state.housesTimer += dt;
   
-  // Timeout combo (12s sans match = reset)
   if (state.combo >= 2 && (now - state.lastMatchTime) > COMBO_TIMEOUT_MS) {
     state.combo = 0;
     renderDashboard();
@@ -1579,7 +1100,6 @@ function loop() {
   if (emptyCount > 0) {
     document.getElementById('regen-countdown').textContent = Math.max(0, Math.ceil((state.peopleRegenMs - state.peopleTimer)/1000)) + 's';
     if (state.peopleTimer >= state.peopleRegenMs) {
-      // Chance de spawn VIP Duo, sinon profil normal
       const duoSpawned = maybeSpawnVipDuo();
       if (!duoSpawned) spawnPersonInGrid();
       state.peopleTimer = 0;
@@ -1600,7 +1120,6 @@ function loop() {
 
 // ==========================================
 // TICKER ACTUALITÉS
-// L'actu change selon le palier d'Impact atteint
 // ==========================================
 const NEWS_BY_TIER = {
   0: [
@@ -1652,11 +1171,9 @@ function updateTicker(force = false) {
   
   const news = NEWS_BY_TIER[tier];
   const track = document.getElementById('ticker-track');
-  // Dupliquer pour boucle infinie fluide
   const items = news.map(n => `<span class="news-item">${n}</span>`).join('');
   track.innerHTML = items + items;
   
-  // Annoncer le palier avec un toast (sauf au démarrage)
   if (force === false && tier > 0) {
     showToast(`📰 Nouvelles actus débloquées !`, 'unlock');
   }
@@ -1666,11 +1183,9 @@ function updateTicker(force = false) {
 // ANIMATION : profils glissent vers la maison
 // ==========================================
 function animateMatchToHouse(p1, p2, sourceEl1, sourceEl2, onComplete) {
-  // Position de départ : centre des cellules sources
   const rect1 = sourceEl1.getBoundingClientRect();
   const rect2 = sourceEl2.getBoundingClientRect();
   
-  // Position cible : première maison disponible
   const housesEl = document.getElementById('houses-grid');
   const firstHouse = housesEl.querySelector('.house');
   if (!firstHouse) { onComplete(); return; }
@@ -1678,7 +1193,6 @@ function animateMatchToHouse(p1, p2, sourceEl1, sourceEl2, onComplete) {
   const targetX = houseRect.left + houseRect.width / 2 - 30;
   const targetY = houseRect.top + houseRect.height / 2 - 30;
   
-  // Crée les 2 personnes volantes
   const fly1 = document.createElement('div');
   fly1.className = 'flying-person';
   fly1.textContent = p1.face;
@@ -1693,7 +1207,6 @@ function animateMatchToHouse(p1, p2, sourceEl1, sourceEl2, onComplete) {
   fly2.style.top = (rect2.top + rect2.height/2 - 30) + 'px';
   document.body.appendChild(fly2);
   
-  // Force reflow puis trigger animation
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       fly1.style.left = (targetX - 8) + 'px';
@@ -1705,20 +1218,16 @@ function animateMatchToHouse(p1, p2, sourceEl1, sourceEl2, onComplete) {
     });
   });
   
-  // Quand l'animation se termine
   setTimeout(() => {
-    // Halo de lumière
     const glow = document.createElement('div');
     glow.className = 'house-glow';
     glow.style.left = (houseRect.left + houseRect.width/2) + 'px';
     glow.style.top = (houseRect.top + houseRect.height/2) + 'px';
     document.body.appendChild(glow);
     
-    // Animation maison
     firstHouse.classList.add('receiving');
-    firstHouse.textContent = '👨‍👩'; // famille forme
+    firstHouse.textContent = '👨‍👩';
     
-    // Cleanup
     fly1.remove();
     fly2.remove();
     setTimeout(() => glow.remove(), 1000);
@@ -1729,7 +1238,7 @@ function animateMatchToHouse(p1, p2, sourceEl1, sourceEl2, onComplete) {
 }
 
 // ==========================================
-// PIÈCES ALÉATOIRES (Don / Subvention)
+// PIÈCES ALÉATOIRES
 // ==========================================
 const COIN_EVENTS = [
   { emoji: '🪙', label: 'Don anonyme', amount: 5, vis: 3 },
@@ -1745,7 +1254,6 @@ const COIN_EVENTS = [
 function spawnFloatingCoin() {
   if (state.ended) return;
   
-  // Choisir un événement adapté au niveau (les grosses subventions arrivent plus tard)
   let pool;
   if (state.level <= 1) pool = COIN_EVENTS.filter(e => e.amount <= 25);
   else if (state.level <= 3) pool = COIN_EVENTS.filter(e => e.amount <= 500);
@@ -1757,7 +1265,6 @@ function spawnFloatingCoin() {
   coin.className = 'floating-coin';
   coin.textContent = event.emoji;
   
-  // Trajet : entre dashboard et maisons, traverse horizontalement
   const winW = window.innerWidth;
   const dashH = window.innerHeight * 0.30;
   const galleryH = window.innerHeight * 0.60;
@@ -1773,13 +1280,11 @@ function spawnFloatingCoin() {
   
   document.body.appendChild(coin);
   
-  // Démarrer l'animation de traversée
   requestAnimationFrame(() => {
     coin.style.left = endX + 'px';
     coin.style.top = (startY + (Math.random() * 60 - 30)) + 'px';
   });
   
-  // Au clic : bonus !
   let claimed = false;
   const claim = (e) => {
     if (claimed) return;
@@ -1790,7 +1295,6 @@ function spawnFloatingCoin() {
     const x = rect.left + rect.width / 2;
     const y = rect.top;
     
-    // Burst visuel
     const burst = document.createElement('div');
     burst.className = 'coin-burst';
     burst.style.left = x + 'px';
@@ -1816,13 +1320,11 @@ function spawnFloatingCoin() {
   coin.addEventListener('click', claim);
   coin.addEventListener('touchstart', claim, { passive: false });
   
-  // Auto-remove après le trajet
   setTimeout(() => {
     if (coin.parentNode) coin.remove();
   }, 9000);
 }
 
-// Planifier les pièces : toutes les 12-25s
 function scheduleNextCoin() {
   if (state.ended) return;
   const delay = 12000 + Math.random() * 13000;
@@ -1832,17 +1334,15 @@ function scheduleNextCoin() {
   }, delay);
 }
 
-
 state.grid[0] = generatePerson('jeune');
 state.grid[1] = generatePerson('senior');
 for(let i=0; i<4; i++) spawnPersonInGrid();
 for(let i=0; i<3; i++) state.houses.push({});
 
-updateTicker(true); // Force le premier remplissage du ticker
+updateTicker(true);
 renderAll();
 requestAnimationFrame(loop);
 
-// Démarrer les pièces aléatoires après 15s
 setTimeout(scheduleNextCoin, 15000);
 
 </script>
