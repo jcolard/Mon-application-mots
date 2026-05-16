@@ -111,7 +111,6 @@
     width: 0%;
     position: relative;
   }
-  /* Pulse quand on est proche du level up */
   .progress-fill.near-up {
     background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent));
     background-size: 200% 100%;
@@ -167,10 +166,27 @@
     margin-bottom: 8px; font-size: 11px; color: var(--ink-soft); font-weight: 500;
     gap: 8px;
   }
-  .regen-dot {
-    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
-    background: var(--green); margin-right: 4px; animation: pulse 1.5s infinite;
+  .gallery-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
+  .gallery-info strong { color: var(--ink); font-weight: 700; }
+  
+  /* Légende des couleurs d'affinité */
+  .affinity-legend {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    color: var(--ink-soft);
+  }
+  .legend-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    display: inline-block;
+  }
+  .legend-dot.strong { background: var(--green); }
+  .legend-dot.weak { background: var(--gold); }
   
   /* Bouton Tri */
   .sort-btn {
@@ -214,20 +230,95 @@
   }
   .grid-cell.empty::after { content: '+'; font-size: 20px; color: rgba(42,42,42,0.15); }
 
+  /* ====== NOUVELLE CARTE PROFIL ====== */
   .person {
-    position: absolute; inset: 0; background: var(--paper); border-radius: 16px;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    border: 2px solid transparent; transition: transform 0.15s, border-color 0.15s, box-shadow 0.3s;
-    animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer;
+    position: absolute; 
+    inset: 0; 
+    background: var(--paper); 
+    border-radius: 14px;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: space-between;
+    padding: 6px 4px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 2px solid transparent; 
+    transition: transform 0.15s, border-color 0.15s, box-shadow 0.3s;
+    animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
+    cursor: pointer;
+    overflow: hidden;
   }
-  .person.selected { border-color: var(--accent); transform: scale(1.05); background: #FFF5EE; z-index: 5; box-shadow: 0 6px 16px rgba(232,98,61,0.2); }
+  .person.selected { 
+    border-color: var(--accent); 
+    transform: scale(1.05); 
+    background: #FFF5EE; 
+    z-index: 5; 
+    box-shadow: 0 6px 16px rgba(232,98,61,0.25); 
+  }
+  /* Halo de compatibilité quand un autre profil est sélectionné */
+  .person.hint-strong {
+    border-color: var(--green);
+    box-shadow: 0 0 0 2px rgba(107, 142, 90, 0.3), 0 4px 12px rgba(107, 142, 90, 0.25);
+  }
+  .person.hint-weak {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(212, 165, 116, 0.3), 0 4px 12px rgba(212, 165, 116, 0.2);
+  }
+  .person.hint-none {
+    opacity: 0.45;
+  }
   .person.mismatch { animation: shake 0.4s; }
 
-  .person-face { font-size: 24px; line-height: 1; margin-bottom: 2px; }
-  .person-name { font-family: 'Fraunces', serif; font-weight: 700; font-size: 12px; color: var(--ink); line-height: 1.1;}
-  .person-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; margin: 2px 0; }
-  .person-desc { font-size: 8.5px; line-height: 1.15; color: var(--ink-soft); font-weight: 500; margin-top: 4px; padding: 0 4px; font-style: italic; }
+  .person-face { 
+    font-size: 28px; 
+    line-height: 1; 
+  }
+  .person-name { 
+    font-family: 'Fraunces', serif; 
+    font-weight: 700; 
+    font-size: 11px; 
+    color: var(--ink); 
+    line-height: 1;
+    text-align: center;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 2px;
+  }
+  
+  /* Badges offre/recherche */
+  .person-traits {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+  }
+  .trait-badge {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    line-height: 1;
+    position: relative;
+  }
+  .trait-badge.offer {
+    background: rgba(107, 142, 90, 0.15);
+    border: 1.5px solid var(--green);
+  }
+  .trait-badge.need {
+    background: rgba(232, 98, 61, 0.12);
+    border: 1.5px dashed var(--accent);
+  }
+  .trait-arrow {
+    color: var(--ink-soft);
+    font-size: 10px;
+    font-weight: 700;
+    opacity: 0.6;
+  }
   
   /* ========== TICKER ACTUALITÉS ========== */
   .news-ticker {
@@ -364,42 +455,16 @@
   }
 
   /* Badge coup de coeur */
-  .coup-de-coeur::after { content: '✨'; position: absolute; top: -6px; right: -6px; font-size: 16px; animation: pulse 1.5s infinite; }
-  
-  /* Badge Trait Bonus (Lvl 2+) */
-  .trait-bonus::before {
-    content: '⭐';
-    position: absolute;
-    top: -6px;
-    left: -6px;
-    font-size: 14px;
-    animation: spin 3s linear infinite;
-  }
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  /* Duo VIP (Lvl 3+) - paire pré-liée avec glow doré */
-  .vip-duo {
-    box-shadow: 0 0 0 2px var(--gold), 0 0 16px rgba(212, 165, 116, 0.5) !important;
-    border-color: var(--gold) !important;
-    animation: vipGlow 2s ease-in-out infinite, pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-  @keyframes vipGlow {
-    0%, 100% { box-shadow: 0 0 0 2px var(--gold), 0 0 12px rgba(212, 165, 116, 0.4); }
-    50% { box-shadow: 0 0 0 2px var(--gold), 0 0 20px rgba(212, 165, 116, 0.8); }
-  }
-  .vip-duo::after {
-    content: '💞';
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    font-size: 16px;
-    animation: pulse 1.2s infinite;
+  .coup-de-coeur::after { 
+    content: '✨'; 
+    position: absolute; 
+    top: -4px; 
+    right: -4px; 
+    font-size: 14px; 
+    animation: pulse 1.5s infinite; 
   }
 
-  /* --- ZONE 3 : MAISONS (10%) --- */
+  /* --- ZONE 3 : MAISONS --- */
   .houses-area {
     height: 10dvh; background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
     border-top: 2px dashed rgba(42,42,42,0.1); display: flex; align-items: center; justify-content: center; padding: 0 12px; gap: 8px;
@@ -410,6 +475,12 @@
     min-width: 45px; height: 45px; background: var(--paper); border-radius: 12px;
     display: flex; align-items: center; justify-content: center; font-size: 24px;
     box-shadow: var(--shadow-soft); animation: pop-in 0.4s;
+  }
+  .houses-empty-msg {
+    font-size: 11px;
+    color: var(--ink-soft);
+    font-style: italic;
+    opacity: 0.7;
   }
 
   /* ========== ANIMATIONS & TOASTS ========== */
@@ -425,6 +496,7 @@
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast.success { background: var(--green); }
   .toast.fail { background: #C97B84; }
+  .toast.partial { background: var(--gold-dark); }
   .toast.lvlup { background: linear-gradient(90deg, var(--accent), var(--gold)); color: white; font-size: 14px; font-weight: bold;}
   .toast.unlock { background: linear-gradient(90deg, var(--purple), var(--blue)); color: white; font-weight: bold;}
 
@@ -435,8 +507,13 @@
   .modal h2 { font-family: 'Fraunces', serif; color: var(--accent); margin-bottom: 12px; font-size: 24px; line-height: 1.1;}
   .modal p { font-size: 14px; margin-bottom: 16px; color: var(--ink-soft); line-height: 1.4; text-align: left;}
   .modal .feature-list { background: var(--bg); border-radius: 12px; padding: 12px; margin-bottom: 16px; text-align: left;}
-  .modal .feature-list .feat { font-size: 13px; margin-bottom: 6px; color: var(--ink); }
+  .modal .feature-list .feat { font-size: 13px; margin-bottom: 6px; color: var(--ink); line-height: 1.35; }
   .modal .feature-list .feat:last-child { margin-bottom: 0; }
+  .modal .trait-legend { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+  .modal .trait-legend-item { 
+    background: var(--bg); padding: 4px 8px; border-radius: 99px; 
+    font-size: 11px; color: var(--ink); display: inline-flex; align-items: center; gap: 4px;
+  }
   .btn { background: var(--accent); color: white; border: none; padding: 12px 20px; border-radius: 99px; font-weight: 600; width: 100%; margin-bottom: 8px; font-size: 15px; cursor: pointer;}
   .btn.outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); }
 </style>
@@ -478,7 +555,7 @@
           <span class="action-title">Asso Partenaire</span>
           <span class="action-desc" id="desc-asso">+3 profils</span>
         </div>
-        <div class="action-cost">6 ✨</div>
+        <div class="action-cost" id="cost-asso">5 ✨</div>
       </button>
 
       <button class="action-btn" id="btn-bailleur">
@@ -487,22 +564,30 @@
           <span class="action-title">Bailleur Solidaire</span>
           <span class="action-desc" id="desc-bailleur">+1 logement</span>
         </div>
-        <div class="action-cost">6 ✨</div>
+        <div class="action-cost" id="cost-bailleur">4 ✨</div>
       </button>
     </div>
   </section>
 
   <section class="gallery">
     <div class="gallery-header">
-      <span><span class="regen-dot"></span>Profils : <strong id="regen-countdown">8s</strong></span>
+      <div class="gallery-info">
+        <span>Profils : <strong id="people-count">0</strong></span>
+      </div>
+      <div class="affinity-legend" id="affinity-legend" style="display:none;">
+        <span class="legend-dot strong"></span><span>fort</span>
+        <span class="legend-dot weak"></span><span>faible</span>
+      </div>
       <button class="sort-btn locked" id="btn-sort" title="Organiser par affinité">
-        <span id="sort-icon">🔒</span> <span id="sort-label">Organiser</span>
+        <span id="sort-icon">🔒</span> <span id="sort-label">Lvl 2</span>
       </button>
     </div>
     <div class="people-grid" id="people-grid"></div>
   </section>
 
-  <section class="houses-area" id="houses-grid"></section>
+  <section class="houses-area" id="houses-grid">
+    <div class="houses-empty-msg">Achète des logements via "Bailleur Solidaire" 🏠</div>
+  </section>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -513,7 +598,7 @@
 
 <script>
 // ==========================================
-// AUDIO SYSTEM (Effets uniquement)
+// AUDIO SYSTEM
 // ==========================================
 let audioCtx = null;
 
@@ -535,12 +620,16 @@ function playSfx(type) {
     osc.type = 'sine'; osc.frequency.setValueAtTime(600, t);
     gain.gain.setValueAtTime(0.1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
     osc.start(t); osc.stop(t + 0.1);
-  } else if (type === 'match') {
-    osc.type = 'sine'; osc.frequency.setValueAtTime(523.25, t); osc.frequency.setValueAtTime(659.25, t + 0.1);
-    gain.gain.setValueAtTime(0.1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
-    osc.start(t); osc.stop(t + 0.3);
+  } else if (type === 'match-strong') {
+    osc.type = 'sine'; osc.frequency.setValueAtTime(523.25, t); osc.frequency.setValueAtTime(659.25, t + 0.08); osc.frequency.setValueAtTime(783.99, t + 0.16);
+    gain.gain.setValueAtTime(0.12, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.4);
+    osc.start(t); osc.stop(t + 0.4);
+  } else if (type === 'match-weak') {
+    osc.type = 'sine'; osc.frequency.setValueAtTime(440, t); osc.frequency.setValueAtTime(523.25, t + 0.1);
+    gain.gain.setValueAtTime(0.08, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.25);
+    osc.start(t); osc.stop(t + 0.25);
   } else if (type === 'heart') {
-    osc.type = 'sine'; osc.frequency.setValueAtTime(440, t); osc.frequency.setValueAtTime(554.37, t + 0.1); osc.frequency.setValueAtTime(659.25, t + 0.2);
+    osc.type = 'sine'; osc.frequency.setValueAtTime(440, t); osc.frequency.setValueAtTime(554.37, t + 0.1); osc.frequency.setValueAtTime(659.25, t + 0.2); osc.frequency.setValueAtTime(880, t + 0.3);
     gain.gain.setValueAtTime(0.1, t); gain.gain.linearRampToValueAtTime(0, t + 0.5);
     osc.start(t); osc.stop(t + 0.5);
   } else if (type === 'combo') {
@@ -580,47 +669,42 @@ function playSfx(type) {
 }
 
 // ==========================================
-// GAME DATA & LOGIC
+// GAME DATA
 // ==========================================
-const NAMES = ['Léa','Tom','Sami','Inès','Nora','Yann','Mei','Jules','Aïsha','Léo','Maya','Théo','Lila','Nael','Zoé','Anna','Karim','Solène','Marc','Fatou'];
+const NAMES = ['Léa','Tom','Sami','Inès','Nora','Yann','Mei','Jules','Aïsha','Léo','Maya','Théo','Lila','Nael','Zoé','Anna','Karim','Solène','Marc','Fatou','Hugo','Salim','Eva','Rim','Noah','Lou','Idris','Camille','Élise','Adam','Yasmine','Paul','Margaux','Kenza','Victor','Manon','Sofia'];
 
-// 5 archétypes de profils avec une description claire remplaçant le "apport/besoin" brut.
+// 6 TRAITS = vocabulaire d'offres et de besoins
+const TRAITS = {
+  logement:    { icon: '🏠', label: 'Logement' },
+  energie:     { icon: '💪', label: 'Énergie' },
+  calme:       { icon: '🧘', label: 'Calme' },
+  numerique:   { icon: '💻', label: 'Numérique' },
+  nature:      { icon: '🌳', label: 'Nature' },
+  creativite:  { icon: '🎨', label: 'Créativité' },
+  reseau:      { icon: '🤝', label: 'Réseau' },
+  bienveillance: { icon: '💗', label: 'Écoute' }
+};
+
+// 10 archétypes — chacun a un trait OFFERT et un trait RECHERCHÉ
 const PROFILS = [
-  { 
-    type: 'jeune', label: 'Jeune actif', faces: ['👱','👱‍♀️','🧑','👩','👨'],
-    apport: 'numerique', besoin: 'stabilite', color: 'var(--blue)', colorName: 'blue',
-    description: 'Aide au numérique contre un cadre stable.'
-  },
-  { 
-    type: 'senior', label: 'Senior', faces: ['👵','👴','🧓'],
-    apport: 'stabilite', besoin: 'numerique', color: 'var(--purple)', colorName: 'purple',
-    description: 'Offre un cadre stable contre une aide numérique.'
-  },
-  { 
-    type: 'transition', label: 'En transition', faces: ['🧔','👩‍🦰','👨‍🦱','👩‍🦱'],
-    apport: 'bienveillance', besoin: 'reseau', color: 'var(--accent)', colorName: 'accent',
-    description: 'Offre une écoute bienveillante contre du réseau.'
-  },
-  { 
-    type: 'reconstruction', label: 'En reconstruction', faces: ['🧕','👨‍🦳','👩‍🦳','🧑‍🦲'],
-    apport: 'reseau', besoin: 'bienveillance', color: 'var(--green)', colorName: 'green',
-    description: 'Partage son réseau contre un peu de bienveillance.'
-  },
-  { 
-    type: 'etudiant', label: 'Étudiant', faces: ['🧑','👨','👩','👱‍♀️','👱'],
-    apport: 'energie', besoin: 'logement', color: 'var(--teal)', colorName: 'teal',
-    description: 'Apporte son énergie contre une chambre.'
-  },
-  { 
-    type: 'famille', label: 'Famille hôte', faces: ['👨‍🦰','👩‍🦰','👨‍🦱','👩‍🦱'],
-    apport: 'logement', besoin: 'energie', color: 'var(--gold-dark)', colorName: 'gold',
-    description: 'Offre une chambre contre une présence dynamique.'
-  }
+  { type: 'senior',       label: 'Senior',          faces: ['👵','👴','🧓'],                offer: 'logement',     need: 'numerique',    color: 'var(--purple)' },
+  { type: 'etudiant',     label: 'Étudiant',        faces: ['🧑‍🎓','👨‍🎓','👩‍🎓'],          offer: 'numerique',    need: 'logement',     color: 'var(--blue)' },
+  { type: 'jeune-actif',  label: 'Jeune actif',     faces: ['👱','👱‍♀️','🧑','👨','👩'],     offer: 'energie',      need: 'calme',        color: 'var(--accent)' },
+  { type: 'retraite',     label: 'Retraité',        faces: ['👴','👵','🧓'],                offer: 'calme',        need: 'energie',      color: 'var(--teal)' },
+  { type: 'famille-hote', label: 'Famille hôte',    faces: ['👨‍👩‍👧','👨‍👩‍👦','👩‍👧‍👦'],      offer: 'logement',     need: 'creativite',   color: 'var(--gold-dark)' },
+  { type: 'artiste',      label: 'Artiste',         faces: ['🧑‍🎨','👨‍🎨','👩‍🎨'],          offer: 'creativite',   need: 'logement',     color: 'var(--purple)' },
+  { type: 'jardinier',    label: 'Jardinier',       faces: ['🧑‍🌾','👨‍🌾','👩‍🌾'],          offer: 'nature',       need: 'bienveillance',color: 'var(--green)' },
+  { type: 'aidant',       label: 'Aidant',          faces: ['🧑‍⚕️','👩‍⚕️','👨‍⚕️'],          offer: 'bienveillance',need: 'nature',       color: 'var(--green)' },
+  { type: 'pro-en-transition', label: 'En transition', faces: ['🧔','👩‍🦰','👨‍🦱','👩‍🦱'],     offer: 'reseau',       need: 'bienveillance',color: 'var(--accent)' },
+  { type: 'mentor',       label: 'Mentor',          faces: ['👨‍🏫','👩‍🏫','🧑‍🏫'],          offer: 'bienveillance',need: 'reseau',       color: 'var(--teal)' },
+  { type: 'entrepreneur', label: 'Entrepreneur',    faces: ['🧑‍💼','👨‍💼','👩‍💼'],          offer: 'reseau',       need: 'creativite',   color: 'var(--blue)' },
+  { type: 'creatif',      label: 'Créatif',         faces: ['🧑','👨','👩'],                offer: 'creativite',   need: 'reseau',       color: 'var(--accent)' },
+  { type: 'voyageur',     label: 'Voyageur',        faces: ['🧑','🧔','👩'],                offer: 'energie',      need: 'logement',     color: 'var(--gold-dark)' },
+  { type: 'naturaliste',  label: 'Naturaliste',     faces: ['🧑','👨','👩'],                offer: 'nature',       need: 'numerique',    color: 'var(--green)' }
 ];
 
 const LEVELS = [3, 7, 12, 16, 20];
-const ACTION_COST = 6;
-const COMBO_TIMEOUT_MS = 12000; // 12s d'inactivité = reset combo
+const COMBO_TIMEOUT_MS = 12000;
 
 let state = {
   grid: Array(12).fill(null),
@@ -628,42 +712,39 @@ let state = {
   selectedIdx: null,
   score: 0,
   level: 1,
-  visibility: 0,
+  visibility: 12, // démarrage avec un peu de capital pour acheter
   maxHouses: 8,
-  peopleRegenMs: 7000, 
-  housesRegenMs: 12000,
-  peopleTimer: 0,
-  housesTimer: 0,
   ended: false,
   
   combo: 0,
   lastMatchTime: 0,
   unlockedFeatures: {
-    sort: false,      // Lvl 2
-    traitBonus: false, // Lvl 2
-    vipDuo: false,    // Lvl 3
-    comboBoost: false // Lvl 4
+    sort: false,
+    comboBoost: false
   }
 };
 
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-function generatePerson(forcedType = null) {
-  const profil = forcedType ? PROFILS.find(p => p.type === forcedType) : pick(PROFILS);
+// COÛT évolutif : plus on avance, plus c'est cher (équilibrage)
+function costAsso() { return 4 + state.level; } // 5, 6, 7, 8, 9
+function costBailleur() { return 3 + state.level; } // 4, 5, 6, 7, 8
+
+function gainAsso() { return 3; } // toujours 3 profils
+function gainBailleur() { return 1; } // toujours 1 logement
+
+function generatePerson() {
+  const profil = pick(PROFILS);
   return {
     id: Math.random().toString(36).substr(2,9),
     name: pick(NAMES),
     face: pick(profil.faces),
     type: profil.type,
     label: profil.label,
-    apport: profil.apport,
-    besoin: profil.besoin,
-    description: profil.description,
+    offer: profil.offer,
+    need: profil.need,
     color: profil.color,
-    colorName: profil.colorName,
-    coupDeCoeur: Math.random() < 0.12,
-    traitBonus: state.unlockedFeatures.traitBonus && Math.random() < 0.08,
-    vipDuoId: null
+    coupDeCoeur: Math.random() < 0.10
   };
 }
 
@@ -676,36 +757,18 @@ function spawnPersonInGrid() {
   return false;
 }
 
-// Spawn d'un Duo VIP (lvl 3+)
-function maybeSpawnVipDuo() {
-  if (!state.unlockedFeatures.vipDuo) return false;
-  if (Math.random() > 0.04) return false;
-  
-  const emptyIndices = state.grid.map((p, i) => p === null ? i : -1).filter(i => i !== -1);
-  if (emptyIndices.length < 2) return false;
-  
-  const complementaryPairs = [
-    ['jeune', 'senior'],
-    ['transition', 'reconstruction'],
-    ['etudiant', 'famille']
-  ];
-  const pair = pick(complementaryPairs);
-  const duoId = 'vip_' + Date.now();
-  
-  const idx1 = pick(emptyIndices);
-  const remaining = emptyIndices.filter(i => i !== idx1);
-  const idx2 = pick(remaining);
-  
-  const p1 = generatePerson(pair[0]);
-  const p2 = generatePerson(pair[1]);
-  p1.vipDuoId = duoId;
-  p2.vipDuoId = duoId;
-  
-  state.grid[idx1] = p1;
-  state.grid[idx2] = p2;
-  
-  showToast('💞 Un Duo VIP est apparu ! Associe-les pour un gros bonus !', 'unlock');
-  return true;
+// ==========================================
+// SYSTÈME D'AFFINITÉ
+// ==========================================
+// Score d'affinité entre 2 profils (0 à 4) :
+// - +2 si l'offre de A === besoin de B  (un sens fonctionne)
+// - +2 si l'offre de B === besoin de A  (l'autre sens fonctionne)
+// → 0 = aucune compatibilité (interdit), 2 = faible (toléré, peu rentable), 4 = fort (gros gain)
+function affinityScore(p1, p2) {
+  let score = 0;
+  if (p1.offer === p2.need) score += 2;
+  if (p2.offer === p1.need) score += 2;
+  return score;
 }
 
 // ==========================================
@@ -715,6 +778,8 @@ const gridEl = document.getElementById('people-grid');
 
 function renderGrid() {
   gridEl.innerHTML = '';
+  const selectedPerson = state.selectedIdx !== null ? state.grid[state.selectedIdx] : null;
+  
   state.grid.forEach((p, idx) => {
     const cell = document.createElement('div');
     cell.className = 'grid-cell ' + (p ? '' : 'empty');
@@ -724,17 +789,30 @@ function renderGrid() {
       let classes = 'person';
       if (state.selectedIdx === idx) classes += ' selected';
       if (p.coupDeCoeur) classes += ' coup-de-coeur';
-      if (p.traitBonus) classes += ' trait-bonus';
-      if (p.vipDuoId) classes += ' vip-duo';
+      
+      // Indices visuels d'affinité lorsqu'un profil est sélectionné
+      if (selectedPerson && state.selectedIdx !== idx) {
+        const score = affinityScore(selectedPerson, p);
+        if (score === 4) classes += ' hint-strong';
+        else if (score === 2) classes += ' hint-weak';
+        else classes += ' hint-none';
+      }
+      
       personEl.className = classes;
       personEl.dataset.idx = idx;
+      
+      const offerTrait = TRAITS[p.offer];
+      const needTrait = TRAITS[p.need];
+      
       personEl.innerHTML = `
         <span class="person-face">${p.face}</span>
         <div class="person-name">${p.name}</div>
-        <div class="person-label" style="color:${p.color}">${p.label}</div>
-        <div class="person-desc">${p.description}</div>
+        <div class="person-traits">
+          <div class="trait-badge offer" title="Offre : ${offerTrait.label}">${offerTrait.icon}</div>
+          <span class="trait-arrow">›</span>
+          <div class="trait-badge need" title="Cherche : ${needTrait.label}">${needTrait.icon}</div>
+        </div>
       `;
-      // Remplacement du glisser-déposer par un simple clic
       personEl.onclick = () => onPersonClick(idx);
       cell.appendChild(personEl);
     }
@@ -745,6 +823,13 @@ function renderGrid() {
 const housesEl = document.getElementById('houses-grid');
 function renderHouses() {
   housesEl.innerHTML = '';
+  if (state.houses.length === 0) {
+    const msg = document.createElement('div');
+    msg.className = 'houses-empty-msg';
+    msg.textContent = 'Achète des logements via "Bailleur Solidaire" 🏠';
+    housesEl.appendChild(msg);
+    return;
+  }
   state.houses.forEach(() => {
     const h = document.createElement('div');
     h.className = 'house'; h.textContent = pick(['🏠','🏡','🏢']);
@@ -770,14 +855,23 @@ function renderDashboard() {
     progressFill.classList.remove('near-up');
   }
 
-  const assoGain = 3 + (state.level - 1);
-  const bailleurGain = 1 + Math.floor((state.level - 1) / 2);
-  document.getElementById('desc-asso').textContent = `+${assoGain} profils`;
-  document.getElementById('desc-bailleur').textContent = `+${bailleurGain} logement${bailleurGain>1?'s':''}`;
+  // Coûts dynamiques
+  const cAsso = costAsso();
+  const cBailleur = costBailleur();
+  document.getElementById('cost-asso').textContent = `${cAsso} ✨`;
+  document.getElementById('cost-bailleur').textContent = `${cBailleur} ✨`;
+  document.getElementById('desc-asso').textContent = `+${gainAsso()} profils`;
+  document.getElementById('desc-bailleur').textContent = `+${gainBailleur()} logement`;
 
-  const canAfford = state.visibility >= ACTION_COST;
-  document.getElementById('btn-asso').className = 'action-btn ' + (canAfford ? '' : 'disabled');
-  document.getElementById('btn-bailleur').className = 'action-btn ' + (canAfford ? '' : 'disabled');
+  document.getElementById('btn-asso').className = 'action-btn ' + (state.visibility >= cAsso ? '' : 'disabled');
+  document.getElementById('btn-bailleur').className = 'action-btn ' + (state.visibility >= cBailleur ? '' : 'disabled');
+  
+  // Compteur profils
+  const peopleCount = state.grid.filter(p => p !== null).length;
+  document.getElementById('people-count').textContent = peopleCount;
+  
+  // Légende affinité visible seulement quand un profil est sélectionné
+  document.getElementById('affinity-legend').style.display = state.selectedIdx !== null ? 'flex' : 'none';
   
   const comboBadge = document.getElementById('combo-badge');
   if (state.combo >= 2) {
@@ -803,7 +897,7 @@ function renderDashboard() {
 function renderAll() { renderGrid(); renderHouses(); renderDashboard(); }
 
 // ==========================================
-// MODE TRI (Ordre - Lvl 2+)
+// MODE TRI (Lvl 2+)
 // ==========================================
 document.getElementById('btn-sort').onclick = () => {
   if (!state.unlockedFeatures.sort) {
@@ -816,24 +910,18 @@ document.getElementById('btn-sort').onclick = () => {
   
   playSfx('sort');
   
-  const pairOrder = {
-    'jeune': 0, 'senior': 0,
-    'transition': 1, 'reconstruction': 1,
-    'etudiant': 2, 'famille': 2
-  };
-  const typeSubOrder = {
-    'jeune': 0, 'senior': 1,
-    'transition': 0, 'reconstruction': 1,
-    'etudiant': 0, 'famille': 1
-  };
+  // Tri par trait offert pour regrouper les profils compatibles
+  // (les complémentaires se retrouvent côte à côte logiquement)
+  const traitOrder = ['logement', 'numerique', 'energie', 'calme', 'creativite', 'reseau', 'bienveillance', 'nature'];
   
   profiles.sort((a, b) => {
-    const pairA = pairOrder[a.type] ?? 99;
-    const pairB = pairOrder[b.type] ?? 99;
-    if (pairA !== pairB) return pairA - pairB;
-    if (a.vipDuoId && !b.vipDuoId) return -1;
-    if (!a.vipDuoId && b.vipDuoId) return 1;
-    return (typeSubOrder[a.type] ?? 0) - (typeSubOrder[b.type] ?? 0);
+    // On trie d'abord par le besoin (ce qu'ils cherchent), puis par l'offre
+    const needA = traitOrder.indexOf(a.need);
+    const needB = traitOrder.indexOf(b.need);
+    if (needA !== needB) return needA - needB;
+    const offerA = traitOrder.indexOf(a.offer);
+    const offerB = traitOrder.indexOf(b.offer);
+    return offerA - offerB;
   });
   
   state.grid = Array(12).fill(null);
@@ -842,37 +930,53 @@ document.getElementById('btn-sort').onclick = () => {
   });
   
   state.selectedIdx = null;
-  showToast('🎯 Profils complémentaires regroupés !', 'success');
-  renderGrid();
+  showToast('🎯 Profils regroupés par affinité !', 'success');
+  renderAll();
 };
 
 // ==========================================
-// ACTIONS (Boutons)
+// ACTIONS (Boutons d'achat)
 // ==========================================
 document.getElementById('btn-asso').onclick = () => {
-  if (state.visibility < ACTION_COST) return;
-  state.visibility -= ACTION_COST;
-  playSfx('buy');
+  const cost = costAsso();
+  if (state.visibility < cost) return;
   
-  const amount = 3 + (state.level - 1);
-  let spawned = 0;
-  for (let i = 0; i < amount; i++) {
-    if (spawnPersonInGrid()) spawned++;
+  // Vérifier qu'il y a de la place
+  const emptyCount = state.grid.filter(p => p === null).length;
+  if (emptyCount === 0) {
+    showToast('Grille pleine ! Crée des foyers pour libérer de la place.', 'fail');
+    playSfx('error');
+    return;
   }
   
-  if (spawned < amount) showToast(`Grille pleine ! Seulement ${spawned} profil(s) ajouté(s)`, 'fail');
+  state.visibility -= cost;
+  playSfx('buy');
+  
+  const amount = Math.min(gainAsso(), emptyCount);
+  for (let i = 0; i < amount; i++) {
+    spawnPersonInGrid();
+  }
+  
+  if (amount < gainAsso()) {
+    showToast(`+${amount} profils (grille presque pleine)`, 'partial');
+  }
   renderAll();
 };
 
 document.getElementById('btn-bailleur').onclick = () => {
-  if (state.visibility < ACTION_COST) return;
-  state.visibility -= ACTION_COST;
+  const cost = costBailleur();
+  if (state.visibility < cost) return;
+  
+  if (state.houses.length >= state.maxHouses) {
+    showToast(`Max ${state.maxHouses} logements en attente. Crée des foyers !`, 'fail');
+    playSfx('error');
+    return;
+  }
+  
+  state.visibility -= cost;
   playSfx('buy');
   
-  const amount = 1 + Math.floor((state.level - 1) / 2);
-  for (let i = 0; i < amount; i++) {
-    if (state.houses.length < state.maxHouses) state.houses.push({});
-  }
+  state.houses.push({});
   renderAll();
 };
 
@@ -885,39 +989,41 @@ function onPersonClick(idx) {
 
   if (state.selectedIdx === null) {
     state.selectedIdx = idx;
-    renderGrid();
+    renderAll();
     return;
   }
   if (state.selectedIdx === idx) {
     state.selectedIdx = null;
-    renderGrid();
+    renderAll();
     return;
   }
 
   const p1 = state.grid[state.selectedIdx];
   const p2 = state.grid[idx];
-
-  const isComplementary = (p1.apport === p2.besoin) && (p2.apport === p1.besoin);
+  const score = affinityScore(p1, p2);
   
-  if (isComplementary) attemptMatch(state.selectedIdx, idx, p1, p2);
-  else {
+  if (score === 0) {
+    // AUCUNE compatibilité — refus
     playSfx('error');
-    showToast(`${p1.name} et ${p2.name} ne cherchent pas la même chose ! Associe des profils complémentaires.`, "fail");
+    showToast(`${p1.name} et ${p2.name} n'ont rien à se proposer mutuellement.`, "fail");
     if (state.combo >= 2) {
-      showToast(`💔 Combo brisé (x${state.combo})`, 'fail');
+      setTimeout(() => showToast(`💔 Combo brisé (x${state.combo})`, 'fail'), 100);
     }
     state.combo = 0;
     state.selectedIdx = null;
     renderAll();
+  } else {
+    // Match toléré (score 2 = faible, score 4 = fort)
+    attemptMatch(state.selectedIdx, idx, p1, p2, score);
   }
 }
 
-function attemptMatch(idx1, idx2, p1, p2) {
+function attemptMatch(idx1, idx2, p1, p2, affinity) {
   if (state.houses.length === 0) {
     playSfx('error');
     showToast("Aucun logement disponible ! Sollicite un Bailleur Solidaire.", "fail");
     state.selectedIdx = null;
-    renderGrid();
+    renderAll();
     
     const btnBailleur = document.getElementById('btn-bailleur');
     btnBailleur.classList.remove('blink-alert');
@@ -928,28 +1034,33 @@ function attemptMatch(idx1, idx2, p1, p2) {
   }
 
   const isCoup = p1.coupDeCoeur || p2.coupDeCoeur;
-  const isVipDuo = p1.vipDuoId && p1.vipDuoId === p2.vipDuoId;
-  const hasTraitBonus = p1.traitBonus || p2.traitBonus;
+  const isStrong = affinity === 4;
   
-  let visGain = 3;
-  if (isCoup) visGain = 9;
-  if (isVipDuo) visGain += 10;
-  if (hasTraitBonus) visGain += 5;
+  // Gain de base : 1 pour faible, 5 pour fort (gros écart pour récompenser la stratégie)
+  let visGain = isStrong ? 5 : 1;
+  if (isCoup) visGain += isStrong ? 5 : 2; // coup de coeur amplifie
   
-  state.combo++;
-  state.lastMatchTime = Date.now();
+  // Combo : seulement les matchs FORTS le font progresser ; un match faible le maintient
+  if (isStrong) {
+    state.combo++;
+    state.lastMatchTime = Date.now();
+  } else {
+    // un match faible ne casse pas le combo mais ne l'augmente pas
+    state.lastMatchTime = Date.now();
+  }
   
-  let comboMultiplier = 1;
-  if (state.unlockedFeatures.comboBoost && state.combo >= 5) {
-    comboMultiplier = 2;
-    visGain = Math.floor(visGain * comboMultiplier);
-  } else if (state.combo >= 3) {
+  // Bonus combo
+  if (state.unlockedFeatures.comboBoost && state.combo >= 5 && isStrong) {
+    visGain = visGain * 2;
+  } else if (state.combo >= 3 && isStrong) {
     visGain += (state.combo - 2);
   }
   
-  if (state.combo >= 5) playSfx('combo');
-  else if (isCoup || isVipDuo) playSfx('heart');
-  else playSfx('match');
+  // SFX
+  if (state.combo >= 5 && isStrong) playSfx('combo');
+  else if (isCoup) playSfx('heart');
+  else if (isStrong) playSfx('match-strong');
+  else playSfx('match-weak');
 
   const cells = document.querySelectorAll('.grid-cell');
   const sourceEl1 = cells[idx1]?.querySelector('.person');
@@ -965,14 +1076,13 @@ function attemptMatch(idx1, idx2, p1, p2) {
   state.selectedIdx = null;
   
   let msg = '';
-  if (isVipDuo) msg = `💞 DUO VIP : ${p1.name} & ${p2.name} cohabitent ! +${visGain} ✨`;
-  else if (isCoup) msg = `💖 Belle complémentarité ! +${visGain} ✨`;
-  else if (hasTraitBonus) msg = `⭐ Match bonus ! +${visGain} ✨`;
-  else if (state.combo >= 5 && comboMultiplier > 1) msg = `🔥 COMBO x${state.combo} DOUBLÉ ! +${visGain} ✨`;
-  else if (state.combo >= 3) msg = `🔥 Combo x${state.combo} ! +${visGain} ✨`;
-  else msg = `🏡 ${p1.name} & ${p2.name} emménagent ensemble ! +${visGain} ✨`;
+  if (isCoup && isStrong) msg = `💖 Coup de cœur parfait ! +${visGain} ✨`;
+  else if (isStrong && state.combo >= 5) msg = `🔥 COMBO x${state.combo} ! +${visGain} ✨`;
+  else if (isStrong && state.combo >= 3) msg = `🔥 Combo x${state.combo} ! +${visGain} ✨`;
+  else if (isStrong) msg = `🏡 Belle complémentarité ! +${visGain} ✨`;
+  else msg = `🤏 Cohabitation correcte, peu d'affinités... +${visGain} ✨`;
   
-  showToast(msg, 'success');
+  showToast(msg, isStrong ? 'success' : 'partial');
   
   if (sourceEl1 && sourceEl2) {
     animateMatchToHouse(p1, p2, sourceEl1, sourceEl2, () => {
@@ -1004,16 +1114,14 @@ function checkLevelUp() {
       let unlockMsg = '';
       if (state.level === 2) {
         state.unlockedFeatures.sort = true;
-        state.unlockedFeatures.traitBonus = true;
-        unlockMsg = '🌟 NIVEAU 2 ! Débloqué : Bouton "Organiser" + Profils ⭐ bonus';
+        unlockMsg = '🌟 NIVEAU 2 ! Bouton "Organiser" débloqué — regroupe les profils compatibles';
       } else if (state.level === 3) {
-        state.unlockedFeatures.vipDuo = true;
-        unlockMsg = '🌟 NIVEAU 3 ! Des Duos VIP 💞 vont apparaître (gros bonus si réunis)';
+        unlockMsg = '🌟 NIVEAU 3 ! Les coups de cœur ✨ rapportent encore plus d\'Impact';
       } else if (state.level === 4) {
         state.unlockedFeatures.comboBoost = true;
-        unlockMsg = '🌟 NIVEAU 4 ! Les Combos x5+ doublent désormais l\'Impact 🔥';
+        unlockMsg = '🌟 NIVEAU 4 ! Combo x5+ double l\'Impact des matchs forts 🔥';
       } else if (state.level === 5) {
-        unlockMsg = '🌟 NIVEAU 5 ! Dernier palier — tout est cumulé, fonce !';
+        unlockMsg = '🌟 NIVEAU 5 ! Dernier palier — vise les matchs parfaits !';
       }
       
       showToast(`🌟 NIVEAU ${state.level} ATTEINT !`, 'lvlup');
@@ -1043,7 +1151,7 @@ function endGame() {
   document.getElementById('modal-content').innerHTML = `
     <h2 style="text-align:center;">🎉 BRAVO !</h2>
     <p style="text-align:center; font-weight:bold; color:var(--ink); font-size:15px;">Tu as créé <span style="color:var(--accent);">20 foyers inclusifs</span> 🏡</p>
-    <p>En 2 minutes, tu as compris le principe de <b>Lien pour l'autre</b> : associer des personnes <b>complémentaires</b> dans des logements partagés pour faire reculer la précarité par l'entraide.</p>
+    <p>En quelques minutes, tu as compris le principe de <b>Lien pour l'autre</b> : associer des personnes <b>complémentaires</b> dans des logements partagés pour faire reculer la précarité par l'entraide.</p>
     <p style="font-weight:bold; color:var(--accent); margin-bottom: 10px;">👉 Et dans la vraie vie, tu peux aider :</p>
     <div class="feature-list">
       <div class="feat">📢 <b>Donner de la visibilité</b> — partage ce jeu autour de toi</div>
@@ -1059,17 +1167,38 @@ function endGame() {
 }
 
 document.getElementById('btn-help').onclick = () => {
+  // Construire la légende des traits
+  const traitLegend = Object.values(TRAITS).map(t => 
+    `<span class="trait-legend-item">${t.icon} ${t.label}</span>`
+  ).join('');
+  
   document.getElementById('modal-content').innerHTML = `
     <h2>Crée des foyers inclusifs !</h2>
     <p>
-      <b>🎯 Le principe :</b> Associe deux personnes <b>complémentaires</b> (les offres et les besoins de chacun doivent s'aligner).<br><br>
-      <b>👆 Comment :</b> Tape un profil, puis un deuxième pour les associer. Chaque foyer créé consomme un logement 🏠.<br><br>
-      <b>💰 Bonus :</b> Attrape les pièces qui passent ! Et enchaîne les matchs pour faire monter ton combo 🔥.
+      <b>🎯 Lire un profil :</b><br>
+      <span style="display:inline-flex; align-items:center; gap:4px;">
+        <span style="width:18px; height:18px; border-radius:50%; background:rgba(107,142,90,0.15); border:1.5px solid var(--green); display:inline-flex; align-items:center; justify-content:center; font-size:11px;">🏠</span>
+        <span>= ce qu'il <b>offre</b></span>
+      </span>
+      &nbsp;&nbsp;
+      <span style="display:inline-flex; align-items:center; gap:4px;">
+        <span style="width:18px; height:18px; border-radius:50%; background:rgba(232,98,61,0.12); border:1.5px dashed var(--accent); display:inline-flex; align-items:center; justify-content:center; font-size:11px;">💻</span>
+        <span>= ce qu'il <b>cherche</b></span>
+      </span>
+    </p>
+    <div class="trait-legend">${traitLegend}</div>
+    <p>
+      <b>👆 Associer :</b> Tape un profil, puis un autre. La couleur indique l'affinité :<br>
+      🟢 <b>Fort</b> (offre↔besoin réciproques) = <b>+5 ✨</b><br>
+      🟡 <b>Faible</b> (un seul sens) = <b>+1 ✨</b><br>
+      ⚪ <b>Aucune</b> = match refusé
+    </p>
+    <p>
+      <b>💰 Achète</b> profils et logements avec ton Impact ✨. Les <b>coups de cœur ✨</b> rapportent gros, les <b>combos 🔥</b> aussi.
     </p>
     <div class="feature-list">
-      <div class="feat"><b>Niveau 2</b> : 🎯 Bouton "Organiser" + ⭐ Profils bonus</div>
-      <div class="feat"><b>Niveau 3</b> : 💞 Duos VIP (gros bonus)</div>
-      <div class="feat"><b>Niveau 4</b> : 🔥 Combo x5+ double l'Impact</div>
+      <div class="feat"><b>Niveau 2</b> : 🎯 Bouton "Organiser"</div>
+      <div class="feat"><b>Niveau 4</b> : 🔥 Combo x5+ double les gains</div>
       <div class="feat"><b>Niveau 5</b> : 🏆 Objectif : 20 foyers</div>
     </div>
     <button class="btn" onclick="document.getElementById('modal-bg').classList.remove('show')">C'est parti !</button>
@@ -1079,40 +1208,15 @@ document.getElementById('btn-help').onclick = () => {
 document.getElementById('btn-reset').onclick = () => location.reload();
 
 // ==========================================
-// GAME LOOP
+// GAME LOOP (juste pour le combo timeout)
 // ==========================================
-let lastTime = Date.now();
 function loop() {
   if (state.ended) return;
   const now = Date.now();
-  const dt = now - lastTime;
-  lastTime = now;
-
-  state.peopleTimer += dt;
-  state.housesTimer += dt;
   
   if (state.combo >= 2 && (now - state.lastMatchTime) > COMBO_TIMEOUT_MS) {
     state.combo = 0;
     renderDashboard();
-  }
-
-  const emptyCount = state.grid.filter(p => p === null).length;
-  if (emptyCount > 0) {
-    document.getElementById('regen-countdown').textContent = Math.max(0, Math.ceil((state.peopleRegenMs - state.peopleTimer)/1000)) + 's';
-    if (state.peopleTimer >= state.peopleRegenMs) {
-      const duoSpawned = maybeSpawnVipDuo();
-      if (!duoSpawned) spawnPersonInGrid();
-      state.peopleTimer = 0;
-      renderGrid();
-    }
-  } else {
-    document.getElementById('regen-countdown').textContent = 'Pleine';
-  }
-
-  if (state.houses.length < state.maxHouses && state.housesTimer >= state.housesRegenMs) {
-    state.houses.push({});
-    state.housesTimer = 0;
-    renderHouses();
   }
 
   requestAnimationFrame(loop);
@@ -1334,10 +1438,12 @@ function scheduleNextCoin() {
   }, delay);
 }
 
-state.grid[0] = generatePerson('jeune');
-state.grid[1] = generatePerson('senior');
+// ==========================================
+// INIT
+// ==========================================
+// On démarre avec 4 profils et 2 logements pour que le joueur puisse jouer immédiatement
 for(let i=0; i<4; i++) spawnPersonInGrid();
-for(let i=0; i<3; i++) state.houses.push({});
+for(let i=0; i<2; i++) state.houses.push({});
 
 updateTicker(true);
 renderAll();
