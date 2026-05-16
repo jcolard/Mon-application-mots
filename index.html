@@ -29,19 +29,19 @@
   }
 
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth; background:var(--creme);}
+  html{scroll-behavior:smooth}
   body{
     font-family:var(--ff-body);
+    background:var(--creme);
     color:var(--noir);
     overflow-x:hidden;
     line-height:1.55;
     -webkit-font-smoothing:antialiased;
-    position: relative; /* Nécessaire pour le conteneur parallax */
   }
   ::selection{background:var(--rose);color:var(--bleu-deep)}
 
   /* GRAIN */
-  body::after{
+  body::before{
     content:"";
     position:fixed;inset:0;
     background-image:url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
@@ -51,26 +51,123 @@
     mix-blend-mode:multiply;
   }
 
-  /* ============ BACKGROUND PARALLAX (Formes Colorées) ============ */
-  .parallax-bg {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
+  /* ============ PARALLAX BACKGROUND SHAPES ============ */
+  /* Couche fixe en position:fixed — le JS la déplace via translateY
+     mais plus lentement que le scroll → effet de profondeur */
+  .parallax-layer{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:0;
+    overflow:hidden;
   }
-  .blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(90px);
-    opacity: 0.45;
-    will-change: transform;
+  .pshape{
+    position:absolute;
+    border-radius:50%;
+    will-change:transform;
+    transition:opacity 1.4s ease;
+    opacity:0;
   }
-  .blob-1 { background: var(--rose-vif); width: 600px; height: 600px; top: 2%; left: -10%; }
-  .blob-2 { background: var(--bleu-ciel); width: 500px; height: 500px; top: 20%; right: -10%; }
-  .blob-3 { background: var(--vert); width: 700px; height: 700px; top: 45%; left: -15%; }
-  .blob-4 { background: var(--rose); width: 500px; height: 500px; top: 65%; right: 5%; }
-  .blob-5 { background: var(--kaki); width: 550px; height: 550px; top: 85%; left: 20%; }
+  .pshape.visible{ opacity:1; }
+
+  /* Blob 1 — grand cercle bleu haut-gauche */
+  .ps1{
+    width:580px; height:580px;
+    background:radial-gradient(circle at 40% 40%, rgba(91,155,213,0.20), transparent 68%);
+    top:-160px; left:-200px;
+  }
+  /* Blob 2 — rose centre-droit */
+  .ps2{
+    width:650px; height:650px;
+    background:radial-gradient(circle at 60% 55%, rgba(196,98,133,0.16), transparent 66%);
+    top:28vh; right:-220px;
+  }
+  /* Blob 3 — vert bas-gauche */
+  .ps3{
+    width:500px; height:500px;
+    background:radial-gradient(circle at 50% 50%, rgba(112,173,71,0.17), transparent 63%);
+    top:68vh; left:-130px;
+  }
+  /* Blob 4 — kaki milieu-droit */
+  .ps4{
+    width:380px; height:380px;
+    background:radial-gradient(circle at 50% 50%, rgba(153,136,86,0.13), transparent 58%);
+    top:115vh; right:8%;
+  }
+  /* Blob 5 — bleu deep grand, loin en bas */
+  .ps5{
+    width:720px; height:720px;
+    background:radial-gradient(circle at 45% 45%, rgba(30,58,111,0.15), transparent 63%);
+    top:175vh; left:-8%;
+  }
+  /* Blob 6 — rose doux, bas-droit */
+  .ps6{
+    width:440px; height:440px;
+    background:radial-gradient(circle at 55% 50%, rgba(212,140,168,0.18), transparent 60%);
+    top:240vh; right:-70px;
+  }
+  /* Blob 7 — vert profond, tout en bas */
+  .ps7{
+    width:580px; height:580px;
+    background:radial-gradient(circle at 50% 50%, rgba(85,130,53,0.15), transparent 64%);
+    top:315vh; left:18%;
+  }
+
+  /* Formes géométriques légères */
+  .pgeo{
+    position:absolute;
+    pointer-events:none;
+    will-change:transform;
+    transition:opacity 1.6s ease;
+    opacity:0;
+  }
+  .pgeo.visible{ opacity:1; }
+
+  .pg1{
+    width:130px; height:130px;
+    border:2px solid rgba(48,85,152,0.11);
+    border-radius:30px;
+    transform:rotate(18deg);
+    top:22vh; left:5%;
+  }
+  .pg2{
+    width:85px; height:85px;
+    background:rgba(196,98,133,0.06);
+    border-radius:50%;
+    top:52vh; right:7%;
+  }
+  .pg3{
+    width:65px; height:65px;
+    border:1.5px solid rgba(112,173,71,0.18);
+    transform:rotate(-14deg);
+    top:92vh; left:11%;
+  }
+  .pg4{
+    width:170px; height:170px;
+    border:2px solid rgba(153,136,86,0.10);
+    border-radius:50%;
+    top:138vh; right:13%;
+  }
+  .pg5{
+    width:95px; height:95px;
+    background:rgba(91,155,213,0.07);
+    border-radius:22px;
+    transform:rotate(30deg);
+    top:196vh; left:4%;
+  }
+  .pg6{
+    width:115px; height:115px;
+    border:1.5px solid rgba(196,98,133,0.13);
+    border-radius:34px;
+    transform:rotate(-20deg);
+    top:268vh; right:5%;
+  }
+  .pg7{
+    width:70px; height:70px;
+    background:rgba(153,136,86,0.08);
+    border-radius:50%;
+    top:320vh; left:60%;
+  }
 
   /* ============ NAV ============ */
   nav.top{
@@ -122,11 +219,30 @@
     min-height:90vh;
     padding:130px 36px 80px;
     position:relative;
-    z-index:1;
     display:grid;
     grid-template-columns:1.05fr .95fr;
     gap:60px;
     align-items:center;
+    overflow:hidden;
+    z-index:1;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    top:-20%;right:-10%;
+    width:60%;height:120%;
+    background:radial-gradient(circle at center, rgba(212,140,168,.35), transparent 65%);
+    pointer-events:none;
+    z-index:0;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    bottom:-30%;left:-10%;
+    width:50%;height:90%;
+    background:radial-gradient(circle at center, rgba(112,173,71,.22), transparent 60%);
+    pointer-events:none;
+    z-index:0;
   }
   .hero-content{position:relative;z-index:2}
 
@@ -166,9 +282,7 @@
     max-width:600px;
   }
   .pitch-block{
-    background:rgba(255,255,255,.8);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background:var(--blanc);
     border:1.5px solid rgba(48,85,152,.12);
     border-radius:16px;
     padding:14px 16px;
@@ -256,6 +370,34 @@
   .hero-podcast.playing .hero-podcast-bars .b:nth-child(3){animation-delay:.3s}
   .hero-podcast.playing .hero-podcast-bars .b:nth-child(4){animation-delay:.1s}
   @keyframes miniwave{0%,100%{height:25%}50%{height:90%}}
+
+  .btn{
+    padding:15px 28px;
+    border-radius:999px;
+    text-decoration:none;
+    font-weight:700;
+    font-size:.92rem;
+    display:inline-flex;align-items:center;gap:10px;
+    cursor:pointer;border:none;
+    transition:all .3s cubic-bezier(.2,.8,.3,1.2);
+    font-family:inherit;
+  }
+  .btn-primary{
+    background:var(--bleu);
+    color:var(--blanc);
+    box-shadow:0 8px 24px -8px rgba(48,85,152,.6);
+  }
+  .btn-primary:hover{
+    background:var(--bleu-deep);
+    transform:translateY(-3px);
+    box-shadow:0 14px 30px -10px rgba(48,85,152,.7);
+  }
+  .btn-ghost{
+    background:transparent;
+    color:var(--bleu-deep);
+    border:2px solid var(--bleu-deep);
+  }
+  .btn-ghost:hover{background:var(--bleu-deep);color:var(--creme)}
 
   /* HERO VISUAL */
   .hero-visual{
@@ -349,7 +491,7 @@
   }
 
   /* ============ SECTIONS COMMUNES ============ */
-  section{padding:90px 36px;position:relative; z-index:1;}
+  section{padding:90px 36px;position:relative;z-index:1}
   .container{max-width:1280px;margin:0 auto}
   .section-head{margin-bottom:50px;max-width:880px}
   .section-head.centered{margin-left:auto;margin-right:auto;text-align:center}
@@ -380,11 +522,8 @@
   .reveal.visible{opacity:1;transform:translateY(0)}
 
   /* ============ ACTUALITÉS ============ */
-  /* Utilisation de background rgba + backdrop filter pour laisser apparaître les blobs */
   .actus{
-    background: rgba(245,239,228,0.7);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background:var(--creme);
     padding:70px 36px 60px;
   }
   .actus-header{
@@ -434,7 +573,7 @@
   }
   .actu-card{
     flex:0 0 calc((100% - 48px)/3);
-    background:rgba(255,255,255,.9);
+    background:var(--blanc);
     border-radius:22px;
     overflow:hidden;
     border:1.5px solid rgba(48,85,152,.08);
@@ -495,14 +634,105 @@
   @media (max-width:980px){.actu-card{flex:0 0 calc((100% - 24px)/2)}}
   @media (max-width:680px){.actu-card{flex:0 0 100%}}
 
+  /* ============ POPUP ARTICLE ============ */
+  .modal-overlay{
+    position:fixed;inset:0;
+    z-index:1000;
+    background:rgba(15,20,32,.7);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .3s ease;
+  }
+  .modal-overlay.open{opacity:1;pointer-events:all}
+  .modal{
+    background:var(--creme);
+    border-radius:28px;
+    max-width:680px;
+    width:100%;
+    max-height:88vh;
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    box-shadow:0 40px 80px -20px rgba(0,0,0,.45);
+    transform:translateY(24px) scale(.97);
+    transition:transform .35s cubic-bezier(.2,.8,.3,1);
+  }
+  .modal-overlay.open .modal{transform:translateY(0) scale(1)}
+  .modal-img{
+    aspect-ratio:16/8;
+    background:linear-gradient(135deg,var(--bleu),var(--rose-vif));
+    overflow:hidden;
+    flex-shrink:0;
+    position:relative;
+  }
+  .modal-img img{width:100%;height:100%;object-fit:cover;display:block}
+  .modal-img-fallback{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--ff-display);font-weight:800;font-size:5rem;
+    color:var(--blanc);opacity:.3;
+  }
+  .modal-body{
+    padding:32px 36px 36px;
+    overflow-y:auto;
+    flex:1;
+  }
+  .modal-date{
+    font-size:.75rem;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--rose-vif);margin-bottom:10px;
+  }
+  .modal-body h2{
+    font-family:var(--ff-display);
+    font-weight:800;font-size:1.7rem;
+    color:var(--bleu-deep);line-height:1.15;
+    margin-bottom:18px;
+  }
+  .modal-body p{
+    font-size:1rem;color:#2a2f3d;line-height:1.7;
+  }
+  .modal-close{
+    position:absolute;top:18px;right:18px;
+    width:40px;height:40px;
+    background:rgba(15,20,32,.55);
+    border:none;border-radius:50%;
+    color:var(--blanc);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    font-size:1.1rem;
+    z-index:10;
+    transition:background .25s;
+    backdrop-filter:blur(4px);
+  }
+  .modal-close:hover{background:var(--rose-vif)}
+  @media (max-width:540px){
+    .modal-body{padding:24px 20px 28px}
+    .modal-body h2{font-size:1.35rem}
+  }
+
   /* ============ JEU MOBILE ============ */
-  /* Opaque pour créer un contraste de design */
   .play-section{
     background:var(--bleu-deep);
     color:var(--creme);
     padding:100px 36px;
     position:relative;
     overflow:hidden;
+  }
+  .play-section::before{
+    content:"";position:absolute;
+    top:10%;left:-10%;
+    width:40%;height:60%;
+    background:radial-gradient(circle, rgba(112,173,71,.2), transparent 65%);
+    pointer-events:none;
+  }
+  .play-section::after{
+    content:"";position:absolute;
+    bottom:-20%;right:-10%;
+    width:50%;height:80%;
+    background:radial-gradient(circle, rgba(212,140,168,.18), transparent 65%);
+    pointer-events:none;
   }
   .play-section .container{position:relative;z-index:2}
   .play-section .section-tag{color:var(--vert)}
@@ -557,6 +787,7 @@
   .play-phone-wrap{
     display:flex;justify-content:center;align-items:center;
   }
+
   .phone-frame{
     width:320px;
     height:640px;
@@ -612,7 +843,7 @@
   .play-cta a:hover{transform:translateY(-2px)}
 
   @media (max-width:980px){
-    .play-grid{grid-template-columns:1fr;gap:50px;}
+    .play-grid{grid-template-columns:1fr;gap:50px}
     .play-text{order:1}
     .play-phone-wrap{order:2}
     .phone-frame{transform:scale(.92);transform-origin:center}
@@ -624,11 +855,8 @@
   }
 
   /* ============ APPROFONDIR ============ */
-  /* Translucide pour le parallax background */
   .approfondir{
-    background:rgba(235,226,207,.7);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background:var(--creme-warm);
     padding:100px 36px;
   }
   .pillars{
@@ -638,7 +866,7 @@
     margin-top:50px;
   }
   .pillar{
-    background:rgba(255,255,255,.8);
+    background:var(--blanc);
     border-radius:22px;
     padding:30px 24px;
     border:1.5px solid rgba(48,85,152,.08);
@@ -721,9 +949,7 @@
 
   /* ============ TÉMOIGNAGES ============ */
   .testimonials{
-    background:rgba(245,239,228,.7);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background:var(--creme);
     padding:100px 36px;
   }
   .testimonials-grid{
@@ -733,7 +959,7 @@
     margin-top:40px;
   }
   .testimonial{
-    background:rgba(255,255,255,.85);
+    background:var(--blanc);
     border-radius:24px;
     padding:36px 34px;
     border:1.5px solid rgba(48,85,152,.08);
@@ -798,7 +1024,6 @@
   @media (max-width:780px){.testimonials-grid{grid-template-columns:1fr}}
 
   /* ============ CONTACT ============ */
-  /* Gardé opaque volontairement pour le contraste final */
   .contact{
     background:var(--noir);
     color:var(--creme);
@@ -811,6 +1036,13 @@
     bottom:-40%;left:-20%;
     width:70%;height:140%;
     background:radial-gradient(circle, rgba(48,85,152,.4), transparent 60%);
+    pointer-events:none;
+  }
+  .contact::after{
+    content:"";position:absolute;
+    top:-30%;right:-20%;
+    width:60%;height:120%;
+    background:radial-gradient(circle, rgba(212,140,168,.25), transparent 60%);
     pointer-events:none;
   }
   .contact-wrap{
@@ -883,6 +1115,55 @@
   }
   .contact-mail:hover{border-bottom-color:var(--rose)}
 
+  /* RÉSEAUX SOCIAUX */
+  .contact-socials{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-top:28px;
+    flex-wrap:wrap;
+  }
+  .social-link{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:rgba(245,239,228,.07);
+    border:1px solid rgba(245,239,228,.16);
+    border-radius:999px;
+    padding:9px 18px 9px 13px;
+    color:var(--creme);
+    text-decoration:none;
+    font-weight:600;
+    font-size:.84rem;
+    transition:all .3s;
+  }
+  .social-link:hover{
+    background:var(--bleu);
+    border-color:var(--bleu);
+    transform:translateY(-3px);
+    box-shadow:0 10px 22px -10px rgba(48,85,152,.6);
+  }
+  .social-link svg{width:17px;height:17px;flex-shrink:0}
+
+  /* MENTION ADRESS */
+  .contact-adress{
+    margin-top:18px;
+    font-size:.88rem;
+    color:rgba(245,239,228,.5);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .contact-adress svg{flex-shrink:0;opacity:.5}
+  .contact-adress a{
+    color:rgba(245,239,228,.78);
+    text-decoration:underline;
+    text-underline-offset:3px;
+    transition:color .25s;
+  }
+  .contact-adress a:hover{color:var(--vert)}
+
   .contact-house{
     display:flex;justify-content:center;align-items:center;
   }
@@ -890,6 +1171,7 @@
     width:100%;max-width:340px;height:auto;overflow:visible;
     filter:drop-shadow(0 30px 50px rgba(0,0,0,.4));
   }
+
   @media (max-width:980px){
     .contact-wrap{grid-template-columns:1fr;gap:50px}
     .contact-house{order:-1;max-width:280px;margin:0 auto}
@@ -902,139 +1184,39 @@
   footer{
     background:var(--noir);
     color:rgba(245,239,228,.5);
-    padding:40px 36px;
+    padding:30px 36px;
     border-top:1px solid rgba(245,239,228,.08);
     text-align:center;
     font-size:.85rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    position: relative;
-    z-index: 2;
   }
   footer strong{color:var(--creme)}
-  .footer-socials {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    margin-bottom: 8px;
-  }
-  .footer-socials a {
-    color: var(--creme);
-    text-decoration: none;
-    font-weight: 600;
-    padding: 8px 18px;
-    border-radius: 999px;
-    background: rgba(245,239,228,.1);
-    transition: background .3s, transform .3s;
-  }
-  .footer-socials a:hover {
-    background: var(--rose-vif);
-    transform: translateY(-2px);
-  }
-  .footer-mentions {
-    color: rgba(245,239,228,.8);
-    font-size: 0.95rem;
-  }
-  .footer-mentions a {
-    color: var(--vert);
-    text-decoration: none;
-    font-weight: 700;
-  }
-  .footer-mentions a:hover {
-    text-decoration: underline;
-  }
-
-  /* POPUP ARTICLE */
-  .modal-overlay{
-    position:fixed;inset:0;
-    z-index:1000;
-    background:rgba(15,20,32,.7);
-    backdrop-filter:blur(8px);
-    -webkit-backdrop-filter:blur(8px);
-    display:flex;align-items:center;justify-content:center;
-    padding:24px;
-    opacity:0;
-    pointer-events:none;
-    transition:opacity .3s ease;
-  }
-  .modal-overlay.open{opacity:1;pointer-events:all}
-  .modal{
-    background:var(--creme);
-    border-radius:28px;
-    max-width:680px;
-    width:100%;
-    max-height:88vh;
-    overflow:hidden;
-    display:flex;flex-direction:column;
-    box-shadow:0 40px 80px -20px rgba(0,0,0,.45);
-    transform:translateY(24px) scale(.97);
-    transition:transform .35s cubic-bezier(.2,.8,.3,1);
-  }
-  .modal-overlay.open .modal{transform:translateY(0) scale(1)}
-  .modal-img{
-    aspect-ratio:16/8;
-    background:linear-gradient(135deg,var(--bleu),var(--rose-vif));
-    overflow:hidden;
-    flex-shrink:0;
-    position:relative;
-  }
-  .modal-img img{width:100%;height:100%;object-fit:cover;display:block}
-  .modal-img-fallback{
-    position:absolute;inset:0;
-    display:flex;align-items:center;justify-content:center;
-    font-family:var(--ff-display);font-weight:800;font-size:5rem;
-    color:var(--blanc);opacity:.3;
-  }
-  .modal-body{
-    padding:32px 36px 36px;
-    overflow-y:auto;
-    flex:1;
-  }
-  .modal-date{
-    font-size:.75rem;font-weight:700;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--rose-vif);margin-bottom:10px;
-  }
-  .modal-body h2{
-    font-family:var(--ff-display);
-    font-weight:800;font-size:1.7rem;
-    color:var(--bleu-deep);line-height:1.15;
-    margin-bottom:18px;
-  }
-  .modal-body p{font-size:1rem;color:#2a2f3d;line-height:1.7;}
-  .modal-close{
-    position:absolute;top:18px;right:18px;
-    width:40px;height:40px;
-    background:rgba(15,20,32,.55);
-    border:none;border-radius:50%;
-    color:var(--blanc);
-    display:flex;align-items:center;justify-content:center;
-    cursor:pointer;
-    font-size:1.1rem;
-    z-index:10;
-    transition:background .25s;
-    backdrop-filter:blur(4px);
-  }
-  .modal-close:hover{background:var(--rose-vif)}
-  @media (max-width:540px){
-    .modal-body{padding:24px 20px 28px}
-    .modal-body h2{font-size:1.35rem}
-  }
 
   audio{display:none}
 </style>
 </head>
 <body>
 
-<div class="parallax-bg" aria-hidden="true">
-  <div class="blob blob-1" data-speed="-0.3"></div>
-  <div class="blob blob-2" data-speed="-0.5"></div>
-  <div class="blob blob-3" data-speed="-0.2"></div>
-  <div class="blob blob-4" data-speed="-0.6"></div>
-  <div class="blob blob-5" data-speed="-0.4"></div>
+<!-- ============ PARALLAX BACKGROUND LAYER ============ -->
+<!-- position:fixed — le JS translate en Y à vitesse réduite → les formes
+     semblent "rester en arrière" pendant le scroll, créant un effet de profondeur -->
+<div class="parallax-layer" id="parallax-layer" aria-hidden="true">
+  <div class="pshape ps1" data-speed="0.22"></div>
+  <div class="pshape ps2" data-speed="0.16"></div>
+  <div class="pshape ps3" data-speed="0.20"></div>
+  <div class="pshape ps4" data-speed="0.14"></div>
+  <div class="pshape ps5" data-speed="0.18"></div>
+  <div class="pshape ps6" data-speed="0.15"></div>
+  <div class="pshape ps7" data-speed="0.11"></div>
+  <div class="pgeo pg1" data-speed="0.28"></div>
+  <div class="pgeo pg2" data-speed="0.24"></div>
+  <div class="pgeo pg3" data-speed="0.32"></div>
+  <div class="pgeo pg4" data-speed="0.18"></div>
+  <div class="pgeo pg5" data-speed="0.26"></div>
+  <div class="pgeo pg6" data-speed="0.20"></div>
+  <div class="pgeo pg7" data-speed="0.13"></div>
 </div>
 
+<!-- ============ NAV ============ -->
 <nav class="top" id="topnav">
   <a href="#" class="brand">
     <img src="logo.png" alt="Lienpourl'autre" class="brand-mark">
@@ -1046,10 +1228,11 @@
   <source src="podcast.mp3" type="audio/mpeg">
 </audio>
 
+<!-- ============ HERO ============ -->
 <section class="hero">
   <div class="hero-content">
     <h1 class="hero-title">
-      Faire reculer la précarité par <br>l’habitat inclusif<br>
+      Faire reculer la précarité par <br>l'habitat inclusif<br>
       <em>et la complémentarité</em>
     </h1>
 
@@ -1087,12 +1270,7 @@
       <div class="hero-phone-deco"></div>
       <div class="hero-phone-deco-2"></div>
       <div class="hero-phone-screen">
-        <video
-          src="video.mp4"
-          controls
-          playsinline
-          preload="metadata"
-        >
+        <video src="video.mp4" controls playsinline preload="metadata">
           Votre navigateur ne supporte pas la vidéo.
         </video>
       </div>
@@ -1103,6 +1281,7 @@
   </div>
 </section>
 
+<!-- ============ ACTUALITÉS ============ -->
 <section class="actus" id="actus">
   <div class="container">
     <div class="actus-header reveal">
@@ -1124,6 +1303,7 @@
   </div>
 </section>
 
+<!-- ============ JEU MOBILE ============ -->
 <section class="play-section" id="jeu">
   <div class="container">
     <div class="section-head centered reveal">
@@ -1138,28 +1318,12 @@
       <div class="play-text reveal">
         <h3 class="play-sub">Les 5 acteurs que vous allez piloter</h3>
         <div class="actors-grid">
-          <div class="actor">
-            <span class="actor-emoji">🏠</span>
-            <span class="actor-name">L'association<br>(coordinateur)</span>
-          </div>
-          <div class="actor">
-            <span class="actor-emoji">🔑</span>
-            <span class="actor-name">Les bailleurs<br>solidaires</span>
-          </div>
-          <div class="actor">
-            <span class="actor-emoji">🤝</span>
-            <span class="actor-name">Les assos<br>partenaires</span>
-          </div>
-          <div class="actor">
-            <span class="actor-emoji">👥</span>
-            <span class="actor-name">Les futurs<br>colocataires</span>
-          </div>
-          <div class="actor">
-            <span class="actor-emoji">💛</span>
-            <span class="actor-name">Adhérents<br>& donateurs</span>
-          </div>
+          <div class="actor"><span class="actor-emoji">🏠</span><span class="actor-name">L'association<br>(coordinateur)</span></div>
+          <div class="actor"><span class="actor-emoji">🔑</span><span class="actor-name">Les bailleurs<br>solidaires</span></div>
+          <div class="actor"><span class="actor-emoji">🤝</span><span class="actor-name">Les assos<br>partenaires</span></div>
+          <div class="actor"><span class="actor-emoji">👥</span><span class="actor-name">Les futurs<br>colocataires</span></div>
+          <div class="actor"><span class="actor-emoji">💛</span><span class="actor-name">Adhérents<br>&amp; donateurs</span></div>
         </div>
-
         <div class="play-cta">
           <div class="play-cta-text">
             <strong>Le jeu vous a parlé&nbsp;?</strong>
@@ -1180,82 +1344,65 @@
   </div>
 </section>
 
+<!-- ============ APPROFONDIR ============ -->
 <section class="approfondir" id="concept">
   <div class="container">
     <div class="section-head centered reveal">
       <div class="section-tag">Pour aller plus loin</div>
       <h2 class="section-title">4 piliers, <em>une mécanique</em>.</h2>
     </div>
-
     <div class="pillars">
       <div class="pillar reveal">
-        <div class="pillar-img">
-          <img src="maison-collocation.png" alt="" onerror="this.parentElement.innerHTML='<span class=&quot;pillar-emoji&quot;>🏘️</span>'">
-        </div>
+        <div class="pillar-img"><img src="maison-collocation.png" alt="" onerror="this.parentElement.innerHTML='<span class=&quot;pillar-emoji&quot;>🏘️</span>'"></div>
         <h3>La cellule de vie</h3>
         <p>Une colocation à taille humaine, composée selon les besoins et les apports de chacun.</p>
       </div>
       <div class="pillar reveal">
-        <div class="pillar-img">
-          <img src="jeune-vieux.png" alt="" onerror="this.parentElement.innerHTML='<span class=&quot;pillar-emoji&quot;>👵👦</span>'">
-        </div>
+        <div class="pillar-img"><img src="jeune-vieux.png" alt="" onerror="this.parentElement.innerHTML='<span class=&quot;pillar-emoji&quot;>👵👦</span>'"></div>
         <h3>La complémentarité</h3>
         <p>Jeunes et seniors, actifs et en reconstruction. Là où d'autres voient un écart, on orchestre un équilibre.</p>
       </div>
       <div class="pillar reveal">
-        <div class="pillar-img">
-          <img src="charte.png" alt="" onerror="this.parentElement.innerHTML='<span class=&quot;pillar-emoji&quot;>📜</span>'">
-        </div>
+        <div class="pillar-img"><img src="charte.png" alt="" onerror="this.parentElement.innerHTML='<span class=&quot;pillar-emoji&quot;>📜</span>'"></div>
         <h3>La charte commune</h3>
         <p>Construite ensemble. Elle cadre les usages, responsabilise chacun, fonde la confiance du quotidien.</p>
       </div>
       <div class="pillar reveal">
-        <div class="pillar-img">
-          <img src="solidarite.png" alt="" onerror="this.parentElement.innerHTML='<span class=&quot;pillar-emoji&quot;>🫂</span>'">
-        </div>
+        <div class="pillar-img"><img src="solidarite.png" alt="" onerror="this.parentElement.innerHTML='<span class=&quot;pillar-emoji&quot;>🫂</span>'"></div>
         <h3>La vigilance partagée</h3>
         <p>Coordinateur de proximité, détection précoce des fragilités, escalade vers les services spécialisés si besoin.</p>
       </div>
     </div>
-
     <div class="quote-strip reveal">
-      <blockquote>
-        Traitez les gens comme s'ils étaient ce qu'ils pourraient être, et vous les aiderez à devenir ce qu'ils sont capables d'être.
-      </blockquote>
+      <blockquote>Traitez les gens comme s'ils étaient ce qu'ils pourraient être, et vous les aiderez à devenir ce qu'ils sont capables d'être.</blockquote>
       <cite>— Goethe</cite>
     </div>
   </div>
 </section>
 
+<!-- ============ TÉMOIGNAGES ============ -->
 <section class="testimonials" id="temoignages">
   <div class="container">
     <div class="section-head centered reveal">
       <div class="section-tag">Témoignages</div>
       <h2 class="section-title">La force <em>des différences.</em></h2>
     </div>
-
     <div class="testimonials-grid">
       <article class="testimonial reveal">
         <div class="testimonial-face" aria-hidden="true">👴</div>
         <p>Mon colocataire est très différent de moi&nbsp;; dans un autre contexte, peut-être que nous ne serions pas devenus amis. Par contre, son engagement à mes côtés et sa compréhension me permettent de me soulager dans la période difficile que je traverse.</p>
-        <cite>
-          <span class="name">Maurice, 65 ans</span>
-          <span class="role">Colocataire</span>
-        </cite>
+        <cite><span class="name">Maurice, 65 ans</span><span class="role">Colocataire</span></cite>
       </article>
-
       <article class="testimonial reveal">
         <div class="testimonial-face" aria-hidden="true">🧔</div>
         <p>Même si au départ, j'étais plutôt confiant, j'appréhendais un peu cette vie collective. Mais finalement, nos profils plutôt complémentaires ont créé un équilibre bénéfique à tous.</p>
-        <cite>
-          <span class="name">Paul, 62 ans</span>
-          <span class="role">Propriétaire participant</span>
-        </cite>
+        <cite><span class="name">Paul, 62 ans</span><span class="role">Propriétaire participant</span></cite>
       </article>
     </div>
   </div>
 </section>
 
+<!-- ============ CONTACT ============ -->
 <section class="contact" id="contact">
   <div class="contact-wrap">
     <div class="contact-text">
@@ -1287,6 +1434,31 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
         contact@lienpourlautre.com
       </a>
+
+      <!-- RÉSEAUX SOCIAUX -->
+      <div class="contact-socials">
+        <a href="https://www.linkedin.com/company/lienpourlautre" class="social-link" target="_blank" rel="noopener">
+          <!-- LinkedIn icon -->
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://www.facebook.com/lienpourlautre" class="social-link" target="_blank" rel="noopener">
+          <!-- Facebook icon -->
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          Facebook
+        </a>
+        <a href="https://x.com/lienpourlautre" class="social-link" target="_blank" rel="noopener">
+          <!-- X icon -->
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          X
+        </a>
+      </div>
+
+      <!-- ACCOMPAGNEMENT ADRESS -->
+      <p class="contact-adress">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Accompagné par <a href="https://www.lemouvementassociatif-occitanie.org/adress" target="_blank" rel="noopener">Le Parcours Adress</a>
+      </p>
     </div>
 
     <div class="contact-house" aria-hidden="true">
@@ -1305,14 +1477,8 @@
           <rect x="230" y="220" width="35" height="35" fill="#998856" rx="4"/>
           <circle cx="200" cy="140" r="10" fill="#f5efe4"/>
         </g>
-        <g>
-          <circle cx="60" cy="280" r="22" fill="#70ad47"/>
-          <rect x="42" y="295" width="36" height="50" rx="10" fill="#70ad47"/>
-        </g>
-        <g>
-          <circle cx="340" cy="280" r="22" fill="#d48ca8"/>
-          <rect x="322" y="295" width="36" height="50" rx="10" fill="#d48ca8"/>
-        </g>
+        <g><circle cx="60" cy="280" r="22" fill="#70ad47"/><rect x="42" y="295" width="36" height="50" rx="10" fill="#70ad47"/></g>
+        <g><circle cx="340" cy="280" r="22" fill="#d48ca8"/><rect x="322" y="295" width="36" height="50" rx="10" fill="#d48ca8"/></g>
         <g fill="none" stroke-width="4" stroke-linecap="round" opacity=".55">
           <path d="M82,275 Q120,250 140,280" stroke="#f5efe4"/>
           <path d="M320,275 Q280,250 260,280" stroke="#f5efe4"/>
@@ -1322,6 +1488,7 @@
   </div>
 </section>
 
+<!-- ============ MODAL ARTICLE ============ -->
 <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div class="modal">
     <div class="modal-img" id="modal-img">
@@ -1337,32 +1504,12 @@
   </div>
 </div>
 
+<!-- ============ FOOTER ============ -->
 <footer>
-  <div class="footer-socials">
-    <a href="https://www.linkedin.com/company/lienpourlautre" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-    <a href="https://www.facebook.com/lienpourlautre" target="_blank" rel="noopener noreferrer">Facebook</a>
-    <a href="https://x.com/lienpourlautre" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
-  </div>
-  <div class="footer-mentions">
-    Accompagné par <a href="https://www.lemouvementassociatif-occitanie.org/adress" target="_blank" rel="noopener noreferrer">Le Parcours Adress</a>
-  </div>
-  <div class="footer-copy">
-    © 2026 <strong>Lienpourl'autre</strong> · Habitat inclusif & coliving solidaire · Modèle API (Accompagné · Partagé · Inséré)
-  </div>
+  © 2026 <strong>Lienpourl'autre</strong> · Habitat inclusif &amp; coliving solidaire · Modèle API (Accompagné · Partagé · Inséré)
 </footer>
 
 <script>
-/* ====== PARALLAX BACKGROUND ====== */
-const parallaxBlobs = document.querySelectorAll('.blob');
-window.addEventListener('scroll', () => {
-  const y = window.scrollY;
-  parallaxBlobs.forEach(blob => {
-    const speed = parseFloat(blob.getAttribute('data-speed'));
-    // Translation des éléments décoratifs en fonction du scroll et de leur multiplicateur de vitesse
-    blob.style.transform = `translateY(${y * speed}px)`;
-  });
-});
-
 /* ====== NAV : hide-on-scroll ====== */
 const topnav = document.getElementById('topnav');
 let lastScroll = 0;
@@ -1381,93 +1528,83 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
+/* ======================================================
+   PARALLAX BACKGROUND
+   Principe : les formes sont en position:fixed (elles
+   couvrent toujours le viewport). On leur applique un
+   translateY négatif proportionnel au scroll, mais à
+   une vitesse INFÉRIEURE à 1x. Résultat : elles semblent
+   "rester en arrière" → effet de profondeur / perspective.
+   data-speed = facteur de déplacement (0 = immobile, 1 = suit le scroll)
+   Plus data-speed est faible, plus la forme paraît lointaine.
+====================================================== */
+(function initParallax() {
+  const layer   = document.getElementById('parallax-layer');
+  const shapes  = Array.from(layer.querySelectorAll('.pshape, .pgeo'));
+
+  // Fade-in initial après le premier rendu
+  requestAnimationFrame(() => {
+    shapes.forEach(s => s.classList.add('visible'));
+  });
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const sy = window.scrollY;
+      shapes.forEach(shape => {
+        const speed = parseFloat(shape.dataset.speed) || 0.2;
+        // translateY négatif = la forme monte moins vite que le scroll
+        // → elle semble "rester derrière" le contenu
+        shape.style.transform = `translateY(${-sy * speed}px)`;
+      });
+      ticking = false;
+    });
+  }, { passive: true });
+})();
+
 /* ====== PODCAST PLAYER ====== */
 const audio = document.getElementById('podcast-audio');
 const heroPodcastBtn = document.getElementById('hero-podcast');
-const heroPlayIcon = document.getElementById('hero-play-icon');
-const heroStatus = document.getElementById('hero-podcast-status');
-
-let audioReady = false;
+const heroPlayIcon   = document.getElementById('hero-play-icon');
+const heroStatus     = document.getElementById('hero-podcast-status');
 let audioError = false;
 
 const fmt = s => {
   if (!isFinite(s) || s <= 0) return '--:--';
-  const m = Math.floor(s/60); const sec = Math.floor(s%60);
-  return m + ':' + (sec<10 ? '0'+sec : sec);
+  const m = Math.floor(s/60), sec = Math.floor(s%60);
+  return m + ':' + (sec < 10 ? '0' + sec : sec);
 };
-
-const setStatus = (txt) => { if (heroStatus) heroStatus.textContent = txt; };
+const setStatus = txt => { if (heroStatus) heroStatus.textContent = txt; };
 
 setStatus('Cliquez pour démarrer');
-
-audio.addEventListener('loadedmetadata', () => {
-  audioReady = true;
-  setStatus('Durée · ' + fmt(audio.duration));
-});
-
-audio.addEventListener('canplay', () => {
-  audioReady = true;
-  if (audio.paused) setStatus('Prêt · ' + fmt(audio.duration));
-});
-
-audio.addEventListener('timeupdate', () => {
-  if (!audio.paused && audio.duration) {
-    setStatus(fmt(audio.currentTime) + ' / ' + fmt(audio.duration));
-  }
-});
-
-audio.addEventListener('play', () => {
-  heroPlayIcon.innerHTML = '<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>';
-  heroPodcastBtn.classList.add('playing');
-});
-
-audio.addEventListener('pause', () => {
-  if (!audio.ended) {
-    heroPlayIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
-    heroPodcastBtn.classList.remove('playing');
-    if (audio.duration) setStatus('En pause · ' + fmt(audio.currentTime) + ' / ' + fmt(audio.duration));
-  }
-});
-
-audio.addEventListener('ended', () => {
-  heroPlayIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
-  heroPodcastBtn.classList.remove('playing');
-  setStatus('Terminé · Réécouter');
-});
-
-audio.addEventListener('error', () => {
-  audioError = true;
-  setStatus('Fichier podcast.mp3 introuvable');
-  heroPodcastBtn.disabled = true;
-});
+audio.addEventListener('loadedmetadata', () => setStatus('Durée · ' + fmt(audio.duration)));
+audio.addEventListener('canplay', () => { if (audio.paused) setStatus('Prêt · ' + fmt(audio.duration)); });
+audio.addEventListener('timeupdate', () => { if (!audio.paused && audio.duration) setStatus(fmt(audio.currentTime) + ' / ' + fmt(audio.duration)); });
+audio.addEventListener('play', () => { heroPlayIcon.innerHTML = '<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>'; heroPodcastBtn.classList.add('playing'); });
+audio.addEventListener('pause', () => { if (!audio.ended) { heroPlayIcon.innerHTML = '<path d="M8 5v14l11-7z"/>'; heroPodcastBtn.classList.remove('playing'); if (audio.duration) setStatus('En pause · ' + fmt(audio.currentTime) + ' / ' + fmt(audio.duration)); } });
+audio.addEventListener('ended', () => { heroPlayIcon.innerHTML = '<path d="M8 5v14l11-7z"/>'; heroPodcastBtn.classList.remove('playing'); setStatus('Terminé · Réécouter'); });
+audio.addEventListener('error', () => { audioError = true; setStatus('Fichier podcast.mp3 introuvable'); heroPodcastBtn.disabled = true; });
 
 heroPodcastBtn.addEventListener('click', () => {
   if (audioError) return;
   if (audio.paused) {
-    const p = audio.play();
-    if (p && typeof p.then === 'function') {
-      p.catch(err => {
-        console.error('Lecture impossible:', err);
-        setStatus('Lecture impossible — vérifiez le fichier');
-      });
-    }
+    audio.play().catch(err => { console.error('Lecture impossible:', err); setStatus('Lecture impossible — vérifiez le fichier'); });
   } else {
     audio.pause();
   }
 });
 
 /* ====== ACTUALITÉS CAROUSEL ====== */
-const track = document.getElementById('carousel-track');
+const track   = document.getElementById('carousel-track');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
 
 const fmtDate = iso => {
-  try {
-    const d = new Date(iso);
-    return d.toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' });
-  } catch { return iso; }
+  try { return new Date(iso).toLocaleDateString('fr-FR', { day:'numeric', month:'long', year:'numeric' }); }
+  catch { return iso; }
 };
-
 const initials = name => name.split(/\s+/).slice(0,2).map(w => w[0]?.toUpperCase() || '').join('');
 
 const renderActus = (data) => {
@@ -1478,8 +1615,7 @@ const renderActus = (data) => {
   data.sort((a,b) => new Date(b.date) - new Date(a.date));
   track.innerHTML = data.map((a, i) => {
     const excerpt = a.contenu.length > 110 ? a.contenu.slice(0, 110).trimEnd() + '…' : a.contenu;
-    return `
-    <article class="actu-card" data-index="${i}" tabindex="0" role="button" aria-label="Lire l'article : ${a.nom}">
+    return `<article class="actu-card" data-index="${i}" tabindex="0" role="button" aria-label="Lire l'article : ${a.nom}">
       <div class="actu-img">
         ${a.url_image ? `<img src="${a.url_image}" alt="${a.nom}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : ''}
         <div class="actu-img-fallback" ${a.url_image ? 'style="display:none"' : ''}>${initials(a.nom)}</div>
@@ -1490,10 +1626,9 @@ const renderActus = (data) => {
         <p>${excerpt}</p>
         <span class="actu-link">Lire la suite →</span>
       </div>
-    </article>
-  `}).join('');
+    </article>`;
+  }).join('');
 
-  // Ouvrir la modale au clic sur une carte
   track.querySelectorAll('.actu-card').forEach(card => {
     const open = () => openModal(data[+card.dataset.index]);
     card.addEventListener('click', open);
@@ -1501,55 +1636,38 @@ const renderActus = (data) => {
   });
 };
 
-/* ====== MODALE ARTICLE ====== */
-const overlay  = document.getElementById('modal-overlay');
-const modalClose = document.getElementById('modal-close');
-const modalImgEl = document.getElementById('modal-img-el');
-const modalFallback = document.getElementById('modal-fallback');
-const modalDate = document.getElementById('modal-date');
-const modalTitle = document.getElementById('modal-title');
+/* ====== MODALE ====== */
+const overlay      = document.getElementById('modal-overlay');
+const modalClose   = document.getElementById('modal-close');
+const modalImgEl   = document.getElementById('modal-img-el');
+const modalFallback= document.getElementById('modal-fallback');
+const modalDate    = document.getElementById('modal-date');
+const modalTitle   = document.getElementById('modal-title');
 const modalContent = document.getElementById('modal-content');
 
-const openModal = (a) => {
-  modalDate.textContent = fmtDate(a.date);
-  modalTitle.textContent = a.nom;
+const openModal = a => {
+  modalDate.textContent    = fmtDate(a.date);
+  modalTitle.textContent   = a.nom;
   modalContent.textContent = a.contenu;
-  if (a.url_image) {
-    modalImgEl.src = a.url_image;
-    modalImgEl.style.display = 'block';
-    modalFallback.style.display = 'none';
-  } else {
-    modalImgEl.style.display = 'none';
-    modalFallback.textContent = initials(a.nom);
-    modalFallback.style.display = 'flex';
-  }
+  if (a.url_image) { modalImgEl.src = a.url_image; modalImgEl.style.display='block'; modalFallback.style.display='none'; }
+  else { modalImgEl.style.display='none'; modalFallback.textContent=initials(a.nom); modalFallback.style.display='flex'; }
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
   modalClose.focus();
 };
-
-const closeModal = () => {
-  overlay.classList.remove('open');
-  document.body.style.overflow = '';
-};
-
+const closeModal = () => { overlay.classList.remove('open'); document.body.style.overflow = ''; };
 modalClose.addEventListener('click', closeModal);
 overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 let currentIndex = 0;
-const getCardsPerView = () => {
-  const w = window.innerWidth;
-  if (w <= 680) return 1;
-  if (w <= 980) return 2;
-  return 3;
-};
+const getCardsPerView = () => window.innerWidth <= 680 ? 1 : window.innerWidth <= 980 ? 2 : 3;
 
 const updateCarousel = () => {
   const cards = track.querySelectorAll('.actu-card');
   if (!cards.length) { prevBtn.disabled = true; nextBtn.disabled = true; return; }
-  const cardsPerView = getCardsPerView();
-  const maxIndex = Math.max(0, cards.length - cardsPerView);
+  const cpv = getCardsPerView();
+  const maxIndex = Math.max(0, cards.length - cpv);
   if (currentIndex > maxIndex) currentIndex = maxIndex;
   const cardWidth = cards[0].offsetWidth + 24;
   track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
@@ -1562,18 +1680,16 @@ nextBtn.addEventListener('click', () => { currentIndex += 1; updateCarousel(); }
 window.addEventListener('resize', updateCarousel);
 
 fetch('actualite.json')
-  .then(r => { if (!r.ok) throw new Error('not ok'); return r.json(); })
+  .then(r => { if (!r.ok) throw new Error(); return r.json(); })
   .then(data => { renderActus(data); setTimeout(updateCarousel, 50); })
   .catch(() => {
-    const demo = [
+    renderActus([
       { nom:"Lancement de notre nouveau site web", date:"2026-05-15", url_image:"", contenu:"Nous sommes ravis de vous présenter notre tout nouvel espace en ligne ! Plus moderne, plus rapide et entièrement pensé pour vous offrir la meilleure expérience possible." },
       { nom:"Atelier Portes Ouvertes : Édition Printemps", date:"2026-06-02", url_image:"", contenu:"Rejoignez-nous le temps d'une journée exclusive pour visiter nos coulisses, rencontrer l'équipe et participer à nos ateliers interactifs. Entrée libre et gratuite." },
       { nom:"Première colocation labellisée à Toulouse", date:"2026-04-20", url_image:"", contenu:"Trois colocataires, deux générations, un projet de vie commune validé. Un cap symbolique pour le modèle Lienpourl'autre dans la métropole toulousaine." }
-    ];
-    renderActus(demo);
+    ]);
     setTimeout(updateCarousel, 50);
   });
 </script>
-
 </body>
 </html>
