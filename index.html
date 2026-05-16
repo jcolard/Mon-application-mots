@@ -51,7 +51,7 @@
     mix-blend-mode:multiply;
   }
 
-  /* ============ NAV (épurée, sans podcast) ============ */
+  /* ============ NAV ============ */
   nav.top{
     position:fixed;top:0;left:0;right:0;
     z-index:100;
@@ -75,7 +75,7 @@
     letter-spacing:-.02em;
     flex-shrink:0;
   }
-  .brand-mark{width:36px;height:36px;flex-shrink:0}
+  .brand-mark{height:36px;width:auto;flex-shrink:0}
 
   .nav-cta{
     background:var(--bleu);
@@ -93,7 +93,6 @@
 
   @media (max-width:880px){
     nav.top{padding:12px 16px;gap:10px}
-    .brand span{display:none}
     .nav-cta{padding:8px 14px;font-size:.8rem}
   }
 
@@ -275,7 +274,6 @@
   .hero-podcast.playing .hero-podcast-bars .b:nth-child(4){animation-delay:.1s}
   @keyframes miniwave{0%,100%{height:25%}50%{height:90%}}
 
-  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
   .btn{
     padding:15px 28px;
     border-radius:999px;
@@ -325,16 +323,7 @@
       0 25px 55px -25px rgba(0,0,0,.55);
     position:relative;
   }
-  .hero-phone::before{
-    content:"";
-    position:absolute;
-    top:22px;left:50%;
-    transform:translateX(-50%);
-    width:90px;height:22px;
-    background:#0a0d18;
-    border-radius:14px;
-    z-index:5;
-  }
+  /* SUPPRIMÉ: la barre noire décorative en haut du cadre vidéo */
   .hero-phone-screen{
     width:100%;height:100%;
     border-radius:32px;
@@ -387,9 +376,17 @@
   .fc-3 .dot{background:var(--kaki)}
   @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
 
+  /* ============ RESPONSIVE HERO ============ */
   @media (max-width:980px){
-    .hero{grid-template-columns:1fr;gap:60px;padding:110px 24px 60px;min-height:auto}
-    .hero-visual{order:-1}
+    .hero{
+      grid-template-columns:1fr;
+      gap:40px;
+      padding:110px 24px 60px;
+      min-height:auto;
+    }
+    /* Sur mobile : contenu d'abord, vidéo après le texte/podcast/boutons */
+    .hero-content{order:1}
+    .hero-visual{order:2}
     .hero-phone{width:260px;height:520px}
     .fc-1{left:-10%}
     .fc-2{left:-5%}
@@ -430,7 +427,7 @@
   .reveal{opacity:0;transform:translateY(36px);transition:opacity .9s ease, transform .9s cubic-bezier(.2,.8,.3,1)}
   .reveal.visible{opacity:1;transform:translateY(0)}
 
-  /* ============ ACTUALITÉS (épuré) ============ */
+  /* ============ ACTUALITÉS ============ */
   .actus{
     background:var(--creme);
     padding:70px 36px 60px;
@@ -612,6 +609,8 @@
   .play-phone-wrap{
     display:flex;justify-content:center;align-items:center;
   }
+
+  /* Cadre téléphone pour le jeu — sans barre noire décorative */
   .phone-frame{
     width:320px;
     height:640px;
@@ -625,16 +624,7 @@
       0 30px 60px -30px rgba(0,0,0,.8);
     position:relative;
   }
-  .phone-frame::before{
-    content:"";
-    position:absolute;
-    top:22px;left:50%;
-    transform:translateX(-50%);
-    width:95px;height:22px;
-    background:#0a0d18;
-    border-radius:14px;
-    z-index:5;
-  }
+  /* PAS de ::before ici — suppression de la barre noire */
   .phone-screen{
     width:100%;height:100%;
     border-radius:34px;
@@ -683,12 +673,27 @@
     }
     .play-text{order:1}
     .play-phone-wrap{order:2}
-    .phone-frame{transform:scale(.92);transform-origin:center}
+
+    /* Jeu pleine largeur sur mobile */
+    .phone-frame{
+      width:100%;
+      height:70vw;
+      min-height:480px;
+      border-radius:24px;
+      padding:0;
+      box-shadow:0 20px 50px -20px rgba(0,0,0,.6);
+    }
+    .phone-screen{
+      border-radius:24px;
+    }
+
     .play-cta{flex-direction:column;text-align:center;gap:14px}
   }
   @media (max-width:480px){
-    .phone-frame{transform:scale(.82)}
-    .actors-grid{grid-template-columns:1fr}
+    .phone-frame{
+      height:80vw;
+      min-height:400px;
+    }
   }
 
   /* ============ APPROFONDIR ============ */
@@ -953,7 +958,6 @@
   }
   .contact-mail:hover{border-bottom-color:var(--rose)}
 
-  /* SVG maison décoratif dans contact */
   .contact-house{
     display:flex;justify-content:center;align-items:center;
   }
@@ -989,14 +993,7 @@
 <!-- ============ NAV simple ============ -->
 <nav class="top" id="topnav">
   <a href="#" class="brand">
-    <svg class="brand-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <g fill="none" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20 50 Q35 25, 50 50 T80 50" stroke="#305598"/>
-        <path d="M20 60 Q35 35, 50 60 T80 60" stroke="#d48ca8"/>
-        <path d="M20 40 Q35 65, 50 40 T80 40" stroke="#70ad47"/>
-        <circle cx="50" cy="50" r="4" fill="#998856" stroke="none"/>
-      </g>
-    </svg>
+    <img src="logo.png" alt="Lienpourl'autre" class="brand-mark">
     <span>lienpourl'autre</span>
   </a>
   <a href="#contact" class="nav-cta">Nous joindre</a>
@@ -1043,18 +1040,10 @@
         <span class="b"></span><span class="b"></span><span class="b"></span><span class="b"></span>
       </span>
     </button>
-
-    <div class="hero-ctas">
-      <a href="#jeu" class="btn btn-primary">
-        Tester le jeu
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-      </a>
-      <a href="#contact" class="btn btn-ghost">
-        Nous contacter
-      </a>
-    </div>
+    <!-- Boutons "Tester le jeu" et "Nous contacter" supprimés -->
   </div>
 
+  <!-- Sur desktop : colonne droite. Sur mobile : après le contenu texte -->
   <div class="hero-visual" aria-hidden="true">
     <div class="hero-phone">
       <div class="hero-phone-deco"></div>
@@ -1076,7 +1065,7 @@
   </div>
 </section>
 
-<!-- ============ ACTUALITÉS (épuré) ============ -->
+<!-- ============ ACTUALITÉS ============ -->
 <section class="actus" id="actus">
   <div class="container">
     <div class="actus-header reveal">
@@ -1233,7 +1222,7 @@
   </div>
 </section>
 
-<!-- ============ CONTACT (avec SVG maison) ============ -->
+<!-- ============ CONTACT ============ -->
 <section class="contact" id="contact">
   <div class="contact-wrap">
     <div class="contact-text">
@@ -1324,7 +1313,7 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-/* ====== PODCAST PLAYER (robuste) ====== */
+/* ====== PODCAST PLAYER ====== */
 const audio = document.getElementById('podcast-audio');
 const heroPodcastBtn = document.getElementById('hero-podcast');
 const heroPlayIcon = document.getElementById('hero-play-icon');
@@ -1341,7 +1330,6 @@ const fmt = s => {
 
 const setStatus = (txt) => { if (heroStatus) heroStatus.textContent = txt; };
 
-// État initial
 setStatus('Cliquez pour démarrer');
 
 audio.addEventListener('loadedmetadata', () => {
