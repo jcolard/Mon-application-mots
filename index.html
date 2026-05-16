@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Lienpourlautre — l'habitat inclusif qui transforme la vulnérabilité en force collective. Coliving solidaire, intergénérationnel, structuré." />
-<title>Lienpourlautre — L'habitat qui relie</title>
+<meta name="description" content="Lienpourl'autre — l'habitat inclusif qui transforme la vulnérabilité en force collective. Coliving solidaire, intergénérationnel, structuré." />
+<title>Lienpourl'autre — L'habitat qui relie</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -41,7 +40,7 @@
   }
   ::selection{background:var(--rose);color:var(--bleu-deep)}
 
-  /* ---------- GRAIN OVERLAY ---------- */
+  /* GRAIN */
   body::before{
     content:"";
     position:fixed;inset:0;
@@ -52,86 +51,101 @@
     mix-blend-mode:multiply;
   }
 
-  /* ---------- NAV ---------- */
+  /* ============ NAV ============ */
   nav.top{
     position:fixed;top:0;left:0;right:0;
     z-index:100;
     display:flex;align-items:center;justify-content:space-between;
-    padding:18px 36px;
-    background:rgba(245,239,228,.78);
+    padding:16px 36px;
+    background:rgba(245,239,228,.82);
     backdrop-filter:blur(14px);
     -webkit-backdrop-filter:blur(14px);
     border-bottom:1px solid rgba(48,85,152,.12);
     transition:transform .4s ease;
+    gap:20px;
   }
   nav.top.hidden{transform:translateY(-100%)}
   .brand{
     display:flex;align-items:center;gap:12px;
     font-family:var(--ff-display);
     font-weight:800;
-    font-size:1.25rem;
+    font-size:1.2rem;
     color:var(--bleu-deep);
     text-decoration:none;
     letter-spacing:-.02em;
-  }
-  .brand-mark{
-    width:36px;height:36px;
     flex-shrink:0;
   }
-  .nav-links{
-    display:flex;gap:32px;list-style:none;
+  .brand-mark{width:36px;height:36px;flex-shrink:0}
+
+  /* Mini-podcast dans le header */
+  .nav-podcast{
+    display:flex;align-items:center;gap:12px;
+    background:var(--bleu-deep);
+    color:var(--creme);
+    padding:8px 16px 8px 8px;
+    border-radius:999px;
+    font-size:.85rem;
+    font-weight:600;
+    box-shadow:0 6px 20px -8px rgba(48,85,152,.45);
+    cursor:pointer;
+    border:none;
+    font-family:inherit;
+    transition:all .25s;
+    flex-shrink:0;
   }
-  .nav-links a{
-    color:var(--noir);text-decoration:none;
-    font-weight:500;font-size:.92rem;
-    position:relative;padding:6px 0;
-    transition:color .3s;
+  .nav-podcast:hover{transform:translateY(-2px);box-shadow:0 10px 24px -10px rgba(48,85,152,.6)}
+  .nav-podcast-play{
+    width:32px;height:32px;border-radius:50%;
+    background:var(--rose-vif);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    color:var(--blanc);
   }
-  .nav-links a::after{
-    content:"";position:absolute;left:0;bottom:0;
-    width:0;height:2px;background:var(--rose-vif);
-    transition:width .3s ease;
+  .nav-podcast-play svg{width:14px;height:14px;margin-left:1px}
+  .nav-podcast.playing .nav-podcast-play svg{margin-left:0}
+  .nav-podcast-label{display:flex;flex-direction:column;line-height:1.1;text-align:left}
+  .nav-podcast-label small{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--rose);font-weight:700}
+  .nav-podcast-bars{
+    display:flex;align-items:center;gap:2px;height:18px;margin-left:4px;
   }
-  .nav-links a:hover{color:var(--bleu)}
-  .nav-links a:hover::after{width:100%}
+  .nav-podcast-bars .b{
+    width:2px;background:var(--rose);border-radius:2px;height:30%;
+  }
+  .nav-podcast.playing .nav-podcast-bars .b{animation:miniwave 1s ease-in-out infinite}
+  .nav-podcast.playing .nav-podcast-bars .b:nth-child(2){animation-delay:.15s}
+  .nav-podcast.playing .nav-podcast-bars .b:nth-child(3){animation-delay:.3s}
+  .nav-podcast.playing .nav-podcast-bars .b:nth-child(4){animation-delay:.1s}
+  @keyframes miniwave{0%,100%{height:25%}50%{height:90%}}
 
   .nav-cta{
     background:var(--bleu);
     color:var(--blanc);
-    padding:10px 20px;
+    padding:10px 22px;
     border-radius:999px;
     text-decoration:none;
     font-weight:600;
     font-size:.88rem;
     transition:all .3s;
     border:2px solid var(--bleu);
+    flex-shrink:0;
   }
   .nav-cta:hover{background:var(--rose-vif);border-color:var(--rose-vif);transform:translateY(-2px)}
 
-  .burger{display:none;background:none;border:0;cursor:pointer;flex-direction:column;gap:5px}
-  .burger span{display:block;width:24px;height:2px;background:var(--bleu-deep);transition:.3s}
-
   @media (max-width:880px){
-    nav.top{padding:14px 20px}
-    .nav-links{
-      position:fixed;top:64px;left:0;right:0;
-      flex-direction:column;background:var(--creme);
-      padding:30px;gap:18px;
-      transform:translateY(-150%);transition:transform .4s ease;
-      border-bottom:1px solid rgba(48,85,152,.12);
-    }
-    .nav-links.open{transform:translateY(0)}
-    .burger{display:flex}
-    .nav-cta{display:none}
+    nav.top{padding:12px 16px;gap:10px}
+    .brand span{display:none}
+    .nav-podcast-label{display:none}
+    .nav-podcast{padding:6px 6px}
+    .nav-cta{padding:8px 14px;font-size:.8rem}
   }
 
-  /* ---------- HERO ---------- */
+  /* ============ HERO ============ */
   .hero{
-    min-height:100vh;
-    padding:140px 36px 80px;
+    min-height:90vh;
+    padding:130px 36px 80px;
     position:relative;
     display:grid;
-    grid-template-columns:1.2fr .8fr;
+    grid-template-columns:1.1fr .9fr;
     gap:60px;
     align-items:center;
     overflow:hidden;
@@ -181,11 +195,11 @@
   h1.hero-title{
     font-family:var(--ff-display);
     font-weight:900;
-    font-size:clamp(2.8rem, 7vw, 6.5rem);
-    line-height:.92;
+    font-size:clamp(2.6rem, 6.2vw, 5.6rem);
+    line-height:.95;
     letter-spacing:-.03em;
     color:var(--bleu-deep);
-    margin-bottom:32px;
+    margin-bottom:28px;
   }
   h1.hero-title em{
     font-style:italic;
@@ -204,30 +218,60 @@
     opacity:.35;
     transform:skewX(-8deg);
   }
-  h1.hero-title .word{
-    display:inline-block;
-    opacity:0;
-    transform:translateY(40px);
-    animation:rise .9s forwards;
-  }
-  @keyframes rise{to{opacity:1;transform:translateY(0)}}
 
-  .hero-lead{
-    font-size:clamp(1.05rem, 1.6vw, 1.3rem);
-    max-width:560px;
-    color:#2a2f3d;
-    margin-bottom:40px;
-    opacity:0;animation:fadeIn 1s .7s forwards;
+  /* ACTION → IMPACT (le pitch direct) */
+  .pitch{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    gap:24px;
+    align-items:center;
+    margin:32px 0 36px;
+    max-width:620px;
   }
-  @keyframes fadeIn{to{opacity:1}}
+  .pitch-block{
+    background:var(--blanc);
+    border:1.5px solid rgba(48,85,152,.12);
+    border-radius:16px;
+    padding:16px 18px;
+  }
+  .pitch-block .pitch-label{
+    font-size:.7rem;
+    font-weight:700;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .pitch-block.action .pitch-label{color:var(--bleu)}
+  .pitch-block.impact .pitch-label{color:var(--vert-deep)}
+  .pitch-block strong{
+    font-family:var(--ff-display);
+    font-size:1.05rem;
+    font-weight:700;
+    color:var(--bleu-deep);
+    line-height:1.2;
+    display:block;
+  }
+  .pitch-arrow{
+    width:40px;height:40px;
+    border-radius:50%;
+    background:var(--rose-vif);
+    color:var(--blanc);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    box-shadow:0 8px 18px -6px rgba(196,98,133,.5);
+  }
+  @media (max-width:540px){
+    .pitch{grid-template-columns:1fr;gap:10px}
+    .pitch-arrow{transform:rotate(90deg);margin:0 auto}
+  }
 
-  .hero-ctas{display:flex;gap:16px;flex-wrap:wrap;opacity:0;animation:fadeIn 1s 1s forwards}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
   .btn{
-    padding:16px 30px;
+    padding:15px 28px;
     border-radius:999px;
     text-decoration:none;
     font-weight:700;
-    font-size:.95rem;
+    font-size:.92rem;
     display:inline-flex;align-items:center;gap:10px;
     cursor:pointer;border:none;
     transition:all .3s cubic-bezier(.2,.8,.3,1.2);
@@ -250,12 +294,12 @@
   }
   .btn-ghost:hover{background:var(--bleu-deep);color:var(--creme)}
 
-  /* HERO VISUAL — Composition graphique */
+  /* HERO VISUAL */
   .hero-visual{
     position:relative;
     z-index:1;
     aspect-ratio:1/1;
-    max-width:480px;
+    max-width:460px;
     margin-left:auto;
   }
   .hero-visual svg{width:100%;height:100%;overflow:visible}
@@ -263,68 +307,32 @@
     position:absolute;
     background:var(--blanc);
     border-radius:18px;
-    padding:14px 18px;
+    padding:12px 16px;
     box-shadow:0 18px 40px -16px rgba(15,20,32,.25);
-    font-size:.85rem;
+    font-size:.82rem;
     font-weight:600;
     color:var(--bleu-deep);
     display:flex;align-items:center;gap:10px;
     border:1.5px solid rgba(48,85,152,.1);
   }
-  .float-card .dot{
-    width:10px;height:10px;border-radius:50%;
-  }
+  .float-card .dot{width:10px;height:10px;border-radius:50%}
   .fc-1{top:8%;left:-8%;animation:float 6s ease-in-out infinite}
   .fc-1 .dot{background:var(--vert)}
   .fc-2{bottom:18%;left:-4%;animation:float 6s ease-in-out infinite -2s}
   .fc-2 .dot{background:var(--rose-vif)}
   .fc-3{top:30%;right:-8%;animation:float 6s ease-in-out infinite -4s}
   .fc-3 .dot{background:var(--kaki)}
-  @keyframes float{
-    0%,100%{transform:translateY(0)}
-    50%{transform:translateY(-14px)}
-  }
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
 
   @media (max-width:980px){
-    .hero{grid-template-columns:1fr;gap:40px;padding:120px 24px 60px;text-align:left}
-    .hero-visual{max-width:380px;margin:0 auto}
+    .hero{grid-template-columns:1fr;gap:40px;padding:110px 24px 60px;min-height:auto}
+    .hero-visual{max-width:340px;margin:0 auto;order:-1}
   }
 
-  /* ---------- MARQUEE ---------- */
-  .marquee{
-    background:var(--bleu-deep);
-    color:var(--creme);
-    overflow:hidden;
-    padding:22px 0;
-    border-top:1px solid var(--bleu);
-    border-bottom:1px solid var(--bleu);
-    position:relative;
-  }
-  .marquee-track{
-    display:flex;
-    gap:60px;
-    animation:scroll 30s linear infinite;
-    white-space:nowrap;
-    font-family:var(--ff-display);
-    font-size:1.6rem;
-    font-style:italic;
-    font-weight:600;
-    letter-spacing:-.01em;
-  }
-  .marquee-track span{display:inline-flex;align-items:center;gap:60px}
-  .marquee-track .sep{
-    color:var(--rose-vif);
-    font-style:normal;
-    font-weight:900;
-  }
-  @keyframes scroll{
-    to{transform:translateX(-50%)}
-  }
-
-  /* ---------- SECTIONS COMMUNES ---------- */
-  section{padding:120px 36px;position:relative}
+  /* ============ SECTIONS COMMUNES ============ */
+  section{padding:100px 36px;position:relative}
   .container{max-width:1280px;margin:0 auto}
-  .section-head{margin-bottom:80px;max-width:880px}
+  .section-head{margin-bottom:50px;max-width:880px}
   .section-tag{
     display:inline-block;
     font-size:.78rem;
@@ -332,436 +340,57 @@
     letter-spacing:.22em;
     text-transform:uppercase;
     color:var(--rose-vif);
-    margin-bottom:18px;
+    margin-bottom:16px;
   }
   .section-tag::before{content:"— ";color:var(--bleu)}
   h2.section-title{
     font-family:var(--ff-display);
     font-weight:800;
-    font-size:clamp(2.2rem, 4.5vw, 4rem);
-    line-height:1;
+    font-size:clamp(2rem, 4.2vw, 3.6rem);
+    line-height:1.02;
     letter-spacing:-.025em;
     color:var(--bleu-deep);
-    margin-bottom:24px;
+    margin-bottom:18px;
   }
-  h2.section-title em{
-    font-style:italic;font-weight:600;color:var(--vert-deep);
-  }
-  .section-lead{
-    font-size:1.15rem;
-    color:#2a2f3d;
-    max-width:680px;
-  }
+  h2.section-title em{font-style:italic;font-weight:600;color:var(--vert-deep)}
+  .section-lead{font-size:1.1rem;color:#2a2f3d;max-width:680px}
 
-  /* Reveal on scroll */
   .reveal{opacity:0;transform:translateY(36px);transition:opacity .9s ease, transform .9s cubic-bezier(.2,.8,.3,1)}
   .reveal.visible{opacity:1;transform:translateY(0)}
 
-  /* ---------- MANIFESTE ---------- */
-  .manifeste{
-    background:var(--bleu-deep);
-    color:var(--creme);
-    padding:140px 36px;
-    position:relative;
-    overflow:hidden;
-  }
-  .manifeste::before{
-    content:"";position:absolute;
-    top:-20%;right:-10%;
-    width:50%;height:140%;
-    background:radial-gradient(circle, rgba(212,140,168,.18), transparent 65%);
-    pointer-events:none;
-  }
-  .manifeste .section-tag{color:var(--rose)}
-  .manifeste .section-tag::before{color:var(--vert)}
-  .manifeste h2.section-title{color:var(--creme)}
-  .manifeste h2.section-title em{color:var(--rose)}
-  .manifeste-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:32px;
-    margin-top:60px;
-  }
-  .manifeste-card{
-    background:rgba(255,255,255,.04);
-    border:1px solid rgba(245,239,228,.15);
-    border-radius:20px;
-    padding:36px 30px;
-    transition:all .4s;
-    position:relative;
-    overflow:hidden;
-  }
-  .manifeste-card::before{
-    content:"";
-    position:absolute;top:0;left:0;
-    width:60px;height:4px;
-    transition:width .4s;
-  }
-  .manifeste-card:nth-child(1)::before{background:var(--rose)}
-  .manifeste-card:nth-child(2)::before{background:var(--vert)}
-  .manifeste-card:nth-child(3)::before{background:var(--kaki)}
-  .manifeste-card:hover{transform:translateY(-6px);background:rgba(255,255,255,.07)}
-  .manifeste-card:hover::before{width:100%}
-  .manifeste-card .num{
-    font-family:var(--ff-display);
-    font-size:3rem;
-    font-weight:900;
-    line-height:1;
-    color:var(--rose);
-    margin-bottom:16px;
-    display:block;
-  }
-  .manifeste-card:nth-child(2) .num{color:var(--vert)}
-  .manifeste-card:nth-child(3) .num{color:var(--kaki)}
-  .manifeste-card h3{
-    font-family:var(--ff-display);
-    font-size:1.5rem;
-    font-weight:700;
-    margin-bottom:14px;
-    color:var(--creme);
-    line-height:1.15;
-  }
-  .manifeste-card p{
-    font-size:.97rem;
-    color:rgba(245,239,228,.78);
-    line-height:1.7;
-  }
-  @media (max-width:880px){
-    .manifeste-grid{grid-template-columns:1fr}
-    section{padding:80px 24px}
-    .manifeste{padding:90px 24px}
-  }
-
-  /* ---------- PODCAST PLAYER ---------- */
-  .podcast-section{
-    background:var(--creme);
-    padding:140px 36px;
-  }
-  .podcast-wrap{
-    display:grid;
-    grid-template-columns:1.1fr 1fr;
-    gap:80px;
-    align-items:center;
-  }
-  .podcast-card{
-    background:linear-gradient(135deg, var(--rose) 0%, var(--rose-vif) 60%, var(--bleu) 130%);
-    border-radius:32px;
-    padding:48px;
-    color:var(--blanc);
-    position:relative;
-    overflow:hidden;
-    box-shadow:0 30px 60px -25px rgba(196,98,133,.5);
-  }
-  .podcast-card::before{
-    content:"";
-    position:absolute;
-    top:-50%;right:-30%;
-    width:80%;height:200%;
-    background:radial-gradient(circle, rgba(255,255,255,.15), transparent 50%);
-    pointer-events:none;
-  }
-  .podcast-label{
-    font-size:.75rem;
-    font-weight:700;
-    letter-spacing:.22em;
-    text-transform:uppercase;
-    margin-bottom:18px;
-    opacity:.85;
-  }
-  .podcast-title{
-    font-family:var(--ff-display);
-    font-size:2.2rem;
-    font-weight:800;
-    line-height:1.05;
-    margin-bottom:28px;
-    position:relative;
-  }
-  .podcast-meta{
-    display:flex;gap:24px;
-    font-size:.85rem;
-    margin-bottom:32px;
-    opacity:.88;
-    flex-wrap:wrap;
-  }
-  .podcast-meta span{display:flex;align-items:center;gap:6px}
-
-  .player{
-    background:rgba(0,0,0,.18);
-    border-radius:20px;
-    padding:20px;
-    backdrop-filter:blur(10px);
-    -webkit-backdrop-filter:blur(10px);
-    position:relative;z-index:2;
-  }
-  .player-top{
-    display:flex;align-items:center;gap:18px;
-    margin-bottom:16px;
-  }
-  .play-btn{
-    width:64px;height:64px;
-    border-radius:50%;
-    background:var(--blanc);
-    color:var(--bleu-deep);
-    border:none;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
-    transition:all .25s;
-    flex-shrink:0;
-    box-shadow:0 8px 22px -8px rgba(0,0,0,.4);
-  }
-  .play-btn:hover{transform:scale(1.08)}
-  .play-btn svg{width:22px;height:22px;margin-left:2px}
-  .play-btn.playing svg{margin-left:0}
-  .waveform{
-    flex:1;
-    display:flex;align-items:center;gap:3px;
-    height:40px;
-  }
-  .waveform .bar{
-    flex:1;
-    background:rgba(255,255,255,.55);
-    border-radius:3px;
-    height:30%;
-    transition:height .3s;
-  }
-  .waveform.active .bar{
-    animation:wave 1.2s ease-in-out infinite;
-  }
-  .waveform.active .bar:nth-child(1){animation-delay:0s}
-  .waveform.active .bar:nth-child(2){animation-delay:.1s}
-  .waveform.active .bar:nth-child(3){animation-delay:.2s}
-  .waveform.active .bar:nth-child(4){animation-delay:.3s}
-  .waveform.active .bar:nth-child(5){animation-delay:.4s}
-  .waveform.active .bar:nth-child(6){animation-delay:.5s}
-  .waveform.active .bar:nth-child(7){animation-delay:.15s}
-  .waveform.active .bar:nth-child(8){animation-delay:.25s}
-  .waveform.active .bar:nth-child(9){animation-delay:.35s}
-  .waveform.active .bar:nth-child(10){animation-delay:.45s}
-  .waveform.active .bar:nth-child(11){animation-delay:.05s}
-  .waveform.active .bar:nth-child(12){animation-delay:.2s}
-  .waveform.active .bar:nth-child(13){animation-delay:.3s}
-  .waveform.active .bar:nth-child(14){animation-delay:.1s}
-  .waveform.active .bar:nth-child(15){animation-delay:.4s}
-  @keyframes wave{
-    0%,100%{height:25%}
-    50%{height:90%}
-  }
-  .progress-row{
-    display:flex;align-items:center;gap:12px;
-    font-size:.8rem;
-    font-variant-numeric:tabular-nums;
-  }
-  .progress{
-    flex:1;height:4px;
-    background:rgba(255,255,255,.25);
-    border-radius:2px;
-    cursor:pointer;
-    position:relative;overflow:hidden;
-  }
-  .progress-fill{
-    height:100%;background:var(--blanc);
-    width:0%;border-radius:2px;
-    transition:width .15s linear;
-  }
-
-  .podcast-text h2{margin-bottom:24px}
-  .podcast-text p{
-    font-size:1.1rem;
-    color:#2a2f3d;
-    margin-bottom:20px;
-    max-width:520px;
-  }
-  .podcast-text .quote{
-    font-family:var(--ff-display);
-    font-style:italic;
-    font-size:1.35rem;
-    color:var(--bleu);
-    border-left:3px solid var(--rose-vif);
-    padding-left:20px;
-    margin-top:30px;
-    line-height:1.4;
-  }
-  @media (max-width:980px){
-    .podcast-wrap{grid-template-columns:1fr;gap:50px}
-    .podcast-card{padding:32px 28px}
-    .podcast-title{font-size:1.6rem}
-  }
-
-  /* ---------- MECANIQUE / DIAGRAMME ---------- */
-  .mecanique{
-    background:linear-gradient(180deg, var(--creme) 0%, var(--creme-warm) 100%);
-    padding:140px 36px;
-  }
-  .duo-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:24px;
-    margin-top:60px;
-  }
-  .duo-card{
-    background:var(--blanc);
-    border-radius:24px;
-    padding:36px;
-    border:1.5px solid rgba(48,85,152,.1);
-    transition:all .4s;
-    display:flex;flex-direction:column;gap:18px;
-    position:relative;
-    overflow:hidden;
-  }
-  .duo-card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 28px 50px -25px rgba(48,85,152,.25);
-    border-color:transparent;
-  }
-  .duo-icon{
-    width:64px;height:64px;
-    border-radius:18px;
-    display:flex;align-items:center;justify-content:center;
-    color:var(--blanc);
-    flex-shrink:0;
-  }
-  .duo-icon svg{width:28px;height:28px}
-  .duo-card:nth-child(1) .duo-icon{background:var(--bleu)}
-  .duo-card:nth-child(2) .duo-icon{background:var(--rose-vif)}
-  .duo-card:nth-child(3) .duo-icon{background:var(--vert-deep)}
-  .duo-card:nth-child(4) .duo-icon{background:var(--kaki-deep)}
-  .duo-card h3{
-    font-family:var(--ff-display);
-    font-size:1.4rem;
-    font-weight:700;
-    color:var(--bleu-deep);
-    line-height:1.2;
-  }
-  .duo-card p{color:#3a4054;font-size:.97rem;line-height:1.65}
-  .duo-card .tag-line{
-    margin-top:auto;
-    display:inline-flex;align-items:center;gap:8px;
-    font-size:.78rem;
-    font-weight:700;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-    color:var(--bleu);
-  }
-  @media (max-width:780px){.duo-grid{grid-template-columns:1fr}}
-
-  /* ---------- GAME + VIDEO ---------- */
-  .play-section{
-    background:var(--bleu-deep);
-    color:var(--creme);
-    padding:140px 36px;
-    position:relative;
-    overflow:hidden;
-  }
-  .play-section::before{
-    content:"";position:absolute;
-    top:10%;left:-10%;
-    width:40%;height:60%;
-    background:radial-gradient(circle, rgba(112,173,71,.2), transparent 65%);
-    pointer-events:none;
-  }
-  .play-section .section-tag{color:var(--vert)}
-  .play-section .section-tag::before{color:var(--rose)}
-  .play-section h2.section-title{color:var(--creme)}
-  .play-section h2.section-title em{color:var(--rose)}
-  .play-section .section-lead{color:rgba(245,239,228,.78)}
-
-  .play-grid{
-    display:grid;
-    grid-template-columns:auto 1fr;
-    gap:60px;
-    margin-top:60px;
-    align-items:center;
-  }
-  .phone-frame{
-    width:340px;
-    height:680px;
-    background:#0a0d18;
-    border-radius:48px;
-    padding:14px;
-    box-shadow:
-      0 0 0 8px #1a1f30,
-      0 0 0 9px #2a3043,
-      0 40px 80px -30px rgba(212,140,168,.4),
-      0 30px 60px -30px rgba(0,0,0,.8);
-    position:relative;
-    margin:0 auto;
-  }
-  .phone-frame::before{
-    content:"";
-    position:absolute;
-    top:24px;left:50%;
-    transform:translateX(-50%);
-    width:100px;height:24px;
-    background:#0a0d18;
-    border-radius:14px;
-    z-index:5;
-  }
-  .phone-screen{
-    width:100%;height:100%;
-    border-radius:36px;
-    overflow:hidden;
-    background:#fff;
-    position:relative;
-  }
-  .phone-screen iframe{
-    width:100%;height:100%;
-    border:0;
-    display:block;
-  }
-  .play-text h2{margin-bottom:24px}
-  .play-text p{
-    font-size:1.1rem;
-    color:rgba(245,239,228,.85);
-    margin-bottom:18px;
-    max-width:520px;
-  }
-  .play-features{
-    display:flex;flex-direction:column;gap:14px;
-    margin-top:28px;
-  }
-  .play-feature{
-    display:flex;align-items:center;gap:14px;
-    font-size:.95rem;
-    color:rgba(245,239,228,.9);
-  }
-  .play-feature .marker{
-    width:10px;height:10px;border-radius:2px;
-    flex-shrink:0;transform:rotate(45deg);
-  }
-  .play-feature:nth-child(1) .marker{background:var(--rose)}
-  .play-feature:nth-child(2) .marker{background:var(--vert)}
-  .play-feature:nth-child(3) .marker{background:var(--kaki)}
-  @media (max-width:980px){
-    .play-grid{grid-template-columns:1fr;gap:40px}
-    .phone-frame{transform:scale(.85);transform-origin:top center}
-  }
-
-  /* ---------- VIDEO COFONDATEUR ---------- */
+  /* ============ VIDEO PORTRAIT (mise en avant) ============ */
   .video-section{
-    background:var(--creme);
-    padding:140px 36px;
+    background:linear-gradient(180deg, var(--creme) 0%, var(--creme-warm) 100%);
+    padding:110px 36px;
   }
   .video-grid{
     display:grid;
-    grid-template-columns:1fr 1.3fr;
-    gap:60px;
+    grid-template-columns:auto 1fr;
+    gap:80px;
     align-items:center;
   }
-  .video-wrap{
+  .video-portrait{
     position:relative;
-    aspect-ratio:16/9;
-    border-radius:24px;
+    width:340px;
+    aspect-ratio:9/16;
+    border-radius:32px;
     overflow:hidden;
-    background:var(--bleu-deep);
-    box-shadow:0 30px 60px -30px rgba(48,85,152,.5);
+    background:#0a0d18;
+    box-shadow:
+      0 0 0 8px #1a1f30,
+      0 30px 70px -25px rgba(48,85,152,.5),
+      0 20px 50px -30px rgba(0,0,0,.6);
+    margin:0 auto;
   }
-  .video-wrap iframe{
-    position:absolute;inset:0;
-    width:100%;height:100%;border:0;
+  .video-portrait video{
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block;
   }
   .video-deco{
     position:absolute;
-    top:-30px;right:-30px;
-    width:120px;height:120px;
+    top:-25px;right:-25px;
+    width:110px;height:110px;
     background:var(--rose-vif);
     border-radius:50%;
     z-index:-1;
@@ -769,125 +398,54 @@
   }
   .video-deco-2{
     position:absolute;
-    bottom:-25px;left:-25px;
-    width:90px;height:90px;
+    bottom:-20px;left:-20px;
+    width:80px;height:80px;
     background:var(--vert);
     border-radius:24px;
     z-index:-1;
     transform:rotate(15deg);
   }
-  .video-text .author{
-    display:flex;align-items:center;gap:14px;
+  .video-wrapper{position:relative}
+
+  .video-text h2{margin-bottom:18px}
+  .video-text .keypoints{
+    list-style:none;
     margin-top:30px;
-    padding-top:30px;
-    border-top:1.5px solid rgba(48,85,152,.15);
+    display:flex;flex-direction:column;gap:14px;
   }
-  .video-text .author-avatar{
-    width:48px;height:48px;
-    border-radius:50%;
-    background:linear-gradient(135deg,var(--bleu),var(--rose-vif));
+  .video-text .keypoints li{
+    display:flex;align-items:flex-start;gap:14px;
+    font-size:1rem;
+    color:#2a2f3d;
+  }
+  .video-text .keypoints .ico{
+    width:32px;height:32px;
+    border-radius:10px;
+    background:var(--bleu);
     color:var(--blanc);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
     font-family:var(--ff-display);
     font-weight:800;
-    display:flex;align-items:center;justify-content:center;
-    font-size:1.1rem;
+    font-size:.9rem;
   }
-  .video-text .author-info strong{
-    display:block;color:var(--bleu-deep);font-weight:700;
-  }
-  .video-text .author-info span{font-size:.85rem;color:#5a6177}
+  .video-text .keypoints li:nth-child(2) .ico{background:var(--rose-vif)}
+  .video-text .keypoints li:nth-child(3) .ico{background:var(--vert-deep)}
+  .video-text .keypoints strong{color:var(--bleu-deep);display:block;margin-bottom:2px}
 
-  @media (max-width:980px){.video-grid{grid-template-columns:1fr;gap:40px}}
+  @media (max-width:980px){
+    .video-grid{grid-template-columns:1fr;gap:50px}
+    .video-portrait{width:280px}
+  }
 
-  /* ---------- TEMOIGNAGES ---------- */
-  .temoignages{
-    background:var(--vert-deep);
-    color:var(--creme);
-    padding:140px 36px;
-    position:relative;
-    overflow:hidden;
-  }
-  .temoignages::before{
-    content:"";position:absolute;
-    top:-30%;right:-15%;
-    width:60%;height:140%;
-    background:radial-gradient(circle, rgba(212,140,168,.25), transparent 60%);
-    pointer-events:none;
-  }
-  .temoignages .section-tag{color:var(--rose)}
-  .temoignages .section-tag::before{color:var(--creme)}
-  .temoignages h2.section-title{color:var(--creme)}
-  .temoignages h2.section-title em{color:var(--rose)}
-
-  .temoignages-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:30px;
-    margin-top:60px;
-    position:relative;z-index:2;
-  }
-  .tem-card{
-    background:rgba(245,239,228,.06);
-    border:1px solid rgba(245,239,228,.18);
-    border-radius:24px;
-    padding:40px;
-    transition:all .4s;
-    backdrop-filter:blur(8px);
-    -webkit-backdrop-filter:blur(8px);
-    position:relative;
-  }
-  .tem-card:hover{
-    background:rgba(245,239,228,.1);
-    transform:translateY(-6px);
-  }
-  .tem-card .quote-mark{
-    font-family:var(--ff-display);
-    font-size:5rem;
-    line-height:.7;
-    color:var(--rose);
-    font-style:italic;
-    margin-bottom:10px;
-    display:block;
-  }
-  .tem-card blockquote{
-    font-family:var(--ff-display);
-    font-size:1.25rem;
-    line-height:1.45;
-    color:var(--creme);
-    font-weight:500;
-    margin-bottom:24px;
-  }
-  .tem-card cite{
-    font-style:normal;
-    display:flex;align-items:center;gap:12px;
-  }
-  .tem-card .tem-avatar{
-    width:42px;height:42px;
-    border-radius:50%;
-    background:var(--rose-vif);
-    display:flex;align-items:center;justify-content:center;
-    color:var(--blanc);
-    font-weight:700;
-    font-family:var(--ff-display);
-    font-size:1rem;
-  }
-  .tem-card cite strong{
-    display:block;color:var(--creme);font-weight:700;font-size:.95rem;
-  }
-  .tem-card cite span{
-    font-size:.82rem;
-    color:rgba(245,239,228,.7);
-  }
-  @media (max-width:780px){.temoignages-grid{grid-template-columns:1fr}}
-
-  /* ---------- ACTUALITES CAROUSSEL ---------- */
+  /* ============ ACTUALITÉS ============ */
   .actus{
     background:var(--creme);
-    padding:140px 36px 100px;
+    padding:110px 36px 80px;
   }
   .actus-header{
     display:flex;justify-content:space-between;align-items:flex-end;
-    margin-bottom:60px;
+    margin-bottom:50px;
     gap:30px;flex-wrap:wrap;
   }
   .actus-controls{display:flex;gap:12px}
@@ -952,52 +510,278 @@
   }
   .actu-body{padding:24px;flex:1;display:flex;flex-direction:column;gap:12px}
   .actu-date{
-    font-size:.78rem;
-    font-weight:700;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:var(--rose-vif);
+    font-size:.78rem;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--rose-vif);
   }
   .actu-card h3{
     font-family:var(--ff-display);
-    font-size:1.3rem;
-    font-weight:700;
-    color:var(--bleu-deep);
-    line-height:1.2;
+    font-size:1.25rem;font-weight:700;
+    color:var(--bleu-deep);line-height:1.2;
   }
-  .actu-card p{
-    font-size:.93rem;
-    color:#3a4054;
-    line-height:1.55;
-    flex:1;
-  }
+  .actu-card p{font-size:.93rem;color:#3a4054;line-height:1.55;flex:1}
   .actu-link{
-    margin-top:8px;
-    font-weight:700;
-    color:var(--bleu);
-    font-size:.88rem;
-    display:inline-flex;align-items:center;gap:6px;
-    text-decoration:none;
+    margin-top:8px;font-weight:700;color:var(--bleu);font-size:.88rem;
+    display:inline-flex;align-items:center;gap:6px;text-decoration:none;
   }
   .actu-card-empty{
-    flex:0 0 100%;
-    text-align:center;
-    padding:60px 30px;
-    color:#5a6177;
-    font-style:italic;
+    flex:0 0 100%;text-align:center;padding:60px 30px;
+    color:#5a6177;font-style:italic;
   }
+  @media (max-width:980px){.actu-card{flex:0 0 calc((100% - 24px)/2)}}
+  @media (max-width:680px){.actu-card{flex:0 0 100%}}
+
+  /* ============ JEU MOBILE (centrage parfait + acteurs) ============ */
+  .play-section{
+    background:var(--bleu-deep);
+    color:var(--creme);
+    padding:110px 36px;
+    position:relative;
+    overflow:hidden;
+  }
+  .play-section::before{
+    content:"";position:absolute;
+    top:10%;left:-10%;
+    width:40%;height:60%;
+    background:radial-gradient(circle, rgba(112,173,71,.2), transparent 65%);
+    pointer-events:none;
+  }
+  .play-section::after{
+    content:"";position:absolute;
+    bottom:-20%;right:-10%;
+    width:50%;height:80%;
+    background:radial-gradient(circle, rgba(212,140,168,.18), transparent 65%);
+    pointer-events:none;
+  }
+  .play-section .section-tag{color:var(--vert)}
+  .play-section .section-tag::before{color:var(--rose)}
+  .play-section h2.section-title{color:var(--creme)}
+  .play-section h2.section-title em{color:var(--rose)}
+  .play-section .section-lead{color:rgba(245,239,228,.78)}
+
+  .play-grid{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:60px;
+    align-items:center;
+    margin-top:40px;
+  }
+  .play-text h3.play-sub{
+    font-family:var(--ff-display);
+    font-weight:700;
+    font-size:1.4rem;
+    color:var(--rose);
+    margin:30px 0 16px;
+    line-height:1.2;
+  }
+  .actors-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    margin-top:20px;
+  }
+  .actor{
+    background:rgba(245,239,228,.06);
+    border:1px solid rgba(245,239,228,.15);
+    border-radius:14px;
+    padding:14px 16px;
+    display:flex;align-items:center;gap:12px;
+    transition:all .3s;
+  }
+  .actor:hover{background:rgba(245,239,228,.12);transform:translateX(4px)}
+  .actor-emoji{
+    width:36px;height:36px;
+    background:var(--rose-vif);
+    border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.1rem;
+    flex-shrink:0;
+  }
+  .actor:nth-child(2) .actor-emoji{background:var(--vert)}
+  .actor:nth-child(3) .actor-emoji{background:var(--kaki)}
+  .actor:nth-child(4) .actor-emoji{background:var(--bleu-ciel)}
+  .actor:nth-child(5) .actor-emoji{background:var(--rose)}
+  .actor-name{font-size:.88rem;font-weight:600;color:var(--creme);line-height:1.2}
+
+  .phone-frame{
+    width:340px;
+    height:680px;
+    background:#0a0d18;
+    border-radius:48px;
+    padding:14px;
+    box-shadow:
+      0 0 0 8px #1a1f30,
+      0 0 0 9px #2a3043,
+      0 40px 80px -30px rgba(212,140,168,.4),
+      0 30px 60px -30px rgba(0,0,0,.8);
+    position:relative;
+    margin:0 auto;
+    flex-shrink:0;
+  }
+  .phone-frame::before{
+    content:"";
+    position:absolute;
+    top:24px;left:50%;
+    transform:translateX(-50%);
+    width:100px;height:24px;
+    background:#0a0d18;
+    border-radius:14px;
+    z-index:5;
+  }
+  .phone-screen{
+    width:100%;height:100%;
+    border-radius:36px;
+    overflow:hidden;
+    background:#fff;
+    position:relative;
+  }
+  .phone-screen iframe{width:100%;height:100%;border:0;display:block}
+
+  .play-cta{
+    margin-top:36px;
+    background:var(--rose-vif);
+    color:var(--blanc);
+    padding:20px 28px;
+    border-radius:20px;
+    display:flex;align-items:center;gap:18px;
+    box-shadow:0 18px 40px -18px rgba(196,98,133,.7);
+  }
+  .play-cta-text{flex:1}
+  .play-cta-text strong{
+    font-family:var(--ff-display);
+    font-size:1.15rem;
+    font-weight:700;
+    display:block;
+    margin-bottom:4px;
+  }
+  .play-cta-text span{font-size:.9rem;opacity:.95}
+  .play-cta a{
+    background:var(--blanc);
+    color:var(--rose-vif);
+    padding:12px 22px;
+    border-radius:999px;
+    text-decoration:none;
+    font-weight:700;
+    font-size:.88rem;
+    white-space:nowrap;
+    transition:transform .3s;
+    flex-shrink:0;
+  }
+  .play-cta a:hover{transform:translateY(-2px)}
+
   @media (max-width:980px){
-    .actu-card{flex:0 0 calc((100% - 24px)/2)}
+    .play-grid{
+      grid-template-columns:1fr;
+      gap:50px;
+      text-align:center;
+    }
+    .play-text{order:1}
+    .phone-frame{order:2;transform:scale(.9);transform-origin:top center}
+    .actors-grid{text-align:left;max-width:480px;margin:20px auto 0}
+    .play-cta{flex-direction:column;text-align:center;gap:14px}
   }
-  @media (max-width:680px){
-    .actu-card{flex:0 0 100%}
+  @media (max-width:480px){
+    .phone-frame{transform:scale(.85)}
+    .actors-grid{grid-template-columns:1fr}
   }
 
-  /* ---------- CONTACT / CTA FINAL ---------- */
+  /* ============ APPROFONDIR (concept condensé) ============ */
+  .approfondir{
+    background:var(--creme-warm);
+    padding:110px 36px;
+  }
+  .pillars{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-top:50px;
+  }
+  .pillar{
+    background:var(--blanc);
+    border-radius:22px;
+    padding:30px 24px;
+    border:1.5px solid rgba(48,85,152,.08);
+    transition:all .35s;
+    position:relative;
+    overflow:hidden;
+  }
+  .pillar:hover{transform:translateY(-6px);box-shadow:0 28px 50px -25px rgba(48,85,152,.25)}
+  .pillar::before{
+    content:"";
+    position:absolute;top:0;left:0;
+    width:50px;height:3px;
+    transition:width .4s;
+  }
+  .pillar:nth-child(1)::before{background:var(--bleu)}
+  .pillar:nth-child(2)::before{background:var(--rose-vif)}
+  .pillar:nth-child(3)::before{background:var(--vert)}
+  .pillar:nth-child(4)::before{background:var(--kaki)}
+  .pillar:hover::before{width:100%}
+  .pillar-img{
+    width:80px;height:80px;
+    margin-bottom:18px;
+    border-radius:16px;
+    overflow:hidden;
+    background:linear-gradient(135deg,var(--bleu),var(--rose-vif));
+    display:flex;align-items:center;justify-content:center;
+  }
+  .pillar-img img{width:100%;height:100%;object-fit:cover;display:block}
+  .pillar-img .pillar-emoji{font-size:2rem}
+  .pillar h3{
+    font-family:var(--ff-display);
+    font-size:1.2rem;
+    font-weight:700;
+    color:var(--bleu-deep);
+    margin-bottom:8px;
+    line-height:1.2;
+  }
+  .pillar p{font-size:.92rem;color:#3a4054;line-height:1.55}
+  @media (max-width:880px){.pillars{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:480px){.pillars{grid-template-columns:1fr}}
+
+  .quote-strip{
+    margin-top:60px;
+    background:var(--bleu-deep);
+    color:var(--creme);
+    border-radius:24px;
+    padding:40px 50px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .quote-strip::before{
+    content:"\201C";
+    position:absolute;top:-20px;left:30px;
+    font-family:var(--ff-display);
+    font-size:8rem;
+    color:var(--rose);
+    line-height:1;
+    opacity:.5;
+    font-style:italic;
+  }
+  .quote-strip blockquote{
+    font-family:var(--ff-display);
+    font-style:italic;
+    font-weight:500;
+    font-size:clamp(1.1rem, 1.8vw, 1.5rem);
+    line-height:1.45;
+    max-width:780px;
+    margin:0 auto 16px;
+    position:relative;z-index:1;
+  }
+  .quote-strip cite{
+    font-style:normal;
+    font-size:.85rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--rose);
+    font-weight:700;
+  }
+
+  /* ============ CONTACT ============ */
   .contact{
     background:var(--noir);
     color:var(--creme);
-    padding:140px 36px;
+    padding:120px 36px;
     position:relative;
     overflow:hidden;
   }
@@ -1019,29 +803,31 @@
   .contact h2{
     font-family:var(--ff-display);
     font-weight:800;
-    font-size:clamp(2.5rem, 6vw, 5.5rem);
-    line-height:.98;
+    font-size:clamp(2.3rem, 5vw, 4.6rem);
+    line-height:1;
     letter-spacing:-.02em;
     color:var(--creme);
-    margin-bottom:50px;
+    margin-bottom:30px;
     max-width:900px;
   }
-  .contact h2 em{
-    font-style:italic;
-    font-weight:600;
-    color:var(--rose);
+  .contact h2 em{font-style:italic;font-weight:600;color:var(--rose)}
+  .contact-sub{
+    font-size:1.05rem;
+    color:rgba(245,239,228,.8);
+    margin-bottom:40px;
+    max-width:680px;
   }
   .contact-phones{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:20px;
-    margin:50px 0;
+    gap:16px;
+    margin:30px 0;
   }
   .phone-card{
     background:rgba(245,239,228,.06);
     border:1px solid rgba(245,239,228,.15);
     border-radius:18px;
-    padding:24px 28px;
+    padding:22px 24px;
     text-decoration:none;
     color:var(--creme);
     display:flex;flex-direction:column;gap:6px;
@@ -1053,45 +839,48 @@
     transform:translateY(-4px);
   }
   .phone-card .label{
-    font-size:.75rem;
-    font-weight:700;
-    letter-spacing:.18em;
-    text-transform:uppercase;
-    color:rgba(245,239,228,.6);
+    font-size:.72rem;font-weight:700;letter-spacing:.18em;
+    text-transform:uppercase;color:rgba(245,239,228,.6);
   }
   .phone-card:hover .label{color:rgba(255,255,255,.85)}
   .phone-card .number{
     font-family:var(--ff-display);
-    font-size:1.5rem;
-    font-weight:700;
-    letter-spacing:-.01em;
+    font-size:1.4rem;font-weight:700;letter-spacing:-.01em;
   }
   .contact-hours{
     font-size:.95rem;
     color:rgba(245,239,228,.7);
-    margin-bottom:30px;
   }
   .contact-hours strong{color:var(--vert)}
+  .contact-mail{
+    display:inline-flex;align-items:center;gap:10px;
+    color:var(--rose);
+    text-decoration:none;
+    font-weight:600;
+    margin-top:20px;
+    border-bottom:1px solid transparent;
+    transition:border-color .3s;
+  }
+  .contact-mail:hover{border-bottom-color:var(--rose)}
   @media (max-width:780px){.contact-phones{grid-template-columns:1fr}}
 
-  /* ---------- FOOTER ---------- */
+  /* ============ FOOTER ============ */
   footer{
     background:var(--noir);
     color:rgba(245,239,228,.5);
-    padding:40px 36px;
+    padding:30px 36px;
     border-top:1px solid rgba(245,239,228,.08);
     text-align:center;
     font-size:.85rem;
   }
   footer strong{color:var(--creme)}
 
-  /* ---------- UTILS ---------- */
   audio{display:none}
 </style>
 </head>
 <body>
 
-<!-- ============ NAV ============ -->
+<!-- ============ NAV avec mini-podcast ============ -->
 <nav class="top" id="topnav">
   <a href="#" class="brand">
     <svg class="brand-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1104,42 +893,60 @@
     </svg>
     <span>lienpourl'autre</span>
   </a>
-  <ul class="nav-links" id="navlinks">
-    <li><a href="#manifeste">Manifeste</a></li>
-    <li><a href="#mecanique">Mécanique</a></li>
-    <li><a href="#video">Le mot du fondateur</a></li>
-    <li><a href="#temoignages">Témoignages</a></li>
-    <li><a href="#actus">Actualités</a></li>
-  </ul>
-  <a href="#contact" class="nav-cta">Nous joindre</a>
-  <button class="burger" aria-label="Menu" id="burger"><span></span><span></span><span></span></button>
-</nav>
 
-<!-- ============ HERO ============ -->
+  <button class="nav-podcast" id="nav-podcast" aria-label="Écouter le podcast">
+    <span class="nav-podcast-play">
+      <svg id="nav-play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    </span>
+    <span class="nav-podcast-label">
+      <small>Podcast</small>
+      <span id="nav-podcast-status">Écouter en 1 clic</span>
+    </span>
+    <span class="nav-podcast-bars">
+      <span class="b"></span><span class="b"></span><span class="b"></span><span class="b"></span>
+    </span>
+  </button>
+
+  <a href="#contact" class="nav-cta">Nous joindre</a>
+</nav>
+<audio id="podcast-audio" preload="metadata">
+  <source src="podcast.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ============ HERO : ACTION → IMPACT ============ -->
 <section class="hero">
   <div class="hero-content">
     <div class="hero-eyebrow">Habitat inclusif · Coliving solidaire</div>
-    <h1 class="hero-title" id="hero-title">
-      <span class="word" style="animation-delay:.1s">Vivre</span>
-      <span class="word" style="animation-delay:.2s">ensemble,</span><br>
-      <span class="word" style="animation-delay:.35s">c'est</span>
-      <em><span class="word" style="animation-delay:.5s">se</span> <span class="word" style="animation-delay:.6s">relier</span></em><br>
-      <span class="word" style="animation-delay:.75s">autrement.</span>
+    <h1 class="hero-title">
+      On ne soigne pas l'isolement<br>avec un appel.<br>
+      <em>On le soigne en cohabitant.</em>
     </h1>
-    <p class="hero-lead">
-      Lienpourl'autre invente le coliving qui transforme la vulnérabilité en force collective. Des cellules de vie pensées, équilibrées, contractualisées — où la différence devient le moteur.
-    </p>
+
+    <div class="pitch">
+      <div class="pitch-block action">
+        <div class="pitch-label">Ce qu'on fait</div>
+        <strong>Des colocations composées par complémentarité.</strong>
+      </div>
+      <div class="pitch-arrow">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </div>
+      <div class="pitch-block impact">
+        <div class="pitch-label">Ce que ça change</div>
+        <strong>Chacun retrouve un toit, un rôle, un lien.</strong>
+      </div>
+    </div>
+
     <div class="hero-ctas">
-      <a href="#manifeste" class="btn btn-primary">
-        Découvrir le modèle
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </a>
-      <a href="#podcast" class="btn btn-ghost">
+      <a href="#video" class="btn btn-primary">
+        Voir notre histoire
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        Écouter le podcast
+      </a>
+      <a href="#jeu" class="btn btn-ghost">
+        Tester le jeu
       </a>
     </div>
   </div>
+
   <div class="hero-visual" aria-hidden="true">
     <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -1148,7 +955,6 @@
           <stop offset="100%" stop-color="#1e3a6f"/>
         </linearGradient>
       </defs>
-      <!-- Maison stylisée -->
       <g>
         <rect x="100" y="180" width="200" height="180" rx="14" fill="url(#grad1)"/>
         <polygon points="80,180 200,80 320,180" fill="#d48ca8"/>
@@ -1157,7 +963,6 @@
         <rect x="230" y="220" width="35" height="35" fill="#998856" rx="4"/>
         <circle cx="200" cy="140" r="10" fill="#f5efe4"/>
       </g>
-      <!-- Personnages stylisés autour -->
       <g>
         <circle cx="60" cy="280" r="22" fill="#70ad47"/>
         <rect x="42" y="295" width="36" height="50" rx="10" fill="#70ad47"/>
@@ -1166,10 +971,6 @@
         <circle cx="340" cy="280" r="22" fill="#d48ca8"/>
         <rect x="322" y="295" width="36" height="50" rx="10" fill="#d48ca8"/>
       </g>
-      <g>
-        <circle cx="200" cy="385" r="0" fill="#998856"/>
-      </g>
-      <!-- Liens (brins) -->
       <g fill="none" stroke-width="4" stroke-linecap="round" opacity=".55">
         <path d="M82,275 Q120,250 140,280" stroke="#305598"/>
         <path d="M320,275 Q280,250 260,280" stroke="#305598"/>
@@ -1181,237 +982,48 @@
   </div>
 </section>
 
-<!-- ============ MARQUEE ============ -->
-<div class="marquee" aria-hidden="true">
-  <div class="marquee-track">
-    <span>Habitat inclusif <span class="sep">✦</span> Intergénérationnel <span class="sep">✦</span> Coliving solidaire <span class="sep">✦</span> Charte de vie commune <span class="sep">✦</span> Modèle API <span class="sep">✦</span></span>
-    <span>Habitat inclusif <span class="sep">✦</span> Intergénérationnel <span class="sep">✦</span> Coliving solidaire <span class="sep">✦</span> Charte de vie commune <span class="sep">✦</span> Modèle API <span class="sep">✦</span></span>
-  </div>
-</div>
-
-<!-- ============ MANIFESTE ============ -->
-<section class="manifeste" id="manifeste">
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="section-tag">Notre manifeste</div>
-      <h2 class="section-title">La précarité n'est pas une fatalité —<br>c'est une <em>équation collective</em>.</h2>
-      <p class="section-lead" style="color:rgba(245,239,228,.78)">
-        Nous refusons la gestion uniforme de la pauvreté. Nous croyons à la complémentarité des parcours, à la force des différences, à l'utilité partagée. Trois principes guident chaque colocation.
-      </p>
-    </div>
-    <div class="manifeste-grid">
-      <div class="manifeste-card reveal">
-        <span class="num">01</span>
-        <h3>Une rencontre choisie, pas subie</h3>
-        <p>Chaque cellule de vie est composée selon les besoins et les apports de chacun. Un senior et un jeune. Un actif et une personne en reconstruction. Là où d'autres voient un déséquilibre, nous orchestrons un équilibre.</p>
-      </div>
-      <div class="manifeste-card reveal">
-        <span class="num">02</span>
-        <h3>Une charte construite ensemble</h3>
-        <p>La cohabitation ne se décrète pas, elle se contractualise. Chaque membre devient acteur de sa vie en communauté : la charte de vie commune cadre les responsabilités, les usages et la confiance.</p>
-      </div>
-      <div class="manifeste-card reveal">
-        <span class="num">03</span>
-        <h3>Une vigilance bienveillante</h3>
-        <p>La proximité physique permet une attention constante. Détection précoce des fragilités, médiation de premier niveau, escalade adaptée vers les services spécialisés quand c'est nécessaire.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ PODCAST ============ -->
-<section class="podcast-section" id="podcast">
-  <div class="container">
-    <div class="podcast-wrap">
-      <div class="podcast-card reveal">
-        <div class="podcast-label">▶ Podcast · Épisode 01</div>
-        <div class="podcast-title">L'histoire de Lienpourl'autre, racontée par ses fondateurs.</div>
-        <div class="podcast-meta">
-          <span>🎧 Audio original</span>
-          <span>⏱ ~6 min</span>
-          <span>🇫🇷 Français</span>
-        </div>
-        <div class="player">
-          <div class="player-top">
-            <button class="play-btn" id="play-btn" aria-label="Lecture du podcast">
-              <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-            <div class="waveform" id="waveform">
-              <div class="bar" style="height:30%"></div>
-              <div class="bar" style="height:60%"></div>
-              <div class="bar" style="height:45%"></div>
-              <div class="bar" style="height:80%"></div>
-              <div class="bar" style="height:35%"></div>
-              <div class="bar" style="height:55%"></div>
-              <div class="bar" style="height:70%"></div>
-              <div class="bar" style="height:40%"></div>
-              <div class="bar" style="height:65%"></div>
-              <div class="bar" style="height:50%"></div>
-              <div class="bar" style="height:75%"></div>
-              <div class="bar" style="height:45%"></div>
-              <div class="bar" style="height:60%"></div>
-              <div class="bar" style="height:35%"></div>
-              <div class="bar" style="height:55%"></div>
-            </div>
-          </div>
-          <div class="progress-row">
-            <span id="time-current">0:00</span>
-            <div class="progress" id="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-            <span id="time-total">--:--</span>
-          </div>
-        </div>
-        <audio id="podcast-audio" preload="metadata">
-          <source src="podcast.mp3" type="audio/mpeg">
-        </audio>
-      </div>
-      <div class="podcast-text reveal">
-        <div class="section-tag">À l'oreille</div>
-        <h2 class="section-title">Six minutes pour <em>comprendre</em> ce qui nous anime.</h2>
-        <p>Avant de lire, écoutez. Les fondateurs racontent la genèse du projet, les déclics du terrain, et comment l'habitat partagé est devenu une réponse concrète à l'isolement.</p>
-        <div class="quote">« On ne soigne pas l'isolement avec un appel. On le soigne avec une présence. »</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ MECANIQUE ============ -->
-<section class="mecanique" id="mecanique">
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="section-tag">Comment ça marche</div>
-      <h2 class="section-title">Une mécanique <em>fine</em>,<br>quatre leviers articulés.</h2>
-      <p class="section-lead">
-        Lienpourl'autre opère comme une plateforme de coordination entre propriétaires, locataires et partenaires sociaux. Chaque colocation est le résultat d'un travail d'orchestration patient.
-      </p>
-    </div>
-    <div class="duo-grid">
-      <div class="duo-card reveal">
-        <div class="duo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="9" r="3.5"/><circle cx="17" cy="11" r="2.5"/><path d="M3 19c0-3.5 2.7-5 6-5s6 1.5 6 5"/><path d="M14 19c0-2 1.5-3.5 3.5-3.5S21 17 21 19"/></svg></div>
-        <h3>Constitution des cellules</h3>
-        <p>Sélection rigoureuse des profils selon leurs besoins et leurs apports potentiels. L'équilibre n'est pas un hasard, c'est une architecture humaine.</p>
-        <div class="tag-line">→ Profils complémentaires</div>
-      </div>
-      <div class="duo-card reveal">
-        <div class="duo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 21V10l9-7 9 7v11"/><path d="M9 21v-8h6v8"/></svg></div>
-        <h3>Mobilisation immobilière</h3>
-        <p>Recherche de propriétaires bailleurs — participants ou non à la colocation — et aménagement de logements pensés pour l'usage partagé.</p>
-        <div class="tag-line">→ Logements adaptés</div>
-      </div>
-      <div class="duo-card reveal">
-        <div class="duo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 21V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13"/><path d="M8 21V12h8v9"/><circle cx="12" cy="16" r="1.2" fill="currentColor"/></svg></div>
-        <h3>Encadrement structurant</h3>
-        <p>Accompagnement social, médiation, facilitation de la charte de vie. Un coordinateur dédié assure la fluidité du quotidien et anticipe les frictions.</p>
-        <div class="tag-line">→ Médiation continue</div>
-      </div>
-      <div class="duo-card reveal">
-        <div class="duo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div>
-        <h3>Coordination experte</h3>
-        <p>Partenariats avec des associations spécialisées pour assurer la viabilité de la mixité sociale. Personne ne porte le projet seul.</p>
-        <div class="tag-line">→ Écosystème solidaire</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ GAME ============ -->
-<section class="play-section">
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="section-tag">Expérience interactive</div>
-      <h2 class="section-title">Deux minutes en colocation —<br><em>vivez l'expérience</em>.</h2>
-      <p class="section-lead">
-        Un mini-jeu mobile pour ressentir ce que veut dire « cellule de vie partagée ». Décidez, dialoguez, créez du lien. Format portrait, pensé pour le téléphone — joue directement depuis la page.
-      </p>
-    </div>
-    <div class="play-grid">
-      <div class="phone-frame reveal">
-        <div class="phone-screen">
-          <iframe src="game.html" title="Mini-jeu Lienpourl'autre" loading="lazy" allow="autoplay"></iframe>
-        </div>
-      </div>
-      <div class="play-text reveal">
-        <h2 class="section-title">Apprendre en <em>jouant</em>.</h2>
-        <p>Le jeu raconte une journée type en colocation Lienpourl'autre. Vos choix révèlent les mécaniques d'entraide, les bénéfices croisés, et la valeur d'une charte vivante.</p>
-        <div class="play-features">
-          <div class="play-feature"><span class="marker"></span>Format vertical, jouable au pouce</div>
-          <div class="play-feature"><span class="marker"></span>Scénarios inspirés de vraies colocations</div>
-          <div class="play-feature"><span class="marker"></span>2 minutes pour comprendre l'essentiel</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ VIDEO ============ -->
+<!-- ============ VIDEO PORTRAIT ============ -->
 <section class="video-section" id="video">
   <div class="container">
     <div class="video-grid">
-      <div class="video-text reveal">
-        <div class="section-tag">Le mot du cofondateur</div>
-        <h2 class="section-title">Une <em>parole</em>,<br>face caméra.</h2>
-        <p style="font-size:1.1rem;color:#3a4054;margin-top:20px;line-height:1.65">
-          Pourquoi avoir créé Lienpourl'autre ? Quelles convictions portent le projet au quotidien ? Une réponse directe, sans détour, par l'un de ses cofondateurs.
-        </p>
-        <div class="author">
-          <div class="author-avatar">LP</div>
-          <div class="author-info">
-            <strong>Lienpourl'autre</strong>
-            <span>Témoignage cofondateur · YouTube</span>
-          </div>
-        </div>
-      </div>
-      <div style="position:relative" class="reveal">
+      <div class="video-wrapper reveal">
         <div class="video-deco"></div>
         <div class="video-deco-2"></div>
-        <div class="video-wrap">
-          <iframe
-            src="https://www.youtube.com/embed/Ch5wrxZMyCI?rel=0"
-            title="Message du cofondateur"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-            loading="lazy">
-          </iframe>
+        <div class="video-portrait">
+          <video
+            src="video.mp4"
+            controls
+            playsinline
+            preload="metadata"
+            poster=""
+          >
+            Votre navigateur ne supporte pas la vidéo.
+          </video>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ TEMOIGNAGES ============ -->
-<section class="temoignages" id="temoignages">
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="section-tag">Ils en parlent mieux que nous</div>
-      <h2 class="section-title">La force des <em>différences</em>,<br>racontée par ceux qui la vivent.</h2>
-    </div>
-    <div class="temoignages-grid">
-      <div class="tem-card reveal">
-        <span class="quote-mark">"</span>
-        <blockquote>Mon colocataire est très différent de moi ; dans un autre contexte, peut-être que nous ne serions pas devenus amis. Par contre, son engagement à mes côtés et sa compréhension me permettent de me soulager dans la période difficile que je traverse.</blockquote>
-        <cite>
-          <div class="tem-avatar">M</div>
-          <div>
-            <strong>Maurice, 65 ans</strong>
-            <span>Colocataire en cellule de vie</span>
-          </div>
-        </cite>
-      </div>
-      <div class="tem-card reveal">
-        <span class="quote-mark">"</span>
-        <blockquote>Même si au départ j'étais plutôt confiant, j'appréhendais un peu cette vie collective. Mais finalement, nos profils plutôt complémentaires ont créé un équilibre bénéfique à tous.</blockquote>
-        <cite>
-          <div class="tem-avatar" style="background:var(--vert)">P</div>
-          <div>
-            <strong>Paul, 62 ans</strong>
-            <span>Propriétaire participant</span>
-          </div>
-        </cite>
+      <div class="video-text reveal">
+        <div class="section-tag">Le mot du cofondateur</div>
+        <h2 class="section-title">Une parole,<br><em>face caméra.</em></h2>
+        <ul class="keypoints">
+          <li>
+            <span class="ico">01</span>
+            <span><strong>Pourquoi maintenant.</strong> L'isolement n'attend pas. Un toit ne suffit plus.</span>
+          </li>
+          <li>
+            <span class="ico">02</span>
+            <span><strong>Ce qu'on a appris du terrain.</strong> La différence n'est pas un risque, c'est un levier.</span>
+          </li>
+          <li>
+            <span class="ico">03</span>
+            <span><strong>Comment vous pouvez agir.</strong> Bailleur, partenaire, colocataire, donateur — chacun trouve sa place.</span>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ ACTUALITES ============ -->
+<!-- ============ ACTUALITÉS ============ -->
 <section class="actus" id="actus">
   <div class="container">
     <div class="actus-header reveal">
@@ -1436,14 +1048,118 @@
   </div>
 </section>
 
+<!-- ============ JEU MOBILE ============ -->
+<section class="play-section" id="jeu">
+  <div class="container">
+    <div class="section-head reveal" style="text-align:center;margin:0 auto 20px">
+      <div class="section-tag" style="display:inline-block">Jouez 2 minutes</div>
+      <h2 class="section-title">Devenez <em>chef d'orchestre</em><br>d'une colocation solidaire.</h2>
+      <p class="section-lead" style="margin:18px auto 0">
+        Un mini-jeu pour comprendre, depuis l'intérieur, comment l'écosystème s'articule — et où vous pourriez vous brancher.
+      </p>
+    </div>
+
+    <div class="play-grid">
+      <div class="play-text reveal">
+        <h3 class="play-sub">Les 5 acteurs que vous allez piloter</h3>
+        <div class="actors-grid">
+          <div class="actor">
+            <span class="actor-emoji">🏠</span>
+            <span class="actor-name">L'association<br>(coordinateur)</span>
+          </div>
+          <div class="actor">
+            <span class="actor-emoji">🔑</span>
+            <span class="actor-name">Les bailleurs<br>solidaires</span>
+          </div>
+          <div class="actor">
+            <span class="actor-emoji">🤝</span>
+            <span class="actor-name">Les assos<br>partenaires</span>
+          </div>
+          <div class="actor">
+            <span class="actor-emoji">👥</span>
+            <span class="actor-name">Les futurs<br>colocataires</span>
+          </div>
+          <div class="actor">
+            <span class="actor-emoji">💛</span>
+            <span class="actor-name">Adhérents<br>& donateurs</span>
+          </div>
+        </div>
+
+        <div class="play-cta">
+          <div class="play-cta-text">
+            <strong>Le jeu vous a parlé&nbsp;?</strong>
+            <span>Choisissez votre rôle dans la vraie vie.</span>
+          </div>
+          <a href="#contact">Je m'engage →</a>
+        </div>
+      </div>
+
+      <div class="phone-frame reveal">
+        <div class="phone-screen">
+          <iframe src="game.html" title="Mini-jeu Lienpourl'autre" loading="lazy" allow="autoplay"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APPROFONDIR ============ -->
+<section class="approfondir" id="concept">
+  <div class="container">
+    <div class="section-head reveal" style="text-align:center;margin:0 auto 20px">
+      <div class="section-tag" style="display:inline-block">Pour aller plus loin</div>
+      <h2 class="section-title">4 piliers, <em>une mécanique</em>.</h2>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar reveal">
+        <div class="pillar-img">
+          <img src="maison-collocation.png" alt="" onerror="this.parentElement.innerHTML='<span class=&quot;pillar-emoji&quot;>🏘️</span>'">
+        </div>
+        <h3>La cellule de vie</h3>
+        <p>Une colocation à taille humaine, composée selon les besoins et les apports de chacun.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-img">
+          <img src="jeune-vieux.png" alt="" onerror="this.parentElement.innerHTML='<span class=&quot;pillar-emoji&quot;>👵👦</span>'">
+        </div>
+        <h3>La complémentarité</h3>
+        <p>Jeunes et seniors, actifs et en reconstruction. Là où d'autres voient un écart, on orchestre un équilibre.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-img">
+          <img src="charte.png" alt="" onerror="this.parentElement.innerHTML='<span class=&quot;pillar-emoji&quot;>📜</span>'">
+        </div>
+        <h3>La charte commune</h3>
+        <p>Construite ensemble. Elle cadre les usages, responsabilise chacun, fonde la confiance du quotidien.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-img">
+          <img src="solidarite.png" alt="" onerror="this.parentElement.innerHTML='<span class=&quot;pillar-emoji&quot;>🫂</span>'">
+        </div>
+        <h3>La vigilance partagée</h3>
+        <p>Coordinateur de proximité, détection précoce des fragilités, escalade vers les services spécialisés si besoin.</p>
+      </div>
+    </div>
+
+    <div class="quote-strip reveal">
+      <blockquote>
+        Traitez les gens comme s'ils étaient ce qu'ils pourraient être, et vous les aiderez à devenir ce qu'ils sont capables d'être.
+      </blockquote>
+      <cite>— Goethe</cite>
+    </div>
+  </div>
+</section>
+
 <!-- ============ CONTACT ============ -->
 <section class="contact" id="contact">
   <div class="contact-wrap">
-    <div class="section-tag" style="color:var(--rose)">Parlons-en</div>
-    <h2>Un projet, une question,<br>un logement à partager —<br><em>on décroche.</em></h2>
-    <p class="contact-hours">
-      Notre équipe est joignable <strong>de 9h30 à 19h</strong>, du lundi au samedi.
+    <div class="section-tag" style="color:var(--rose)">Passez à l'action</div>
+    <h2>Bailleur, partenaire, colocataire ou donateur —<br><em>il y a une place pour vous.</em></h2>
+    <p class="contact-sub">
+      Vous avez un logement à partager, une situation à signaler, une envie d'aider ? Une équipe humaine décroche, écoute, oriente. Pas de formulaire interminable.
     </p>
+
     <div class="contact-phones">
       <a href="tel:+33671039373" class="phone-card">
         <span class="label">Ligne 1</span>
@@ -1458,9 +1174,14 @@
         <span class="number">06 37 13 67 98</span>
       </a>
     </div>
-    <p style="color:rgba(245,239,228,.6);font-size:.9rem;margin-top:30px">
-      Vous êtes propriétaire d'un logement, professionnel du médico-social, ou cherchez une place en colocation solidaire ? Tous les profils sont les bienvenus.
+
+    <p class="contact-hours">
+      Joignables <strong>de 9h30 à 19h</strong>, du lundi au samedi.
     </p>
+    <a href="mailto:contact@lienpourlautre.com" class="contact-mail">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+      contact@lienpourlautre.com
+    </a>
   </div>
 </section>
 
@@ -1470,14 +1191,8 @@
 </footer>
 
 <script>
-/* ====== NAV : burger + hide-on-scroll ====== */
-const burger = document.getElementById('burger');
-const navlinks = document.getElementById('navlinks');
+/* ====== NAV : hide-on-scroll ====== */
 const topnav = document.getElementById('topnav');
-burger.addEventListener('click', () => navlinks.classList.toggle('open'));
-navlinks.addEventListener('click', e => {
-  if (e.target.tagName === 'A') navlinks.classList.remove('open');
-});
 let lastScroll = 0;
 window.addEventListener('scroll', () => {
   const y = window.scrollY;
@@ -1494,15 +1209,11 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-/* ====== PODCAST PLAYER ====== */
+/* ====== PODCAST PLAYER (dans le header) ====== */
 const audio = document.getElementById('podcast-audio');
-const playBtn = document.getElementById('play-btn');
-const playIcon = document.getElementById('play-icon');
-const waveform = document.getElementById('waveform');
-const progressBar = document.getElementById('progress-bar');
-const progressFill = document.getElementById('progress-fill');
-const timeCurrent = document.getElementById('time-current');
-const timeTotal = document.getElementById('time-total');
+const navPodcastBtn = document.getElementById('nav-podcast');
+const navPlayIcon = document.getElementById('nav-play-icon');
+const navStatus = document.getElementById('nav-podcast-status');
 
 const fmt = s => {
   if (!isFinite(s)) return '--:--';
@@ -1511,45 +1222,39 @@ const fmt = s => {
 };
 
 audio.addEventListener('loadedmetadata', () => {
-  timeTotal.textContent = fmt(audio.duration);
+  navStatus.textContent = 'Écouter · ' + fmt(audio.duration);
 });
 audio.addEventListener('timeupdate', () => {
-  timeCurrent.textContent = fmt(audio.currentTime);
-  if (audio.duration) progressFill.style.width = (audio.currentTime/audio.duration*100) + '%';
+  if (!audio.paused && audio.duration) {
+    navStatus.textContent = fmt(audio.currentTime) + ' / ' + fmt(audio.duration);
+  }
 });
 audio.addEventListener('ended', () => {
-  playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
-  playBtn.classList.remove('playing');
-  waveform.classList.remove('active');
+  navPlayIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+  navPodcastBtn.classList.remove('playing');
+  navStatus.textContent = 'Réécouter';
 });
 audio.addEventListener('error', () => {
-  timeTotal.textContent = 'Audio indisponible';
+  navStatus.textContent = 'Audio indisponible';
 });
 
-playBtn.addEventListener('click', () => {
+navPodcastBtn.addEventListener('click', () => {
   if (audio.paused) {
     audio.play().then(() => {
-      playIcon.innerHTML = '<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>';
-      playBtn.classList.add('playing');
-      waveform.classList.add('active');
+      navPlayIcon.innerHTML = '<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>';
+      navPodcastBtn.classList.add('playing');
     }).catch(err => {
-      console.warn('Lecture impossible:', err);
-      timeTotal.textContent = 'Fichier introuvable';
+      navStatus.textContent = 'Fichier introuvable';
     });
   } else {
     audio.pause();
-    playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
-    playBtn.classList.remove('playing');
-    waveform.classList.remove('active');
+    navPlayIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+    navPodcastBtn.classList.remove('playing');
+    navStatus.textContent = 'Reprendre';
   }
 });
-progressBar.addEventListener('click', e => {
-  if (!audio.duration) return;
-  const rect = progressBar.getBoundingClientRect();
-  audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
-});
 
-/* ====== ACTUALITES CAROUSEL ====== */
+/* ====== ACTUALITÉS CAROUSEL ====== */
 const track = document.getElementById('carousel-track');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
@@ -1568,7 +1273,6 @@ const renderActus = (data) => {
     track.innerHTML = '<div class="actu-card-empty">Aucune actualité pour le moment — revenez bientôt.</div>';
     return;
   }
-  // Tri par date desc
   data.sort((a,b) => new Date(b.date) - new Date(a.date));
   track.innerHTML = data.map(a => `
     <article class="actu-card">
@@ -1600,7 +1304,7 @@ const updateCarousel = () => {
   const cardsPerView = getCardsPerView();
   const maxIndex = Math.max(0, cards.length - cardsPerView);
   if (currentIndex > maxIndex) currentIndex = maxIndex;
-  const cardWidth = cards[0].offsetWidth + 24; // gap
+  const cardWidth = cards[0].offsetWidth + 24;
   track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
   prevBtn.disabled = currentIndex === 0;
   nextBtn.disabled = currentIndex >= maxIndex;
@@ -1614,10 +1318,10 @@ fetch('actualite.json')
   .then(r => { if (!r.ok) throw new Error('not ok'); return r.json(); })
   .then(data => { renderActus(data); setTimeout(updateCarousel, 50); })
   .catch(() => {
-    // Fallback démo si le fichier est absent
     const demo = [
-      { nom:"Lancement de notre nouveau site web", date:"2026-05-15", url_image:"/images/blog/lancement-site.jpg", contenu:"Nous sommes ravis de vous présenter notre tout nouvel espace en ligne ! Plus moderne, plus rapide et entièrement pensé pour vous offrir la meilleure expérience possible." },
-      { nom:"Atelier Portes Ouvertes : Édition Printemps", date:"2026-06-02", url_image:"/images/evenements/portes-ouvertes.jpg", contenu:"Rejoignez-nous le temps d'une journée exclusive pour visiter nos coulisses, rencontrer l'équipe et participer à nos ateliers créatifs interactifs. Entrée libre et gratuite, café offert !" }
+      { nom:"Lancement de notre nouveau site web", date:"2026-05-15", url_image:"", contenu:"Nous sommes ravis de vous présenter notre tout nouvel espace en ligne ! Plus moderne, plus rapide et entièrement pensé pour vous offrir la meilleure expérience possible." },
+      { nom:"Atelier Portes Ouvertes : Édition Printemps", date:"2026-06-02", url_image:"", contenu:"Rejoignez-nous le temps d'une journée exclusive pour visiter nos coulisses, rencontrer l'équipe et participer à nos ateliers interactifs. Entrée libre et gratuite." },
+      { nom:"Première colocation labellisée à Toulouse", date:"2026-04-20", url_image:"", contenu:"Trois colocataires, deux générations, un projet de vie commune validé. Un cap symbolique pour le modèle Lienpourl'autre dans la métropole toulousaine." }
     ];
     renderActus(demo);
     setTimeout(updateCarousel, 50);
