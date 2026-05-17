@@ -611,7 +611,7 @@
   <div class="passive-badge" id="passive-badge">🌿 0/s</div>
   <div class="combo-badge" id="combo-badge">🔥 <span id="combo-count">0</span></div>
   
-  <button class="icon-btn" id="btn-help" title="Règles du jeu">⚙️</button>
+  <button class="icon-btn" id="btn-help" title="Règles du jeu">❓</button>
   
   <button class="icon-btn" id="btn-reset" title="Recommencer">↻</button>
 </div>
@@ -1789,12 +1789,12 @@ function getLevelReward(level) {
   };
   if (level === 4) return {
     icon: '🔥', title: 'Combo Boost + Auto-Asso',
-    desc: `• 🔥 Combo x5+ <strong>double</strong> les ✨.<br>• 🤖 <strong>Auto-génération</strong> de profils achetable dans ⚙️.<br>• 💎 Des <strong>Grands Mécènes</strong> apparaissent !`,
+    desc: `• 🔥 Combo x5+ <strong>double</strong> les ✨.<br>• 🤖 <strong>Auto-génération</strong> de profils achetable dans 🧰.<br>• 💎 Des <strong>Grands Mécènes</strong> apparaissent !`,
     apply: () => { state.unlockedFeatures.comboBoost = true; }
   };
   if (level === 5) return {
     icon: '🏠', title: 'Auto-Bailleur + IA Matching',
-    desc: `<strong>🏠 Auto-génération de logements</strong> achetable dans ⚙️.<br>🤖 <strong>Algorithme IA</strong> : surligne le meilleur match disponible.`,
+    desc: `<strong>🏠 Auto-génération de logements</strong> achetable dans 🧰.<br>🤖 <strong>Algorithme IA</strong> : surligne le meilleur match disponible.`,
     apply: () => { state.unlockedFeatures.autoBailleur = true; state.unlockedFeatures.aiMatch = true; }
   };
   if (level === 6) return {
@@ -1936,7 +1936,7 @@ document.getElementById('btn-help').onclick = () => {
     <p><b>⭐ Joker</b> : match parfait avec n'importe qui (Lvl 3+)</p>
     <p><b>💖 Coup de cœur</b> : halo coloré, bonus garanti</p>
     
-    <p><b>⚙️ Branches d'upgrades</b> : 5 branches (Réseau, Qualité, Stratégie, Logements, Économie). Ouvre le panneau pour investir !</p>
+    <p><b>🧰 Branches d'upgrades</b> : 5 branches (Réseau, Qualité, Stratégie, Logements, Économie). Ouvre le panneau pour investir !</p>
     <div class="feature-list">
       <div class="feat"><b>Niveau 2</b> : 🙅 Réorienter + 📋 Quêtes</div>
       <div class="feat"><b>Niveau 3</b> : 🎯 Tri + ⭐ Jokers + 📢 Campagnes</div>
@@ -2136,7 +2136,7 @@ function renderUpgradesPanel() {
   });
 
   document.getElementById('modal-content').innerHTML = `
-    <h2 style="text-align:center;">⚙️ Améliorations</h2>
+    <h2 style="text-align:center;">🧰 Améliorations</h2>
     <p style="text-align:center; margin-bottom: 10px; font-size:13px;">Tu as <strong style="color:var(--blue);">${state.visibility} ✨ Impact</strong></p>
     <div class="branch-tabs">${tabsHTML}</div>
     <div class="upgrade-list">${itemsHTML}</div>
