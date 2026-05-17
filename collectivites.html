@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Lienpourl'autre × Collectivités locales : faisabilité humaine, sociale et économique d'un projet d'habitat inclusif sur votre commune. Mixité, mutualisation, valorisation de bâtiments existants." />
+<meta name="keywords" content="habitat inclusif collectivité, mairie projet social, logement vacant, mixité sociale commune, hébergement accompagné">
+<title>Collectivités locales — Lienpourl'autre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bleu:#305598;
+    --bleu-deep:#1e3a6f;
+    --bleu-ciel:#5b9bd5;
+    --rose:#d48ca8;
+    --rose-vif:#c46285;
+    --vert:#70ad47;
+    --vert-deep:#558235;
+    --kaki:#998856;
+    --kaki-deep:#776a3f;
+    --noir:#0f1420;
+    --creme:#f5efe4;
+    --creme-warm:#ebe2cf;
+    --blanc:#ffffff;
+
+    --ff-display:'Fraunces', Georgia, serif;
+    --ff-body:'Manrope', system-ui, sans-serif;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--ff-body);
+    background:var(--creme);
+    color:var(--noir);
+    overflow-x:hidden;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--rose);color:var(--bleu-deep)}
+
+  /* GRAIN */
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    background-image:url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity:.18;pointer-events:none;z-index:9999;mix-blend-mode:multiply;
+  }
+
+  /* ============ PARALLAX (allégé, propre à cette page) ============ */
+  .parallax-layer{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .pshape{position:absolute;border-radius:50%;will-change:transform;transition:opacity 1.4s ease;opacity:0}
+  .pshape.visible{opacity:1}
+  .pgeo{position:absolute;pointer-events:none;will-change:transform;transition:opacity 1.6s ease;opacity:0}
+  .pgeo.visible{opacity:1}
+
+  .ps-a{width:560px;height:560px;background:radial-gradient(circle at 40% 40%, rgba(91,155,213,.20), transparent 68%);top:-160px;left:-180px}
+  .ps-b{width:620px;height:620px;background:radial-gradient(circle at 60% 55%, rgba(196,98,133,.15), transparent 66%);top:50vh;right:-200px}
+  .ps-c{width:480px;height:480px;background:radial-gradient(circle at 50% 50%, rgba(112,173,71,.16), transparent 63%);top:120vh;left:-110px}
+  .ps-d{width:540px;height:540px;background:radial-gradient(circle at 50% 50%, rgba(153,136,86,.13), transparent 60%);top:200vh;right:5%}
+
+  .pg-a{width:130px;height:130px;border:2px solid rgba(48,85,152,.11);border-radius:30px;transform:rotate(18deg);top:30vh;left:5%}
+  .pg-b{width:75px;height:75px;background:rgba(196,98,133,.06);border-radius:50%;top:90vh;right:8%}
+  .pg-c{width:90px;height:90px;border:1.5px solid rgba(112,173,71,.18);border-radius:20px;transform:rotate(-14deg);top:155vh;left:9%}
+  .pg-d{width:150px;height:150px;border:2px solid rgba(153,136,86,.10);border-radius:50%;top:220vh;right:13%}
+
+  /* ============ PAGE HERO (différent du hero accueil) ============ */
+  .page-hero{
+    padding:160px 36px 90px;
+    position:relative;
+    z-index:1;
+    overflow:hidden;
+  }
+  .page-hero::before{
+    content:"";
+    position:absolute;
+    top:-30%;right:-15%;
+    width:55%;height:130%;
+    background:radial-gradient(circle at center, rgba(212,140,168,.30), transparent 60%);
+    pointer-events:none;z-index:0;
+  }
+  .page-hero::after{
+    content:"";
+    position:absolute;
+    bottom:-40%;left:-10%;
+    width:50%;height:90%;
+    background:radial-gradient(circle at center, rgba(112,173,71,.18), transparent 60%);
+    pointer-events:none;z-index:0;
+  }
+  .page-hero-inner{
+    max-width:1180px;margin:0 auto;
+    position:relative;z-index:2;
+    display:grid;grid-template-columns:1.25fr .75fr;
+    gap:60px;align-items:center;
+  }
+
+  /* Breadcrumb */
+  .breadcrumb{
+    display:flex;align-items:center;gap:8px;
+    font-size:.82rem;font-weight:600;color:#4a5066;
+    margin-bottom:22px;flex-wrap:wrap;
+  }
+  .breadcrumb a{color:var(--bleu);text-decoration:none;transition:color .2s}
+  .breadcrumb a:hover{color:var(--rose-vif)}
+  .breadcrumb svg{opacity:.4;flex-shrink:0}
+  .breadcrumb .current{color:var(--bleu-deep);font-weight:700}
+
+  .page-eyebrow{
+    display:inline-block;
+    font-size:.78rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--rose-vif);margin-bottom:18px;
+  }
+  .page-eyebrow::before{content:"— ";color:var(--bleu)}
+
+  h1.page-title{
+    font-family:var(--ff-display);font-weight:900;
+    font-size:clamp(2.2rem, 4.8vw, 4rem);
+    line-height:1.02;letter-spacing:-.03em;
+    color:var(--bleu-deep);margin-bottom:22px;
+  }
+  h1.page-title em{
+    font-style:italic;font-weight:600;color:var(--rose-vif);
+    position:relative;display:inline-block;
+  }
+  h1.page-title em::after{
+    content:"";position:absolute;bottom:6px;left:-4px;right:-4px;height:12px;
+    background:var(--vert);z-index:-1;opacity:.35;transform:skewX(-8deg);
+  }
+
+  .page-lead{
+    font-size:1.12rem;color:#2a2f3d;
+    margin-bottom:26px;max-width:580px;line-height:1.6;
+  }
+
+  /* HASHTAGS — composant clé, demandé par le président */
+  .hashtags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:30px}
+  .htag{
+    display:inline-block;font-family:var(--ff-body);
+    font-size:.78rem;font-weight:600;
+    padding:6px 13px;border-radius:999px;
+    background:var(--blanc);color:var(--bleu);
+    border:1.5px solid rgba(48,85,152,.18);
+    transition:all .25s;text-decoration:none;
+  }
+  .htag:hover{background:var(--bleu);color:var(--blanc);border-color:var(--bleu);transform:translateY(-2px)}
+  .htag.green{color:var(--vert-deep);border-color:rgba(85,130,53,.22)}
+  .htag.green:hover{background:var(--vert-deep);color:var(--blanc);border-color:var(--vert-deep)}
+  .htag.rose{color:var(--rose-vif);border-color:rgba(196,98,133,.22)}
+  .htag.rose:hover{background:var(--rose-vif);color:var(--blanc);border-color:var(--rose-vif)}
+  .htag.kaki{color:var(--kaki-deep);border-color:rgba(119,106,63,.22)}
+  .htag.kaki:hover{background:var(--kaki-deep);color:var(--blanc);border-color:var(--kaki-deep)}
+
+  .page-hero-cta{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+  .btn{
+    padding:14px 26px;border-radius:999px;text-decoration:none;
+    font-weight:700;font-size:.92rem;
+    display:inline-flex;align-items:center;gap:10px;
+    cursor:pointer;border:none;
+    transition:all .3s cubic-bezier(.2,.8,.3,1.2);
+    font-family:inherit;
+  }
+  .btn-primary{background:var(--bleu);color:var(--blanc);box-shadow:0 8px 24px -8px rgba(48,85,152,.6)}
+  .btn-primary:hover{background:var(--bleu-deep);transform:translateY(-3px);box-shadow:0 14px 30px -10px rgba(48,85,152,.7)}
+  .btn-ghost{background:transparent;color:var(--bleu-deep);border:2px solid var(--bleu-deep)}
+  .btn-ghost:hover{background:var(--bleu-deep);color:var(--creme)}
+
+  /* HERO ILLUSTRATION : "mairie + maison" en SVG */
+  .page-hero-visual{
+    position:relative;display:flex;justify-content:center;align-items:center;
+  }
+  .hero-illu-card{
+    background:var(--blanc);
+    border-radius:28px;
+    padding:34px 30px;
+    box-shadow:0 30px 60px -25px rgba(48,85,152,.35);
+    position:relative;
+    border:1.5px solid rgba(48,85,152,.08);
+  }
+  .hero-illu-card svg{display:block;width:100%;max-width:320px;height:auto;margin:0 auto}
+  .hero-illu-tag{
+    position:absolute;
+    top:-14px;left:24px;
+    background:var(--vert);color:var(--blanc);
+    font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+    padding:6px 14px;border-radius:999px;
+    box-shadow:0 8px 20px -8px rgba(112,173,71,.6);
+  }
+  .hero-illu-stats{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:14px;margin-top:24px;padding-top:22px;
+    border-top:1px solid rgba(48,85,152,.1);
+  }
+  .hero-illu-stat{text-align:center}
+  .hero-illu-stat .num{
+    font-family:var(--ff-display);font-weight:800;font-size:1.4rem;
+    color:var(--bleu-deep);line-height:1;letter-spacing:-.02em;
+  }
+  .hero-illu-stat .lab{
+    font-size:.66rem;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:#5a6177;margin-top:4px;
+  }
+
+  @media (max-width:980px){
+    .page-hero{padding:130px 22px 70px}
+    .page-hero-inner{grid-template-columns:1fr;gap:46px}
+    .page-hero-visual{order:-1;max-width:380px;margin:0 auto}
+  }
+
+  /* ============ SECTIONS ============ */
+  section.block{padding:90px 36px;position:relative;z-index:1}
+  .container{max-width:1180px;margin:0 auto}
+  .section-head{margin-bottom:50px;max-width:780px}
+  .section-head.centered{margin-left:auto;margin-right:auto;text-align:center}
+  .section-tag{
+    display:inline-block;font-size:.78rem;font-weight:700;
+    letter-spacing:.22em;text-transform:uppercase;
+    color:var(--rose-vif);margin-bottom:14px;
+  }
+  .section-tag::before{content:"— ";color:var(--bleu)}
+  h2.section-title{
+    font-family:var(--ff-display);font-weight:800;
+    font-size:clamp(1.9rem, 3.8vw, 3.2rem);
+    line-height:1.05;letter-spacing:-.025em;
+    color:var(--bleu-deep);margin-bottom:18px;
+  }
+  h2.section-title em{font-style:italic;font-weight:600;color:var(--vert-deep)}
+  .section-lead{font-size:1.05rem;color:#2a2f3d;max-width:680px;line-height:1.6}
+  .section-head.centered .section-lead{margin-left:auto;margin-right:auto}
+
+  .reveal{opacity:0;transform:translateY(36px);transition:opacity .9s ease, transform .9s cubic-bezier(.2,.8,.3,1)}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  /* ============ PROBLEMATIQUES (3 cards "questions") ============ */
+  .pb{background:var(--creme)}
+  .pb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:36px}
+  .pb-card{
+    background:var(--blanc);border-radius:22px;
+    padding:30px 28px;
+    border:1.5px solid rgba(48,85,152,.08);
+    position:relative;overflow:hidden;
+    transition:all .35s;
+    display:flex;flex-direction:column;gap:12px;
+  }
+  .pb-card::before{
+    content:"";position:absolute;top:0;left:0;
+    width:50px;height:3px;transition:width .4s;
+  }
+  .pb-card:nth-child(1)::before{background:var(--bleu)}
+  .pb-card:nth-child(2)::before{background:var(--rose-vif)}
+  .pb-card:nth-child(3)::before{background:var(--vert)}
+  .pb-card:hover{transform:translateY(-6px);box-shadow:0 28px 50px -25px rgba(48,85,152,.25)}
+  .pb-card:hover::before{width:100%}
+  .pb-num{
+    font-family:var(--ff-display);font-style:italic;font-weight:600;
+    font-size:2.6rem;line-height:1;color:var(--rose);opacity:.8;
+  }
+  .pb-card h3{
+    font-family:var(--ff-display);font-size:1.18rem;
+    font-weight:700;color:var(--bleu-deep);line-height:1.25;
+  }
+  .pb-card p{font-size:.95rem;color:#3a4054;line-height:1.6}
+  @media (max-width:880px){.pb-grid{grid-template-columns:1fr;gap:16px}}
+
+  /* ============ DEMARCHE EN 4 ÉTAPES (timeline horizontale) ============ */
+  .demarche{background:var(--creme-warm);position:relative;overflow:hidden}
+  .timeline{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    gap:18px;margin-top:50px;position:relative;
+  }
+  .timeline::before{
+    content:"";position:absolute;
+    top:42px;left:8%;right:8%;
+    height:2px;
+    background:repeating-linear-gradient(90deg, rgba(48,85,152,.25) 0 8px, transparent 8px 16px);
+    z-index:0;
+  }
+  .step{
+    position:relative;z-index:1;
+    background:var(--blanc);
+    border-radius:22px;
+    padding:24px 22px 26px;
+    border:1.5px solid rgba(48,85,152,.08);
+    text-align:center;
+    transition:all .35s;
+  }
+  .step:hover{transform:translateY(-5px);box-shadow:0 22px 44px -22px rgba(48,85,152,.25)}
+  .step-num{
+    width:54px;height:54px;
+    background:var(--bleu);color:var(--blanc);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--ff-display);font-weight:800;font-size:1.3rem;
+    margin:0 auto 16px;
+    box-shadow:0 10px 24px -10px rgba(48,85,152,.6);
+  }
+  .step:nth-child(2) .step-num{background:var(--rose-vif);box-shadow:0 10px 24px -10px rgba(196,98,133,.6)}
+  .step:nth-child(3) .step-num{background:var(--vert);box-shadow:0 10px 24px -10px rgba(112,173,71,.6)}
+  .step:nth-child(4) .step-num{background:var(--kaki);box-shadow:0 10px 24px -10px rgba(153,136,86,.6)}
+  .step h3{
+    font-family:var(--ff-display);font-size:1.05rem;
+    font-weight:700;color:var(--bleu-deep);margin-bottom:8px;line-height:1.2;
+  }
+  .step p{font-size:.88rem;color:#3a4054;line-height:1.55}
+  @media (max-width:980px){
+    .timeline{grid-template-columns:repeat(2,1fr)}
+    .timeline::before{display:none}
+  }
+  @media (max-width:540px){.timeline{grid-template-columns:1fr}}
+
+  /* ============ GARANTIES (split editorial) ============ */
+  .garanties{background:var(--bleu-deep);color:var(--creme);position:relative;overflow:hidden}
+  .garanties::before{
+    content:"";position:absolute;
+    top:-30%;right:-15%;width:50%;height:130%;
+    background:radial-gradient(circle, rgba(212,140,168,.20), transparent 60%);
+    pointer-events:none;
+  }
+  .garanties::after{
+    content:"";position:absolute;
+    bottom:-30%;left:-10%;width:45%;height:120%;
+    background:radial-gradient(circle, rgba(112,173,71,.15), transparent 60%);
+    pointer-events:none;
+  }
+  .garanties .container{position:relative;z-index:2}
+  .garanties .section-tag{color:var(--vert)}
+  .garanties .section-tag::before{color:var(--rose)}
+  .garanties h2.section-title{color:var(--creme)}
+  .garanties h2.section-title em{color:var(--rose)}
+  .garanties .section-lead{color:rgba(245,239,228,.78)}
+
+  .gar-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:46px}
+  .gar-card{
+    background:rgba(245,239,228,.06);
+    border:1px solid rgba(245,239,228,.15);
+    border-radius:20px;
+    padding:28px 30px;
+    transition:all .3s;
+    display:flex;gap:18px;align-items:flex-start;
+  }
+  .gar-card:hover{background:rgba(245,239,228,.10);transform:translateY(-4px)}
+  .gar-icon{
+    width:48px;height:48px;flex-shrink:0;
+    background:var(--rose-vif);color:var(--blanc);
+    border-radius:14px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .gar-card:nth-child(2) .gar-icon{background:var(--vert)}
+  .gar-card:nth-child(3) .gar-icon{background:var(--kaki)}
+  .gar-card:nth-child(4) .gar-icon{background:var(--bleu-ciel)}
+  .gar-icon svg{width:22px;height:22px}
+  .gar-card h3{
+    font-family:var(--ff-display);font-size:1.15rem;
+    font-weight:700;color:var(--creme);margin-bottom:8px;line-height:1.2;
+  }
+  .gar-card p{font-size:.94rem;color:rgba(245,239,228,.78);line-height:1.6}
+  @media (max-width:780px){.gar-grid{grid-template-columns:1fr}}
+
+  /* ============ QUOTE EDITORIAL ============ */
+  .editorial-quote{background:var(--creme)}
+  .editorial-quote .quote-card{
+    max-width:920px;margin:0 auto;
+    background:var(--blanc);
+    border-radius:28px;
+    padding:54px 60px;
+    position:relative;
+    border:1.5px solid rgba(48,85,152,.08);
+    box-shadow:0 30px 60px -30px rgba(48,85,152,.2);
+  }
+  .editorial-quote .quote-card::before{
+    content:"\201C";
+    position:absolute;top:-32px;left:36px;
+    font-family:var(--ff-display);font-size:8rem;
+    color:var(--rose);line-height:1;opacity:.7;font-style:italic;
+  }
+  .editorial-quote blockquote{
+    font-family:var(--ff-display);font-style:italic;
+    font-weight:500;font-size:clamp(1.15rem, 1.8vw, 1.5rem);
+    line-height:1.5;color:#1a1f30;margin-bottom:22px;
+  }
+  .editorial-quote cite{
+    font-style:normal;font-size:.85rem;
+    letter-spacing:.15em;text-transform:uppercase;
+    color:var(--rose-vif);font-weight:700;
+  }
+  @media (max-width:680px){
+    .editorial-quote .quote-card{padding:44px 28px}
+  }
+
+  /* ============ BACKLINKS (cards d'autres pages) ============ */
+  .backlinks{background:var(--creme-warm)}
+  .bl-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:40px}
+  .bl-card{
+    background:var(--blanc);
+    border:1.5px solid rgba(48,85,152,.08);
+    border-radius:22px;
+    padding:30px 30px;
+    text-decoration:none;color:inherit;
+    display:flex;flex-direction:column;gap:12px;
+    transition:all .35s;
+    position:relative;overflow:hidden;
+  }
+  .bl-card::after{
+    content:"";position:absolute;inset:auto 0 0 0;height:4px;
+    background:linear-gradient(90deg,var(--bleu),var(--rose-vif));
+    transform:scaleX(0);transform-origin:left;
+    transition:transform .4s cubic-bezier(.2,.8,.3,1);
+  }
+  .bl-card:hover{transform:translateY(-5px);box-shadow:0 28px 50px -25px rgba(48,85,152,.28);border-color:transparent}
+  .bl-card:hover::after{transform:scaleX(1)}
+  .bl-tag{
+    font-size:.72rem;font-weight:700;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--rose-vif);
+  }
+  .bl-card.green .bl-tag{color:var(--vert-deep)}
+  .bl-card h3{
+    font-family:var(--ff-display);font-size:1.4rem;
+    font-weight:800;color:var(--bleu-deep);line-height:1.15;letter-spacing:-.02em;
+  }
+  .bl-card p{font-size:.95rem;color:#3a4054;line-height:1.55}
+  .bl-cta{
+    margin-top:auto;padding-top:8px;
+    font-weight:700;color:var(--bleu);font-size:.9rem;
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .bl-cta svg{transition:transform .3s}
+  .bl-card:hover .bl-cta svg{transform:translateX(4px)}
+  @media (max-width:780px){.bl-grid{grid-template-columns:1fr}}
+
+  /* ============ CTA FINAL ============ */
+  .cta-final{background:var(--noir);color:var(--creme);position:relative;overflow:hidden}
+  .cta-final::before{
+    content:"";position:absolute;
+    bottom:-40%;left:-20%;width:70%;height:140%;
+    background:radial-gradient(circle, rgba(48,85,152,.4), transparent 60%);
+    pointer-events:none;
+  }
+  .cta-final::after{
+    content:"";position:absolute;
+    top:-30%;right:-20%;width:60%;height:120%;
+    background:radial-gradient(circle, rgba(212,140,168,.25), transparent 60%);
+    pointer-events:none;
+  }
+  .cta-wrap{position:relative;z-index:2;max-width:1100px;margin:0 auto;text-align:center}
+  .cta-wrap h2{
+    font-family:var(--ff-display);font-weight:800;
+    font-size:clamp(2rem, 4.2vw, 3.6rem);
+    line-height:1.05;letter-spacing:-.02em;
+    color:var(--creme);margin-bottom:20px;
+  }
+  .cta-wrap h2 em{font-style:italic;font-weight:600;color:var(--rose)}
+  .cta-wrap p{
+    font-size:1.05rem;color:rgba(245,239,228,.8);
+    max-width:580px;margin:0 auto 32px;
+  }
+  .cta-phones{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:14px;max-width:760px;margin:0 auto 24px;
+  }
+  .phone-card{
+    background:rgba(245,239,228,.06);
+    border:1px solid rgba(245,239,228,.15);
+    border-radius:18px;padding:20px 22px;
+    text-decoration:none;color:var(--creme);
+    display:flex;flex-direction:column;gap:6px;
+    transition:all .3s;text-align:left;
+  }
+  .phone-card:hover{background:var(--rose-vif);border-color:var(--rose-vif);transform:translateY(-4px)}
+  .phone-card .label{
+    font-size:.7rem;font-weight:700;letter-spacing:.18em;
+    text-transform:uppercase;color:rgba(245,239,228,.6);
+  }
+  .phone-card:hover .label{color:rgba(255,255,255,.85)}
+  .phone-card .number{
+    font-family:var(--ff-display);font-size:1.2rem;font-weight:700;letter-spacing:-.01em;
+  }
+  .cta-hours{font-size:.92rem;color:rgba(245,239,228,.7);margin-bottom:6px}
+  .cta-hours strong{color:var(--vert)}
+  .cta-mail{
+    display:inline-flex;align-items:center;gap:10px;
+    color:var(--rose);text-decoration:none;font-weight:600;
+    margin-top:12px;border-bottom:1px solid transparent;
+    transition:border-color .3s;
+  }
+  .cta-mail:hover{border-bottom-color:var(--rose)}
+  @media (max-width:680px){.cta-phones{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- Parallax background -->
+<div class="parallax-layer" id="parallax-layer" aria-hidden="true">
+  <div class="pshape ps-a" data-speed="0.20"></div>
+  <div class="pshape ps-b" data-speed="0.15"></div>
+  <div class="pshape ps-c" data-speed="0.18"></div>
+  <div class="pshape ps-d" data-speed="0.13"></div>
+  <div class="pgeo pg-a" data-speed="0.26"></div>
+  <div class="pgeo pg-b" data-speed="0.22"></div>
+  <div class="pgeo pg-c" data-speed="0.28"></div>
+  <div class="pgeo pg-d" data-speed="0.18"></div>
+</div>
+
+<!-- Menu (injecté par shared.js) -->
+<div id="site-nav"></div>
+
+<!-- ============ HERO ============ -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-content">
+      <nav class="breadcrumb" aria-label="Fil d'Ariane">
+        <a href="index.html">Accueil</a>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+        <span class="current">Collectivités locales</span>
+      </nav>
+
+      <div class="page-eyebrow">Mairies · Communes · Métropoles</div>
+      <h1 class="page-title">
+        Et si nous répondions ensemble à vos <em>problématiques sociales</em>&nbsp;?
+      </h1>
+      <p class="page-lead">
+        Un local à réhabiliter, un administré à reloger, un programme social à monter&nbsp;? Nous étudions avec vous la faisabilité humaine, sociale et économique — puis nous portons le projet de bout en bout.
+      </p>
+
+      <div class="hashtags">
+        <a href="index.html#concept" class="htag">#HabitatInclusif</a>
+        <a href="index.html#concept" class="htag green">#MixitéSociale</a>
+        <a href="medico-social.html" class="htag rose">#ProximitéSociale</a>
+        <span class="htag kaki">#BâtimentsValorisés</span>
+        <span class="htag">#AutonomieFinancière</span>
+        <span class="htag green">#APIPivetauWolfrom</span>
+      </div>
+
+      <div class="page-hero-cta">
+        <a href="#contact-collectivites" class="btn btn-primary">
+          Parler de notre commune
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="index.html#concept" class="btn btn-ghost">Découvrir le concept</a>
+      </div>
+    </div>
+
+    <div class="page-hero-visual" aria-hidden="true">
+      <div class="hero-illu-card">
+        <span class="hero-illu-tag">Projet sur-mesure</span>
+        <!-- Illustration vectorielle : mairie + maison côte à côte -->
+        <svg viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="grad-mairie" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#305598"/>
+              <stop offset="100%" stop-color="#1e3a6f"/>
+            </linearGradient>
+          </defs>
+          <!-- Mairie (gauche) -->
+          <rect x="20" y="90" width="130" height="110" rx="6" fill="url(#grad-mairie)"/>
+          <polygon points="10,90 85,40 160,90" fill="#5b9bd5"/>
+          <rect x="78" y="50" width="14" height="40" fill="#f5efe4"/>
+          <circle cx="85" cy="58" r="3" fill="#c46285"/>
+          <rect x="40" y="120" width="22" height="40" rx="3" fill="#f5efe4"/>
+          <rect x="74" y="120" width="22" height="40" rx="3" fill="#f5efe4"/>
+          <rect x="108" y="120" width="22" height="40" rx="3" fill="#f5efe4"/>
+          <rect x="68" y="170" width="34" height="30" fill="#998856"/>
+          <text x="85" y="83" text-anchor="middle" font-family="Fraunces, serif" font-weight="800" font-size="9" fill="#f5efe4" letter-spacing="1">MAIRIE</text>
+
+          <!-- Maison (droite) -->
+          <rect x="180" y="120" width="120" height="80" rx="8" fill="#d48ca8"/>
+          <polygon points="170,120 240,75 310,120" fill="#70ad47"/>
+          <rect x="228" y="150" width="24" height="50" fill="#f5efe4"/>
+          <rect x="196" y="135" width="22" height="22" fill="#f5efe4" rx="3"/>
+          <rect x="262" y="135" width="22" height="22" fill="#f5efe4" rx="3"/>
+
+          <!-- Pont entre les 2 -->
+          <path d="M150,180 Q165,160 180,180" fill="none" stroke="#998856" stroke-width="3" stroke-linecap="round" stroke-dasharray="4 4"/>
+
+          <!-- Petits personnages -->
+          <circle cx="158" cy="195" r="5" fill="#c46285"/>
+          <circle cx="172" cy="195" r="5" fill="#70ad47"/>
+        </svg>
+
+        <div class="hero-illu-stats">
+          <div class="hero-illu-stat">
+            <div class="num">3</div>
+            <div class="lab">Volets<br>d'étude</div>
+          </div>
+          <div class="hero-illu-stat">
+            <div class="num">100%</div>
+            <div class="lab">Suivi<br>terrain</div>
+          </div>
+          <div class="hero-illu-stat">
+            <div class="num">0€</div>
+            <div class="lab">Charge<br>récurrente</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROBLEMATIQUES ============ -->
+<section class="block pb">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Constat partagé</div>
+      <h2 class="section-title">Trois questions <em>qui reviennent</em><br>dans nos échanges avec les communes.</h2>
+      <p class="section-lead">
+        Si l'une de ces situations vous parle, vous êtes au bon endroit. Nous pourrions être votre interlocuteur.
+      </p>
+    </div>
+
+    <div class="pb-grid">
+      <article class="pb-card reveal">
+        <div class="pb-num">01</div>
+        <h3>Un local en sommeil à réhabiliter&nbsp;?</h3>
+        <p>Logements vides, bâtiments publics ou privés à reconvertir, locaux aménageables après travaux : nous évaluons leur potentiel pour accueillir une cellule d'habitat inclusif.</p>
+      </article>
+      <article class="pb-card reveal">
+        <div class="pb-num">02</div>
+        <h3>Un administré à reloger dignement&nbsp;?</h3>
+        <p>Retraités isolés, jeunes en transition, personnes en reconstruction&nbsp;: nous composons des colocations équilibrées où chacun retrouve un toit <strong>et</strong> un rôle.</p>
+      </article>
+      <article class="pb-card reveal">
+        <div class="pb-num">03</div>
+        <h3>Un programme social à imaginer&nbsp;?</h3>
+        <p>Vous portez un projet novateur incarnant la solidarité communale. Notre modèle s'adapte à vos moyens et à vos quartiers — pas l'inverse.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEMARCHE (4 étapes) ============ -->
+<section class="block demarche">
+  <div class="container">
+    <div class="section-head centered reveal">
+      <div class="section-tag">Notre démarche</div>
+      <h2 class="section-title">4 étapes <em>pragmatiques</em>,<br>pas une de plus.</h2>
+      <p class="section-lead">
+        Lienpourl'autre ne concrétise un projet qu'après s'être assurée de sa viabilité — humaine, sociale et économique.
+      </p>
+    </div>
+
+    <div class="timeline">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <h3>Diagnostic territorial</h3>
+        <p>On écoute votre besoin, on identifie les profils, on visite les locaux pressentis.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">2</div>
+        <h3>Étude de faisabilité</h3>
+        <p>Humaine (candidats complémentaires), sociale (besoins du territoire) et économique (autonomie durable).</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">3</div>
+        <h3>Composition de la cellule</h3>
+        <p>Sélection conjointe des colocataires, rédaction collective de la charte de vie commune.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">4</div>
+        <h3>Coordination dans la durée</h3>
+        <p>Un coordinateur Lienpourl'autre suit la cellule&nbsp;: médiation, vigilance, escalade si besoin.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GARANTIES ============ -->
+<section class="block garanties">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Ce que ça garantit</div>
+      <h2 class="section-title">Une cellule pensée <em>pour s'intégrer</em><br>à votre commune sans compromis.</h2>
+      <p class="section-lead">
+        La conception « légère » du modèle est compatible avec tout projet de valorisation communal — existant ou à venir.
+      </p>
+    </div>
+
+    <div class="gar-grid">
+      <div class="gar-card reveal">
+        <div class="gar-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/><path d="M9 9v.01M9 12v.01M9 15v.01M9 18v.01"/></svg>
+        </div>
+        <div>
+          <h3>Mixité sociale dès la cellule</h3>
+          <p>La mixité s'introduit au stade de la "famille" pour irradier ensuite à l'échelle du quartier puis de la cité.</p>
+        </div>
+      </div>
+      <div class="gar-card reveal">
+        <div class="gar-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <div>
+          <h3>Taille humaine, intégration douce</h3>
+          <p>Pas de structure massive&nbsp;: une cellule, c'est un foyer. Elle se fond dans son environnement résidentiel.</p>
+        </div>
+      </div>
+      <div class="gar-card reveal">
+        <div class="gar-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div>
+          <h3>Autonomie financière intrinsèque</h3>
+          <p>Mutualisation des ressources et aides&nbsp;: la cellule ne crée pas de charge récurrente pour la collectivité.</p>
+        </div>
+      </div>
+      <div class="gar-card reveal">
+        <div class="gar-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <h3>Suivi social assuré par le coordinateur</h3>
+          <p>Détection précoce des fragilités, médiation au quotidien, escalade vers les services officiels quand c'est nécessaire.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUOTE EDITORIAL ============ -->
+<section class="block editorial-quote">
+  <div class="container">
+    <div class="quote-card reveal">
+      <blockquote>
+        Nous voulons avant tout que ce vivre ensemble conduise les plus exclus à retrouver une place active qu'ils méritent au sein de leur environnement social — et donc, en tout premier lieu, au sein de votre commune.
+      </blockquote>
+      <cite>— L'équipe Lienpourl'autre</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BACKLINKS ============ -->
+<section class="block backlinks">
+  <div class="container">
+    <div class="section-head centered reveal">
+      <div class="section-tag">Continuer la lecture</div>
+      <h2 class="section-title">Pour aller <em>plus loin</em>.</h2>
+    </div>
+    <div class="bl-grid">
+      <a href="index.html#concept" class="bl-card reveal">
+        <span class="bl-tag">Notre modèle</span>
+        <h3>Le concept en 4 piliers</h3>
+        <p>Cellule de vie, complémentarité, charte commune, vigilance partagée&nbsp;: la mécanique complète sur la page d'accueil.</p>
+        <span class="bl-cta">Découvrir le concept
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+      <a href="medico-social.html" class="bl-card green reveal">
+        <span class="bl-tag">Acteur complémentaire</span>
+        <h3>Les professionnels du médico-social</h3>
+        <p>Comment la cellule s'articule avec les travailleurs sociaux, soignants et aidants&nbsp;: prévention, détection, escalade structurée.</p>
+        <span class="bl-cta">Voir la page médico-social
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA FINAL ============ -->
+<section class="block cta-final" id="contact-collectivites">
+  <div class="cta-wrap">
+    <div class="section-tag" style="color:var(--rose)">Étudions votre projet</div>
+    <h2>Une commune, un local, une volonté&nbsp;? <em>Parlons-en.</em></h2>
+    <p>
+      Nous échangeons d'abord par téléphone — rapide, humain, sans engagement. Si la piste tient la route, nous venons sur place.
+    </p>
+
+    <div class="cta-phones">
+      <a href="tel:+33671039373" class="phone-card">
+        <span class="label">Ligne 1</span>
+        <span class="number">06 71 03 93 73</span>
+      </a>
+      <a href="tel:+33561818981" class="phone-card">
+        <span class="label">Ligne 2</span>
+        <span class="number">05 61 81 89 81</span>
+      </a>
+      <a href="tel:+33637136798" class="phone-card">
+        <span class="label">Ligne 3</span>
+        <span class="number">06 37 13 67 98</span>
+      </a>
+    </div>
+
+    <p class="cta-hours">Joignables <strong>de 9h30 à 19h</strong>, du lundi au samedi.</p>
+    <a href="mailto:contact@lienpourlautre.com" class="cta-mail">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+      contact@lienpourlautre.com
+    </a>
+  </div>
+</section>
+
+<!-- Footer (injecté par shared.js) -->
+<div id="site-footer"></div>
+
+<!-- ============ Scripts ============ -->
+<script src="shared.js"></script>
+<script>
+  /* Reveal-on-scroll */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* Parallax background */
+  (function initParallax() {
+    const layer = document.getElementById('parallax-layer');
+    if (!layer) return;
+    const shapes = Array.from(layer.querySelectorAll('.pshape, .pgeo'));
+    requestAnimationFrame(() => { shapes.forEach(s => s.classList.add('visible')); });
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const sy = window.scrollY;
+        shapes.forEach(shape => {
+          const speed = parseFloat(shape.dataset.speed) || 0.2;
+          shape.style.transform = `translateY(${-sy * speed}px)`;
+        });
+        ticking = false;
+      });
+    }, { passive: true });
+  })();
+</script>
+</body>
+</html>
