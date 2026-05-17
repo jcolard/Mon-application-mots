@@ -2342,31 +2342,67 @@ function spawnFloatingCoin() {
   const galleryH = window.innerHeight * 0.62;
   const startY = dashH + Math.random() * galleryH * 0.7 + galleryH * 0.1;
   const fromLeft = Math.random() < 0.5;
-  coin.style.left = (fromLeft ? -50 : winW + 50) + 'px';
+
+  // Position de départ FIXE (left) — on n'animera QUE le transform
+  const startX = fromLeft ? -50 : winW + 50;
+  const endX   = fromLeft ? winW + 50 : -50;
+  const deltaX = endX - startX;
+  const deltaY = (Math.random() * 60 - 30);
+
+  // Vitesse constante ~200px/s
+  const distance = Math.abs(deltaX);
+  const speed = 200;
+  const duration = distance / speed;
+
+  coin.style.left = startX + 'px';
   coin.style.top = startY + 'px';
-  coin.style.transition = 'left 8s linear, top 8s ease-in-out';
+  coin.style.transform = 'translate(0, 0)';
+  coin.style.transition = 'none'; // pas de transition au départ
+  coin.style.willChange = 'transform';
+
   document.body.appendChild(coin);
 
+  // Forcer le navigateur à peindre la position initiale AVANT d'appliquer la transition
+  // Double rAF = garanti que le 1er frame est rendu, puis on déclenche l'anim
   requestAnimationFrame(() => {
-    coin.style.left = (fromLeft ? winW + 50 : -50) + 'px';
-    coin.style.top = (startY + Math.random() * 60 - 30) + 'px';
-  // 1. Adapter la durée à la largeur de l'écran (Vitesse constante de ~200px par seconde)
-const distance = winW + 100;
-const speed = 200; 
-const duration = distance / speed;
-
-// 2. Appliquer la transition dynamique
-coin.style.transition = `left ${duration}s linear, top ${duration}s ease-in-out`;
-
-document.body.appendChild(coin);
-
-// 3. FORCER le navigateur à calculer la position de départ (Corrige le bug mobile)
-void coin.offsetWidth;
-
-// 4. Appliquer la position finale directement (le reflow a préparé le terrain)
-coin.style.left = (fromLeft ? winW + 50 : -50) + 'px';
-coin.style.top = (startY + Math.random() * 60 - 30) + 'px';
+    // lecture forcée pour reflow
+    void coin.offsetWidth;
+    requestAnimationFrame(() => {
+      coin.style.transition = `transform ${duration}s linear`;
+      coin.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+    });
   });
+
+  let claimed = false;
+  const claim = (e) => {
+    if (claimed) return;
+    claimed = true;
+    e.stopPropagation();
+    if (e.cancelable) e.preventDefault();
+    const rect = coin.getBoundingClientRect();
+    const burst = document.createElement('div');
+    burst.className = 'coin-burst';
+    burst.style.left = (rect.left + rect.width/2) + 'px';
+    burst.style.top = rect.top + 'px';
+    const amtText = event.amount >= 1000 ? (event.amount/1000).toFixed(0) + 'k€' : event.amount + '€';
+    burst.textContent = `+${visGain} ✨ ${event.label} ${amtText}`;
+    document.body.appendChild(burst);
+    state.visibility += visGain;
+    state.stats.coinsCollected += visGain;
+    playSfx(event.rare ? 'mecene' : 'buy');
+    coin.style.opacity = '0';
+    setTimeout(() => coin.remove(), 300);
+    setTimeout(() => burst.remove(), 1500);
+    renderDashboard();
+    checkLevelUp();
+    updateTicker();
+  };
+  coin.addEventListener('click', claim);
+  coin.addEventListener('touchstart', claim, { passive: false });
+
+  // Durée de vie = durée de l'animation + petite marge
+  setTimeout(() => { if (coin.parentNode) coin.remove(); }, duration * 1000 + 500);
+};
 
   let claimed = false;
   const claim = (e) => {
