@@ -2404,34 +2404,6 @@ function spawnFloatingCoin() {
   setTimeout(() => { if (coin.parentNode) coin.remove(); }, duration * 1000 + 500);
 };
 
-  let claimed = false;
-  const claim = (e) => {
-    if (claimed) return;
-    claimed = true;
-    e.stopPropagation();
-    const rect = coin.getBoundingClientRect();
-    const burst = document.createElement('div');
-    burst.className = 'coin-burst';
-    burst.style.left = (rect.left + rect.width/2) + 'px';
-    burst.style.top = rect.top + 'px';
-    const amtText = event.amount >= 1000 ? (event.amount/1000).toFixed(0) + 'k€' : event.amount + '€';
-    burst.textContent = `+${visGain} ✨ ${event.label} ${amtText}`;
-    document.body.appendChild(burst);
-    state.visibility += visGain;
-    state.stats.coinsCollected += visGain;
-    playSfx(event.rare ? 'mecene' : 'buy');
-    coin.style.opacity = '0';
-    setTimeout(() => coin.remove(), 300);
-    setTimeout(() => burst.remove(), 1500);
-    renderDashboard();
-    checkLevelUp();
-    updateTicker();
-  };
-  coin.addEventListener('click', claim);
-  coin.addEventListener('touchstart', claim, { passive: false });
-  setTimeout(() => { if (coin.parentNode) coin.remove(); }, 9000);
-}
-
 function scheduleNextCoin() {
   if (state.ended) return;
   // Délai de base 5-12s, réduit par community manager
