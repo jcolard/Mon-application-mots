@@ -143,6 +143,7 @@
   }
   .action-btn:active { transform: scale(0.96); }
   .action-btn.disabled { opacity: 0.5; filter: grayscale(1); pointer-events: none; }
+  .action-btn.highlight { border-color: var(--purple); animation: highlightPulse 2s ease-in-out infinite; }
   .action-icon { font-size: 20px; }
   .action-text { display: flex; flex-direction: column; flex: 1; min-width: 0; }
   .action-title { font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--ink-soft); line-height: 1.1; margin-bottom: 1px; }
@@ -545,15 +546,13 @@
       <img class="brand-logo-img" id="brand-logo" src="logo.png" alt="Lien pour l'autre"
            onerror="this.outerHTML='<div class=\'brand-logo-fallback\'>Lien pour l\'autre</div>'">
       <div class="header-actions">
-        <div class="passive-badge" id="passive-badge">🌿 0/s</div>
-        <div class="combo-badge" id="combo-badge">🔥 <span id="combo-count">0</span></div>
-        <div class="icon-btn-wrap">
-          <button class="icon-btn" id="btn-upgrades" title="Améliorations">⚙️<span class="notif-dot" id="upgrade-notif" style="display:none;"></span></button>
-        </div>
-        <button class="icon-btn" id="btn-help" title="Aide">?</button>
-        <button class="icon-btn" id="btn-reset" title="Recommencer">↻</button>
-      </div>
-    </div>
+  <div class="passive-badge" id="passive-badge">🌿 0/s</div>
+  <div class="combo-badge" id="combo-badge">🔥 <span id="combo-count">0</span></div>
+  
+  <button class="icon-btn" id="btn-help" title="Règles du jeu">⚙️</button>
+  
+  <button class="icon-btn" id="btn-reset" title="Recommencer">↻</button>
+</div>
 
     <div class="level-container">
       <div class="level-header">
@@ -568,29 +567,38 @@
     <div id="quests-strip" class="quests-strip" style="display:none;"></div>
     <div id="campaign-active" style="display:none;"></div>
 
-    <div class="action-buttons">
-      <button class="action-btn" id="btn-asso">
-        <div class="action-icon">🤝</div>
-        <div class="action-text">
-          <span class="action-title">Asso Partenaire</span>
-          <span class="action-desc" id="desc-asso">+3 profils</span>
-        </div>
-        <div class="action-cost" id="cost-asso">5 ✨</div>
-        <div class="auto-indicator" id="auto-asso-bar"></div>
-        <div class="auto-badge" id="auto-asso-badge" style="display:none;">AUTO</div>
-      </button>
-
-      <button class="action-btn" id="btn-bailleur">
-        <div class="action-icon">🏠</div>
-        <div class="action-text">
-          <span class="action-title">Bailleur Solidaire</span>
-          <span class="action-desc" id="desc-bailleur">+1 logement</span>
-        </div>
-        <div class="action-cost" id="cost-bailleur">4 ✨</div>
-        <div class="auto-indicator" id="auto-bailleur-bar"></div>
-        <div class="auto-badge" id="auto-bailleur-badge" style="display:none;">AUTO</div>
-      </button>
+   <div class="action-buttons">
+  <button class="action-btn" id="btn-asso">
+    <div class="action-icon">🤝</div>
+    <div class="action-text">
+      <span class="action-title">Asso Partenaire</span>
+      <span class="action-desc" id="desc-asso">+3 profils</span>
     </div>
+    <div class="action-cost" id="cost-asso">5 ✨</div>
+    <div class="auto-indicator" id="auto-asso-bar"></div>
+    <div class="auto-badge" id="auto-asso-badge" style="display:none;">AUTO</div>
+  </button>
+
+  <button class="action-btn" id="btn-bailleur">
+    <div class="action-icon">🏠</div>
+    <div class="action-text">
+      <span class="action-title">Bailleur Solidaire</span>
+      <span class="action-desc" id="desc-bailleur">+1 logement</span>
+    </div>
+    <div class="action-cost" id="cost-bailleur">4 ✨</div>
+    <div class="auto-indicator" id="auto-bailleur-bar"></div>
+    <div class="auto-badge" id="auto-bailleur-badge" style="display:none;">AUTO</div>
+  </button>
+
+  <button class="action-btn" id="btn-upgrades">
+    <div class="action-icon">🧰</div>
+    <div class="action-text">
+      <span class="action-title">Améliorations</span>
+      <span class="action-desc">Outils & Bonus</span>
+    </div>
+    <span class="notif-dot" id="upgrade-notif" style="display:none; position: absolute; top: 6px; right: 6px; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; border: 2px solid var(--paper);"></span>
+  </button>
+</div>
   </section>
 
   <section class="gallery">
