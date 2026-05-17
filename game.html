@@ -47,11 +47,11 @@
 
   /* --- ZONE 1 : DASHBOARD --- */
   .dashboard {
-    height: calc(30dvh - 11px);
+    height: calc(28dvh - 11px);
     background: var(--paper);
     display: flex;
     flex-direction: column;
-    padding: 12px 16px;
+    padding: 10px 14px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.08);
     z-index: 10;
     border-bottom: 2px solid rgba(42,42,42,0.05);
@@ -61,11 +61,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
-  .brand-logo { font-family: 'Fraunces', serif; font-weight: 800; font-style: italic; font-size: 20px; color: var(--accent); line-height: 1; }
-  .header-actions { display: flex; gap: 8px; align-items: center; }
-  
+  .brand-logo-img {
+    height: 28px;
+    width: auto;
+    object-fit: contain;
+  }
+  .brand-logo-fallback {
+    font-family: 'Fraunces', serif; font-weight: 800; font-style: italic; font-size: 18px; color: var(--accent); line-height: 1;
+  }
+  .header-actions { display: flex; gap: 6px; align-items: center; }
+
   /* Combo badge */
   .combo-badge {
     background: linear-gradient(90deg, var(--accent), var(--gold));
@@ -90,24 +97,44 @@
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.25); box-shadow: 0 0 20px var(--gold); }
   }
-  
+
   .icon-btn {
     width: 32px; height: 32px; border-radius: 50%; background: var(--bg);
     border: 1.5px solid rgba(42,42,42,0.08); font-size: 14px; font-weight: bold;
     display: flex; align-items: center; justify-content: center; cursor: pointer;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, transform 0.1s;
+    color: var(--ink);
   }
+  .icon-btn:active { transform: scale(0.92); }
+  .icon-btn.highlight {
+    background: linear-gradient(135deg, var(--purple), var(--blue));
+    color: white; border-color: transparent;
+    animation: highlightPulse 2s ease-in-out infinite;
+  }
+  @keyframes highlightPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(139,107,170,0.5); }
+    50% { box-shadow: 0 0 12px 2px rgba(139,107,170,0.6); }
+  }
+  .icon-btn .notif-dot {
+    position: absolute;
+    top: -2px; right: -2px;
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 2px solid var(--paper);
+  }
+  .icon-btn-wrap { position: relative; }
 
   /* Barre de niveau */
-  .level-container { margin-bottom: 10px; }
-  .level-header { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
-  .level-header span.vis { color: var(--blue); }
-  .progress-bar { width: 100%; height: 10px; background: rgba(0,0,0,0.06); border-radius: 99px; overflow: hidden; position: relative; }
-  .progress-fill { 
-    height: 100%; 
+  .level-container { margin-bottom: 8px; }
+  .level-header { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 5px; }
+  .level-header span.vis { color: var(--blue); display: flex; align-items: center; gap: 4px;}
+  .progress-bar { width: 100%; height: 9px; background: rgba(0,0,0,0.06); border-radius: 99px; overflow: hidden; position: relative; }
+  .progress-fill {
+    height: 100%;
     background: linear-gradient(90deg, var(--green), var(--green));
-    transition: width 0.4s ease; 
-    border-radius: 99px; 
+    transition: width 0.4s ease;
+    border-radius: 99px;
     width: 0%;
     position: relative;
   }
@@ -127,20 +154,43 @@
 
   /* Boutons d'action */
   .action-buttons {
-    display: flex; gap: 10px; flex: 1; align-items: center; justify-content: space-between;
+    display: flex; gap: 8px; flex: 1; align-items: center;
   }
   .action-btn {
     flex: 1; background: var(--bg); border: 1.5px solid rgba(0,0,0,0.08); border-radius: 12px;
-    padding: 8px; display: flex; align-items: center; gap: 8px; text-align: left;
+    padding: 6px 8px; display: flex; align-items: center; gap: 6px; text-align: left;
     transition: transform 0.1s, border-color 0.2s, box-shadow 0.2s; position: relative; overflow: hidden; cursor: pointer;
+    min-height: 50px;
   }
   .action-btn:active { transform: scale(0.96); }
   .action-btn.disabled { opacity: 0.5; filter: grayscale(1); pointer-events: none; }
-  .action-icon { font-size: 24px; }
-  .action-text { display: flex; flex-direction: column; flex: 1; }
-  .action-title { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--ink-soft); line-height: 1.1; margin-bottom: 2px;}
-  .action-desc { font-size: 13px; font-family: 'Fraunces', serif; font-weight: 700; color: var(--ink); }
-  .action-cost { font-size: 12px; font-weight: 700; color: var(--blue); background: rgba(74, 111, 165, 0.1); padding: 4px 8px; border-radius: 8px; }
+  .action-icon { font-size: 22px; }
+  .action-text { display: flex; flex-direction: column; flex: 1; min-width: 0;}
+  .action-title { font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--ink-soft); line-height: 1.1; margin-bottom: 2px;}
+  .action-desc { font-size: 12px; font-family: 'Fraunces', serif; font-weight: 700; color: var(--ink); }
+  .action-cost { font-size: 11px; font-weight: 700; color: var(--blue); background: rgba(74, 111, 165, 0.1); padding: 3px 7px; border-radius: 8px; white-space: nowrap;}
+
+  /* Cooldown overlay sur les boutons d'achat (quand auto-gen actif) */
+  .auto-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: var(--teal);
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+  .auto-badge {
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    font-size: 9px;
+    background: var(--teal);
+    color: white;
+    padding: 1px 5px;
+    border-radius: 99px;
+    font-weight: 700;
+  }
 
   @keyframes blinkAlert {
     0%, 100% { box-shadow: none; border-color: rgba(0,0,0,0.08); background: var(--bg); }
@@ -153,9 +203,9 @@
 
   /* --- ZONE 2 : GALERIE --- */
   .gallery {
-    height: calc(60dvh - 11px);
+    height: calc(62dvh - 11px);
     background: var(--bg);
-    padding: 10px 12px 12px;
+    padding: 8px 12px 10px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -163,8 +213,8 @@
 
   .gallery-header {
     display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 8px; font-size: 11px; color: var(--ink-soft); font-weight: 500;
-    gap: 8px;
+    margin-bottom: 6px; font-size: 11px; color: var(--ink-soft); font-weight: 500;
+    gap: 6px;
   }
   .gallery-info {
     display: flex;
@@ -172,7 +222,7 @@
     gap: 6px;
   }
   .gallery-info strong { color: var(--ink); font-weight: 700; }
-  
+
   /* Légende des couleurs d'affinité */
   .affinity-legend {
     display: flex;
@@ -187,13 +237,15 @@
   }
   .legend-dot.strong { background: var(--green); }
   .legend-dot.weak { background: var(--gold); }
-  
-  /* Bouton Tri */
-  .sort-btn {
+
+  /* Boutons header galerie */
+  .header-tools { display: flex; gap: 4px; align-items: center; }
+
+  .tool-btn {
     background: var(--paper);
     border: 1.5px solid rgba(42,42,42,0.1);
     border-radius: 99px;
-    padding: 4px 10px;
+    padding: 3px 9px;
     font-size: 11px;
     font-weight: 700;
     color: var(--ink);
@@ -202,58 +254,94 @@
     align-items: center;
     gap: 4px;
     transition: all 0.2s;
+    white-space: nowrap;
   }
-  .sort-btn:active { transform: scale(0.95); }
-  .sort-btn.locked {
+  .tool-btn:active { transform: scale(0.95); }
+  .tool-btn.locked {
     opacity: 0.4;
     cursor: not-allowed;
   }
-  .sort-btn:not(.locked):hover {
+  .tool-btn:not(.locked):hover {
     background: var(--accent);
     color: white;
     border-color: var(--accent);
   }
+  .tool-btn.refuse-mode {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    animation: refusePulse 1s ease-in-out infinite;
+  }
+  @keyframes refusePulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(232,98,61,0.5); }
+    50% { box-shadow: 0 0 0 6px rgba(232,98,61,0); }
+  }
 
+  /* Grille de profils — taille des cellules dynamique */
   .people-grid {
     flex: 1;
-    display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr); gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 6px;
+    transition: grid-template-rows 0.3s;
   }
-  .grid-cell { 
-    background: rgba(42,42,42,0.03); 
-    border: 1.5px dashed rgba(42,42,42,0.1); 
-    border-radius: 16px; 
-    position: relative; 
-    display: flex; 
-    align-items: center; 
+  .people-grid.rows-5 { grid-template-rows: repeat(5, 1fr); }
+  .people-grid.rows-6 { grid-template-rows: repeat(6, 1fr); }
+  .people-grid.rows-7 { grid-template-rows: repeat(7, 1fr); }
+
+  .grid-cell {
+    background: rgba(42,42,42,0.03);
+    border: 1.5px dashed rgba(42,42,42,0.1);
+    border-radius: 14px;
+    position: relative;
+    display: flex;
+    align-items: center;
     justify-content: center;
     transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  .grid-cell.empty::after { content: '+'; font-size: 20px; color: rgba(42,42,42,0.15); }
+  .grid-cell.empty::after { content: '+'; font-size: 18px; color: rgba(42,42,42,0.15); }
+  .grid-cell.new-cell {
+    animation: newCellPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes newCellPop {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
 
-  /* ====== NOUVELLE CARTE PROFIL ====== */
+  /* Mode refus actif : curseur et hover */
+  .refuse-mode-active .grid-cell:has(.person) {
+    cursor: crosshair;
+  }
+  .refuse-mode-active .person:hover {
+    border-color: var(--accent);
+    background: #FFE5DC;
+  }
+
+  /* ====== CARTE PROFIL ====== */
   .person {
-    position: absolute; 
-    inset: 0; 
-    background: var(--paper); 
-    border-radius: 14px;
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
+    position: absolute;
+    inset: 0;
+    background: var(--paper);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: space-between;
-    padding: 6px 4px;
+    padding: 5px 3px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    border: 2px solid transparent; 
+    border: 2px solid transparent;
     transition: transform 0.15s, border-color 0.15s, box-shadow 0.3s;
-    animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
+    animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     cursor: pointer;
     overflow: hidden;
   }
-  .person.selected { 
-    border-color: var(--accent); 
-    transform: scale(1.05); 
-    background: #FFF5EE; 
-    z-index: 5; 
-    box-shadow: 0 6px 16px rgba(232,98,61,0.25); 
+  .person.selected {
+    border-color: var(--accent);
+    transform: scale(1.05);
+    background: #FFF5EE;
+    z-index: 5;
+    box-shadow: 0 6px 16px rgba(232,98,61,0.25);
   }
   /* Halo de compatibilité quand un autre profil est sélectionné */
   .person.hint-strong {
@@ -269,15 +357,15 @@
   }
   .person.mismatch { animation: shake 0.4s; }
 
-  .person-face { 
-    font-size: 28px; 
-    line-height: 1; 
+  .person-face {
+    font-size: 26px;
+    line-height: 1;
   }
-  .person-name { 
-    font-family: 'Fraunces', serif; 
-    font-weight: 700; 
-    font-size: 11px; 
-    color: var(--ink); 
+  .person-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 10px;
+    color: var(--ink);
     line-height: 1;
     text-align: center;
     width: 100%;
@@ -286,22 +374,22 @@
     white-space: nowrap;
     padding: 0 2px;
   }
-  
+
   /* Badges offre/recherche */
   .person-traits {
     display: flex;
-    gap: 4px;
+    gap: 3px;
     align-items: center;
     justify-content: center;
   }
   .trait-badge {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1;
     position: relative;
   }
@@ -315,11 +403,81 @@
   }
   .trait-arrow {
     color: var(--ink-soft);
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
     opacity: 0.6;
   }
-  
+
+  /* ===== PROFIL JOKER (étoile polyvalente) ===== */
+  .person.joker {
+    background: linear-gradient(135deg, #FFF9E6, #FFE8B0, #FFD580);
+    background-size: 200% 200%;
+    animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), jokerShine 3s ease-in-out infinite;
+    border: 2px solid var(--gold-dark);
+    box-shadow: 0 0 12px rgba(212,165,116,0.5);
+  }
+  @keyframes jokerShine {
+    0%, 100% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+  }
+  .joker-star {
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    font-size: 14px;
+    filter: drop-shadow(0 0 4px gold);
+    animation: jokerStar 1.5s ease-in-out infinite;
+  }
+  @keyframes jokerStar {
+    0%, 100% { transform: rotate(-10deg) scale(1); }
+    50% { transform: rotate(10deg) scale(1.2); }
+  }
+
+  /* ===== COUP DE CŒUR — Halo lumineux marqué ===== */
+  .person.coup-de-coeur {
+    border-color: var(--accent);
+    animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .person.coup-de-coeur::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 14px;
+    background: linear-gradient(45deg, var(--accent), var(--gold), #FF8FA3, var(--accent));
+    background-size: 300% 300%;
+    z-index: -1;
+    animation: coupHaloGradient 3s linear infinite, coupHaloPulse 1.5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes coupHaloGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes coupHaloPulse {
+    0%, 100% { filter: drop-shadow(0 0 4px rgba(232,98,61,0.6)); }
+    50% { filter: drop-shadow(0 0 12px rgba(232,98,61,0.9)); }
+  }
+  .coup-de-coeur-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    font-size: 16px;
+    animation: heartPulse 1s ease-in-out infinite;
+    z-index: 2;
+  }
+  @keyframes heartPulse {
+    0%, 100% { transform: scale(1) rotate(-5deg); }
+    50% { transform: scale(1.3) rotate(5deg); }
+  }
+  .person.coup-de-coeur .person-face {
+    animation: heartFaceBob 2s ease-in-out infinite;
+  }
+  @keyframes heartFaceBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+  }
+
   /* ========== TICKER ACTUALITÉS ========== */
   .news-ticker {
     height: 22px;
@@ -378,7 +536,7 @@
     0% { transform: translateX(0%); }
     100% { transform: translateX(-50%); }
   }
-  
+
   /* ========== ANIMATION MATCH ⇒ MAISON ========== */
   .flying-person {
     position: fixed;
@@ -419,7 +577,7 @@
     0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
     100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
   }
-  
+
   /* ========== PIÈCES ALÉATOIRES ========== */
   .floating-coin {
     position: fixed;
@@ -454,16 +612,6 @@
     100% { transform: translate(-50%, -80px) scale(0.9); opacity: 0; }
   }
 
-  /* Badge coup de coeur */
-  .coup-de-coeur::after { 
-    content: '✨'; 
-    position: absolute; 
-    top: -4px; 
-    right: -4px; 
-    font-size: 14px; 
-    animation: pulse 1.5s infinite; 
-  }
-
   /* --- ZONE 3 : MAISONS --- */
   .houses-area {
     height: 10dvh; background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
@@ -475,6 +623,7 @@
     min-width: 45px; height: 45px; background: var(--paper); border-radius: 12px;
     display: flex; align-items: center; justify-content: center; font-size: 24px;
     box-shadow: var(--shadow-soft); animation: pop-in 0.4s;
+    flex-shrink: 0;
   }
   .houses-empty-msg {
     font-size: 11px;
@@ -500,22 +649,254 @@
   .toast.lvlup { background: linear-gradient(90deg, var(--accent), var(--gold)); color: white; font-size: 14px; font-weight: bold;}
   .toast.unlock { background: linear-gradient(90deg, var(--purple), var(--blue)); color: white; font-weight: bold;}
 
-  /* Modales */
+  /* ========== MODALES ========== */
   .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 200; display: none; align-items: center; justify-content: center; padding: 20px; }
   .modal-bg.show { display: flex; }
-  .modal { background: var(--paper); border-radius: 24px; padding: 24px; text-align: center; width: 100%; max-width: 400px; max-height: 85vh; overflow-y: auto; }
-  .modal h2 { font-family: 'Fraunces', serif; color: var(--accent); margin-bottom: 12px; font-size: 24px; line-height: 1.1;}
-  .modal p { font-size: 14px; margin-bottom: 16px; color: var(--ink-soft); line-height: 1.4; text-align: left;}
-  .modal .feature-list { background: var(--bg); border-radius: 12px; padding: 12px; margin-bottom: 16px; text-align: left;}
+  .modal { background: var(--paper); border-radius: 24px; padding: 22px; text-align: center; width: 100%; max-width: 400px; max-height: 88vh; overflow-y: auto; }
+  .modal h2 { font-family: 'Fraunces', serif; color: var(--accent); margin-bottom: 12px; font-size: 22px; line-height: 1.1;}
+  .modal p { font-size: 13px; margin-bottom: 14px; color: var(--ink-soft); line-height: 1.4; text-align: left;}
+  .modal .feature-list { background: var(--bg); border-radius: 12px; padding: 12px; margin-bottom: 14px; text-align: left;}
   .modal .feature-list .feat { font-size: 13px; margin-bottom: 6px; color: var(--ink); line-height: 1.35; }
   .modal .feature-list .feat:last-child { margin-bottom: 0; }
   .modal .trait-legend { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
-  .modal .trait-legend-item { 
-    background: var(--bg); padding: 4px 8px; border-radius: 99px; 
+  .modal .trait-legend-item {
+    background: var(--bg); padding: 4px 8px; border-radius: 99px;
     font-size: 11px; color: var(--ink); display: inline-flex; align-items: center; gap: 4px;
   }
-  .btn { background: var(--accent); color: white; border: none; padding: 12px 20px; border-radius: 99px; font-weight: 600; width: 100%; margin-bottom: 8px; font-size: 15px; cursor: pointer;}
+  .btn { background: var(--accent); color: white; border: none; padding: 12px 20px; border-radius: 99px; font-weight: 600; width: 100%; margin-bottom: 8px; font-size: 15px; cursor: pointer; transition: transform 0.1s;}
+  .btn:active { transform: scale(0.97);}
   .btn.outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); }
+  .btn.disabled { opacity: 0.4; pointer-events: none;}
+
+  /* ========== COFFRE NIVEAU UP ========== */
+  .chest-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.4s;
+  }
+  .chest-overlay.show { display: flex; }
+  .chest-overlay.flash { background: rgba(255,255,255,1); }
+
+  .chest-stage {
+    text-align: center;
+    color: white;
+    transition: opacity 0.3s;
+  }
+  .chest-emoji {
+    font-size: 120px;
+    line-height: 1;
+    filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));
+    animation: chestAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .chest-emoji.shaking { animation: chestShake 0.15s ease-in-out infinite; }
+  .chest-emoji.opening {
+    animation: chestOpen 0.6s ease-out forwards;
+  }
+  @keyframes chestAppear {
+    0% { transform: scale(0) rotate(-30deg); opacity: 0; }
+    100% { transform: scale(1) rotate(0); opacity: 1; }
+  }
+  @keyframes chestShake {
+    0%, 100% { transform: translateX(0) rotate(-2deg); }
+    50% { transform: translateX(0) rotate(2deg); }
+  }
+  @keyframes chestOpen {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.3); }
+    100% { transform: scale(2); opacity: 0; }
+  }
+  .chest-label {
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 16px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    color: white;
+    animation: chestLabelFade 0.5s ease-out;
+  }
+  @keyframes chestLabelFade {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Récompense révélée */
+  .reward-reveal {
+    background: var(--paper);
+    border-radius: 24px;
+    padding: 28px 24px;
+    max-width: 360px;
+    width: 90%;
+    text-align: center;
+    animation: rewardPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  @keyframes rewardPop {
+    0% { transform: scale(0.3); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .reward-level {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+  }
+  .reward-title {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--ink);
+    margin-bottom: 16px;
+    line-height: 1.1;
+  }
+  .reward-icon {
+    font-size: 80px;
+    margin: 8px 0 16px;
+    line-height: 1;
+    animation: rewardIconFloat 2s ease-in-out infinite;
+  }
+  @keyframes rewardIconFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .reward-desc {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.45;
+    margin-bottom: 20px;
+    text-align: left;
+    background: var(--bg);
+    padding: 12px;
+    border-radius: 12px;
+  }
+  .reward-desc strong { color: var(--accent); }
+
+  /* ========== CAMPAGNE ========== */
+  .campaign-timer-display {
+    background: linear-gradient(135deg, var(--purple), var(--blue));
+    color: white;
+    border-radius: 12px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    animation: campaignBob 2s ease-in-out infinite;
+  }
+  @keyframes campaignBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-1px); }
+  }
+  .campaign-progress {
+    flex: 1;
+    height: 6px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .campaign-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, white, #FFE5B4);
+    width: 0%;
+    transition: width 1s linear;
+    border-radius: 99px;
+  }
+
+  /* ========== PANNEAU UPGRADES ========== */
+  .upgrade-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .upgrade-item {
+    background: var(--bg);
+    border: 1.5px solid rgba(42,42,42,0.08);
+    border-radius: 14px;
+    padding: 12px;
+    text-align: left;
+    transition: all 0.2s;
+  }
+  .upgrade-item.unlocked-feature { border-color: var(--green); background: rgba(107,142,90,0.06); }
+  .upgrade-item.maxed { opacity: 0.7; }
+  .upgrade-item.locked-by-level {
+    opacity: 0.5;
+    background: rgba(42,42,42,0.05);
+  }
+  .upgrade-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .upgrade-icon { font-size: 24px; flex-shrink: 0; }
+  .upgrade-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: 15px; color: var(--ink); flex: 1; line-height: 1.1; }
+  .upgrade-level-badge {
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 99px;
+  }
+  .upgrade-level-badge.unlocked { background: var(--green); }
+  .upgrade-level-badge.maxed { background: var(--gold-dark); }
+  .upgrade-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.3; margin-bottom: 8px; }
+  .upgrade-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .upgrade-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.1s;
+    flex: 1;
+  }
+  .upgrade-btn:active { transform: scale(0.95); }
+  .upgrade-btn.disabled {
+    background: rgba(42,42,42,0.15);
+    color: var(--ink-soft);
+    pointer-events: none;
+  }
+
+  /* ========== CAMPAGNE — sélecteur de mise ========== */
+  .campaign-stake-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 10px 0;
+    justify-content: center;
+  }
+  .stake-option {
+    background: var(--bg);
+    border: 1.5px solid var(--blue);
+    color: var(--blue);
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    flex: 1;
+    min-width: 70px;
+  }
+  .stake-option:active { transform: scale(0.95); }
+  .stake-option:not(.disabled):hover { background: var(--blue); color: white; }
+  .stake-option.disabled { opacity: 0.4; pointer-events: none; }
 </style>
 </head>
 <body>
@@ -530,9 +911,13 @@
 
   <section class="dashboard">
     <div class="dash-header">
-      <div class="brand-logo">Lien pour l'autre</div>
+      <img class="brand-logo-img" id="brand-logo" src="logo.png" alt="Lien pour l'autre"
+           onerror="this.outerHTML='<div class=\'brand-logo-fallback\'>Lien pour l\'autre</div>'">
       <div class="header-actions">
         <div class="combo-badge" id="combo-badge">🔥 <span id="combo-count">0</span></div>
+        <div class="icon-btn-wrap">
+          <button class="icon-btn" id="btn-upgrades" title="Améliorations">⚙️<span class="notif-dot" id="upgrade-notif" style="display:none;"></span></button>
+        </div>
         <button class="icon-btn" id="btn-help" title="Aide">?</button>
         <button class="icon-btn" id="btn-reset" title="Recommencer">↻</button>
       </div>
@@ -548,6 +933,9 @@
       </div>
     </div>
 
+    <!-- Indicateur campagne en cours (apparaît si une campagne est active) -->
+    <div id="campaign-active" style="display:none;"></div>
+
     <div class="action-buttons">
       <button class="action-btn" id="btn-asso">
         <div class="action-icon">🤝</div>
@@ -556,6 +944,8 @@
           <span class="action-desc" id="desc-asso">+3 profils</span>
         </div>
         <div class="action-cost" id="cost-asso">5 ✨</div>
+        <div class="auto-indicator" id="auto-asso-bar"></div>
+        <div class="auto-badge" id="auto-asso-badge" style="display:none;">AUTO</div>
       </button>
 
       <button class="action-btn" id="btn-bailleur">
@@ -565,6 +955,8 @@
           <span class="action-desc" id="desc-bailleur">+1 logement</span>
         </div>
         <div class="action-cost" id="cost-bailleur">4 ✨</div>
+        <div class="auto-indicator" id="auto-bailleur-bar"></div>
+        <div class="auto-badge" id="auto-bailleur-badge" style="display:none;">AUTO</div>
       </button>
     </div>
   </section>
@@ -578,9 +970,14 @@
         <span class="legend-dot strong"></span><span>fort</span>
         <span class="legend-dot weak"></span><span>faible</span>
       </div>
-      <button class="sort-btn locked" id="btn-sort" title="Organiser par affinité">
-        <span id="sort-icon">🔒</span> <span id="sort-label">Lvl 2</span>
-      </button>
+      <div class="header-tools">
+        <button class="tool-btn locked" id="btn-refuse" title="Refuser un profil (2 ✨)">
+          <span id="refuse-icon">🔒</span> <span id="refuse-label">Lvl 2</span>
+        </button>
+        <button class="tool-btn locked" id="btn-sort" title="Organiser par affinité">
+          <span id="sort-icon">🔒</span> <span id="sort-label">Lvl 3</span>
+        </button>
+      </div>
     </div>
     <div class="people-grid" id="people-grid"></div>
   </section>
@@ -594,6 +991,11 @@
 
 <div class="modal-bg" id="modal-bg">
   <div class="modal" id="modal-content"></div>
+</div>
+
+<!-- Overlay coffre niveau up -->
+<div class="chest-overlay" id="chest-overlay">
+  <div class="chest-stage" id="chest-stage"></div>
 </div>
 
 <script>
@@ -665,6 +1067,51 @@ function playSfx(type) {
     osc.frequency.setValueAtTime(1047, t + 0.3);
     gain.gain.setValueAtTime(0.1, t); gain.gain.linearRampToValueAtTime(0, t + 0.8);
     osc.start(t); osc.stop(t + 0.8);
+  } else if (type === 'chest-shake') {
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(120, t);
+    osc.frequency.linearRampToValueAtTime(180, t + 0.15);
+    gain.gain.setValueAtTime(0.06, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
+    osc.start(t); osc.stop(t + 0.15);
+  } else if (type === 'chest-open') {
+    // Glissando ascendant majestueux
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(220, t);
+    osc.frequency.exponentialRampToValueAtTime(1760, t + 0.6);
+    gain.gain.setValueAtTime(0.15, t); gain.gain.linearRampToValueAtTime(0, t + 0.8);
+    osc.start(t); osc.stop(t + 0.8);
+  } else if (type === 'campaign-success') {
+    // Pluie d'or
+    [0, 0.1, 0.2, 0.3, 0.4].forEach((delay, i) => {
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.connect(g); g.connect(audioCtx.destination);
+      o.type = 'sine';
+      o.frequency.setValueAtTime(660 + i*220, t + delay);
+      g.gain.setValueAtTime(0.08, t + delay);
+      g.gain.exponentialRampToValueAtTime(0.01, t + delay + 0.3);
+      o.start(t + delay); o.stop(t + delay + 0.3);
+    });
+    return;
+  } else if (type === 'refuse') {
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(300, t);
+    osc.frequency.linearRampToValueAtTime(180, t + 0.2);
+    gain.gain.setValueAtTime(0.07, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.25);
+    osc.start(t); osc.stop(t + 0.25);
+  } else if (type === 'joker') {
+    // Son magique pour joker
+    [0, 0.08, 0.16].forEach((delay, i) => {
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.connect(g); g.connect(audioCtx.destination);
+      o.type = 'sine';
+      o.frequency.setValueAtTime(880 + i*220, t + delay);
+      g.gain.setValueAtTime(0.1, t + delay);
+      g.gain.exponentialRampToValueAtTime(0.01, t + delay + 0.3);
+      o.start(t + delay); o.stop(t + delay + 0.3);
+    });
+    return;
   }
 }
 
@@ -673,7 +1120,8 @@ function playSfx(type) {
 // ==========================================
 const NAMES = ['Léa','Tom','Sami','Inès','Nora','Yann','Mei','Jules','Aïsha','Léo','Maya','Théo','Lila','Nael','Zoé','Anna','Karim','Solène','Marc','Fatou','Hugo','Salim','Eva','Rim','Noah','Lou','Idris','Camille','Élise','Adam','Yasmine','Paul','Margaux','Kenza','Victor','Manon','Sofia'];
 
-// 6 TRAITS = vocabulaire d'offres et de besoins
+const JOKER_NAMES = ['Aria', 'Sage', 'Robin', 'Charlie', 'Phénix', 'Ange', 'Nova', 'Iris'];
+
 const TRAITS = {
   logement:    { icon: '🏠', label: 'Logement' },
   energie:     { icon: '💪', label: 'Énergie' },
@@ -685,7 +1133,6 @@ const TRAITS = {
   bienveillance: { icon: '💗', label: 'Écoute' }
 };
 
-// 10 archétypes — chacun a un trait OFFERT et un trait RECHERCHÉ
 const PROFILS = [
   { type: 'senior',       label: 'Senior',          faces: ['👵','👴','🧓'],                offer: 'logement',     need: 'numerique',    color: 'var(--purple)' },
   { type: 'etudiant',     label: 'Étudiant',        faces: ['🧑‍🎓','👨‍🎓','👩‍🎓'],          offer: 'numerique',    need: 'logement',     color: 'var(--blue)' },
@@ -703,37 +1150,105 @@ const PROFILS = [
   { type: 'naturaliste',  label: 'Naturaliste',     faces: ['🧑','👨','👩'],                offer: 'nature',       need: 'numerique',    color: 'var(--green)' }
 ];
 
-const LEVELS = [3, 7, 12, 16, 20];
+// 7 niveaux maintenant pour profiter des upgrades (final = 40 foyers)
+const LEVELS = [3, 7, 12, 18, 25, 32, 40];
 const COMBO_TIMEOUT_MS = 12000;
 
+// Probabilités joker selon niveau (jamais avant Lvl 3)
+function jokerProbability() {
+  if (state.level < 3) return 0;
+  if (state.level < 5) return 0.04; // 4%
+  return 0.07; // 7% au-delà
+}
+
 let state = {
+  // Grille variable : 12 cases au départ, jusqu'à 21 (3 lignes en plus de 3 cases)
+  gridSize: 12,
+  extraRows: 0, // 0, 1, 2, 3
   grid: Array(12).fill(null),
   houses: [],
   selectedIdx: null,
   score: 0,
   level: 1,
-  visibility: 12, // démarrage avec un peu de capital pour acheter
+  visibility: 12,
   maxHouses: 8,
   ended: false,
-  
+
   combo: 0,
   lastMatchTime: 0,
   unlockedFeatures: {
-    sort: false,
-    comboBoost: false
-  }
+    refuse: false,       // Lvl 2
+    sort: false,         // Lvl 3
+    comboBoost: false,   // Lvl 4
+    campaign: false,     // Lvl 3
+    autoAsso: false,     // Lvl 4 (achetable)
+    autoBailleur: false  // Lvl 5 (achetable)
+  },
+
+  // Mode de l'interface
+  refuseMode: false,
+
+  // Auto-générations
+  autoAssoBought: 0,         // niveau d'amélioration de l'auto-gen profils
+  autoAssoTimer: 0,          // ms écoulés sur le cooldown
+  autoBailleurBought: 0,     // niveau auto-gen logements
+  autoBailleurTimer: 0,
+
+  // Campagne en cours
+  campaign: null, // { stake, gain, startTime, duration }
 };
 
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-// COÛT évolutif : plus on avance, plus c'est cher (équilibrage)
-function costAsso() { return 4 + state.level; } // 5, 6, 7, 8, 9
-function costBailleur() { return 3 + state.level; } // 4, 5, 6, 7, 8
+// COÛTS évolutifs
+function costAsso() { return 4 + state.level; }
+function costBailleur() { return 3 + state.level; }
+function costRefuse() { return 2; }
+function costExtraRow() { return 30; }
 
-function gainAsso() { return 3; } // toujours 3 profils
-function gainBailleur() { return 1; } // toujours 1 logement
+function gainAsso() { return 3; }
+function gainBailleur() { return 1; }
+
+// Cooldowns auto-gen (ms) — diminuent avec les upgrades
+function autoAssoCooldown() {
+  // 1er achat: 20s, 2e: 14s, 3e: 9s
+  const base = [20000, 14000, 9000];
+  return base[Math.min(state.autoAssoBought - 1, 2)] || 20000;
+}
+function autoBailleurCooldown() {
+  // 1er achat: 35s, 2e: 25s, 3e: 18s (regen plus lente pour les logements)
+  const base = [35000, 25000, 18000];
+  return base[Math.min(state.autoBailleurBought - 1, 2)] || 35000;
+}
+
+// Coûts auto-gen
+function costAutoAsso() {
+  // Pour acheter le N+1ième niveau
+  const costs = [25, 50, 90];
+  return costs[state.autoAssoBought] || 999;
+}
+function costAutoBailleur() {
+  const costs = [35, 70, 120];
+  return costs[state.autoBailleurBought] || 999;
+}
 
 function generatePerson() {
+  // Tirage joker
+  if (Math.random() < jokerProbability()) {
+    return {
+      id: Math.random().toString(36).substr(2,9),
+      name: pick(JOKER_NAMES),
+      face: '🤗',
+      type: 'joker',
+      label: 'Polyvalent ⭐',
+      offer: 'joker',
+      need: 'joker',
+      color: 'var(--gold-dark)',
+      joker: true,
+      coupDeCoeur: false
+    };
+  }
+
   const profil = pick(PROFILS);
   return {
     id: Math.random().toString(36).substr(2,9),
@@ -744,11 +1259,12 @@ function generatePerson() {
     offer: profil.offer,
     need: profil.need,
     color: profil.color,
+    joker: false,
     coupDeCoeur: Math.random() < 0.10
   };
 }
 
-function spawnPersonInGrid() {
+function spawnPersonInGrid(silent = false) {
   const emptyIndices = state.grid.map((p, i) => p === null ? i : -1).filter(i => i !== -1);
   if (emptyIndices.length > 0) {
     state.grid[pick(emptyIndices)] = generatePerson();
@@ -758,13 +1274,12 @@ function spawnPersonInGrid() {
 }
 
 // ==========================================
-// SYSTÈME D'AFFINITÉ
+// SYSTÈME D'AFFINITÉ (avec joker)
 // ==========================================
-// Score d'affinité entre 2 profils (0 à 4) :
-// - +2 si l'offre de A === besoin de B  (un sens fonctionne)
-// - +2 si l'offre de B === besoin de A  (l'autre sens fonctionne)
-// → 0 = aucune compatibilité (interdit), 2 = faible (toléré, peu rentable), 4 = fort (gros gain)
 function affinityScore(p1, p2) {
+  // Joker = match parfait toujours
+  if (p1.joker || p2.joker) return 4;
+
   let score = 0;
   if (p1.offer === p2.need) score += 2;
   if (p2.offer === p1.need) score += 2;
@@ -776,10 +1291,35 @@ function affinityScore(p1, p2) {
 // ==========================================
 const gridEl = document.getElementById('people-grid');
 
+function rebuildGrid() {
+  // Ajuste la taille de state.grid en fonction de extraRows
+  const targetSize = 12 + (state.extraRows * 3);
+  if (state.grid.length < targetSize) {
+    // Ajout de nouvelles cases vides
+    while (state.grid.length < targetSize) state.grid.push(null);
+  } else if (state.grid.length > targetSize) {
+    state.grid = state.grid.slice(0, targetSize);
+  }
+  state.gridSize = targetSize;
+
+  // Adapter la classe du grid (nb de lignes)
+  gridEl.classList.remove('rows-5', 'rows-6', 'rows-7');
+  if (state.extraRows === 1) gridEl.classList.add('rows-5');
+  else if (state.extraRows === 2) gridEl.classList.add('rows-6');
+  else if (state.extraRows === 3) gridEl.classList.add('rows-7');
+}
+
 function renderGrid() {
   gridEl.innerHTML = '';
   const selectedPerson = state.selectedIdx !== null ? state.grid[state.selectedIdx] : null;
-  
+
+  // Toggle classe pour le mode refus
+  if (state.refuseMode) {
+    gridEl.classList.add('refuse-mode-active');
+  } else {
+    gridEl.classList.remove('refuse-mode-active');
+  }
+
   state.grid.forEach((p, idx) => {
     const cell = document.createElement('div');
     cell.className = 'grid-cell ' + (p ? '' : 'empty');
@@ -789,29 +1329,44 @@ function renderGrid() {
       let classes = 'person';
       if (state.selectedIdx === idx) classes += ' selected';
       if (p.coupDeCoeur) classes += ' coup-de-coeur';
-      
-      // Indices visuels d'affinité lorsqu'un profil est sélectionné
+      if (p.joker) classes += ' joker';
+
       if (selectedPerson && state.selectedIdx !== idx) {
         const score = affinityScore(selectedPerson, p);
         if (score === 4) classes += ' hint-strong';
         else if (score === 2) classes += ' hint-weak';
         else classes += ' hint-none';
       }
-      
+
       personEl.className = classes;
       personEl.dataset.idx = idx;
-      
-      const offerTrait = TRAITS[p.offer];
-      const needTrait = TRAITS[p.need];
-      
+
+      // Affichage : joker = étoile + emoji, sinon traits classiques
+      let traitsHTML;
+      if (p.joker) {
+        traitsHTML = `
+          <div class="person-traits">
+            <div class="trait-badge offer" style="border-color:var(--gold-dark); background:rgba(212,165,116,0.15);" title="Match parfait avec tous">⭐</div>
+          </div>
+        `;
+      } else {
+        const offerTrait = TRAITS[p.offer];
+        const needTrait = TRAITS[p.need];
+        traitsHTML = `
+          <div class="person-traits">
+            <div class="trait-badge offer" title="Offre : ${offerTrait.label}">${offerTrait.icon}</div>
+            <span class="trait-arrow">›</span>
+            <div class="trait-badge need" title="Cherche : ${needTrait.label}">${needTrait.icon}</div>
+          </div>
+        `;
+      }
+
       personEl.innerHTML = `
+        ${p.joker ? '<span class="joker-star">⭐</span>' : ''}
+        ${p.coupDeCoeur ? '<span class="coup-de-coeur-badge">💖</span>' : ''}
         <span class="person-face">${p.face}</span>
         <div class="person-name">${p.name}</div>
-        <div class="person-traits">
-          <div class="trait-badge offer" title="Offre : ${offerTrait.label}">${offerTrait.icon}</div>
-          <span class="trait-arrow">›</span>
-          <div class="trait-badge need" title="Cherche : ${needTrait.label}">${needTrait.icon}</div>
-        </div>
+        ${traitsHTML}
       `;
       personEl.onclick = () => onPersonClick(idx);
       cell.appendChild(personEl);
@@ -838,7 +1393,7 @@ function renderHouses() {
 }
 
 function renderDashboard() {
-  const target = LEVELS[state.level - 1] || 20;
+  const target = LEVELS[state.level - 1] || LEVELS[LEVELS.length - 1];
   const prevTarget = state.level > 1 ? LEVELS[state.level - 2] : 0;
   const range = target - prevTarget;
   const progressInLevel = state.score - prevTarget;
@@ -846,7 +1401,7 @@ function renderDashboard() {
 
   document.getElementById('level-display').textContent = `Niveau ${state.level} (${state.score}/${target})`;
   document.getElementById('vis-display').textContent = `${state.visibility} ✨ Impact`;
-  
+
   const progressFill = document.getElementById('progress-fill');
   progressFill.style.width = pct + '%';
   if (pct >= 75 && pct < 100) {
@@ -865,14 +1420,33 @@ function renderDashboard() {
 
   document.getElementById('btn-asso').className = 'action-btn ' + (state.visibility >= cAsso ? '' : 'disabled');
   document.getElementById('btn-bailleur').className = 'action-btn ' + (state.visibility >= cBailleur ? '' : 'disabled');
-  
+
+  // Badge AUTO
+  document.getElementById('auto-asso-badge').style.display = state.autoAssoBought > 0 ? 'block' : 'none';
+  document.getElementById('auto-bailleur-badge').style.display = state.autoBailleurBought > 0 ? 'block' : 'none';
+
+  // Barre de cooldown auto-gen
+  if (state.autoAssoBought > 0) {
+    const cd = autoAssoCooldown();
+    const pct = Math.min(100, (state.autoAssoTimer / cd) * 100);
+    document.getElementById('auto-asso-bar').style.width = pct + '%';
+  } else {
+    document.getElementById('auto-asso-bar').style.width = '0%';
+  }
+  if (state.autoBailleurBought > 0) {
+    const cd = autoBailleurCooldown();
+    const pct = Math.min(100, (state.autoBailleurTimer / cd) * 100);
+    document.getElementById('auto-bailleur-bar').style.width = pct + '%';
+  } else {
+    document.getElementById('auto-bailleur-bar').style.width = '0%';
+  }
+
   // Compteur profils
   const peopleCount = state.grid.filter(p => p !== null).length;
   document.getElementById('people-count').textContent = peopleCount;
-  
-  // Légende affinité visible seulement quand un profil est sélectionné
+
   document.getElementById('affinity-legend').style.display = state.selectedIdx !== null ? 'flex' : 'none';
-  
+
   const comboBadge = document.getElementById('combo-badge');
   if (state.combo >= 2) {
     comboBadge.classList.add('active');
@@ -881,41 +1455,97 @@ function renderDashboard() {
   } else {
     comboBadge.classList.remove('active', 'peak');
   }
-  
+
+  // Bouton refus
+  const refuseBtn = document.getElementById('btn-refuse');
+  if (state.unlockedFeatures.refuse) {
+    refuseBtn.classList.remove('locked');
+    refuseBtn.classList.toggle('refuse-mode', state.refuseMode);
+    document.getElementById('refuse-icon').textContent = state.refuseMode ? '✕' : '🙅';
+    document.getElementById('refuse-label').textContent = state.refuseMode ? 'Annuler' : `${costRefuse()}✨`;
+  } else {
+    refuseBtn.classList.add('locked');
+    document.getElementById('refuse-icon').textContent = '🔒';
+    document.getElementById('refuse-label').textContent = 'Lvl 2';
+  }
+
+  // Bouton tri
   const sortBtn = document.getElementById('btn-sort');
   if (state.unlockedFeatures.sort) {
     sortBtn.classList.remove('locked');
-    document.getElementById('sort-icon').textContent = '✨';
-    document.getElementById('sort-label').textContent = 'Organiser';
+    document.getElementById('sort-icon').textContent = '🎯';
+    document.getElementById('sort-label').textContent = 'Trier';
   } else {
     sortBtn.classList.add('locked');
     document.getElementById('sort-icon').textContent = '🔒';
-    document.getElementById('sort-label').textContent = 'Lvl 2';
+    document.getElementById('sort-label').textContent = 'Lvl 3';
   }
+
+  // Indicateur campagne
+  renderCampaignIndicator();
+
+  // Notification sur le bouton améliorations (s'il y a au moins 1 upgrade disponible)
+  const hasAvailableUpgrade = hasAffordableUpgrade();
+  document.getElementById('upgrade-notif').style.display = hasAvailableUpgrade ? 'block' : 'none';
+  document.getElementById('btn-upgrades').classList.toggle('highlight', hasAvailableUpgrade);
 }
 
-function renderAll() { renderGrid(); renderHouses(); renderDashboard(); }
+function hasAffordableUpgrade() {
+  // Campagne dispo ?
+  if (state.unlockedFeatures.campaign && !state.campaign && state.visibility >= minCampaignStake()) return true;
+  // Auto-asso achetable ?
+  if (state.level >= 4 && state.autoAssoBought < 3 && state.visibility >= costAutoAsso()) return true;
+  // Auto-bailleur achetable ?
+  if (state.level >= 5 && state.autoBailleurBought < 3 && state.visibility >= costAutoBailleur()) return true;
+  // Case suppl. achetable ?
+  if (state.level >= 3 && state.extraRows < 3 && state.visibility >= costExtraRow()) return true;
+  return false;
+}
+
+function renderCampaignIndicator() {
+  const el = document.getElementById('campaign-active');
+  if (!state.campaign) {
+    el.style.display = 'none';
+    el.innerHTML = '';
+    return;
+  }
+  const elapsed = Date.now() - state.campaign.startTime;
+  const pct = Math.min(100, (elapsed / state.campaign.duration) * 100);
+  const remaining = Math.max(0, Math.ceil((state.campaign.duration - elapsed) / 1000));
+
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div class="campaign-timer-display">
+      <span>📢 Campagne</span>
+      <div class="campaign-progress"><div class="campaign-progress-fill" style="width:${pct}%;"></div></div>
+      <span>${remaining}s → +${state.campaign.gain} ✨</span>
+    </div>
+  `;
+}
+
+function renderAll() { rebuildGrid(); renderGrid(); renderHouses(); renderDashboard(); }
 
 // ==========================================
-// MODE TRI (Lvl 2+)
+// MODE TRI
 // ==========================================
 document.getElementById('btn-sort').onclick = () => {
   if (!state.unlockedFeatures.sort) {
-    showToast('🔒 Déblocable au Niveau 2 !', 'fail');
+    showToast('🔒 Déblocable au Niveau 3 !', 'fail');
     return;
   }
-  
+
   const profiles = state.grid.filter(p => p !== null);
   if (profiles.length === 0) return;
-  
+
   playSfx('sort');
-  
-  // Tri par trait offert pour regrouper les profils compatibles
-  // (les complémentaires se retrouvent côte à côte logiquement)
+
   const traitOrder = ['logement', 'numerique', 'energie', 'calme', 'creativite', 'reseau', 'bienveillance', 'nature'];
-  
+
   profiles.sort((a, b) => {
-    // On trie d'abord par le besoin (ce qu'ils cherchent), puis par l'offre
+    // Jokers à la fin
+    if (a.joker && !b.joker) return 1;
+    if (!a.joker && b.joker) return -1;
+    if (a.joker && b.joker) return 0;
     const needA = traitOrder.indexOf(a.need);
     const needB = traitOrder.indexOf(b.need);
     if (needA !== needB) return needA - needB;
@@ -923,40 +1553,80 @@ document.getElementById('btn-sort').onclick = () => {
     const offerB = traitOrder.indexOf(b.offer);
     return offerA - offerB;
   });
-  
-  state.grid = Array(12).fill(null);
+
+  state.grid = state.grid.map(() => null);
   profiles.forEach((p, i) => {
     state.grid[i] = p;
   });
-  
+
   state.selectedIdx = null;
   showToast('🎯 Profils regroupés par affinité !', 'success');
   renderAll();
 };
 
 // ==========================================
+// MODE REFUS
+// ==========================================
+document.getElementById('btn-refuse').onclick = () => {
+  if (!state.unlockedFeatures.refuse) {
+    showToast('🔒 Déblocable au Niveau 2 !', 'fail');
+    return;
+  }
+  if (state.visibility < costRefuse() && !state.refuseMode) {
+    showToast(`Il te faut ${costRefuse()} ✨ pour refuser un profil.`, 'fail');
+    playSfx('error');
+    return;
+  }
+  state.refuseMode = !state.refuseMode;
+  state.selectedIdx = null;
+  if (state.refuseMode) {
+    showToast(`👆 Tape un profil pour le réorienter (${costRefuse()} ✨)`, 'partial');
+  }
+  renderAll();
+};
+
+function refusePerson(idx) {
+  const p = state.grid[idx];
+  if (!p) return;
+  if (state.visibility < costRefuse()) {
+    showToast(`Il te faut ${costRefuse()} ✨ pour refuser.`, 'fail');
+    playSfx('error');
+    state.refuseMode = false;
+    renderAll();
+    return;
+  }
+  state.visibility -= costRefuse();
+  playSfx('refuse');
+  // Remplace par un nouveau profil
+  state.grid[idx] = generatePerson();
+  state.refuseMode = false;
+  showToast(`${p.name} a été réorienté·e. Nouveau profil arrivé !`, 'partial');
+  renderAll();
+}
+
+// ==========================================
 // ACTIONS (Boutons d'achat)
 // ==========================================
 document.getElementById('btn-asso').onclick = () => {
+  if (state.refuseMode) return;
   const cost = costAsso();
   if (state.visibility < cost) return;
-  
-  // Vérifier qu'il y a de la place
+
   const emptyCount = state.grid.filter(p => p === null).length;
   if (emptyCount === 0) {
     showToast('Grille pleine ! Crée des foyers pour libérer de la place.', 'fail');
     playSfx('error');
     return;
   }
-  
+
   state.visibility -= cost;
   playSfx('buy');
-  
+
   const amount = Math.min(gainAsso(), emptyCount);
   for (let i = 0; i < amount; i++) {
     spawnPersonInGrid();
   }
-  
+
   if (amount < gainAsso()) {
     showToast(`+${amount} profils (grille presque pleine)`, 'partial');
   }
@@ -964,27 +1634,36 @@ document.getElementById('btn-asso').onclick = () => {
 };
 
 document.getElementById('btn-bailleur').onclick = () => {
+  if (state.refuseMode) return;
   const cost = costBailleur();
   if (state.visibility < cost) return;
-  
+
   if (state.houses.length >= state.maxHouses) {
     showToast(`Max ${state.maxHouses} logements en attente. Crée des foyers !`, 'fail');
     playSfx('error');
     return;
   }
-  
+
   state.visibility -= cost;
   playSfx('buy');
-  
+
   state.houses.push({});
   renderAll();
 };
 
 // ==========================================
-// INTERACTIONS
+// INTERACTIONS PROFILS
 // ==========================================
 function onPersonClick(idx) {
   if (state.ended) return;
+
+  // Mode refus prioritaire
+  if (state.refuseMode) {
+    playSfx('click');
+    refusePerson(idx);
+    return;
+  }
+
   playSfx('click');
 
   if (state.selectedIdx === null) {
@@ -1001,9 +1680,8 @@ function onPersonClick(idx) {
   const p1 = state.grid[state.selectedIdx];
   const p2 = state.grid[idx];
   const score = affinityScore(p1, p2);
-  
+
   if (score === 0) {
-    // AUCUNE compatibilité — refus
     playSfx('error');
     showToast(`${p1.name} et ${p2.name} n'ont rien à se proposer mutuellement.`, "fail");
     if (state.combo >= 2) {
@@ -1013,7 +1691,6 @@ function onPersonClick(idx) {
     state.selectedIdx = null;
     renderAll();
   } else {
-    // Match toléré (score 2 = faible, score 4 = fort)
     attemptMatch(state.selectedIdx, idx, p1, p2, score);
   }
 }
@@ -1024,7 +1701,7 @@ function attemptMatch(idx1, idx2, p1, p2, affinity) {
     showToast("Aucun logement disponible ! Sollicite un Bailleur Solidaire.", "fail");
     state.selectedIdx = null;
     renderAll();
-    
+
     const btnBailleur = document.getElementById('btn-bailleur');
     btnBailleur.classList.remove('blink-alert');
     void btnBailleur.offsetWidth;
@@ -1034,30 +1711,29 @@ function attemptMatch(idx1, idx2, p1, p2, affinity) {
   }
 
   const isCoup = p1.coupDeCoeur || p2.coupDeCoeur;
+  const isJoker = p1.joker || p2.joker;
   const isStrong = affinity === 4;
-  
-  // Gain de base : 1 pour faible, 5 pour fort (gros écart pour récompenser la stratégie)
+
   let visGain = isStrong ? 5 : 1;
-  if (isCoup) visGain += isStrong ? 5 : 2; // coup de coeur amplifie
-  
-  // Combo : seulement les matchs FORTS le font progresser ; un match faible le maintient
+  if (isCoup) visGain += isStrong ? 5 : 2;
+  if (isJoker) visGain += 3; // bonus joker
+
   if (isStrong) {
     state.combo++;
     state.lastMatchTime = Date.now();
   } else {
-    // un match faible ne casse pas le combo mais ne l'augmente pas
     state.lastMatchTime = Date.now();
   }
-  
-  // Bonus combo
+
   if (state.unlockedFeatures.comboBoost && state.combo >= 5 && isStrong) {
     visGain = visGain * 2;
   } else if (state.combo >= 3 && isStrong) {
     visGain += (state.combo - 2);
   }
-  
+
   // SFX
-  if (state.combo >= 5 && isStrong) playSfx('combo');
+  if (isJoker) playSfx('joker');
+  else if (state.combo >= 5 && isStrong) playSfx('combo');
   else if (isCoup) playSfx('heart');
   else if (isStrong) playSfx('match-strong');
   else playSfx('match-weak');
@@ -1065,25 +1741,26 @@ function attemptMatch(idx1, idx2, p1, p2, affinity) {
   const cells = document.querySelectorAll('.grid-cell');
   const sourceEl1 = cells[idx1]?.querySelector('.person');
   const sourceEl2 = cells[idx2]?.querySelector('.person');
-  
+
   if (sourceEl1) sourceEl1.style.opacity = '0';
   if (sourceEl2) sourceEl2.style.opacity = '0';
-  
+
   state.grid[idx1] = null;
   state.grid[idx2] = null;
   state.score++;
   state.visibility += visGain;
   state.selectedIdx = null;
-  
+
   let msg = '';
-  if (isCoup && isStrong) msg = `💖 Coup de cœur parfait ! +${visGain} ✨`;
+  if (isJoker) msg = `⭐ Match polyvalent ! +${visGain} ✨`;
+  else if (isCoup && isStrong) msg = `💖 Coup de cœur parfait ! +${visGain} ✨`;
   else if (isStrong && state.combo >= 5) msg = `🔥 COMBO x${state.combo} ! +${visGain} ✨`;
   else if (isStrong && state.combo >= 3) msg = `🔥 Combo x${state.combo} ! +${visGain} ✨`;
   else if (isStrong) msg = `🏡 Belle complémentarité ! +${visGain} ✨`;
   else msg = `🤏 Cohabitation correcte, peu d'affinités... +${visGain} ✨`;
-  
+
   showToast(msg, isStrong ? 'success' : 'partial');
-  
+
   if (sourceEl1 && sourceEl2) {
     animateMatchToHouse(p1, p2, sourceEl1, sourceEl2, () => {
       state.houses.shift();
@@ -1095,42 +1772,150 @@ function attemptMatch(idx1, idx2, p1, p2, affinity) {
     renderAll();
     updateTicker();
   }
-  
+
   checkLevelUp();
   renderDashboard();
 }
 
+// ==========================================
+// SYSTÈME LEVEL UP avec COFFRE
+// ==========================================
 function checkLevelUp() {
-  if (state.level > 5) return;
+  if (state.level > LEVELS.length) return;
   const target = LEVELS[state.level - 1];
-  
+
   if (state.score >= target) {
-    if (state.level === 5) {
+    if (state.level === LEVELS.length) {
       endGame();
     } else {
       state.level++;
       playSfx('lvlup');
-      
-      let unlockMsg = '';
-      if (state.level === 2) {
-        state.unlockedFeatures.sort = true;
-        unlockMsg = '🌟 NIVEAU 2 ! Bouton "Organiser" débloqué — regroupe les profils compatibles';
-      } else if (state.level === 3) {
-        unlockMsg = '🌟 NIVEAU 3 ! Les coups de cœur ✨ rapportent encore plus d\'Impact';
-      } else if (state.level === 4) {
-        state.unlockedFeatures.comboBoost = true;
-        unlockMsg = '🌟 NIVEAU 4 ! Combo x5+ double l\'Impact des matchs forts 🔥';
-      } else if (state.level === 5) {
-        unlockMsg = '🌟 NIVEAU 5 ! Dernier palier — vise les matchs parfaits !';
-      }
-      
-      showToast(`🌟 NIVEAU ${state.level} ATTEINT !`, 'lvlup');
-      setTimeout(() => {
-        playSfx('unlock');
-        showToast(unlockMsg, 'unlock');
-      }, 2200);
+      triggerChestSequence();
     }
   }
+}
+
+// Définit les bonus de chaque niveau
+function getLevelReward(level) {
+  // level = niveau qui vient d'être atteint
+  if (level === 2) {
+    return {
+      icon: '🙅',
+      title: 'Bouton "Réorienter"',
+      desc: `Tu peux maintenant <strong>refuser un profil</strong> (2 ✨) et le remplacer par un autre. Pratique pour ajuster la composition de ta grille.`,
+      apply: () => { state.unlockedFeatures.refuse = true; }
+    };
+  }
+  if (level === 3) {
+    return {
+      icon: '🎯',
+      title: 'Tri + Joker + Campagne',
+      desc: `<strong>3 nouveautés !</strong><br>• 🎯 Bouton <strong>"Trier"</strong> pour regrouper les profils compatibles.<br>• ⭐ Des profils <strong>polyvalents</strong> apparaissent — ils matchent avec tout le monde !<br>• 📢 <strong>Campagnes d'impact</strong> : investis pour doubler tes ✨ après 60s.`,
+      apply: () => {
+        state.unlockedFeatures.sort = true;
+        state.unlockedFeatures.campaign = true;
+      }
+    };
+  }
+  if (level === 4) {
+    return {
+      icon: '🔥',
+      title: 'Combo boost + Auto-Asso',
+      desc: `• 🔥 <strong>Combo x5+</strong> double les ✨ sur les matchs forts.<br>• 🤖 <strong>Auto-génération de profils</strong> achetable dans ⚙️ (regen automatique).<br>• 🪑 Cases supplémentaires achetables.`,
+      apply: () => { state.unlockedFeatures.comboBoost = true; }
+    };
+  }
+  if (level === 5) {
+    return {
+      icon: '🏠',
+      title: 'Auto-Bailleur débloqué',
+      desc: `<strong>🏠 Auto-génération de logements</strong> achetable dans ⚙️. La regen est plus lente que pour les profils, mais ça sécurise tes matchs en continu.`,
+      apply: () => {}
+    };
+  }
+  if (level === 6) {
+    return {
+      icon: '💎',
+      title: 'Économie boostée',
+      desc: `Tu reçois un bonus de <strong>+30 ✨</strong> et la grille s'agrandit automatiquement d'une ligne. Plus de marge pour gérer tes matchs !`,
+      apply: () => {
+        state.visibility += 30;
+        if (state.extraRows < 3) state.extraRows++;
+      }
+    };
+  }
+  if (level === 7) {
+    return {
+      icon: '🏆',
+      title: 'Sprint final !',
+      desc: `Dernier palier : objectif <strong>40 foyers</strong>. Les jokers ⭐ sont plus fréquents et les ressources affluent. Bonne chance !`,
+      apply: () => { state.visibility += 50; }
+    };
+  }
+  return null;
+}
+
+function triggerChestSequence() {
+  const reward = getLevelReward(state.level);
+  if (!reward) return;
+
+  const overlay = document.getElementById('chest-overlay');
+  const stage = document.getElementById('chest-stage');
+
+  // Étape 1 : fond sombre + coffre apparaît
+  overlay.classList.add('show');
+  overlay.style.background = 'rgba(0,0,0,0.85)';
+  stage.innerHTML = `
+    <div class="chest-emoji" id="chest-icon">🎁</div>
+    <div class="chest-label">Niveau ${state.level} atteint !</div>
+  `;
+
+  // Étape 2 : tremblement (après 700ms)
+  setTimeout(() => {
+    const chestIcon = document.getElementById('chest-icon');
+    if (chestIcon) chestIcon.classList.add('shaking');
+    playSfx('chest-shake');
+    setTimeout(() => playSfx('chest-shake'), 200);
+    setTimeout(() => playSfx('chest-shake'), 400);
+  }, 700);
+
+  // Étape 3 : ouverture explosive + flash blanc (après 1500ms)
+  setTimeout(() => {
+    const chestIcon = document.getElementById('chest-icon');
+    if (chestIcon) {
+      chestIcon.classList.remove('shaking');
+      chestIcon.classList.add('opening');
+    }
+    playSfx('chest-open');
+  }, 1500);
+
+  // Étape 4 : flash blanc total (après 1900ms)
+  setTimeout(() => {
+    overlay.classList.add('flash');
+    stage.style.opacity = '0';
+  }, 1900);
+
+  // Étape 5 : révélation du bonus (après 2300ms)
+  setTimeout(() => {
+    reward.apply();
+    overlay.classList.remove('flash');
+    overlay.style.background = 'rgba(0,0,0,0.7)';
+    stage.style.opacity = '1';
+    stage.innerHTML = `
+      <div class="reward-reveal">
+        <div class="reward-level">⭐ Niveau ${state.level} atteint</div>
+        <h2 class="reward-title">${reward.title}</h2>
+        <div class="reward-icon">${reward.icon}</div>
+        <div class="reward-desc">${reward.desc}</div>
+        <button class="btn" id="chest-close-btn">Continuer</button>
+      </div>
+    `;
+    document.getElementById('chest-close-btn').onclick = () => {
+      overlay.classList.remove('show');
+      stage.innerHTML = '';
+      renderAll();
+    };
+  }, 2300);
 }
 
 // ==========================================
@@ -1150,7 +1935,7 @@ function endGame() {
   playSfx('lvlup');
   document.getElementById('modal-content').innerHTML = `
     <h2 style="text-align:center;">🎉 BRAVO !</h2>
-    <p style="text-align:center; font-weight:bold; color:var(--ink); font-size:15px;">Tu as créé <span style="color:var(--accent);">20 foyers inclusifs</span> 🏡</p>
+    <p style="text-align:center; font-weight:bold; color:var(--ink); font-size:15px;">Tu as créé <span style="color:var(--accent);">40 foyers inclusifs</span> 🏡</p>
     <p>En quelques minutes, tu as compris le principe de <b>Lien pour l'autre</b> : associer des personnes <b>complémentaires</b> dans des logements partagés pour faire reculer la précarité par l'entraide.</p>
     <p style="font-weight:bold; color:var(--accent); margin-bottom: 10px;">👉 Et dans la vraie vie, tu peux aider :</p>
     <div class="feature-list">
@@ -1166,12 +1951,14 @@ function endGame() {
   document.getElementById('modal-bg').classList.add('show');
 }
 
+// ==========================================
+// MODALE AIDE
+// ==========================================
 document.getElementById('btn-help').onclick = () => {
-  // Construire la légende des traits
-  const traitLegend = Object.values(TRAITS).map(t => 
+  const traitLegend = Object.values(TRAITS).map(t =>
     `<span class="trait-legend-item">${t.icon} ${t.label}</span>`
   ).join('');
-  
+
   document.getElementById('modal-content').innerHTML = `
     <h2>Crée des foyers inclusifs !</h2>
     <p>
@@ -1194,29 +1981,408 @@ document.getElementById('btn-help').onclick = () => {
       ⚪ <b>Aucune</b> = match refusé
     </p>
     <p>
-      <b>💰 Achète</b> profils et logements avec ton Impact ✨. Les <b>coups de cœur ✨</b> rapportent gros, les <b>combos 🔥</b> aussi.
+      <b>⭐ Profil polyvalent :</b> à partir du niveau 3, des profils joker apparaissent — ils matchent avec n'importe qui !
+    </p>
+    <p>
+      <b>💖 Coup de cœur :</b> les profils avec halo lumineux rapportent gros !
+    </p>
+    <p>
+      <b>⚙️ Améliorations :</b> ouvre le panneau pour <b>investir dans des campagnes</b> (double tes ✨ après 1 min), <b>automatiser la regen</b> de profils/logements, et <b>agrandir la grille</b>.
     </p>
     <div class="feature-list">
-      <div class="feat"><b>Niveau 2</b> : 🎯 Bouton "Organiser"</div>
-      <div class="feat"><b>Niveau 4</b> : 🔥 Combo x5+ double les gains</div>
-      <div class="feat"><b>Niveau 5</b> : 🏆 Objectif : 20 foyers</div>
+      <div class="feat"><b>Niveau 2</b> : 🙅 Réorienter un profil</div>
+      <div class="feat"><b>Niveau 3</b> : 🎯 Tri + ⭐ Jokers + 📢 Campagnes</div>
+      <div class="feat"><b>Niveau 4</b> : 🔥 Combo x2 + 🤖 Auto-Asso</div>
+      <div class="feat"><b>Niveau 5</b> : 🏠 Auto-Bailleur</div>
+      <div class="feat"><b>Niveau 7</b> : 🏆 Objectif final : 40 foyers</div>
     </div>
     <button class="btn" onclick="document.getElementById('modal-bg').classList.remove('show')">C'est parti !</button>
   `;
   document.getElementById('modal-bg').classList.add('show');
 };
-document.getElementById('btn-reset').onclick = () => location.reload();
+
+document.getElementById('btn-reset').onclick = () => {
+  if (confirm('Recommencer la partie ?')) location.reload();
+};
 
 // ==========================================
-// GAME LOOP (juste pour le combo timeout)
+// PANNEAU AMÉLIORATIONS (⚙️)
 // ==========================================
+function minCampaignStake() {
+  return 5 + (state.level - 1) * 3; // 5, 8, 11, 14, 17, 20, 23
+}
+
+function getCampaignStakeOptions() {
+  const min = minCampaignStake();
+  // 3 paliers de mise selon le niveau
+  return [min, min * 2, min * 4].filter(s => s <= 500); // cap arbitraire
+}
+
+function campaignDurationMs() { return 60000; }
+
+function startCampaign(stake) {
+  if (state.campaign) return;
+  if (state.visibility < stake) return;
+  state.visibility -= stake;
+  state.campaign = {
+    stake,
+    gain: stake * 2,
+    startTime: Date.now(),
+    duration: campaignDurationMs()
+  };
+  playSfx('buy');
+  showToast(`📢 Campagne lancée : ${stake} ✨ investis → +${stake * 2} ✨ dans 60s`, 'unlock');
+  closeUpgradesPanel();
+  renderAll();
+}
+
+function checkCampaignProgress() {
+  if (!state.campaign) return;
+  const elapsed = Date.now() - state.campaign.startTime;
+  if (elapsed >= state.campaign.duration) {
+    state.visibility += state.campaign.gain;
+    playSfx('campaign-success');
+    showToast(`🎉 Campagne réussie ! +${state.campaign.gain} ✨ encaissés`, 'success');
+    state.campaign = null;
+    renderAll();
+    updateTicker();
+  }
+}
+
+function buyAutoAsso() {
+  const cost = costAutoAsso();
+  if (state.autoAssoBought >= 3) return;
+  if (state.visibility < cost) return;
+  state.visibility -= cost;
+  state.autoAssoBought++;
+  state.unlockedFeatures.autoAsso = true;
+  // On reset le timer pour éviter qu'un cooldown rapide ne se déclenche immédiatement
+  state.autoAssoTimer = 0;
+  playSfx('unlock');
+  showToast(`🤖 Auto-Asso amélioré (niv ${state.autoAssoBought})`, 'success');
+  renderUpgradesPanel();
+  renderAll();
+}
+
+function buyAutoBailleur() {
+  const cost = costAutoBailleur();
+  if (state.autoBailleurBought >= 3) return;
+  if (state.visibility < cost) return;
+  state.visibility -= cost;
+  state.autoBailleurBought++;
+  state.unlockedFeatures.autoBailleur = true;
+  state.autoBailleurTimer = 0;
+  playSfx('unlock');
+  showToast(`🏠 Auto-Bailleur amélioré (niv ${state.autoBailleurBought})`, 'success');
+  renderUpgradesPanel();
+  renderAll();
+}
+
+function buyExtraRow() {
+  const cost = costExtraRow();
+  if (state.extraRows >= 3) return;
+  if (state.visibility < cost) return;
+  state.visibility -= cost;
+  state.extraRows++;
+  playSfx('unlock');
+  showToast(`🪑 Nouvelle ligne ajoutée à la grille !`, 'success');
+  renderUpgradesPanel();
+  renderAll();
+}
+
+function closeUpgradesPanel() {
+  document.getElementById('modal-bg').classList.remove('show');
+}
+
+function renderUpgradesPanel() {
+  const stakes = getCampaignStakeOptions();
+  const minStake = minCampaignStake();
+
+  // CAMPAGNE
+  let campaignHTML;
+  if (!state.unlockedFeatures.campaign) {
+    campaignHTML = `
+      <div class="upgrade-item locked-by-level">
+        <div class="upgrade-header">
+          <span class="upgrade-icon">📢</span>
+          <span class="upgrade-title">Campagne d'impact</span>
+          <span class="upgrade-level-badge">🔒 Lvl 3</span>
+        </div>
+        <div class="upgrade-desc">Investis des ✨ pour récolter le double après 60 secondes.</div>
+      </div>
+    `;
+  } else if (state.campaign) {
+    const remaining = Math.ceil((state.campaign.duration - (Date.now() - state.campaign.startTime)) / 1000);
+    campaignHTML = `
+      <div class="upgrade-item unlocked-feature">
+        <div class="upgrade-header">
+          <span class="upgrade-icon">📢</span>
+          <span class="upgrade-title">Campagne en cours</span>
+          <span class="upgrade-level-badge unlocked">${remaining}s</span>
+        </div>
+        <div class="upgrade-desc">${state.campaign.stake} ✨ investis → <strong>+${state.campaign.gain} ✨</strong> dans ${remaining}s.</div>
+      </div>
+    `;
+  } else {
+    const stakeBtns = stakes.map(s => {
+      const disabled = state.visibility < s;
+      return `<button class="stake-option ${disabled ? 'disabled' : ''}" data-stake="${s}">${s} ✨<br><span style="font-size:10px; font-weight:500; opacity:0.8;">→ ${s*2}</span></button>`;
+    }).join('');
+    campaignHTML = `
+      <div class="upgrade-item">
+        <div class="upgrade-header">
+          <span class="upgrade-icon">📢</span>
+          <span class="upgrade-title">Campagne d'impact</span>
+        </div>
+        <div class="upgrade-desc">Investis des ✨ dans une campagne. Tu récoltes le <strong>double</strong> après 60 secondes.</div>
+        <div class="campaign-stake-options">${stakeBtns}</div>
+      </div>
+    `;
+  }
+
+  // AUTO-ASSO
+  let autoAssoHTML;
+  if (state.level < 4) {
+    autoAssoHTML = `
+      <div class="upgrade-item locked-by-level">
+        <div class="upgrade-header">
+          <span class="upgrade-icon">🤖</span>
+          <span class="upgrade-title">Auto-génération profils</span>
+          <span class="upgrade-level-badge">🔒 Lvl 4</span>
+        </div>
+        <div class="upgrade-desc">Les associations partenaires t'envoient automatiquement des profils à intervalle régulier.</div>
+      </div>
+    `;
+  } else if (state.autoAssoBought >= 3) {
+    autoAssoHTML = `
+      <div class="upgrade-item maxed unlocked-feature">
+        <div class="upgrade-header">
+          <span class="upgrade-icon">🤖</span>
+          <span class="upgrade-title">Auto-Asso (max)</span>
+          <span class="upgrade-level-badge maxed">MAX</span>
+        </div>
+        <div class="upgrade-desc">Profil regen toutes les <strong>${autoAssoCooldown()/1000}s</strong>. Vitesse maximale atteinte.</div>
+      </div>
+    `;
+  } else {
+    const cost = costAutoAsso();
+    const disabled = state.visibility < cost;
+    const nextCd = [20, 14, 9][state.autoAssoBought];
+    const curCd = state.autoAssoBought > 0 ? autoAssoCooldown()/1000 : '∅';
+    autoAssoHTML = `
+      <div class="upgrade-item ${state.autoAssoBought > 0 ? 'unlocked-feature' : ''}">
+        <div class="upgrade-header">
+          <span class="upgrade-icon">🤖</span>
+          <span class="upgrade-title">Auto-génération profils</span>
+          <span class="upgrade-level-badge ${state.autoAssoBought > 0 ? 'unlocked' : ''}">Niv ${state.autoAssoBought}/3</span>
+        </div>
+        <div class="upgrade-desc">Regen actuelle : <strong>${curCd === '∅' ? 'aucune' : curCd + 's'}</strong> → après upgrade : <strong>${nextCd}s</strong>.</div>
+        <div class="upgrade-action">
+          <button class="upgrade-btn ${disabled ? 'disabled' : ''}" data-action="autoAsso">${cost} ✨ Améliorer</button>
+        </div>
+      </div>
+    `;
+  }
+
+  // AUTO-BAILLEUR
+  let autoBailleurHTML;
+  if (state.level < 5) {
+    autoBailleurHTML = `
+      <div class="upgrade-item locked-by-level">
+        <div class="upgrade-header">
+          <span class="upgrade-icon">🏠</span>
+          <span class="upgrade-title">Auto-génération logements</span>
+          <span class="upgrade-level-badge">🔒 Lvl 5</span>
+        </div>
+        <div class="upgrade-desc">Des bailleurs solidaires proposent automatiquement des logements (regen plus lente).</div>
+      </div>
+    `;
+  } else if (state.autoBailleurBought >= 3) {
+    autoBailleurHTML = `
+      <div class="upgrade-item maxed unlocked-feature">
+        <div class="upgrade-header">
+          <span class="upgrade-icon">🏠</span>
+          <span class="upgrade-title">Auto-Bailleur (max)</span>
+          <span class="upgrade-level-badge maxed">MAX</span>
+        </div>
+        <div class="upgrade-desc">Logement regen toutes les <strong>${autoBailleurCooldown()/1000}s</strong>. Vitesse maximale.</div>
+      </div>
+    `;
+  } else {
+    const cost = costAutoBailleur();
+    const disabled = state.visibility < cost;
+    const nextCd = [35, 25, 18][state.autoBailleurBought];
+    const curCd = state.autoBailleurBought > 0 ? autoBailleurCooldown()/1000 : '∅';
+    autoBailleurHTML = `
+      <div class="upgrade-item ${state.autoBailleurBought > 0 ? 'unlocked-feature' : ''}">
+        <div class="upgrade-header">
+          <span class="upgrade-icon">🏠</span>
+          <span class="upgrade-title">Auto-génération logements</span>
+          <span class="upgrade-level-badge ${state.autoBailleurBought > 0 ? 'unlocked' : ''}">Niv ${state.autoBailleurBought}/3</span>
+        </div>
+        <div class="upgrade-desc">Regen actuelle : <strong>${curCd === '∅' ? 'aucune' : curCd + 's'}</strong> → après upgrade : <strong>${nextCd}s</strong>.</div>
+        <div class="upgrade-action">
+          <button class="upgrade-btn ${disabled ? 'disabled' : ''}" data-action="autoBailleur">${cost} ✨ Améliorer</button>
+        </div>
+      </div>
+    `;
+  }
+
+  // CASES SUPPLÉMENTAIRES
+  let extraRowHTML;
+  if (state.level < 3) {
+    extraRowHTML = `
+      <div class="upgrade-item locked-by-level">
+        <div class="upgrade-header">
+          <span class="upgrade-icon">🪑</span>
+          <span class="upgrade-title">Agrandir la grille</span>
+          <span class="upgrade-level-badge">🔒 Lvl 3</span>
+        </div>
+        <div class="upgrade-desc">Ajoute une ligne (3 cases) à ta grille de profils.</div>
+      </div>
+    `;
+  } else if (state.extraRows >= 3) {
+    extraRowHTML = `
+      <div class="upgrade-item maxed unlocked-feature">
+        <div class="upgrade-header">
+          <span class="upgrade-icon">🪑</span>
+          <span class="upgrade-title">Grille agrandie (max)</span>
+          <span class="upgrade-level-badge maxed">21 cases</span>
+        </div>
+        <div class="upgrade-desc">Tu as atteint la taille maximale de grille.</div>
+      </div>
+    `;
+  } else {
+    const cost = costExtraRow();
+    const disabled = state.visibility < cost;
+    const currentCases = 12 + state.extraRows * 3;
+    const newCases = currentCases + 3;
+    extraRowHTML = `
+      <div class="upgrade-item ${state.extraRows > 0 ? 'unlocked-feature' : ''}">
+        <div class="upgrade-header">
+          <span class="upgrade-icon">🪑</span>
+          <span class="upgrade-title">Agrandir la grille</span>
+          <span class="upgrade-level-badge ${state.extraRows > 0 ? 'unlocked' : ''}">${currentCases} → ${newCases}</span>
+        </div>
+        <div class="upgrade-desc">Ajoute <strong>une ligne (3 cases)</strong>. Lignes ajoutées : ${state.extraRows}/3.</div>
+        <div class="upgrade-action">
+          <button class="upgrade-btn ${disabled ? 'disabled' : ''}" data-action="extraRow">${cost} ✨ Acheter</button>
+        </div>
+      </div>
+    `;
+  }
+
+  document.getElementById('modal-content').innerHTML = `
+    <h2 style="text-align:center;">⚙️ Améliorations</h2>
+    <p style="text-align:center; margin-bottom: 14px;">Tu as <strong style="color:var(--blue);">${state.visibility} ✨ Impact</strong> à dépenser.</p>
+    <div class="upgrade-list">
+      ${campaignHTML}
+      ${autoAssoHTML}
+      ${autoBailleurHTML}
+      ${extraRowHTML}
+    </div>
+    <button class="btn outline" id="close-upgrades">Fermer</button>
+  `;
+
+  // Event listeners
+  document.getElementById('close-upgrades').onclick = closeUpgradesPanel;
+  document.querySelectorAll('.stake-option').forEach(btn => {
+    btn.onclick = () => {
+      const s = parseInt(btn.dataset.stake);
+      startCampaign(s);
+    };
+  });
+  document.querySelectorAll('.upgrade-btn[data-action]').forEach(btn => {
+    btn.onclick = () => {
+      const action = btn.dataset.action;
+      if (action === 'autoAsso') buyAutoAsso();
+      else if (action === 'autoBailleur') buyAutoBailleur();
+      else if (action === 'extraRow') buyExtraRow();
+    };
+  });
+}
+
+document.getElementById('btn-upgrades').onclick = () => {
+  renderUpgradesPanel();
+  document.getElementById('modal-bg').classList.add('show');
+};
+
+// ==========================================
+// GAME LOOP
+// ==========================================
+let lastLoopTime = Date.now();
+
 function loop() {
-  if (state.ended) return;
+  if (state.ended) {
+    requestAnimationFrame(loop);
+    return;
+  }
   const now = Date.now();
-  
+  const dt = now - lastLoopTime;
+  lastLoopTime = now;
+
+  // Combo timeout
   if (state.combo >= 2 && (now - state.lastMatchTime) > COMBO_TIMEOUT_MS) {
     state.combo = 0;
     renderDashboard();
+  }
+
+  // Auto-asso tick
+  if (state.autoAssoBought > 0) {
+    state.autoAssoTimer += dt;
+    const cd = autoAssoCooldown();
+    if (state.autoAssoTimer >= cd) {
+      state.autoAssoTimer = 0;
+      const emptyCount = state.grid.filter(p => p === null).length;
+      if (emptyCount > 0) {
+        spawnPersonInGrid();
+        renderGrid();
+        renderDashboard();
+      }
+    } else {
+      // Mettre à jour la barre toutes les ~200ms pour éviter trop de renders
+      if (Math.floor(now / 200) !== Math.floor((now - dt) / 200)) {
+        const pct = Math.min(100, (state.autoAssoTimer / cd) * 100);
+        document.getElementById('auto-asso-bar').style.width = pct + '%';
+      }
+    }
+  }
+
+  // Auto-bailleur tick
+  if (state.autoBailleurBought > 0) {
+    state.autoBailleurTimer += dt;
+    const cd = autoBailleurCooldown();
+    if (state.autoBailleurTimer >= cd) {
+      state.autoBailleurTimer = 0;
+      if (state.houses.length < state.maxHouses) {
+        state.houses.push({});
+        renderHouses();
+        renderDashboard();
+      }
+    } else {
+      if (Math.floor(now / 200) !== Math.floor((now - dt) / 200)) {
+        const pct = Math.min(100, (state.autoBailleurTimer / cd) * 100);
+        document.getElementById('auto-bailleur-bar').style.width = pct + '%';
+      }
+    }
+  }
+
+  // Campagne tick (mise à jour visuelle toutes les secondes)
+  if (state.campaign) {
+    if (Math.floor(now / 500) !== Math.floor((now - dt) / 500)) {
+      renderCampaignIndicator();
+      // Re-render le panneau s'il est ouvert
+      const modalShown = document.getElementById('modal-bg').classList.contains('show');
+      if (modalShown) {
+        // Met à jour juste l'indicateur sans tout re-render
+        const stillCampaign = document.querySelector('.upgrade-item .upgrade-level-badge.unlocked');
+        if (stillCampaign && stillCampaign.textContent.endsWith('s')) {
+          const remaining = Math.ceil((state.campaign.duration - (Date.now() - state.campaign.startTime)) / 1000);
+          stillCampaign.textContent = remaining + 's';
+        }
+      }
+    }
+    checkCampaignProgress();
   }
 
   requestAnimationFrame(loop);
@@ -1272,12 +2438,12 @@ function updateTicker(force = false) {
   const tier = getCurrentNewsTier();
   if (!force && tier === currentNewsTier) return;
   currentNewsTier = tier;
-  
+
   const news = NEWS_BY_TIER[tier];
   const track = document.getElementById('ticker-track');
   const items = news.map(n => `<span class="news-item">${n}</span>`).join('');
   track.innerHTML = items + items;
-  
+
   if (force === false && tier > 0) {
     showToast(`📰 Nouvelles actus débloquées !`, 'unlock');
   }
@@ -1289,28 +2455,28 @@ function updateTicker(force = false) {
 function animateMatchToHouse(p1, p2, sourceEl1, sourceEl2, onComplete) {
   const rect1 = sourceEl1.getBoundingClientRect();
   const rect2 = sourceEl2.getBoundingClientRect();
-  
+
   const housesEl = document.getElementById('houses-grid');
   const firstHouse = housesEl.querySelector('.house');
   if (!firstHouse) { onComplete(); return; }
   const houseRect = firstHouse.getBoundingClientRect();
   const targetX = houseRect.left + houseRect.width / 2 - 30;
   const targetY = houseRect.top + houseRect.height / 2 - 30;
-  
+
   const fly1 = document.createElement('div');
   fly1.className = 'flying-person';
   fly1.textContent = p1.face;
   fly1.style.left = (rect1.left + rect1.width/2 - 30) + 'px';
   fly1.style.top = (rect1.top + rect1.height/2 - 30) + 'px';
   document.body.appendChild(fly1);
-  
+
   const fly2 = document.createElement('div');
   fly2.className = 'flying-person';
   fly2.textContent = p2.face;
   fly2.style.left = (rect2.left + rect2.width/2 - 30) + 'px';
   fly2.style.top = (rect2.top + rect2.height/2 - 30) + 'px';
   document.body.appendChild(fly2);
-  
+
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       fly1.style.left = (targetX - 8) + 'px';
@@ -1321,17 +2487,17 @@ function animateMatchToHouse(p1, p2, sourceEl1, sourceEl2, onComplete) {
       fly2.style.transform = 'scale(0.5) rotate(15deg)';
     });
   });
-  
+
   setTimeout(() => {
     const glow = document.createElement('div');
     glow.className = 'house-glow';
     glow.style.left = (houseRect.left + houseRect.width/2) + 'px';
     glow.style.top = (houseRect.top + houseRect.height/2) + 'px';
     document.body.appendChild(glow);
-    
+
     firstHouse.classList.add('receiving');
     firstHouse.textContent = '👨‍👩';
-    
+
     fly1.remove();
     fly2.remove();
     setTimeout(() => glow.remove(), 1000);
@@ -1357,73 +2523,73 @@ const COIN_EVENTS = [
 
 function spawnFloatingCoin() {
   if (state.ended) return;
-  
+
   let pool;
   if (state.level <= 1) pool = COIN_EVENTS.filter(e => e.amount <= 25);
   else if (state.level <= 3) pool = COIN_EVENTS.filter(e => e.amount <= 500);
   else pool = COIN_EVENTS;
-  
+
   const event = pick(pool);
-  
+
   const coin = document.createElement('div');
   coin.className = 'floating-coin';
   coin.textContent = event.emoji;
-  
+
   const winW = window.innerWidth;
-  const dashH = window.innerHeight * 0.30;
-  const galleryH = window.innerHeight * 0.60;
+  const dashH = window.innerHeight * 0.28;
+  const galleryH = window.innerHeight * 0.62;
   const startY = dashH + (Math.random() * galleryH * 0.7) + galleryH * 0.15;
-  
+
   const fromLeft = Math.random() < 0.5;
   const startX = fromLeft ? -50 : winW + 50;
   const endX = fromLeft ? winW + 50 : -50;
-  
+
   coin.style.left = startX + 'px';
   coin.style.top = startY + 'px';
   coin.style.transition = 'left 8s linear, top 8s ease-in-out';
-  
+
   document.body.appendChild(coin);
-  
+
   requestAnimationFrame(() => {
     coin.style.left = endX + 'px';
     coin.style.top = (startY + (Math.random() * 60 - 30)) + 'px';
   });
-  
+
   let claimed = false;
   const claim = (e) => {
     if (claimed) return;
     claimed = true;
     e.stopPropagation();
-    
+
     const rect = coin.getBoundingClientRect();
     const x = rect.left + rect.width / 2;
     const y = rect.top;
-    
+
     const burst = document.createElement('div');
     burst.className = 'coin-burst';
     burst.style.left = x + 'px';
     burst.style.top = y + 'px';
-    
+
     const amountText = event.amount >= 1000 ? (event.amount/1000).toFixed(0) + 'k€' : event.amount + '€';
     burst.textContent = `+${event.vis} ✨ ${event.label} ${amountText}`;
     document.body.appendChild(burst);
-    
+
     state.visibility += event.vis;
     playSfx('buy');
-    
+
     coin.style.transition = 'transform 0.3s, opacity 0.3s';
     coin.style.transform = 'scale(1.5) rotate(360deg)';
     coin.style.opacity = '0';
     setTimeout(() => coin.remove(), 300);
     setTimeout(() => burst.remove(), 1500);
-    
+
     renderDashboard();
     checkLevelUp();
     updateTicker();
   };
   coin.addEventListener('click', claim);
   coin.addEventListener('touchstart', claim, { passive: false });
-  
+
   setTimeout(() => {
     if (coin.parentNode) coin.remove();
   }, 9000);
@@ -1441,7 +2607,7 @@ function scheduleNextCoin() {
 // ==========================================
 // INIT
 // ==========================================
-// On démarre avec 4 profils et 2 logements pour que le joueur puisse jouer immédiatement
+rebuildGrid();
 for(let i=0; i<4; i++) spawnPersonInGrid();
 for(let i=0; i<2; i++) state.houses.push({});
 
