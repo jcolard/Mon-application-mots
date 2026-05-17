@@ -2350,6 +2350,22 @@ function spawnFloatingCoin() {
   requestAnimationFrame(() => {
     coin.style.left = (fromLeft ? winW + 50 : -50) + 'px';
     coin.style.top = (startY + Math.random() * 60 - 30) + 'px';
+  // 1. Adapter la durée à la largeur de l'écran (Vitesse constante de ~200px par seconde)
+const distance = winW + 100;
+const speed = 200; 
+const duration = distance / speed;
+
+// 2. Appliquer la transition dynamique
+coin.style.transition = `left ${duration}s linear, top ${duration}s ease-in-out`;
+
+document.body.appendChild(coin);
+
+// 3. FORCER le navigateur à calculer la position de départ (Corrige le bug mobile)
+void coin.offsetWidth;
+
+// 4. Appliquer la position finale directement (le reflow a préparé le terrain)
+coin.style.left = (fromLeft ? winW + 50 : -50) + 'px';
+coin.style.top = (startY + Math.random() * 60 - 30) + 'px';
   });
 
   let claimed = false;
