@@ -1,6 +1,6 @@
 {
-  "name": "Mon Super Jeu",
-  "short_name": "Jeu",
+  "name": "LPA GAME",
+  "short_name": "LPA",
   "start_url": "./game.html",
   "display": "standalone",
   "background_color": "#000000",
