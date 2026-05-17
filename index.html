@@ -410,9 +410,39 @@
   .play-cta-text span{font-size:.88rem;opacity:.95}
   .play-cta a{background:var(--blanc);color:var(--rose-vif);padding:12px 22px;border-radius:999px;text-decoration:none;font-weight:700;font-size:.86rem;white-space:nowrap;transition:transform .3s;flex-shrink:0}
   .play-cta a:hover{transform:translateY(-2px)}
-  @media (max-width:980px){.play-grid{grid-template-columns:1fr;gap:50px}.play-text{order:1}.play-phone-wrap{order:2}.phone-frame{transform:scale(.92);transform-origin:center}.play-cta{flex-direction:column;text-align:center;gap:14px}}
-  @media (max-width:480px){.phone-frame{transform:scale(.82)}.actors-grid{grid-template-columns:1fr}}
+/* Tablette : passage en colonne unique */
+  @media (max-width:980px){
+    .play-grid{grid-template-columns:1fr;gap:50px}
+    .play-text{order:1}
+    .play-phone-wrap{order:2}
+    .phone-frame{transform:scale(.92);transform-origin:center}
+    .play-cta{flex-direction:column;text-align:center;gap:14px}
+  }
 
+  /* Mobile : on supprime le cadre téléphone décoratif, le jeu prend toute la largeur */
+  @media (max-width:680px){
+    .play-section{padding:70px 0}
+    .play-section .container{padding:0 20px}
+    .play-grid{gap:36px}
+    .actors-grid{grid-template-columns:1fr}
+    .play-phone-wrap{
+      margin:0 -20px;
+      display:block;
+    }
+    .phone-frame{
+      width:100%;
+      height:min(78vh, 620px);
+      background:transparent;
+      border-radius:0;
+      padding:0;
+      box-shadow:none;
+      transform:none;
+    }
+    .phone-screen{
+      border-radius:0;
+      box-shadow:0 20px 40px -20px rgba(0,0,0,.4);
+    }
+  }
   /* ============ APPROFONDIR ============ */
   .approfondir{background:var(--creme-warm);padding:100px 36px}
   .pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:50px}
