@@ -5,7 +5,7 @@
    - Toute page HTML doit contenir :
        <div id="site-nav"></div>     (placeholder pour le menu, en haut du <body>)
        <div id="site-footer"></div>  (placeholder pour le footer, en bas du <body>)
-   - Et charger ce script en fin de <body> :
+   - Et charger ce script en fin de <body> 
        <script src="shared.js"></script>
    - Le script détecte la page courante via window.location.pathname et
      applique automatiquement l'état "actif" sur le bon lien du menu.
