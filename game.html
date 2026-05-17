@@ -849,8 +849,8 @@ const TRAITS = {
 };
 
 const PROFILS = [
-  { type: 'senior',       label: 'Senior',        faces: ['👵','👴','🧓'],            offer: 'logement',     need: 'numerique',    weight: 10 },
-  { type: 'etudiant',     label: 'Étudiant',      faces: ['🧑‍🎓','👨‍🎓','👩‍🎓'],   offer: 'numerique',   need: 'logement',     weight: 10 },
+  { type: 'senior',       label: 'Senior',       faces: ['👵','👴','🧓'],            offer: 'logement',     need: 'numerique',    weight: 10 },
+  { type: 'etudiant',     label: 'Étudiant',     faces: ['🧑‍🎓','👨‍🎓','👩‍🎓'],   offer: 'numerique',   need: 'logement',     weight: 10 },
   { type: 'jeune-actif',  label: 'Jeune actif',     faces: ['👱','👱‍♀️','🧑'],        offer: 'energie',      need: 'calme',        weight: 8 },
   { type: 'retraite',     label: 'Retraité',        faces: ['👴','👵','🧓'],            offer: 'calme',        need: 'energie',      weight: 8 },
   { type: 'famille-hote', label: 'Famille hôte',    faces: ['👨‍👩‍👧','👨‍👩‍👦'],     offer: 'logement',    need: 'creativite',   weight: 6 },
@@ -858,7 +858,7 @@ const PROFILS = [
   { type: 'jardinier',    label: 'Jardinier',       faces: ['🧑‍🌾','👨‍🌾','👩‍🌾'],   offer: 'nature',      need: 'bienveillance',weight: 5 },
   { type: 'aidant',       label: 'Aidant',          faces: ['🧑‍⚕️','👩‍⚕️','👨‍⚕️'], offer: 'bienveillance',need: 'nature',       weight: 5 },
   { type: 'pro-transition', label: 'En transition', faces: ['🧔','👩‍🦰','👨‍🦱'],     offer: 'reseau',      need: 'bienveillance',weight: 5 },
-  { type: 'mentor',       label: 'Mentor',          faces: ['👨‍🏫','👩‍🏫','🧑‍🏫'],   offer: 'bienveillance',need: 'reseau',      weight: 5 },
+  { type: 'mentor',       label: 'Mentor',          faces: ['👨‍🏫','👩‍🏫','🧑‍🏫'],   offer: 'bienveillance',need: 'reseau',       weight: 5 },
   { type: 'entrepreneur', label: 'Entrepreneur',    faces: ['🧑‍💼','👨‍💼','👩‍💼'],   offer: 'reseau',      need: 'creativite',   weight: 4 },
   { type: 'creatif',      label: 'Créatif',         faces: ['🧑','👨','👩'],            offer: 'creativite',  need: 'reseau',       weight: 4 },
   { type: 'voyageur',     label: 'Voyageur',        faces: ['🧑','🧔','👩'],            offer: 'energie',     need: 'logement',     weight: 4 },
@@ -2356,9 +2356,8 @@ function spawnFloatingCoin() {
 
   coin.style.left = startX + 'px';
   coin.style.top = startY + 'px';
-  coin.style.transform = 'translate(0, 0)';
   coin.style.transition = 'none'; // pas de transition au départ
-  coin.style.willChange = 'transform';
+  coin.style.willChange = 'left, top';
 
   document.body.appendChild(coin);
 
@@ -2368,8 +2367,10 @@ function spawnFloatingCoin() {
     // lecture forcée pour reflow
     void coin.offsetWidth;
     requestAnimationFrame(() => {
-      coin.style.transition = `transform ${duration}s linear`;
-      coin.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+      // On anime 'left' et 'top' pour éviter le conflit avec l'animation CSS 'transform'
+      coin.style.transition = `left ${duration}s linear, top ${duration}s linear`;
+      coin.style.left = endX + 'px';
+      coin.style.top = (startY + deltaY) + 'px';
     });
   });
 
