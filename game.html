@@ -933,7 +933,6 @@
       </div>
     </div>
 
-    <!-- Indicateur campagne en cours (apparaît si une campagne est active) -->
     <div id="campaign-active" style="display:none;"></div>
 
     <div class="action-buttons">
@@ -971,7 +970,7 @@
         <span class="legend-dot weak"></span><span>faible</span>
       </div>
       <div class="header-tools">
-        <button class="tool-btn locked" id="btn-refuse" title="Refuser un profil (2 ✨)">
+        <button class="tool-btn locked" id="btn-refuse" title="Refuser un profil (1 ✨)">
           <span id="refuse-icon">🔒</span> <span id="refuse-label">Lvl 2</span>
         </button>
         <button class="tool-btn locked" id="btn-sort" title="Organiser par affinité">
@@ -993,7 +992,6 @@
   <div class="modal" id="modal-content"></div>
 </div>
 
-<!-- Overlay coffre niveau up -->
 <div class="chest-overlay" id="chest-overlay">
   <div class="chest-stage" id="chest-stage"></div>
 </div>
@@ -1134,9 +1132,9 @@ const TRAITS = {
 };
 
 const PROFILS = [
-  { type: 'senior',       label: 'Senior',          faces: ['👵','👴','🧓'],                offer: 'logement',     need: 'numerique',    color: 'var(--purple)' },
+  { type: 'senior',       label: 'Senior',          faces: ['👵','👴','🧓'],                offer: 'logement',      need: 'numerique',    color: 'var(--purple)' },
   { type: 'etudiant',     label: 'Étudiant',        faces: ['🧑‍🎓','👨‍🎓','👩‍🎓'],          offer: 'numerique',    need: 'logement',     color: 'var(--blue)' },
-  { type: 'jeune-actif',  label: 'Jeune actif',     faces: ['👱','👱‍♀️','🧑','👨','👩'],     offer: 'energie',      need: 'calme',        color: 'var(--accent)' },
+  { type: 'jeune-actif',  label: 'Jeune actif',     faces: ['👱','👱‍♀️','🧑','👨','👩'],      offer: 'energie',      need: 'calme',        color: 'var(--accent)' },
   { type: 'retraite',     label: 'Retraité',        faces: ['👴','👵','🧓'],                offer: 'calme',        need: 'energie',      color: 'var(--teal)' },
   { type: 'famille-hote', label: 'Famille hôte',    faces: ['👨‍👩‍👧','👨‍👩‍👦','👩‍👧‍👦'],      offer: 'logement',     need: 'creativite',   color: 'var(--gold-dark)' },
   { type: 'artiste',      label: 'Artiste',         faces: ['🧑‍🎨','👨‍🎨','👩‍🎨'],          offer: 'creativite',   need: 'logement',     color: 'var(--purple)' },
@@ -1203,7 +1201,7 @@ function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 // COÛTS évolutifs
 function costAsso() { return 4 + state.level; }
 function costBailleur() { return 3 + state.level; }
-function costRefuse() { return 2; }
+function costRefuse() { return 1; }
 function costExtraRow() { return 30; }
 
 function gainAsso() { return 3; }
@@ -1802,7 +1800,7 @@ function getLevelReward(level) {
     return {
       icon: '🙅',
       title: 'Bouton "Réorienter"',
-      desc: `Tu peux maintenant <strong>refuser un profil</strong> (2 ✨) et le remplacer par un autre. Pratique pour ajuster la composition de ta grille.`,
+      desc: `Tu peux maintenant <strong>refuser un profil</strong> (1 ✨) et le remplacer par un autre. Pratique pour ajuster la composition de ta grille.`,
       apply: () => { state.unlockedFeatures.refuse = true; }
     };
   }
@@ -2597,7 +2595,8 @@ function spawnFloatingCoin() {
 
 function scheduleNextCoin() {
   if (state.ended) return;
-  const delay = 12000 + Math.random() * 13000;
+  // Réduction du délai d'apparition (entre 5 et 12 secondes, au lieu de 12 et 25)
+  const delay = 5000 + Math.random() * 7000;
   setTimeout(() => {
     spawnFloatingCoin();
     scheduleNextCoin();
@@ -2615,7 +2614,8 @@ updateTicker(true);
 renderAll();
 requestAnimationFrame(loop);
 
-setTimeout(scheduleNextCoin, 15000);
+// Premier bonus au bout de 5 secondes au lieu de 15 secondes
+setTimeout(scheduleNextCoin, 5000);
 
 </script>
 </body>
