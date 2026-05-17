@@ -622,7 +622,7 @@
 </div>
 
 <div class="toast" id="toast"></div>
-<div class="undo-toast" id="undo-toast">↩ Annuler le dernier match <button class="undo-btn" id="undo-btn">Annuler (3✨)</button></div>
+
 <div class="dotation-indicator" id="dotation-indicator">💰 +<span id="dotation-rate">0</span>/10s</div>
 
 <div class="modal-bg" id="modal-bg">
@@ -1361,31 +1361,6 @@ function renderCampaignIndicator() {
 function renderAll() { rebuildGrid(); renderGrid(); renderHouses(); renderDashboard(); }
 
 // ==========================================
-// UNDO SYSTÈME
-// ==========================================
-function saveUndoState(idx1, idx2, p1, p2, house) {
-  state.undoData = { idx1, idx2, p1, p2, house, scoreBefore: state.score - 1, visBefore: state.visibility };
-  const undoToast = document.getElementById('undo-toast');
-  undoToast.classList.add('show');
-  if (state.undoTimer) clearTimeout(state.undoTimer);
-  state.undoTimer = setTimeout(() => { undoToast.classList.remove('show'); state.undoData = null; }, 10000);
-}
-
-document.getElementById('undo-btn').onclick = () => {
-  if (!state.undoData || state.visibility < 3) { showToast('Undo impossible (3 ✨ requis)', 'fail'); return; }
-  const d = state.undoData;
-  state.visibility -= 3;
-  state.score = d.scoreBefore;
-  state.grid[d.idx1] = d.p1;
-  state.grid[d.idx2] = d.p2;
-  if (d.house) state.houses.unshift(d.house);
-  state.undoData = null;
-  if (state.undoTimer) clearTimeout(state.undoTimer);
-  document.getElementById('undo-toast').classList.remove('show');
-  playSfx('click');
-  showToast('↩ Match annulé !', 'partial');
-  renderAll();
-};
 
 // ==========================================
 // ACTIONS BOUTONS SORT/REFUSE/AI
@@ -1600,9 +1575,6 @@ function attemptMatch(idx1, idx2, p1, p2, affinity) {
   } else {
     usedHouse = state.houses.shift();
   }
-
-  // Undo save (avant de modifier score)
-  saveUndoState(idx1, idx2, p1, p2, usedHouse);
 
   state.grid[idx1] = null;
   state.grid[idx2] = null;
@@ -1884,7 +1856,7 @@ document.getElementById('btn-help').onclick = () => {
     <p><b>💎 Grand Mécène</b> : match rare qui rapporte <b>+40 ✨</b> !</p>
     <p><b>⭐ Joker</b> : match parfait avec n'importe qui (Lvl 3+)</p>
     <p><b>💖 Coup de cœur</b> : halo coloré, bonus garanti</p>
-    <p><b>↩ Undo</b> : annule le dernier match pendant 10 secondes (3 ✨)</p>
+    
     <p><b>⚙️ Branches d'upgrades</b> : 5 branches (Réseau, Qualité, Stratégie, Logements, Économie). Ouvre le panneau pour investir !</p>
     <div class="feature-list">
       <div class="feat"><b>Niveau 2</b> : 🙅 Réorienter + 📋 Quêtes</div>
