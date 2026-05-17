@@ -21,7 +21,8 @@
   const NAV_LINKS = [
     { href: 'index.html',         label: 'Accueil',         match: ['', 'index.html'] },
     { href: 'collectivites.html', label: 'Collectivités',   match: ['collectivites.html'] },
-    { href: 'medico-social.html', label: 'Médico-social',   match: ['medico-social.html'] }
+    { href: 'medico-social.html', label: 'Médico-social',   match: ['medico-social.html'] },
+    { href: 'game.html',          label: '🎮 Jouer',        match: ['game.html'] }
   ];
 
   /* ---------- Détection de la page courante ---------- */
@@ -87,6 +88,7 @@
               <li><a href="index.html">Accueil</a></li>
               <li><a href="collectivites.html">Collectivités locales</a></li>
               <li><a href="medico-social.html">Professionnels médico-social</a></li>
+              <li><a href="game.html">🎮 Jouer</a></li>
               <li><a href="index.html#concept">Notre concept</a></li>
               <li><a href="index.html#temoignages">Témoignages</a></li>
             </ul>
